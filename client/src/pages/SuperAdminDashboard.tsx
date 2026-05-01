@@ -3312,48 +3312,26 @@ export default function SuperAdminDashboard() {
     .filter(group => group.items.length > 0);
 
   // State for expanded menu groups - load from localStorage safely
-  const [expandedGroups, setExpandedGroups] = useState<string[]>(["dashboard"]);
+  const [expandedGroups, setExpandedGroups] = useState<string[]>([]);
 
-  // Load expanded groups from localStorage on mount (client-side only)
+  // Clear any stale localStorage and auto-expand only active group
   useEffect(() => {
     if (typeof window !== "undefined") {
-      try {
-        const saved = localStorage.getItem("adminSidebarExpandedGroups");
-        if (saved) {
-          const parsed = JSON.parse(saved);
-          if (Array.isArray(parsed)) {
-            setExpandedGroups(parsed);
-          }
-        }
-      } catch {
-        // Ignore parse errors, use default
-      }
+      localStorage.removeItem("adminSidebarExpandedGroups");
     }
   }, []);
 
-  // Auto-expand group containing active tab
+  // Auto-expand only the group containing the active tab (accordion)
   useEffect(() => {
     const activeGroup = filteredMenuGroups.find(g => g.items.some(item => item.id === activeTab));
     if (activeGroup) {
-      setExpandedGroups(prev => {
-        if (prev.includes(activeGroup.id)) return prev;
-        return [...prev, activeGroup.id];
-      });
+      setExpandedGroups([activeGroup.id]);
     }
   }, [activeTab]);
 
-  // Save expanded groups to localStorage (client-side only)
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("adminSidebarExpandedGroups", JSON.stringify(expandedGroups));
-    }
-  }, [expandedGroups]);
-
   const toggleGroup = (groupId: string) => {
-    setExpandedGroups(prev => 
-      prev.includes(groupId) 
-        ? prev.filter(id => id !== groupId)
-        : [...prev, groupId]
+    setExpandedGroups(prev =>
+      prev.includes(groupId) ? [] : [groupId]
     );
   };
 

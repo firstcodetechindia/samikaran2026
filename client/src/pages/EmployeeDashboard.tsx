@@ -639,20 +639,18 @@ export default function EmployeeDashboard() {
     }
   }, [activeTab, hasTabAccess]);
 
-  const [expandedGroups, setExpandedGroups] = useState<string[]>(["dashboard", "business"]);
+  const [expandedGroups, setExpandedGroups] = useState<string[]>([]);
 
   useEffect(() => {
     const activeGroup = filteredMenuGroups.find(g => g.items.some(item => item.id === activeTab));
-    if (activeGroup && !expandedGroups.includes(activeGroup.id)) {
-      setExpandedGroups(prev => [...prev, activeGroup.id]);
+    if (activeGroup) {
+      setExpandedGroups([activeGroup.id]);
     }
   }, [activeTab, filteredMenuGroups]);
 
   const toggleGroup = (groupId: string) => {
-    setExpandedGroups(prev => 
-      prev.includes(groupId) 
-        ? prev.filter(id => id !== groupId)
-        : [...prev, groupId]
+    setExpandedGroups(prev =>
+      prev.includes(groupId) ? [] : [groupId]
     );
   };
 
