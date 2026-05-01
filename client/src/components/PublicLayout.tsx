@@ -636,10 +636,10 @@ export function PublicLayout({ children, showNotificationBar = true }: PublicLay
       )}
 
       <nav className="sticky top-0 w-full z-50 bg-background/95 backdrop-blur-xl border-b border-border/50 py-3 sm:py-4 px-4 sm:px-6">
-        <div className="container mx-auto flex justify-between items-center">
+        <div className="container mx-auto flex items-center">
           <BrandLogo size="sm" animated={true} linkTo="/" />
           
-          <div className="hidden lg:flex items-center gap-6">
+          <div className="hidden lg:flex items-center gap-6 ml-auto">
             {navLinks.map((item) => {
               const isActive = item.href === '/' 
                 ? location === '/' 
@@ -757,7 +757,7 @@ export function PublicLayout({ children, showNotificationBar = true }: PublicLay
             })}
           </div>
           
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 ml-6">
             {user ? (
               <UserProfileMenu user={user} />
             ) : (
