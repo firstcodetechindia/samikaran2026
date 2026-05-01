@@ -8,6 +8,7 @@ import { Trophy, BookOpen, ArrowRight, Star, Shield, Award, Users, Globe, CheckC
 import { useState, useEffect, useRef, useMemo, memo } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { PublicLayout } from "@/components/PublicLayout";
+import { LazySection } from "@/components/LazySection";
 
 function AnimatedCounter({ target, suffix = "", prefix = "" }: { target: number; suffix?: string; prefix?: string }) {
   const [count, setCount] = useState(0);
@@ -462,6 +463,9 @@ export default function Home() {
           </div>
         </motion.div>
       </section>
+
+      {/* ═══ Everything below fold — lazy-rendered ═══ */}
+      <LazySection rootMargin="300px">
 
       {/* ═══════════ STATS SECTION ═══════════ */}
       <section className="py-8 sm:py-10 relative overflow-hidden bg-white dark:bg-background">
@@ -1274,6 +1278,8 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
+
+      </LazySection>
     </PublicLayout>
   );
 }

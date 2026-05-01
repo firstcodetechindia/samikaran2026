@@ -1383,3 +1383,40 @@ body.tara-open [data-testid="button-toggle-chat"] {
 .adventure-tab-content button {
   border-radius: 9999px !important;
 }
+
+/* ===== Performance: Mobile / Reduced Motion ===== */
+
+/* Disable expensive backdrop-blur on low-end mobile */
+@media (max-width: 640px) {
+  .blur-\[120px\],
+  .blur-\[100px\],
+  .blur-\[80px\] {
+    filter: none !important;
+  }
+}
+
+/* Reduce paint cost: skip blur glow orbs on mobile */
+@media (max-width: 768px) {
+  .blur-\[120px\],
+  .blur-\[150px\] {
+    display: none !important;
+  }
+}
+
+/* Respect user preference: skip all non-essential animations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Ensure animations use GPU-composited properties only */
+.animate-pulse,
+[class*="animate-"] {
+  will-change: opacity, transform;
+}
+

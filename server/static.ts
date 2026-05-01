@@ -39,10 +39,48 @@ export function serveStatic(app: Express) {
     next();
   });
 
-  app.use(express.static(distPath));
+  // Serve hashed assets (/assets/) with 1-year immutable cache
+  app.use("/assets", express.static(path.join(distPath, "assets"), {
+    maxAge: "1y",
+    immutable: true,
+    setHeaders: (res) => {
+      res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+    },
+  }));
+
+  // Icons and SVGs: 30 days cache
+  app.use("/icons", express.static(path.join(distPath, "icons"), {
+    maxAge: "30d",
+    setHeaders: (res) => {
+      res.setHeader("Cache-Control", "public, max-age=2592000");
+    },
+  }));
+
+  // Service worker — must always revalidate so SW updates propagate
+  app.get("/sw.js", (_req, res) => {
+    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.sendFile(path.resolve(distPath, "sw.js"));
+  });
+
+  // manifest.json — short cache
+  app.get("/manifest.json", (_req, res) => {
+    res.setHeader("Cache-Control", "public, max-age=86400");
+    res.sendFile(path.resolve(distPath, "manifest.json"));
+  });
+
+  // All other static files (favicon, etc.)
+  app.use(express.static(distPath, {
+    setHeaders: (res, filePath) => {
+      // HTML: never cache (must revalidate)
+      if (filePath.endsWith(".html")) {
+        res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+      }
+    },
+  }));
 
   // fall through to index.html if the file doesn't exist
   app.use("*", (_req, res) => {
+    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
     res.sendFile(path.resolve(distPath, "index.html"));
   });
 }

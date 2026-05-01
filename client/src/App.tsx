@@ -7,12 +7,12 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { PWAInstallPrompt } from "@/components/PWAInstallPrompt";
-import ChatWidget from "@/components/ChatWidget";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 
-// Lazy-load all non-home pages to reduce initial bundle
+// Lazy-load all non-home pages and heavy widgets
+const ChatWidget = lazy(() => import("@/components/ChatWidget"));
 const Register = lazy(() => import("@/pages/Register"));
 const Login = lazy(() => import("@/pages/Login"));
 const ForgotPassword = lazy(() => import("@/pages/ForgotPassword"));
@@ -409,7 +409,11 @@ function ChatWidgetWrapper() {
   
   if (shouldHide) return null;
   
-  return <ChatWidget />;
+  return (
+    <Suspense fallback={null}>
+      <ChatWidget />
+    </Suspense>
+  );
 }
 
 function App() {
