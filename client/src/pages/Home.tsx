@@ -69,7 +69,7 @@ function HeroParticles() {
           key={p.id}
           className="absolute font-bold select-none"
           style={{ left: `${p.x}%`, top: `${p.y}%`, fontSize: p.size, color: 'white', opacity: 0 }}
-          animate={{ x: [0, p.dx, 0], y: [0, p.dy, 0], opacity: [0, 0.045, 0.06, 0.045, 0] }}
+          animate={{ x: [0, p.dx, 0], y: [0, p.dy, 0], opacity: [0, 0.12, 0.18, 0.12, 0] }}
           transition={{ duration: p.duration, repeat: Infinity, delay: p.delay, ease: 'easeInOut' }}
         >
           {p.symbol}
@@ -338,14 +338,14 @@ export default function Home() {
               </motion.div>
 
               <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.7, ease: "easeOut" }} className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] xl:text-6xl font-black tracking-tight mb-6 leading-[1.12]" style={{ letterSpacing: '-0.01em' }} data-testid="text-hero-heading">
-                <span className="text-white">Prove Your</span><br />
-                <span className="brand-text">Genius.</span><br />
-                <span className="text-white">Make India Proud</span>
+                <span className="text-white">Where Potential</span><br />
+                <span className="brand-text">Becomes Legacy.</span><br />
+                <span className="text-white">Compete. Shine. Inspire</span>
                 <span className="text-pink-500">.</span>
               </motion.h1>
 
               <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.6 }} className="text-base sm:text-lg text-gray-400 mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                India's most prestigious academic Olympiad — where <strong className="text-white font-semibold">talent meets recognition</strong>, and every champion gets their moment. Class 1–12.
+                India's most prestigious national Olympiad — empowering students from <strong className="text-white font-semibold">Class 1–12</strong> to compete, earn scholarships, and claim national recognition.
               </motion.p>
 
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65, duration: 0.5 }} className="flex flex-col sm:flex-row gap-4 items-center justify-center lg:justify-start">
