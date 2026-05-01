@@ -87,11 +87,23 @@ function OlympiadIllustration() {
     { name: 'Reasoning', icon: '🧩', sub: 'IQ', color: '#fbbf24', border: '#d97706', bg: '#2d1a00' },
     { name: 'Computers', icon: '</', sub: '/>', color: '#38bdf8', border: '#0284c7', bg: '#001a2d' },
   ];
-  const R = 165;
-  const iconSize = 68;
+  const [dims, setDims] = useState({ R: 165, iconSize: 68, height: 520 });
+  useEffect(() => {
+    const update = () => {
+      const w = window.innerWidth;
+      if (w < 480) setDims({ R: 108, iconSize: 50, height: 360 });
+      else if (w < 768) setDims({ R: 130, iconSize: 58, height: 420 });
+      else if (w < 1024) setDims({ R: 148, iconSize: 62, height: 460 });
+      else setDims({ R: 165, iconSize: 68, height: 520 });
+    };
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+  const { R, iconSize, height } = dims;
   const dur = 22;
   return (
-    <div className="relative w-full flex items-center justify-center select-none" style={{ height: 'clamp(420px, 55vw, 560px)' }}>
+    <div className="relative w-full flex items-center justify-center select-none overflow-hidden" style={{ height }}>
       {/* Ambient glow */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <div className="rounded-full bg-purple-600/10 blur-[70px]" style={{ width: R * 2.2, height: R * 2.2 }} />
