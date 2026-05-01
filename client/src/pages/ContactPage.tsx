@@ -103,6 +103,9 @@ export default function ContactPage() {
   const [loading, setLoading]       = useState(false);
   const [focused, setFocused]       = useState<string | null>(null);
   const [form, setForm]             = useState({ name: "", email: "", subject: "", message: "" });
+  const [shakeFields, setShakeFields] = useState<string[]>([]);
+  const [errorFields, setErrorFields] = useState<Set<string>>(new Set());
+  const [errors, setErrors]           = useState<Record<string, string>>({});
 
   const { data: socialLinksData = [] } = useQuery<SocialLink[]>({ queryKey: ["/api/public/social-links"] });
   const defaultSocial: SocialLink[] = [
@@ -113,10 +116,30 @@ export default function ContactPage() {
   ];
   const socialLinks = socialLinksData.length > 0 ? socialLinksData : defaultSocial;
 
+  const triggerShake = (fields: string[]) => {
+    setShakeFields(fields);
+    setErrorFields(new Set(fields));
+    setTimeout(() => setShakeFields([]), 500);
+  };
+
+  const clearFieldError = (id: string) => {
+    if (errorFields.has(id)) {
+      setErrorFields(prev => { const n = new Set(prev); n.delete(id); return n; });
+      setErrors(prev => { const n = { ...prev }; delete n[id]; return n; });
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.name || !form.email || !form.message) {
-      toast({ title: "Please fill all required fields", variant: "destructive" });
+    const newErrors: Record<string, string> = {};
+    if (!form.name.trim())    newErrors.name = "Name is required";
+    if (!form.email.trim())   newErrors.email = "Email is required";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) newErrors.email = "Enter a valid email address";
+    if (!form.message.trim()) newErrors.message = "Message is required";
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      triggerShake(Object.keys(newErrors));
       return;
     }
     setLoading(true);
@@ -130,9 +153,12 @@ export default function ContactPage() {
     "w-full px-4 py-3.5 rounded-xl text-sm font-medium transition-all duration-200 outline-none",
     "placeholder:text-gray-400 dark:placeholder:text-white/25 text-foreground",
     "bg-gray-50 dark:bg-white/[0.05] border",
-    focused === f
-      ? "border-violet-500 dark:border-violet-400 shadow-[0_0_0_3.5px_rgba(139,92,246,0.18)] bg-white dark:bg-white/[0.08]"
-      : "border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/18",
+    shakeFields.includes(f) ? "animate-shake" : "",
+    errorFields.has(f)
+      ? "border-destructive shadow-[0_0_0_3.5px_rgba(239,68,68,0.15)]"
+      : focused === f
+        ? "border-violet-500 dark:border-violet-400 shadow-[0_0_0_3.5px_rgba(139,92,246,0.18)] bg-white dark:bg-white/[0.08]"
+        : "border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/18",
   ].join(" ");
 
   return (
@@ -346,12 +372,27 @@ export default function ContactPage() {
                                 type={f.type}
                                 placeholder={f.ph}
                                 value={form[f.id as keyof typeof form]}
-                                onChange={e => setForm(p => ({ ...p, [f.id]: e.target.value }))}
+                                onChange={e => { setForm(p => ({ ...p, [f.id]: e.target.value })); clearFieldError(f.id); }}
                                 onFocus={() => setFocused(f.id)}
                                 onBlur={() => setFocused(null)}
                                 className={fieldClass(f.id)}
                                 data-testid={`input-contact-${f.id}`}
                               />
+                              <AnimatePresence>
+                                {errors[f.id] && (
+                                  <motion.p
+                                    key={`err-${f.id}`}
+                                    initial={{ opacity: 0, y: -4, height: 0 }}
+                                    animate={{ opacity: 1, y: 0, height: "auto" }}
+                                    exit={{ opacity: 0, y: -4, height: 0 }}
+                                    transition={{ duration: 0.2 }}
+                                    className="text-[11px] font-semibold text-destructive flex items-center gap-1 pt-0.5"
+                                  >
+                                    <span className="inline-block w-1 h-1 rounded-full bg-destructive shrink-0" />
+                                    {errors[f.id]}
+                                  </motion.p>
+                                )}
+                              </AnimatePresence>
                             </div>
                           ))}
                         </div>
@@ -364,12 +405,27 @@ export default function ContactPage() {
                             rows={8}
                             placeholder="Tell us how we can help you..."
                             value={form.message}
-                            onChange={e => setForm(p => ({ ...p, message: e.target.value }))}
+                            onChange={e => { setForm(p => ({ ...p, message: e.target.value })); clearFieldError("message"); }}
                             onFocus={() => setFocused("message")}
                             onBlur={() => setFocused(null)}
                             className={`${fieldClass("message")} resize-none`}
                             data-testid="input-contact-message"
                           />
+                          <AnimatePresence>
+                            {errors.message && (
+                              <motion.p
+                                key="err-message"
+                                initial={{ opacity: 0, y: -4, height: 0 }}
+                                animate={{ opacity: 1, y: 0, height: "auto" }}
+                                exit={{ opacity: 0, y: -4, height: 0 }}
+                                transition={{ duration: 0.2 }}
+                                className="text-[11px] font-semibold text-destructive flex items-center gap-1 pt-0.5"
+                              >
+                                <span className="inline-block w-1 h-1 rounded-full bg-destructive shrink-0" />
+                                {errors.message}
+                              </motion.p>
+                            )}
+                          </AnimatePresence>
                         </div>
 
                         <motion.button
