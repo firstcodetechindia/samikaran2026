@@ -136,7 +136,7 @@ export default function FaqPage() {
       </Helmet>
 
       {/* ══ HERO ══ */}
-      <section className="relative pt-24 pb-20 overflow-hidden bg-gradient-to-br from-[#0d0720] via-[#130d2a] to-[#0d0720]">
+      <section className="relative pt-16 pb-10 overflow-hidden bg-gradient-to-br from-[#0d0720] via-[#130d2a] to-[#0d0720]">
         <div className="absolute top-0 left-0 w-[700px] h-[700px] bg-violet-600/14 rounded-full blur-[160px] -translate-x-1/3 -translate-y-1/4 pointer-events-none" />
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-fuchsia-600/10 rounded-full blur-[130px] translate-x-1/3 -translate-y-1/4 pointer-events-none" />
         {/* grid lines overlay */}
@@ -147,14 +147,14 @@ export default function FaqPage() {
             initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="text-center"
           >
-            <div className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.16em] text-violet-300 mb-6 px-4 py-2 rounded-full bg-violet-500/12 border border-violet-400/20 backdrop-blur-sm">
+            <div className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.16em] text-violet-300 mb-4 px-4 py-2 rounded-full bg-violet-500/12 border border-violet-400/20 backdrop-blur-sm">
               <HelpCircle className="w-3.5 h-3.5" /> Help Centre
             </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-5 leading-[1.08] tracking-tight">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-3 leading-[1.08] tracking-tight">
               Frequently Asked<br />
               <span className="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-pink-400 bg-clip-text text-transparent">Questions</span>
             </h1>
-            <p className="text-base sm:text-lg text-gray-400 max-w-xl mx-auto leading-relaxed mb-10">
+            <p className="text-sm sm:text-base text-gray-400 max-w-xl mx-auto leading-relaxed mb-6">
               Everything you need to know about Samikaran Olympiad. Can't find your answer? We're here to help.
             </p>
 
@@ -168,7 +168,7 @@ export default function FaqPage() {
                   placeholder="Search questions, topics, keywords..."
                   value={search}
                   onChange={e => setSearch(e.target.value)}
-                  className="w-full pl-11 pr-4 py-4 bg-transparent text-white placeholder:text-gray-500 text-sm outline-none"
+                  className="w-full pl-11 pr-4 py-3 bg-transparent text-white placeholder:text-gray-500 text-sm outline-none"
                   data-testid="input-faq-search"
                 />
                 {search && (
@@ -180,7 +180,7 @@ export default function FaqPage() {
             </div>
 
             {/* Stats row */}
-            <div className="flex items-center justify-center gap-8 mt-10">
+            <div className="flex items-center justify-center gap-8 mt-6">
               {[
                 { val: `${categories.length}`, label: "Categories" },
                 { val: `${totalFaqs}+`, label: "Questions" },
