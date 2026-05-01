@@ -264,39 +264,29 @@ function MobileBottomNav({ user, moreOpen, setMoreOpen }: {
 
           {/* ── Center CTA — absolutely centred, floats above bar ── */}
           <div className="flex-1 flex justify-center items-end pb-3 relative">
-            <motion.button
+            <button
               onClick={() => { navigate(dashPath); setMoreOpen(false); }}
-              className="relative flex flex-col items-center gap-1"
-              whileTap={{ scale: 0.88 }}
+              className="flex flex-col items-center gap-[5px]"
               data-testid="mobile-bottom-cta"
               aria-label={user ? 'Dashboard' : 'Login'}
             >
-              {/* Outer glow ring */}
-              <motion.span
-                className="absolute rounded-full pointer-events-none"
-                animate={{ scale: [1, 1.18, 1], opacity: [0.35, 0.55, 0.35] }}
-                transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-                style={{ inset: -6, background: 'transparent', border: '1.5px solid rgba(232,121,249,0.55)' }}
-              />
               {/* Button circle */}
               <span
-                className="relative w-[50px] h-[50px] rounded-full flex items-center justify-center"
+                className="relative w-[48px] h-[48px] rounded-full flex items-center justify-center"
                 style={{
-                  background: 'linear-gradient(145deg, #c084fc 0%, #a855f7 40%, #ec4899 100%)',
-                  boxShadow: '0 0 0 2px rgba(255,255,255,0.12), 0 8px 28px rgba(168,85,247,0.60)',
+                  background: 'linear-gradient(145deg, #c084fc 0%, #a855f7 45%, #ec4899 100%)',
+                  boxShadow: '0 0 0 1.5px rgba(255,255,255,0.14), 0 6px 22px rgba(168,85,247,0.55)',
                 }}
               >
-                {/* Inner shine */}
-                <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(160deg, rgba(255,255,255,0.28) 0%, transparent 55%)' }} />
+                <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(160deg, rgba(255,255,255,0.25) 0%, transparent 52%)' }} />
                 {user
-                  ? <LayoutDashboard className="relative w-5 h-5 text-white" />
-                  : <LogIn className="relative w-5 h-5 text-white" />}
+                  ? <LayoutDashboard className="relative w-[19px] h-[19px] text-white" />
+                  : <LogIn className="relative w-[19px] h-[19px] text-white" />}
               </span>
-              {/* Label under button */}
               <span className="text-[7px] font-black uppercase tracking-[0.18em] text-fuchsia-200/90">
                 {user ? 'You' : 'Login'}
               </span>
-            </motion.button>
+            </button>
           </div>
 
           {/* Right two tabs */}
