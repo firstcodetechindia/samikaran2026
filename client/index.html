@@ -1,21 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Google Analytics: deferred until idle/interaction for faster FCP -->
+    <!-- Google Analytics: deferred, public pages only — admin/employee paths fully excluded -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
+
+      // Paths that must NEVER be tracked or have GA loaded
+      var PRIVATE_PREFIXES = [
+        '/admin', '/super-admin', '/sysctrl', '/employee', '/dashboard',
+        '/student-dashboard', '/partner/', '/school', '/supervisor', '/group',
+        '/profile', '/qa-dashboard', '/secure-exam', '/exam/', '/maintenance',
+        '/coming-soon', '/partner-login', '/admin-login', '/admin-setup',
+        '/employee-login', '/employee-dashboard'
+      ];
+
+      function isPrivatePath(path) {
+        return PRIVATE_PREFIXES.some(function(p) { return path === p || path.startsWith(p); });
+      }
+
+      // Expose globally so React RouteTracker can use it for SPA navigation
+      window._gaIsPrivate = isPrivatePath;
+      window._gaMeasurementId = 'G-LGJGN85K13';
+
       gtag('js', new Date());
       gtag('config', 'G-LGJGN85K13', { send_page_view: false });
+
       function loadGA() {
         if (window._gaLoaded) return;
+        // Never load GA on private/admin pages
+        if (isPrivatePath(window.location.pathname)) return;
         window._gaLoaded = true;
         var s = document.createElement('script');
         s.async = true;
         s.src = 'https://www.googletagmanager.com/gtag/js?id=G-LGJGN85K13';
-        s.onload = function() { gtag('event', 'page_view'); };
+        s.onload = function() {
+          // Only send page_view if still on a public page
+          if (!isPrivatePath(window.location.pathname)) {
+            gtag('event', 'page_view');
+          }
+        };
         document.head.appendChild(s);
       }
+
       if ('requestIdleCallback' in window) {
         requestIdleCallback(loadGA, { timeout: 4000 });
       } else {

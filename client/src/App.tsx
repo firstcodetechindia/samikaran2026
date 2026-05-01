@@ -162,6 +162,17 @@ function RouteTracker() {
     } else {
       document.title = "Samikaran Olympiad";
     }
+
+    // SPA page_view tracking — only for public pages, never for admin/private
+    const isPrivate = typeof (window as any)._gaIsPrivate === 'function'
+      ? (window as any)._gaIsPrivate(location)
+      : false;
+    if (!isPrivate && (window as any)._gaLoaded && typeof (window as any).gtag === 'function') {
+      (window as any).gtag('event', 'page_view', {
+        page_path: location,
+        page_title: document.title,
+      });
+    }
   }, [location]);
 
   useEffect(() => {
