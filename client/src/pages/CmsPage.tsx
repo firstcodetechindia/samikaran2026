@@ -2,7 +2,7 @@ import { useRoute } from "wouter";
 import { Helmet } from "react-helmet-async";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { ChevronRight, Send, AlertCircle, CheckCircle } from "lucide-react";
+import { ChevronRight, Send, AlertCircle, CheckCircle, FileText, Clock, ArrowUp } from "lucide-react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -438,23 +438,42 @@ function RenderSection({ section, pageId }: { section: CmsPageData["sections"][0
       const htmlContent = content?.html || "";
       const hasSideBySide = htmlContent.includes("flex") && htmlContent.includes("md:flex-row");
       return (
-        <motion.div 
-          className={hasSideBySide ? "max-w-none" : "prose prose-lg max-w-none"}
+        <motion.div
+          className="max-w-none"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
           {title && (
-            <h2 className="text-2xl font-bold bg-gradient-to-r from-violet-600 to-fuchsia-600 bg-clip-text text-transparent mb-6">
+            <h2 className="text-xl font-black text-foreground mb-5 flex items-center gap-3">
+              <span className="inline-block w-1 h-5 rounded-full bg-gradient-to-b from-violet-500 to-fuchsia-500 shrink-0" />
               {title}
             </h2>
           )}
-          <div 
-            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(htmlContent) }} 
-            className={hasSideBySide 
-              ? "text-gray-600 leading-relaxed [&_ul]:space-y-2 [&_ul]:list-disc [&_ul]:pl-5 [&_li]:pl-1 [&_strong]:text-gray-800 [&_img]:rounded-2xl [&_img]:shadow-lg" 
-              : "text-gray-600 leading-relaxed [&_ul]:space-y-2 [&_li]:pl-2 [&_strong]:text-gray-800"
+          <div
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(htmlContent) }}
+            className={hasSideBySide
+              ? "text-gray-600 dark:text-gray-400 leading-relaxed [&_ul]:space-y-2 [&_ul]:list-disc [&_ul]:pl-5 [&_li]:pl-1 [&_strong]:text-gray-800 dark:[&_strong]:text-white [&_img]:rounded-2xl [&_img]:shadow-lg"
+              : [
+                  "text-gray-600 dark:text-gray-400 leading-[1.85] text-[15px]",
+                  "[&_h1]:text-2xl [&_h1]:font-black [&_h1]:text-foreground [&_h1]:mt-8 [&_h1]:mb-3",
+                  "[&_h2]:text-xl [&_h2]:font-black [&_h2]:text-foreground [&_h2]:mt-7 [&_h2]:mb-3 [&_h2]:flex [&_h2]:items-center [&_h2]:gap-3",
+                  "[&_h3]:text-base [&_h3]:font-bold [&_h3]:text-foreground [&_h3]:mt-5 [&_h3]:mb-2",
+                  "[&_h4]:text-sm [&_h4]:font-bold [&_h4]:text-foreground [&_h4]:mt-4 [&_h4]:mb-1.5",
+                  "[&_p]:mb-4 [&_p]:leading-[1.85]",
+                  "[&_ul]:my-4 [&_ul]:pl-5 [&_ul]:space-y-2 [&_ul]:list-disc",
+                  "[&_ol]:my-4 [&_ol]:pl-5 [&_ol]:space-y-2 [&_ol]:list-decimal",
+                  "[&_li]:pl-1 [&_li]:leading-relaxed",
+                  "[&_strong]:text-gray-900 dark:[&_strong]:text-white [&_strong]:font-semibold",
+                  "[&_a]:text-violet-600 dark:[&_a]:text-violet-400 [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-2 hover:[&_a]:text-violet-700",
+                  "[&_blockquote]:border-l-4 [&_blockquote]:border-violet-300 [&_blockquote]:pl-5 [&_blockquote]:py-1 [&_blockquote]:my-5 [&_blockquote]:text-gray-500 [&_blockquote]:italic [&_blockquote]:bg-violet-50/50 [&_blockquote]:rounded-r-xl",
+                  "[&_table]:w-full [&_table]:text-sm [&_table]:border-collapse [&_table]:my-5",
+                  "[&_th]:text-left [&_th]:font-bold [&_th]:text-foreground [&_th]:px-4 [&_th]:py-2.5 [&_th]:bg-gray-50 dark:[&_th]:bg-white/5 [&_th]:border [&_th]:border-gray-100 dark:[&_th]:border-white/10",
+                  "[&_td]:px-4 [&_td]:py-2.5 [&_td]:border [&_td]:border-gray-100 dark:[&_td]:border-white/10 [&_td]:text-gray-600 dark:[&_td]:text-gray-400",
+                  "[&_hr]:my-8 [&_hr]:border-gray-100 dark:[&_hr]:border-white/10",
+                  "[&_code]:bg-gray-100 dark:[&_code]:bg-white/10 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:text-[13px] [&_code]:font-mono [&_code]:text-violet-700 dark:[&_code]:text-violet-300",
+                ].join(" ")
             }
           />
         </motion.div>
@@ -805,61 +824,100 @@ export default function CmsPage() {
         <meta name="twitter:description" content={page.metaDescription || `${page.title} — Learn more about Samikaran Olympiad`} />
         <meta name="twitter:image" content="https://www.samikaranolympiad.com/og-image.png" />
       </Helmet>
-      <section className="relative py-16 md:py-24 text-white overflow-hidden">
-        {page.heroImageUrl ? (
+      {/* ══ HERO ══ */}
+      <section className="relative pt-14 pb-12 overflow-hidden bg-gradient-to-br from-[#0d0720] via-[#130d2a] to-[#0d0720]">
+        {/* Ambient glows */}
+        <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-violet-600/12 rounded-full blur-[140px] -translate-x-1/3 -translate-y-1/4 pointer-events-none" />
+        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-fuchsia-600/8 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/4 pointer-events-none" />
+        {/* Subtle grid */}
+        <div className="absolute inset-0 opacity-[0.025] pointer-events-none" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
+        {/* Hero image overlay */}
+        {page.heroImageUrl && (
           <>
-            <div 
-              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-              style={{ backgroundImage: `url(${page.heroImageUrl})` }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-violet-900/90 via-violet-800/85 to-fuchsia-900/90" />
-          </>
-        ) : (
-          <>
-            <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-fuchsia-500" />
-            <div className="absolute inset-0 opacity-10">
-              <div className="absolute inset-0" style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-              }} />
-            </div>
+            <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${page.heroImageUrl})` }} />
+            <div className="absolute inset-0 bg-gradient-to-br from-[#0d0720]/95 via-[#130d2a]/90 to-[#0d0720]/95" />
           </>
         )}
+
         <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
-          <nav className="flex items-center justify-center gap-2 text-sm text-white/70 mb-6">
-            <Link href="/" className="hover:text-white">Home</Link>
-            <ChevronRight className="w-4 h-4" />
-            <span className="text-white">{page.title}</span>
-          </nav>
+          {/* Breadcrumb */}
+          <motion.nav
+            initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
+            className="flex items-center justify-center gap-1.5 text-[11px] font-medium text-white/40 mb-5"
+          >
+            <Link href="/" className="hover:text-white/70 transition-colors">Home</Link>
+            <ChevronRight className="w-3 h-3" />
+            <span className="text-white/60">{page.title}</span>
+          </motion.nav>
+
+          {/* Icon badge */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }}
+            className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-600 shadow-lg shadow-violet-500/30 mb-5"
+          >
+            <FileText className="w-5 h-5 text-white" />
+          </motion.div>
+
+          {/* Title */}
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg"
+            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-3 leading-tight tracking-tight"
           >
             {page.heroTitle || page.title}
           </motion.h1>
+
           {page.heroSubtitle && (
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="text-xl text-white/90 drop-shadow-md"
+              initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }}
+              className="text-base text-gray-400 max-w-xl mx-auto leading-relaxed"
             >
               {page.heroSubtitle}
             </motion.p>
           )}
+
+          {/* Meta row */}
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.3 }}
+            className="flex items-center justify-center gap-4 mt-5"
+          >
+            <span className="flex items-center gap-1.5 text-[11px] font-medium text-white/35">
+              <Clock className="w-3 h-3" /> Last updated: May 2026
+            </span>
+            <span className="w-1 h-1 rounded-full bg-white/20" />
+            <span className="text-[11px] font-medium text-white/35">Samikaran Olympiad</span>
+          </motion.div>
         </div>
       </section>
 
-      <div className="max-w-4xl mx-auto px-6 py-12">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="space-y-12"
-        >
-          {sections.map((section) => (
-            <RenderSection key={section.id} section={section} pageId={data.page.id} />
-          ))}
-        </motion.div>
+      {/* ══ CONTENT ══ */}
+      <div className="bg-gray-50 dark:bg-background py-8 sm:py-12">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="bg-white dark:bg-card rounded-3xl border border-gray-100 dark:border-white/8 shadow-sm overflow-hidden"
+          >
+            <div className="px-6 sm:px-10 lg:px-14 py-10 sm:py-12 space-y-10">
+              {sections.map((section) => (
+                <RenderSection key={section.id} section={section} pageId={data.page.id} />
+              ))}
+            </div>
+
+            {/* Footer strip */}
+            <div className="border-t border-gray-100 dark:border-white/8 px-6 sm:px-10 lg:px-14 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 bg-gray-50/60 dark:bg-white/2">
+              <p className="text-[11px] text-muted-foreground">
+                For questions about this policy, contact us at <a href="mailto:support@samikaranolympiad.com" className="text-violet-600 dark:text-violet-400 hover:underline font-medium">support@samikaranolympiad.com</a>
+              </p>
+              <button
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                className="flex items-center gap-1.5 text-[11px] font-semibold text-muted-foreground hover:text-violet-600 dark:hover:text-violet-400 transition-colors shrink-0"
+              >
+                <ArrowUp className="w-3 h-3" /> Back to top
+              </button>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </PublicLayout>
   );
