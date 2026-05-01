@@ -465,32 +465,74 @@ export default function Home() {
       </section>
 
       {/* ═══════════ STATS SECTION ═══════════ */}
-      <section className="py-12 sm:py-14 bg-white dark:bg-background relative">
+      <section className="py-8 sm:py-10 relative overflow-hidden bg-white dark:bg-background">
+        {/* Ambient background glows */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[500px] h-[300px] bg-purple-400/10 dark:bg-purple-500/8 rounded-full blur-[120px]" />
+          <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[400px] h-[300px] bg-pink-400/8 dark:bg-pink-500/6 rounded-full blur-[100px]" />
+        </div>
+
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-10 sm:mb-12">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-3" style={{ letterSpacing: '0.02em' }}>
+          {/* Compact heading */}
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-6 sm:mb-8">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black mb-1.5" style={{ letterSpacing: '0.02em' }}>
               Our <span className="brand-text">Impact</span>
             </h2>
-            <p className="text-base sm:text-lg text-muted-foreground max-w-lg mx-auto">Numbers that speak for themselves</p>
+            <p className="text-sm sm:text-base text-muted-foreground">Numbers that speak for themselves</p>
           </motion.div>
-          <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
+
+          {/* Stats grid */}
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-60px" }}
+            className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4"
+          >
             {[
-              { icon: Users, label: "Participants", value: 5000, suffix: "+", color: "from-purple-500 to-pink-500", desc: "Registered students nationwide" },
-              { icon: Globe, label: "States", value: 10, suffix: "+", color: "from-blue-500 to-cyan-500", desc: "Nationwide coverage" },
-              { icon: Shield, label: "Proctored", value: 100, suffix: "%", color: "from-green-500 to-emerald-500", desc: "AI-secured exams" },
-              { icon: Trophy, label: "Scholarships", value: 50, prefix: "₹", suffix: "L+", color: "from-orange-500 to-red-500", desc: "Total prize pool" }
+              { icon: Users,  label: "Participants", value: 5000, suffix: "+",  color: "from-violet-500 to-purple-600",  glow: "violet",  desc: "Registered students nationwide" },
+              { icon: Globe,  label: "States",       value: 10,   suffix: "+",  color: "from-blue-500 to-cyan-500",      glow: "blue",    desc: "Nationwide coverage" },
+              { icon: Shield, label: "Proctored",    value: 100,  suffix: "%",  color: "from-emerald-500 to-green-500",  glow: "emerald", desc: "AI-secured exams" },
+              { icon: Trophy, label: "Scholarships", value: 50, prefix: "₹", suffix: "L+", color: "from-orange-500 to-rose-500", glow: "orange", desc: "Total prize pool" },
             ].map((item, i) => (
-              <motion.div key={i} variants={fadeUp} className="group relative p-6 sm:p-8 rounded-3xl bg-white dark:bg-card border border-gray-100 dark:border-border/50 shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden">
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-purple-50 via-transparent to-pink-50 dark:from-purple-900/10 dark:to-pink-900/10 pointer-events-none" />
-                <div className="relative z-10">
-                  <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center mb-4 sm:mb-5 shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
-                    <item.icon className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
-                  </div>
-                  <div className="text-3xl sm:text-4xl font-black mb-1 brand-text">
+              <motion.div
+                key={i}
+                variants={fadeUp}
+                whileHover={{ y: -6, scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                className="group relative rounded-2xl sm:rounded-3xl overflow-hidden cursor-default"
+              >
+                {/* Glass card */}
+                <div className="relative h-full bg-white/70 dark:bg-white/[0.04] backdrop-blur-sm border border-white/80 dark:border-white/10 rounded-2xl sm:rounded-3xl p-5 sm:p-7 shadow-[0_2px_20px_rgba(0,0,0,0.06)] dark:shadow-[0_2px_30px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_40px_rgba(124,58,237,0.15)] dark:hover:shadow-[0_8px_40px_rgba(124,58,237,0.2)] transition-shadow duration-500">
+
+                  {/* Subtle top glow bar */}
+                  <div className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r ${item.color} opacity-70 group-hover:opacity-100 transition-opacity duration-300`} />
+
+                  {/* Corner glow */}
+                  <div className={`absolute -top-6 -right-6 w-24 h-24 bg-gradient-to-br ${item.color} opacity-[0.12] group-hover:opacity-[0.22] rounded-full blur-2xl transition-opacity duration-500`} />
+
+                  {/* Icon */}
+                  <motion.div
+                    whileHover={{ rotate: 8, scale: 1.15 }}
+                    transition={{ type: "spring", stiffness: 400 }}
+                    className={`relative w-11 h-11 sm:w-13 sm:h-13 rounded-xl sm:rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center mb-4 shadow-lg`}
+                    style={{ width: "clamp(2.5rem, 5vw, 3.25rem)", height: "clamp(2.5rem, 5vw, 3.25rem)" }}
+                  >
+                    <item.icon className="w-5 h-5 sm:w-6 sm:h-6 text-white drop-shadow" />
+                    {/* Icon pulse ring */}
+                    <div className={`absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-40 scale-100 group-hover:scale-[1.6] transition-all duration-500 blur-sm`} />
+                  </motion.div>
+
+                  {/* Counter */}
+                  <div className="text-3xl sm:text-4xl lg:text-5xl font-black leading-none mb-1.5 brand-text tabular-nums">
                     <AnimatedCounter target={item.value} suffix={item.suffix} prefix={item.prefix || ""} />
                   </div>
-                  <div className="text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-foreground/60 mb-0.5">{item.label}</div>
-                  <p className="text-xs text-gray-400 dark:text-muted-foreground mt-2 hidden sm:block">{item.desc}</p>
+
+                  {/* Label */}
+                  <div className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.12em] text-gray-400 dark:text-white/40 mb-0.5">{item.label}</div>
+
+                  {/* Description */}
+                  <p className="text-xs text-gray-400 dark:text-white/30 leading-snug hidden sm:block">{item.desc}</p>
                 </div>
               </motion.div>
             ))}
