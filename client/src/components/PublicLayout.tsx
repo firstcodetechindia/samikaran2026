@@ -262,31 +262,57 @@ function MobileBottomNav({ user, moreOpen, setMoreOpen }: {
             );
           })}
 
-          {/* ── Center CTA — absolutely centred, floats above bar ── */}
-          <div className="flex-1 flex justify-center items-end pb-3 relative">
-            <button
-              onClick={() => { navigate(dashPath); setMoreOpen(false); }}
-              className="flex flex-col items-center gap-[5px]"
-              data-testid="mobile-bottom-cta"
-              aria-label={user ? 'Dashboard' : 'Login'}
-            >
-              {/* Button circle */}
-              <span
-                className="relative w-[48px] h-[48px] rounded-full flex items-center justify-center"
+          {/* ── Center CTA ── */}
+          <div className="flex-1 flex justify-center items-center relative">
+            {user ? (
+              /* Dashboard pill for logged-in users */
+              <button
+                onClick={() => { navigate(dashPath); setMoreOpen(false); }}
+                className="flex flex-col items-center gap-[5px]"
+                data-testid="mobile-bottom-cta"
+                aria-label="Dashboard"
+              >
+                <span
+                  className="relative w-[46px] h-[46px] rounded-2xl flex items-center justify-center"
+                  style={{
+                    background: 'linear-gradient(145deg, rgba(139,92,246,0.35) 0%, rgba(168,85,247,0.25) 100%)',
+                    border: '1.5px solid rgba(196,181,253,0.30)',
+                    boxShadow: '0 4px 16px rgba(139,92,246,0.25), inset 0 1px 0 rgba(255,255,255,0.12)',
+                  }}
+                >
+                  <LayoutDashboard className="w-[20px] h-[20px] text-violet-200" />
+                </span>
+                <span className="text-[7px] font-bold uppercase tracking-[0.15em] text-violet-300/80">Dashboard</span>
+              </button>
+            ) : (
+              /* Login — horizontal pill for guests */
+              <button
+                onClick={() => { navigate('/login'); setMoreOpen(false); }}
+                className="relative flex items-center gap-[7px] px-4 h-[42px] rounded-full overflow-hidden"
+                data-testid="mobile-bottom-cta"
+                aria-label="Login"
                 style={{
-                  background: 'linear-gradient(145deg, #c084fc 0%, #a855f7 45%, #ec4899 100%)',
-                  boxShadow: '0 0 0 1.5px rgba(255,255,255,0.14), 0 6px 22px rgba(168,85,247,0.55)',
+                  background: 'linear-gradient(120deg, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.07) 100%)',
+                  border: '1px solid rgba(255,255,255,0.22)',
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.18)',
+                  backdropFilter: 'blur(12px)',
                 }}
               >
-                <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(160deg, rgba(255,255,255,0.25) 0%, transparent 52%)' }} />
-                {user
-                  ? <LayoutDashboard className="relative w-[19px] h-[19px] text-white" />
-                  : <LogIn className="relative w-[19px] h-[19px] text-white" />}
-              </span>
-              <span className="text-[7px] font-black uppercase tracking-[0.18em] text-fuchsia-200/90">
-                {user ? 'You' : 'Login'}
-              </span>
-            </button>
+                {/* Gradient shimmer overlay */}
+                <span
+                  className="absolute inset-0 pointer-events-none"
+                  style={{ background: 'linear-gradient(135deg, rgba(192,132,252,0.18) 0%, rgba(244,114,182,0.12) 60%, transparent 100%)' }}
+                />
+                {/* Icon in gradient */}
+                <span
+                  className="relative w-[22px] h-[22px] rounded-full flex items-center justify-center shrink-0"
+                  style={{ background: 'linear-gradient(135deg, #a855f7, #ec4899)', boxShadow: '0 2px 8px rgba(168,85,247,0.5)' }}
+                >
+                  <LogIn className="w-[11px] h-[11px] text-white" />
+                </span>
+                <span className="relative text-[11px] font-bold tracking-wide text-white/90">Sign In</span>
+              </button>
+            )}
           </div>
 
           {/* Right two tabs */}
