@@ -209,7 +209,7 @@ function OlympiadIllustration() {
         animate={{ scale: [1, 1.025, 1] }}
         transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
       >
-        <svg viewBox="0 0 180 220" width="clamp(150px, 18vw, 210px)" height="clamp(180px, 22vw, 250px)" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 180 220" width="clamp(110px, 13vw, 160px)" height="clamp(135px, 16vw, 190px)" xmlns="http://www.w3.org/2000/svg">
           <defs>
             {/* Metallic linear gradient — light source top-left */}
             <linearGradient id="tg2" x1="0%" y1="0%" x2="100%" y2="60%">
