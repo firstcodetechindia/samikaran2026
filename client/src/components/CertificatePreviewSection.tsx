@@ -504,10 +504,11 @@ export function FullCertificatePreview({
                 style={{
                   fontFamily: "'Cinzel Decorative', serif",
                   fontWeight: 700,
-                  fontSize: "clamp(11px, 2.8vw, 34px)",
+                  fontSize: "clamp(10px, 2.4vw, 30px)",
                   color: design.nameColor,
                   textShadow: `0 2px 6px rgba(0,0,0,0.12), 0 1px 0 rgba(255,255,255,0.5)`,
-                  lineHeight: 1.15,
+                  lineHeight: 1.3,
+                  letterSpacing: "0.08em",
                   margin: 0,
                   padding: 0,
                   overflowWrap: "break-word",
