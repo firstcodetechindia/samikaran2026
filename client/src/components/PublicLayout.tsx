@@ -769,7 +769,7 @@ export function PublicLayout({ children, showNotificationBar = true }: PublicLay
               </Link>
             )}
 
-            <Popover open={notifOpen} onOpenChange={setNotifOpen}>
+            {user && <Popover open={notifOpen} onOpenChange={setNotifOpen}>
               <PopoverTrigger asChild>
                 <Button
                   variant="ghost"
@@ -850,7 +850,7 @@ export function PublicLayout({ children, showNotificationBar = true }: PublicLay
                   )}
                 </div>
               </PopoverContent>
-            </Popover>
+            </Popover>}
             
           </div>
         </div>
