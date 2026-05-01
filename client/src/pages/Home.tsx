@@ -903,7 +903,7 @@ export default function Home() {
               <motion.div
                 key={i}
                 className="absolute hidden sm:flex items-center z-20 pointer-events-none"
-                style={{ left: `${18 + i * 20.5}%`, top: '36px', transform: 'translateY(-50%)' }}
+                style={{ left: `${18 + i * 20.5}%`, top: '28px' }}
                 animate={{ x: [0, 6, 0], opacity: [0.4, 1, 0.4] }}
                 transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut", delay: i * 0.28 }}
               >
