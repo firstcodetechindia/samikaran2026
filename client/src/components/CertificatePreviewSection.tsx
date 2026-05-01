@@ -434,7 +434,7 @@ export function FullCertificatePreview({
             />
             {/* Text — tight block, matches BrandLogo.tsx style exactly */}
             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 0 }}>
-              <h2
+              <div
                 className="font-black tracking-tight"
                 style={{
                   fontFamily: "inherit",
@@ -443,11 +443,12 @@ export function FullCertificatePreview({
                   lineHeight: 1,
                   margin: 0,
                   padding: 0,
+                  display: "block",
                 }}
               >
                 SAMIKARAN<span style={{ color: design.accentColor }}>.</span>
-              </h2>
-              <p
+              </div>
+              <div
                 className="font-semibold uppercase"
                 style={{
                   fontFamily: "inherit",
@@ -457,10 +458,11 @@ export function FullCertificatePreview({
                   lineHeight: 1,
                   margin: 0,
                   padding: 0,
+                  display: "block",
                 }}
               >
                 Olympiad
-              </p>
+              </div>
             </div>
           </div>
 
