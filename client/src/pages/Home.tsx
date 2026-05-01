@@ -442,7 +442,7 @@ export default function Home() {
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-green-400" />
-                  <span className="text-gray-400">Instant Results & Certificates</span>
+                  <span className="text-gray-400">Results & Certificates</span>
                 </div>
               </motion.div>
             </div>
@@ -813,7 +813,7 @@ export default function Home() {
                 accent: "from-violet-400 to-purple-500",
                 benefits: [
                   "National & State-level Rankings across India",
-                  "Instant Results & AI Performance Analytics",
+                  "AI Performance Analytics & Detailed Reports",
                   "Certificates of Excellence (Gold, Silver, Bronze)",
                   "Cash Prizes & Scholarships worth lakhs",
                   "Letters of Recommendation for top scorers",
@@ -898,16 +898,16 @@ export default function Home() {
               transition={{ duration: 1.1, ease: "easeInOut", delay: 0.15 }}
             />
 
-            {/* Directional flow arrows on the line — 4 gaps between 5 steps */}
+            {/* Directional flow arrows — vertically centred on the connector line */}
             {[0, 1, 2, 3].map(i => (
               <motion.div
                 key={i}
-                className="absolute hidden sm:flex top-[27px] items-center z-20 pointer-events-none"
-                style={{ left: `${18 + i * 20.5}%` }}
-                animate={{ x: [0, 6, 0], opacity: [0.45, 1, 0.45] }}
+                className="absolute hidden sm:flex items-center z-20 pointer-events-none"
+                style={{ left: `${18 + i * 20.5}%`, top: '36px', transform: 'translateY(-50%)' }}
+                animate={{ x: [0, 6, 0], opacity: [0.4, 1, 0.4] }}
                 transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut", delay: i * 0.28 }}
               >
-                <ChevronRight className="w-4 h-4 text-fuchsia-400 drop-shadow-[0_0_4px_rgba(232,121,249,0.8)]" />
+                <ChevronRight className="w-4 h-4 text-fuchsia-400 drop-shadow-[0_0_5px_rgba(232,121,249,0.9)]" />
               </motion.div>
             ))}
 
@@ -918,7 +918,7 @@ export default function Home() {
                 { step: "02", icon: Calendar,   title: "Pick Subject & Date", short: "Choose your exam subject and a preferred time slot" },
                 { step: "03", icon: CreditCard, title: "Pay & Confirm",       short: "Secure payment via UPI, card, or net banking" },
                 { step: "04", icon: Monitor,    title: "Take Exam at Home",   short: "AI-proctored exam from your laptop or desktop" },
-                { step: "05", icon: Award,      title: "Get Results & Cert",  short: "Instant results and downloadable certificate" },
+                { step: "05", icon: Award,      title: "Get Results & Certificate", short: "View your results and download your certificate" },
               ].map(({ step, icon: Icon, title, short }, i) => (
                 <motion.div
                   key={step}
