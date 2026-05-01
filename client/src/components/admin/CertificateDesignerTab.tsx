@@ -544,30 +544,29 @@ export default function CertificateDesignerTab() {
                 </div>
                 <div className="space-y-1.5">
                   <Label className="text-xs">Signature Image (optional)</Label>
-                  {s1Image ? (
-                    <div className="flex items-center gap-2">
+                  {s1Image && (
+                    <div className="flex items-center gap-2 mb-1.5">
                       <img src={s1Image} alt="Sig 1" className="h-10 object-contain border rounded bg-white px-2" />
                       <Button size="sm" variant="ghost" className="text-xs text-red-500 h-8 px-2" onClick={() => setS1Image("")} data-testid="button-remove-sig1-image">Remove</Button>
                     </div>
-                  ) : (
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="file"
-                        accept="image/*"
-                        className="hidden"
-                        data-testid="input-sig1-image"
-                        onChange={(e) => {
-                          const f = e.target.files?.[0];
-                          if (f) uploadSignatureImage(f, setS1Image, setS1Uploading);
-                          e.target.value = "";
-                        }}
-                      />
-                      <Button size="sm" variant="outline" className="text-xs h-8 gap-1.5 pointer-events-none" disabled={s1Uploading} data-testid="button-upload-sig1">
-                        {s1Uploading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Upload className="w-3 h-3" />}
-                        {s1Uploading ? "Uploading..." : "Upload Signature"}
-                      </Button>
-                    </label>
                   )}
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      data-testid="input-sig1-image"
+                      onChange={(e) => {
+                        const f = e.target.files?.[0];
+                        if (f) uploadSignatureImage(f, setS1Image, setS1Uploading);
+                        e.target.value = "";
+                      }}
+                    />
+                    <Button size="sm" variant="outline" className="text-xs h-8 gap-1.5 pointer-events-none" disabled={s1Uploading} data-testid="button-upload-sig1">
+                      {s1Uploading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Upload className="w-3 h-3" />}
+                      {s1Uploading ? "Uploading..." : s1Image ? "Replace Signature" : "Upload Signature"}
+                    </Button>
+                  </label>
                   <p className="text-xs text-muted-foreground">PNG/JPG with transparent background recommended.</p>
                 </div>
               </div>
@@ -594,30 +593,29 @@ export default function CertificateDesignerTab() {
                 </div>
                 <div className="space-y-1.5">
                   <Label className="text-xs">Signature Image (optional)</Label>
-                  {s2Image ? (
-                    <div className="flex items-center gap-2">
+                  {s2Image && (
+                    <div className="flex items-center gap-2 mb-1.5">
                       <img src={s2Image} alt="Sig 2" className="h-10 object-contain border rounded bg-white px-2" />
                       <Button size="sm" variant="ghost" className="text-xs text-red-500 h-8 px-2" onClick={() => setS2Image("")} data-testid="button-remove-sig2-image">Remove</Button>
                     </div>
-                  ) : (
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="file"
-                        accept="image/*"
-                        className="hidden"
-                        data-testid="input-sig2-image"
-                        onChange={(e) => {
-                          const f = e.target.files?.[0];
-                          if (f) uploadSignatureImage(f, setS2Image, setS2Uploading);
-                          e.target.value = "";
-                        }}
-                      />
-                      <Button size="sm" variant="outline" className="text-xs h-8 gap-1.5 pointer-events-none" disabled={s2Uploading} data-testid="button-upload-sig2">
-                        {s2Uploading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Upload className="w-3 h-3" />}
-                        {s2Uploading ? "Uploading..." : "Upload Signature"}
-                      </Button>
-                    </label>
                   )}
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      data-testid="input-sig2-image"
+                      onChange={(e) => {
+                        const f = e.target.files?.[0];
+                        if (f) uploadSignatureImage(f, setS2Image, setS2Uploading);
+                        e.target.value = "";
+                      }}
+                    />
+                    <Button size="sm" variant="outline" className="text-xs h-8 gap-1.5 pointer-events-none" disabled={s2Uploading} data-testid="button-upload-sig2">
+                      {s2Uploading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Upload className="w-3 h-3" />}
+                      {s2Uploading ? "Uploading..." : s2Image ? "Replace Signature" : "Upload Signature"}
+                    </Button>
+                  </label>
                   <p className="text-xs text-muted-foreground">PNG/JPG with transparent background recommended.</p>
                 </div>
               </div>
