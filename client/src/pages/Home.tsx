@@ -108,16 +108,16 @@ function OlympiadIllustration() {
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <div className="rounded-full bg-purple-600/10 blur-[70px]" style={{ width: R * 2.2, height: R * 2.2 }} />
       </div>
-      {/* Orbit ring */}
+      {/* Orbit ring — explicitly centered */}
       <div className="absolute rounded-full border border-dashed border-purple-400/20 pointer-events-none"
-        style={{ width: R * 2, height: R * 2 }} />
+        style={{ width: R * 2, height: R * 2, left: '50%', top: '50%', marginLeft: -R, marginTop: -R }} />
       <div className="absolute rounded-full border border-dashed border-pink-400/10 pointer-events-none"
-        style={{ width: R * 1.35, height: R * 1.35 }} />
+        style={{ width: R * 1.35, height: R * 1.35, left: '50%', top: '50%', marginLeft: -R * 0.675, marginTop: -R * 0.675 }} />
 
-      {/* Rotating orbit wrapper — icons spin around trophy */}
+      {/* Rotating orbit wrapper — explicitly centered */}
       <motion.div
         className="absolute"
-        style={{ width: R * 2, height: R * 2 }}
+        style={{ width: R * 2, height: R * 2, left: '50%', top: '50%', marginLeft: -R, marginTop: -R }}
         animate={{ rotate: 360 }}
         transition={{ duration: dur, repeat: Infinity, ease: 'linear' }}
       >
