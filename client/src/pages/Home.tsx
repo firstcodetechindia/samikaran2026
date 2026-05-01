@@ -872,62 +872,70 @@ export default function Home() {
       </section>
 
       {/* ── SEO Section 4: How It Works ─────────────────────────────── */}
-      <section className="relative py-20 sm:py-28 overflow-hidden bg-gradient-to-br from-[#0f0a1e] via-[#1a1035] to-[#0f0a1e]" aria-label="How to Participate in Samikaran Olympiad">
-        <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-violet-700/15 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-fuchsia-700/10 rounded-full blur-[100px] pointer-events-none" />
+      <section className="relative py-14 sm:py-20 overflow-hidden bg-gradient-to-br from-[#0f0a1e] via-[#1a1035] to-[#0f0a1e]" aria-label="How to Participate in Samikaran Olympiad">
+        <div className="absolute top-1/2 right-0 w-[400px] h-[400px] bg-violet-700/12 rounded-full blur-[100px] pointer-events-none -translate-y-1/2" />
+        <div className="absolute top-1/2 left-0 w-[300px] h-[300px] bg-fuchsia-700/10 rounded-full blur-[90px] pointer-events-none -translate-y-1/2" />
 
-        <div className="container mx-auto px-4 sm:px-6 max-w-5xl relative z-10">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight tracking-tight text-white mb-4">
+        <div className="container mx-auto px-4 sm:px-6 max-w-6xl relative z-10">
+          {/* Header */}
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-12">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight tracking-tight text-white mb-3">
               How to Participate in{" "}
-              <span className="bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">Samikaran Olympiad</span>{" "}
-              Online Exams
+              <span className="bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">Samikaran Olympiad</span>
             </h2>
-            <p className="text-base text-gray-300 leading-[1.8] tracking-normal max-w-xl mx-auto">From registration to receiving your certificate — 5 simple steps.</p>
+            <p className="text-sm text-gray-400 max-w-md mx-auto">From registration to certificate — 5 simple steps.</p>
           </motion.div>
 
-          <ol className="relative space-y-0">
-            {/* vertical dotted line */}
-            <div className="absolute left-7 sm:left-1/2 top-8 bottom-8 w-px border-l-2 border-dashed border-violet-500/30 -translate-x-px hidden sm:block" />
+          {/* Steps — horizontal */}
+          <div className="relative">
+            {/* Animated connector line */}
+            <motion.div
+              className="absolute top-9 left-[8%] right-[8%] h-px bg-gradient-to-r from-violet-500 via-fuchsia-500 to-pink-500 origin-left hidden sm:block"
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.2, ease: "easeInOut", delay: 0.2 }}
+            />
 
-            {[
-              { step: "01", icon: UserPlus, title: "Register on Samikaran Olympiad Platform", desc: "Create your free student account on www.samikaranolympiad.com in under 2 minutes. Students, schools, and parents can register independently. Fill in basic details like name, class, school, city, and contact information." },
-              { step: "02", icon: Calendar, title: "Choose Your Olympiad Subject and Date", desc: "Browse our olympiad calendar and select the subjects you want to participate in — Mathematics, Science, English, Computer Science, or others. Choose a convenient exam date and time slot. We offer flexible scheduling to accommodate students across different time zones." },
-              { step: "03", icon: CreditCard, title: "Make Payment & Confirm Registration", desc: "Pay the nominal exam fee online through secure payment gateways (UPI, Credit Card, Debit Card, Net Banking). Receive instant confirmation via email and SMS with exam instructions and admit card." },
-              { step: "04", icon: Monitor, title: "Take AI-Proctored Exam from Home", desc: "On exam day, login to your Samikaran dashboard 15 minutes before the scheduled time. Our AI proctoring system will verify your identity using facial recognition. Take the exam on your laptop or desktop with a stable internet connection." },
-              { step: "05", icon: Award, title: "Get Instant Results & Certificates", desc: "Receive your results within seconds of exam submission. View detailed performance analytics including subject-wise breakdown, time management insights, and improvement suggestions. Download your digital certificate immediately." },
-            ].map(({ step, icon: Icon, title, desc }, i) => {
-              const isRight = i % 2 !== 0;
-              return (
-                <motion.li
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 sm:gap-3">
+              {[
+                { step: "01", icon: UserPlus,  title: "Register Free",        short: "Create your student account in under 2 minutes" },
+                { step: "02", icon: Calendar,  title: "Pick Subject & Date",  short: "Choose your exam subject and preferred time slot" },
+                { step: "03", icon: CreditCard,title: "Pay & Confirm",        short: "Secure payment via UPI, card, or net banking" },
+                { step: "04", icon: Monitor,   title: "Take Exam at Home",    short: "AI-proctored exam from your laptop or desktop" },
+                { step: "05", icon: Award,     title: "Get Results & Cert",   short: "Instant results and downloadable certificate" },
+              ].map(({ step, icon: Icon, title, short }, i) => (
+                <motion.div
                   key={step}
-                  initial="hidden"
-                  whileInView="visible"
+                  className="flex flex-col items-center text-center group cursor-default"
+                  initial={{ opacity: 0, y: 28 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: i * 0.1 } } }}
-                  className={`relative flex flex-col sm:flex-row gap-6 sm:gap-0 pb-12 last:pb-0 ${isRight ? "sm:flex-row-reverse" : ""}`}
+                  transition={{ duration: 0.45, delay: 0.3 + i * 0.12 }}
                 >
-                  {/* Step node (center on lg) */}
-                  <div className="sm:absolute sm:left-1/2 sm:-translate-x-1/2 flex items-center justify-center z-10 shrink-0">
-                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center shadow-xl shadow-violet-500/30 border-2 border-violet-400/30">
-                      <Icon className="w-6 h-6 text-white" />
-                    </div>
-                  </div>
+                  {/* Icon */}
+                  <motion.div
+                    className="relative w-[72px] h-[72px] rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center shadow-lg shadow-violet-500/25 border border-violet-400/20 mb-4 z-10"
+                    whileHover={{ scale: 1.1, boxShadow: "0 0 28px rgba(139,92,246,0.45)" }}
+                    transition={{ type: "spring", stiffness: 300, damping: 18 }}
+                  >
+                    <Icon className="w-7 h-7 text-white" />
+                    {/* Pulse ring on hover */}
+                    <span className="absolute inset-0 rounded-2xl ring-2 ring-violet-400/0 group-hover:ring-violet-400/40 transition-all duration-300" />
+                  </motion.div>
 
-                  {/* Card */}
-                  <div className={`group sm:w-[calc(50%-4rem)] ${isRight ? "sm:mr-auto sm:pr-0 sm:pl-0" : "sm:ml-auto"}`}>
-                    <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:-translate-y-1 transition-all duration-300 shadow-xl">
-                      <div className="flex items-center gap-3 mb-3">
-                        <span className="text-xs font-black text-violet-400 tracking-widest">STEP {step}</span>
-                      </div>
-                      <h3 className="text-base sm:text-lg font-semibold leading-snug tracking-normal text-white mb-3">{title}</h3>
-                      <p className="text-sm text-gray-300 leading-[1.8] tracking-normal text-justify">{desc}</p>
-                    </div>
-                  </div>
-                </motion.li>
-              );
-            })}
-          </ol>
+                  {/* Step badge */}
+                  <span className="text-[10px] font-black text-violet-400 tracking-widest mb-1.5">STEP {step}</span>
+
+                  {/* Title */}
+                  <h3 className="text-sm font-semibold text-white leading-snug mb-1.5">{title}</h3>
+
+                  {/* Short desc */}
+                  <p className="text-[11px] text-gray-400 leading-relaxed px-1">{short}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
