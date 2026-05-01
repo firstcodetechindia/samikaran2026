@@ -542,9 +542,8 @@ export function FullCertificatePreview({
                 lineHeight: 1.5,
               }}
             >
-              {txt.achievementPrefix} <span className="font-bold">{sample.grade}</span>,&nbsp;
-              <span className="font-bold">{sample.olympiadName}</span>
-              {" — "}securing <span className="font-bold">Rank {sample.rank}</span> with <span className="font-bold">{sample.percentage}%</span>
+              {txt.achievementPrefix} <span className="font-bold">{sample.olympiadName}</span>
+              {" — "}securing <span className="font-bold">All India Rank {sample.rank}</span> with <span className="font-bold">{sample.percentage}%</span>
             </p>
 
             <p className="text-center mt-[1.2%]" style={{ fontSize: "clamp(5px, 0.8vw, 10px)", color: design.subtleText }}>
