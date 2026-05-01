@@ -184,7 +184,7 @@ export default function FaqPage() {
       </section>
 
       {/* ══ MAIN ══ */}
-      <section className="bg-gray-50 dark:bg-background py-12 sm:py-16">
+      <section className="bg-gray-50 dark:bg-background py-8 sm:py-10">
         <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
           <div className="grid lg:grid-cols-[260px_1fr] gap-8">
 
@@ -228,25 +228,6 @@ export default function FaqPage() {
                 );
               })}
 
-              {/* Contact card */}
-              <motion.div
-                initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.4 }}
-                className="mt-6 p-5 rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-600 relative overflow-hidden"
-              >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-white/8 rounded-full blur-2xl pointer-events-none" />
-                <div className="relative z-10">
-                  <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center mb-3">
-                    <Mail className="w-4 h-4 text-white" />
-                  </div>
-                  <p className="text-sm font-black text-white mb-1">Still have questions?</p>
-                  <p className="text-[11px] text-white/70 leading-relaxed mb-4">Our team replies within 24 hours on working days.</p>
-                  <Link href="/contact">
-                    <button className="w-full bg-white text-violet-700 text-xs font-black py-2.5 rounded-xl flex items-center justify-center gap-1.5 hover:bg-white/90 transition-colors" data-testid="button-contact-support">
-                      Contact Support <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                  </Link>
-                </div>
-              </motion.div>
             </aside>
 
             {/* ── RIGHT: FAQ PANEL ── */}
@@ -333,22 +314,22 @@ export default function FaqPage() {
       </section>
 
       {/* ══ BOTTOM CTA ══ */}
-      <section className="bg-white dark:bg-background py-12 sm:py-16 border-t border-gray-100 dark:border-white/8">
+      <section className="bg-white dark:bg-background py-8 sm:py-10 border-t border-gray-100 dark:border-white/8">
         <div className="container mx-auto px-4 sm:px-6 max-w-4xl">
           <motion.div
             initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
-            className="relative rounded-3xl overflow-hidden brand-gradient p-10 sm:p-14 text-center"
+            className="relative rounded-3xl overflow-hidden brand-gradient p-8 sm:p-10 text-center"
           >
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               <div className="absolute -top-20 -right-20 w-64 h-64 bg-white/5 rounded-full blur-3xl" />
               <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-white/5 rounded-full blur-3xl" />
             </div>
             <div className="relative z-10">
-              <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center mx-auto mb-5 shadow-lg">
+              <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center mx-auto mb-4 shadow-lg">
                 <MessageCircle className="w-6 h-6 text-white" />
               </div>
               <h2 className="text-2xl sm:text-3xl font-black text-white mb-3">Didn't find your answer?</h2>
-              <p className="text-sm sm:text-base text-white/75 mb-8 max-w-md mx-auto leading-relaxed">
+              <p className="text-sm sm:text-base text-white/75 mb-5 max-w-md mx-auto leading-relaxed">
                 Our support team responds within 24 hours on working days. Reach out — we'd love to help.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
