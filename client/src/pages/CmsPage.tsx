@@ -97,7 +97,7 @@ function ContactForm() {
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             required
-            placeholder="Rahul Sharma"
+            placeholder="Tara Singh"
             data-testid="input-contact-name"
           />
         </div>
@@ -109,7 +109,7 @@ function ContactForm() {
             value={formData.email}
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             required
-            placeholder="rahul@gmail.com"
+            placeholder="tara@gmail.com"
             data-testid="input-contact-email"
           />
         </div>

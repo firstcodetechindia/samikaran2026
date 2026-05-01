@@ -99,7 +99,7 @@ export default function CertificateDesignerTab() {
     }
   };
 
-  const previewBody = bodyText.replace(/{{studentName}}/g, "Rahul Sharma").replace(/{{olympiadName}}/g, "Science Olympiad 2025").replace(/{{rank}}/g, "5").replace(/{{score}}/g, "92").replace(/{{date}}/g, "April 19, 2025").replace(/{{class}}/g, "10").replace(/{{schoolName}}/g, "Delhi Public School").replace(/{{studentId}}/g, "SOL2025-00123").replace(/{{certNo}}/g, "CERT-2025-00456");
+  const previewBody = bodyText.replace(/{{studentName}}/g, "Tara Singh").replace(/{{olympiadName}}/g, "Science Olympiad 2025").replace(/{{rank}}/g, "5").replace(/{{score}}/g, "92").replace(/{{date}}/g, "April 19, 2025").replace(/{{class}}/g, "10").replace(/{{schoolName}}/g, "Delhi Public School").replace(/{{studentId}}/g, "SOL2025-00123").replace(/{{certNo}}/g, "CERT-2025-00456");
 
   const isLight = selectedBg.includes("#f8fafc") || selectedBg.includes("#e2e8f0");
 
