@@ -202,8 +202,13 @@ function OlympiadIllustration() {
         })}
       </motion.div>
 
-      {/* Central Trophy SVG — subtle internal shine sweep */}
-      <div className="absolute z-10 flex items-center justify-center" style={{ marginTop: -20 }}>
+      {/* Central Trophy SVG — static, solid anchor */}
+      <motion.div
+        className="absolute z-10 flex items-center justify-center"
+        style={{ marginTop: -20 }}
+        animate={{ scale: [1, 1.025, 1] }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+      >
         <svg viewBox="0 0 180 220" width="clamp(150px, 18vw, 210px)" height="clamp(180px, 22vw, 250px)" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <radialGradient id="tg2" cx="50%" cy="30%" r="70%">
@@ -215,17 +220,6 @@ function OlympiadIllustration() {
               <stop offset="0%" stopColor="#fef3c7" stopOpacity="0.9" />
               <stop offset="100%" stopColor="#d97706" stopOpacity="0" />
             </radialGradient>
-            {/* Diagonal shine sweep gradient */}
-            <linearGradient id="shineSweep" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="white" stopOpacity="0" />
-              <stop offset="45%" stopColor="white" stopOpacity="0" />
-              <stop offset="50%" stopColor="white" stopOpacity="0.45" />
-              <stop offset="55%" stopColor="white" stopOpacity="0" />
-              <stop offset="100%" stopColor="white" stopOpacity="0" />
-            </linearGradient>
-            <clipPath id="trophyBody">
-              <path d="M48 28 L48 118 Q48 140 90 140 Q132 140 132 118 L132 28 Z" />
-            </clipPath>
             <filter id="tglow">
               <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
               <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
@@ -234,24 +228,15 @@ function OlympiadIllustration() {
           <ellipse cx="90" cy="195" rx="44" ry="9" fill="#f59e0b" fillOpacity="0.15" />
           <path d="M48 28 L48 118 Q48 140 90 140 Q132 140 132 118 L132 28 Z" fill="url(#tg2)" filter="url(#tglow)" />
           <path d="M48 28 L48 118 Q48 140 90 140 Q132 140 132 118 L132 28 Z" fill="url(#gs2)" />
-          {/* Sweep shine — diagonal light stripe glides across trophy body */}
-          <rect x="-60" y="20" width="240" height="130" fill="url(#shineSweep)" clipPath="url(#trophyBody)">
-            <animateTransform attributeName="transform" type="translate" values="-90,0; 90,0; 90,0" dur="4.5s" begin="0s" repeatCount="indefinite" keyTimes="0;0.38;1" calcMode="spline" keySplines="0.4 0 0.6 1; 0 0 1 1" />
-          </rect>
           <path d="M48 52 Q18 52 18 82 Q18 112 48 112" fill="none" stroke="#f59e0b" strokeWidth="9" strokeLinecap="round"/>
           <path d="M132 52 Q162 52 162 82 Q162 112 132 112" fill="none" stroke="#f59e0b" strokeWidth="9" strokeLinecap="round"/>
           <rect x="76" y="140" width="28" height="28" fill="#d97706" rx="2"/>
           <rect x="58" y="166" width="64" height="12" fill="#b45309" rx="4"/>
           <rect x="65" y="177" width="50" height="8" fill="#92400e" rx="3"/>
           <polygon points="90,42 95,58 111,58 98,68 103,84 90,74 77,84 82,68 69,58 85,58" fill="#fef3c7" opacity="0.96"/>
-          <ellipse cx="68" cy="66" rx="6" ry="11" fill="white" fillOpacity="0.13" transform="rotate(-20 68 66)"/>
-          {/* Small star twinkle — subtle dot at highlight point */}
-          <circle cx="67" cy="55" r="2.5" fill="white">
-            <animate attributeName="opacity" values="0;0;0.85;0;0" dur="4.5s" begin="0.6s" repeatCount="indefinite" keyTimes="0;0.15;0.22;0.30;1" />
-            <animate attributeName="r" values="1;1;4;1;1" dur="4.5s" begin="0.6s" repeatCount="indefinite" keyTimes="0;0.15;0.22;0.30;1" />
-          </circle>
+          <ellipse cx="68" cy="66" rx="6" ry="11" fill="white" fillOpacity="0.15" transform="rotate(-20 68 66)"/>
         </svg>
-      </div>
+      </motion.div>
 
     </div>
   );
