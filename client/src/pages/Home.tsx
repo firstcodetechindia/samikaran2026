@@ -220,9 +220,23 @@ function OlympiadIllustration() {
               <stop offset="0%" stopColor="#fef3c7" stopOpacity="0.9" />
               <stop offset="100%" stopColor="#d97706" stopOpacity="0" />
             </radialGradient>
+            {/* Samikaran logo gradients */}
+            <linearGradient id="logoTriUp" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#7c3aed" />
+              <stop offset="50%" stopColor="#a21caf" />
+              <stop offset="100%" stopColor="#ec4899" />
+            </linearGradient>
+            <linearGradient id="logoTriDown" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#a855f7" />
+              <stop offset="100%" stopColor="#f472b6" />
+            </linearGradient>
             <filter id="tglow">
               <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
               <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="logoGlow">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
             </filter>
           </defs>
           <ellipse cx="90" cy="195" rx="44" ry="9" fill="#f59e0b" fillOpacity="0.15" />
@@ -233,8 +247,20 @@ function OlympiadIllustration() {
           <rect x="76" y="140" width="28" height="28" fill="#d97706" rx="2"/>
           <rect x="58" y="166" width="64" height="12" fill="#b45309" rx="4"/>
           <rect x="65" y="177" width="50" height="8" fill="#92400e" rx="3"/>
-          <polygon points="90,42 95,58 111,58 98,68 103,84 90,74 77,84 82,68 69,58 85,58" fill="#fef3c7" opacity="0.96"/>
-          <ellipse cx="68" cy="66" rx="6" ry="11" fill="white" fillOpacity="0.15" transform="rotate(-20 68 66)"/>
+          {/* Samikaran hexagram logo on trophy — centered at (90, 68) */}
+          {/* Dark backing circle to make logo pop on gold */}
+          <circle cx="90" cy="68" r="26" fill="rgba(10,5,30,0.55)" />
+          {/* Upward triangle — purple to pink */}
+          <polygon points="90,44 109,78 71,78" fill="url(#logoTriUp)" filter="url(#logoGlow)" />
+          <polygon points="90,44 100,61 80,61" fill="rgba(255,255,255,0.18)" />
+          {/* Downward triangle — lighter purple to pink */}
+          <polygon points="90,92 71,58 109,58" fill="url(#logoTriDown)" opacity="0.9" />
+          <polygon points="90,92 80,75 100,75" fill="rgba(255,255,255,0.12)" />
+          {/* Equals bars — the Samikaran = sign */}
+          <rect x="79" y="63" width="22" height="3.5" rx="1.75" fill="white" />
+          <rect x="79" y="69" width="22" height="3.5" rx="1.75" fill="white" />
+          {/* Subtle highlight on left side of trophy body */}
+          <ellipse cx="65" cy="72" rx="6" ry="12" fill="white" fillOpacity="0.12" transform="rotate(-15 65 72)" />
         </svg>
       </motion.div>
 
