@@ -248,23 +248,35 @@ function OlympiadIllustration() {
           <rect x="76" y="140" width="28" height="28" fill="#d97706" rx="2"/>
           <rect x="58" y="166" width="64" height="12" fill="#b45309" rx="4"/>
           <rect x="65" y="177" width="50" height="8" fill="#92400e" rx="3"/>
-          {/* Samikaran hexagram logo — gold embossed seal */}
-          {/* Sunken circle base */}
-          <circle cx="90" cy="68" r="27" fill="rgba(120,50,0,0.35)" />
-          <circle cx="90" cy="68" r="25" fill="rgba(180,83,9,0.25)" />
-          {/* Upward triangle — bright gold (light-facing) */}
-          <polygon points="90,44 109,78 71,78" fill="url(#logoTriUp)" filter="url(#logoGlow)" />
-          {/* Highlight on upper triangle */}
-          <polygon points="90,44 100,61 80,61" fill="rgba(255,255,255,0.22)" />
-          {/* Downward triangle — dark gold (shadow-facing) */}
-          <polygon points="90,92 71,58 109,58" fill="url(#logoTriDown)" />
-          {/* Highlight on lower triangle */}
-          <polygon points="90,92 80,75 100,75" fill="rgba(255,200,50,0.18)" />
-          {/* Equals bars — cream gold */}
-          <rect x="79" y="63" width="22" height="3.5" rx="1.75" fill="#fef9c3" />
-          <rect x="79" y="69" width="22" height="3.5" rx="1.75" fill="#fef9c3" />
-          {/* Subtle highlight on left side of trophy body */}
-          <ellipse cx="65" cy="72" rx="6" ry="12" fill="white" fillOpacity="0.12" transform="rotate(-15 65 72)" />
+          {/* ── Samikaran Gold Embossed Seal ── */}
+          {/* Outer drop-shadow ring */}
+          <circle cx="91" cy="70" r="27" fill="rgba(80,30,0,0.3)" />
+          {/* Sunken base disc */}
+          <circle cx="90" cy="68" r="27" fill="rgba(120,50,0,0.4)" />
+          {/* Inner face */}
+          <circle cx="90" cy="68" r="24" fill="rgba(180,83,9,0.18)" />
+          {/* Outer decorative ring */}
+          <circle cx="90" cy="68" r="27" fill="none" stroke="#fde68a" strokeWidth="1.2" strokeOpacity="0.7" />
+          {/* Inner fine ring */}
+          <circle cx="90" cy="68" r="23.5" fill="none" stroke="#fbbf24" strokeWidth="0.7" strokeOpacity="0.5" />
+          {/* 8 small jewel dots on the outer ring */}
+          {[0,45,90,135,180,225,270,315].map(deg => {
+            const rad = deg * Math.PI / 180;
+            return <circle key={deg} cx={90 + 27 * Math.cos(rad)} cy={68 + 27 * Math.sin(rad)} r="1.6" fill="#fef3c7" fillOpacity="0.85" />;
+          })}
+          {/* Upward triangle — bright gold */}
+          <polygon points="90,46 108,76 72,76" fill="url(#logoTriUp)" filter="url(#logoGlow)" />
+          <polygon points="90,46 99,61 81,61" fill="rgba(255,255,255,0.2)" />
+          {/* Downward triangle — deep amber */}
+          <polygon points="90,90 72,60 108,60" fill="url(#logoTriDown)" />
+          <polygon points="90,90 81,75 99,75" fill="rgba(255,190,30,0.15)" />
+          {/* Equals bars — cream ivory */}
+          <rect x="79.5" y="63.5" width="21" height="3" rx="1.5" fill="#fef9c3" fillOpacity="0.95" />
+          <rect x="79.5" y="69" width="21" height="3" rx="1.5" fill="#fef9c3" fillOpacity="0.95" />
+          {/* Trophy body subtle engraving line */}
+          <line x1="58" y1="100" x2="122" y2="100" stroke="#b45309" strokeWidth="1" strokeOpacity="0.35" />
+          {/* Left body highlight */}
+          <ellipse cx="64" cy="74" rx="5" ry="13" fill="white" fillOpacity="0.10" transform="rotate(-12 64 74)" />
         </svg>
       </motion.div>
 
