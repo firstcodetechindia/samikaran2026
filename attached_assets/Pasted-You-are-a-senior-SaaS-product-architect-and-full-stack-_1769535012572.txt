@@ -1,0 +1,165 @@
+You are a senior SaaS product architect and full-stack developer.
+
+TASK:
+Using the Olympiad subjects listed on:
+https://cscolympiad.org/all-subjects/
+
+Create and configure ALL these Olympiads inside the EXISTING Olympiad system.
+Everything must be fully connected end-to-end with the current platform flow.
+Assume authentication, admin panel, exam engine, student dashboard, and payment flow already exist.
+
+IMPORTANT:
+❌ Do NOT explain or mention database, tables, or schemas
+❌ Do NOT create a new system
+✅ Work strictly within the existing system
+
+------------------------------------------------
+OLYMPIAD SUBJECTS TO CREATE (EXACT LIST)
+------------------------------------------------
+Create Olympiads for all these subjects:
+
+• Mathematics Olympiad  
+• English Olympiad  
+• Hindi Olympiad  
+• Science Olympiad  
+• Computer Olympiad  
+• Reasoning Olympiad  
+• General Knowledge Olympiad  
+• Cyber Security Olympiad  
+• Skill Olympiad  
+• Physics Olympiad  
+• Chemistry Olympiad  
+• Biology Olympiad  
+• Psychology Olympiad  
+• Economics Olympiad  
+• Business Studies Olympiad  
+• Accountancy Olympiad  
+• History Olympiad  
+• Geography Olympiad  
+• Healthcare Olympiad  
+• IT Olympiad  
+• Electronics Olympiad  
+• Entrepreneurship Olympiad  
+• Beauty & Wellness Olympiad  
+• Retail Olympiad  
+• Auto Olympiad  
+
+Each Olympiad must support Classes 3–12 (as applicable).
+
+------------------------------------------------
+CATEGORIZATION & VISUAL LOGIC
+------------------------------------------------
+Create logical categories and associate Olympiads automatically:
+
+• STEM:
+  Mathematics, Physics, Chemistry, Biology, Science,
+  Computer, IT, Electronics
+
+• Languages:
+  English, Hindi
+
+• Humanities & Commerce:
+  History, Geography, Economics, Business Studies, Accountancy, Psychology
+
+• Skills & Aptitude:
+  Reasoning, General Knowledge, Skill Olympiad
+
+• Vocational & Professional:
+  Cyber Security, Healthcare, Entrepreneurship,
+  Beauty & Wellness, Retail, Auto
+
+Icons, colors, and themes must auto-apply based on category.
+
+------------------------------------------------
+HOMEPAGE & ALL OLYMPIADS PAGE
+------------------------------------------------
+1. Update “All Olympiads” section:
+   • Automatically show all created Olympiads
+   • Filter by category, class, subject
+   • Smooth scrolling, premium UI
+   • Same design language as existing system
+
+2. Each Olympiad card must show:
+   • Title
+   • Eligible classes
+   • Category icon
+   • Registration status
+   • “Register Now” CTA
+
+------------------------------------------------
+OLYMPIAD DETAIL PAGE
+------------------------------------------------
+On clicking an Olympiad:
+• Show overview & syllabus placeholder
+• Show class eligibility
+• Show exam format
+• Show exam timeline
+• “Register” button
+
+------------------------------------------------
+REGISTRATION & PAYMENT FLOW
+------------------------------------------------
+On clicking Register:
+
+1. If user NOT logged in:
+   → Redirect to login
+   → After login, return to same Olympiad
+
+2. If logged in:
+   → Show payment screen UI
+
+3. Payment screen:
+   • India → Razorpay UI (design only)
+   • International → Stripe UI (design only)
+   • No real payment integration yet
+
+4. After mock successful payment:
+   • Student becomes eligible for that Olympiad
+   • Olympiad appears in student dashboard
+
+------------------------------------------------
+STUDENT DASHBOARD INTEGRATION
+------------------------------------------------
+Add/Update “My Olympiads” section:
+• Show all registered Olympiads
+• Status:
+  - Upcoming
+  - Live
+  - Completed
+
+On exam date/time:
+• “Start Exam” button auto-activates
+• Exam accessible only within allowed window
+
+------------------------------------------------
+ADMIN EXPERIENCE (CONFIG ONLY)
+------------------------------------------------
+Ensure admin can:
+• Enable / disable Olympiads
+• Set exam dates
+• Set fees
+• Assign classes
+• Control visibility on homepage
+
+(No explanation needed — just ensure it works)
+
+------------------------------------------------
+DESIGN & QUALITY BAR
+------------------------------------------------
+• Premium EdTech SaaS look
+• Clean typography
+• Glass / modern UI
+• Responsive on all devices
+• No hard-coded data
+• Fully dynamic & scalable
+
+------------------------------------------------
+FINAL GOAL
+------------------------------------------------
+When admin adds or edits any Olympiad,
+it should automatically reflect everywhere:
+Homepage, All Olympiads, Registration flow,
+Student dashboard, and Exam access.
+
+Build this like a GLOBAL, PROFESSIONAL Olympiad platform.
+Clarity, logic, and polish are mandatory.

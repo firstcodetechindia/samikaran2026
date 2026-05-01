@@ -1,0 +1,104 @@
+We are removing the dark esports theme.
+
+Convert the entire Class 6–12 student portal into a FULL LIGHT MODERN PREMIUM THEME.
+
+CRITICAL RULES:
+- Do NOT change backend logic.
+- Do NOT modify database.
+- Do NOT change XP, ranking or MIRA logic.
+- UI transformation only.
+- Everything must remain dynamic.
+
+--------------------------------------
+
+OBJECTIVE:
+Create a clean, modern, premium light dashboard.
+Not dark.
+Not neon.
+Not heavy gaming.
+
+It should feel:
+- Competitive
+- Sharp
+- Professional
+- Clean
+- Readable
+
+--------------------------------------
+
+THEME REQUIREMENTS:
+
+1. Use full light background (soft white or very light gradient).
+2. Remove dark gradients.
+3. Remove neon glow effects.
+4. Increase button contrast.
+5. Ensure all button text is clearly visible.
+6. Use strong accent color (blue / teal / purple).
+7. Maintain consistent theme across:
+   - Sidebar
+   - Header
+   - Dashboard
+   - All pages
+
+--------------------------------------
+
+SIDEBAR FIX:
+
+- Sidebar must match main theme.
+- No white highlight block mismatch.
+- Use subtle background shade for active state.
+- Clean minimal hover effect.
+- Remove dark/green glow.
+
+--------------------------------------
+
+BUTTON FIX:
+
+- Improve text contrast.
+- Ensure WCAG readable contrast.
+- Strong primary button color.
+- Clear CTA like:
+  "Launch Mission"
+  "Battle Now"
+  "View Performance"
+
+--------------------------------------
+
+CARD DESIGN:
+
+- White cards
+- Soft shadow
+- Subtle border
+- Clean spacing
+- Rounded but not cartoonish
+
+--------------------------------------
+
+KEEP THESE ELEMENTS:
+
+- XP progress bar
+- Level badge
+- Rank display
+- Rival section
+- Daily mission
+
+But restyle them in light modern theme.
+
+--------------------------------------
+
+MIRA UI:
+
+- Light theme
+- Clean chat bubble
+- Soft accent highlight
+- No dark glow
+
+--------------------------------------
+
+FINAL RESULT:
+
+Whole portal must look consistent.
+No dark sections.
+No theme conflict.
+Premium educational product look.
+Production ready.

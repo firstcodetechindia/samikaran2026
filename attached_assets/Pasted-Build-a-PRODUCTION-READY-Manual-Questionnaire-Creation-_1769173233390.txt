@@ -1,0 +1,150 @@
+Build a PRODUCTION-READY Manual Questionnaire Creation & Exam Control Module for an Online Examination / Olympiad Platform.
+
+GOAL:
+Create a powerful, reliable system where admins and exam creators can manually create, manage, and control questions and exams with full flexibility, accuracy, and real-world usability.
+
+MODULE 1: MANUAL QUESTION BANK
+Create a full Question Bank where authorized users can manually create and manage questions.
+
+Supported Question Types:
+- MCQ (Single correct)
+- MCQ (Multiple correct)
+- True / False
+- Numerical / Integer type
+- Short answer
+- Long descriptive answer
+- Case-study based questions
+- Image-based questions
+
+Each Question must support:
+- Subject
+- Class / Grade
+- Exam Type / Olympiad Name
+- Chapter
+- Topic
+- Sub-topic
+- Difficulty level (Very Easy, Easy, Medium, Hard, Olympiad Level)
+- Marks, Negative Marks, Partial Marking
+- Correct answer(s)
+- Detailed solution / explanation
+- Optional hint
+- Language selection (future multi-language ready)
+- Image / diagram / formula attachment
+- Question status: Draft, Under Review, Approved, Rejected
+- Question versioning (track edits and history)
+- Usage tracking (how many times used, last used, performance data)
+
+MODULE 2: QUESTION CREATION INTERFACE
+- Clean, distraction-free question editor
+- Rich text editor with:
+  - Math formulas (LaTeX)
+  - Images
+  - Symbols
+- Live preview of question before saving
+- Strict validations:
+  - Correct answers required
+  - Marks logic validation
+- Bulk question upload:
+  - Excel / CSV upload
+  - Manual paste support
+- Duplicate question detection
+
+MODULE 3: EXAM CREATION USING MANUAL QUESTIONS
+Create an Exam Control Panel where admins can:
+
+- Create exams manually using Question Bank
+- Select questions by:
+  - Subject
+  - Chapter
+  - Difficulty
+  - Question Type
+  - Marks
+- Manual drag-and-drop question ordering
+- Create multiple sections:
+  - Section-wise question grouping
+  - Section-wise marks and rules
+- Exam configuration:
+  - Total duration (timer must NEVER pause)
+  - Negative marking rules
+  - Question shuffle / option shuffle toggle
+  - Navigation mode (free / sequential)
+  - Calculator enable/disable
+- Scheduling:
+  - Upcoming, Ongoing, Ended exams
+  - Fixed start time and hard cut-off
+  - Rolling entry option if enabled
+
+MODULE 4: PROCTORING FLAGS & LIVE CONTROL
+- Proctoring features as configurable flags:
+  - Camera snapshot monitoring
+  - Multi-face detection
+  - Audio monitoring
+  - Tab switch / focus loss detection
+  - Full-screen enforcement
+- Violations must:
+  - Be logged with timestamp
+  - NEVER pause exam timer
+- Real-time control:
+  - Enable/disable proctoring during exam
+  - Control per exam or per student
+- Admin live monitoring dashboard:
+  - View active candidates
+  - Violation count per student
+  - Force submit / terminate exam if required
+
+MODULE 5: STUDENT EXAM EXPERIENCE
+- Clean and responsive exam interface
+- Always-visible running timer
+- Question navigation palette
+- Mark-for-review option
+- Auto-save answers continuously
+- Handles page refresh, tab close, or network loss safely
+- Exam continues even during violations
+
+MODULE 6: EVALUATION & RESULTS
+- Automatic evaluation for objective questions
+- Manual evaluation panel for descriptive answers
+- Examiner assignment and review workflow
+- Result generation:
+  - Marks
+  - Rank
+  - Percentile
+- Answer key and solution release control
+
+MODULE 7: ANALYTICS & REPORTS
+- Question-level analytics:
+  - Accuracy %
+  - Average time spent
+  - Difficulty validation
+- Exam-level analytics:
+  - Top performers
+  - Weak topic analysis
+- Export reports:
+  - CSV
+  - Excel
+  - PDF
+
+MODULE 8: SECURITY & AUDIT
+- Role-based access control
+- Full audit log for:
+  - Question creation
+  - Question edits
+  - Exam changes
+- Secure APIs
+- No hardcoded secrets
+
+MODULE 9: DATABASE DESIGN
+Design normalized database tables for:
+- Questions
+- QuestionVersions
+- Exams
+- ExamSections
+- ExamQuestions
+- StudentAttempts
+- StudentAnswers
+- ProctoringViolations
+- Results
+- Analytics
+
+FINAL EXPECTATION:
+The system must be robust, scalable, real-world practical, and capable of running high-stakes exams. Manual question creation should feel powerful, controlled, and professional, with zero shortcuts or demo-level logic.

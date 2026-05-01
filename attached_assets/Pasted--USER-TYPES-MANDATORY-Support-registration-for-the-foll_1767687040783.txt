@@ -1,0 +1,161 @@
+
+## USER TYPES (MANDATORY)
+Support registration for the following user types:
+1. Individual
+2. Parent
+3. School
+4. Group
+User type must be selected at registration start.
+
+---
+
+## REGION & ADDRESS (CRITICAL REQUIREMENT)
+
+At registration time, ask for the following **in this exact order**:
+
+1. Country (dropdown)
+2. State (dropdown – dependent on country)
+3. City (dropdown – dependent on state)
+4. Address Line 1 (text)
+5. Address Line 2 (text – optional)
+6. Pincode / Postal Code (TEXT INPUT, not number)
+
+### FUNCTIONAL REQUIREMENTS
+- Country → State → City must be **dynamic cascading dropdowns**
+- Data must come from database (NOT hardcoded JSON)
+- Region data must be reusable for:
+  - Analytics
+  - Dashboards
+  - Reports
+  - Filters
+- Pincode stored as string (important for international formats)
+
+---
+
+## STUDENT NAME REQUIREMENT (IMPORTANT)
+
+For **Student registration only**, collect:
+- First Name
+- Middle Name
+- Last Name
+
+Below the name fields, display a small instruction text:
+> "Please fill correct information. This name will be printed on your certificate."
+
+### FUNCTIONAL REQUIREMENTS
+- Names stored separately in DB
+- Full name derived when required
+- Used in certificate generation later
+
+---
+
+## DATABASE DESIGN (MANDATORY)
+
+Design tables for:
+- countries
+- states
+- cities
+- users
+- students
+- parents
+- schools
+- groups
+
+Relationships:
+- Student → Parent (optional)
+- Student → School (optional)
+- Student → Group (optional)
+- Individual users have no parent/school
+- Region info linked to users and students
+
+Ensure:
+- Proper foreign keys
+- Indexed region fields for analytics performance
+
+---
+
+## ADMIN MANAGEMENT
+Create admin interfaces to:
+- Manage countries
+- Manage states (linked to country)
+- Manage cities (linked to state)
+- Enable / disable regions if required
+
+---
+
+## DUMMY DATA (VERY IMPORTANT)
+
+Seed the database with:
+- **500 students dummy records**
+- Students distributed across:
+  - Multiple countries
+  - Multiple states
+  - Multiple cities
+  - Different pincodes
+- Associations:
+  - Some students linked to schools
+  - Some linked to parents
+  - Some linked to groups
+  - Some individual students (no association)
+
+Also seed:
+- At least:
+  - 5 countries
+  - 20 states
+  - 50+ cities
+  - 10 schools
+  - 10 parents
+  - 10 groups
+
+Dummy data must look realistic.
+
+---
+
+## ANALYTICS READINESS (IMPORTANT)
+Ensure region data can be used for:
+- Country-wise analysis
+- State-wise analysis
+- City-wise analysis
+- School-wise performance
+- Group-wise performance
+
+No charts required now — only correct data structure.
+
+---
+
+## UI REQUIREMENTS
+- Clean, step-based registration UI
+- Disable state dropdown until country selected
+- Disable city dropdown until state selected
+- Proper validation messages
+- Mobile responsive
+
+---
+
+## API REQUIREMENTS
+- `/api/regions/countries`
+- `/api/regions/states?countryId=`
+- `/api/regions/cities?stateId=`
+- `/api/register`
+
+Use efficient queries and caching where possible.
+
+---
+
+## COST & PERFORMANCE
+- No external paid APIs
+- No heavy geo libraries
+- Use DB + simple logic
+- Must work smoothly on Replit free/low-cost plan
+
+---
+
+## FINAL OUTPUT REQUIRED
+1. Database schema
+2. Seed scripts for region + dummy users
+3. Registration UI
+4. APIs for region selection
+5. Admin management screens
+6. README explaining how analytics will consume this data
+
+Build this carefully and ensure data quality and scalability.

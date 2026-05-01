@@ -1,0 +1,172 @@
+You are building a SNAPSHOT-BASED CAMERA PROCTORING SYSTEM for an ONLINE EXAM PLATFORM.
+
+This must RUN CORRECTLY on Replit TODAY.
+Do NOT attempt continuous video streaming.
+Do NOT use GPU.
+Do NOT over-engineer.
+
+The goal is a STABLE, PRACTICAL MVP that can later move to AWS without rewrite.
+
+====================================================
+SYSTEM OVERVIEW
+====================================================
+
+Build a Python microservice that:
+- Receives camera snapshots from browser every 25–30 seconds
+- Validates camera integrity
+- Detects camera covering, freezing, or face absence
+- Returns confidence score and violation flags
+- Logs violations in real time
+
+====================================================
+TECH RULES (STRICT)
+====================================================
+
+- Use Python
+- Use FastAPI
+- Use OpenCV (cv2)
+- Use MediaPipe (Face Detection or Face Mesh)
+- CPU only
+- Snapshot based (JPEG / PNG)
+- REST API only
+
+====================================================
+INSTALLATION (MANDATORY)
+====================================================
+
+Automatically install and configure:
+- fastapi
+- uvicorn
+- opencv-python
+- mediapipe
+- numpy
+- pillow
+
+Ensure everything runs on Replit without errors.
+
+====================================================
+API DESIGN
+====================================================
+
+Create one main endpoint:
+
+POST /analyze-frame
+
+Input:
+- image (base64 or multipart file)
+- user_id
+- exam_id
+- timestamp (client time)
+
+Output:
+- camera_status: OK / WARNING / BLOCKED
+- face_detected: true / false
+- brightness_score
+- frame_variance_score
+- confidence_score (0–100)
+- violation_type (if any)
+- violation_severity (low / medium / high)
+
+====================================================
+CAMERA CHECK LOGIC (CRITICAL)
+====================================================
+
+For every snapshot:
+
+1. BRIGHTNESS CHECK
+- Convert to grayscale
+- Calculate mean brightness
+- If too dark or uniform → possible camera cover
+
+2. FRAME FREEZE CHECK
+- Compare with previous frame for same user
+- If difference below threshold → frozen feed
+
+3. FACE PRESENCE CHECK
+- Use MediaPipe to detect face landmarks
+- If face missing beyond allowed time → violation
+
+4. OBSTRUCTION DETECTION
+- Detect sudden drop in brightness
+- Detect low edge density
+- Detect uniform color patterns (tape / finger / cloth)
+
+====================================================
+CONFIDENCE SCORING
+====================================================
+
+Calculate confidence score using:
+- Face detection confidence
+- Brightness validity
+- Frame variance
+- Motion consistency
+
+If confidence < threshold:
+- Trigger violation
+
+====================================================
+VIOLATION RULES
+====================================================
+
+Trigger violation when:
+- Camera covered
+- Camera frozen
+- Face missing
+- Camera turned off
+
+Violation handling:
+- First → warning
+- Repeated → severity escalation
+- Persistent → BLOCKED status
+
+====================================================
+PRE-EXAM & DURING-EXAM BEHAVIOR
+====================================================
+
+- Before exam start:
+  - If camera status ≠ OK → block exam
+
+- During exam:
+  - If camera status becomes BLOCKED:
+    - Log violation
+    - Notify frontend
+    - Allow exam pause or escalation
+
+====================================================
+ARCHITECTURE RULE
+====================================================
+
+- Keep this service independent
+- No tight coupling with frontend
+- Designed to later move to AWS by changing API URL only
+
+====================================================
+RUN CONFIGURATION
+====================================================
+
+- Start FastAPI using uvicorn
+- Expose public URL on Replit
+- Ensure service stays alive
+- Add basic health check endpoint: GET /health
+
+====================================================
+QUALITY REQUIREMENTS
+====================================================
+
+- No crashes
+- No memory leaks
+- Clear logs
+- Predictable behavior
+- Honest detection (avoid false positives)
+
+====================================================
+FINAL GOAL
+====================================================
+
+This service must:
+- WORK reliably on Replit
+- Catch obvious camera covering and manipulation
+- Log violations correctly
+- Be ready for AWS migration later
+
+Build, install, and run this system now.

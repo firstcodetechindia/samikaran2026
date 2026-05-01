@@ -1,0 +1,197 @@
+You are a senior CMS architect, WordPress core contributor–level engineer, and SaaS product designer.
+
+I am building a **FULL WORDPRESS-LIKE CMS** inside the **SUPER ADMIN PANEL** of my GLOBAL OLYMPIAD SAAS PLATFORM.
+
+Your task is to DESIGN AND IMPLEMENT a **BLOCK-BASED CMS** that behaves like **WordPress + Elementor/Gutenberg**, but is fully CUSTOM, API-DRIVEN, and tightly integrated into my system.
+
+════════════════════════════════════
+PRIMARY GOAL
+════════════════════════════════════
+Allow Super Admin to:
+• Create pages visually
+• Drag & drop content blocks
+• Write content with a rich editor
+• Manage SEO meta data
+• Preview pages
+• Publish / unpublish pages
+• Control everything from Super Admin
+• Keep frontend UI theme unchanged
+
+This CMS must feel like **WordPress backend**, but with **custom UI and tighter control**.
+
+════════════════════════════════════
+CORE CMS CONCEPT
+════════════════════════════════════
+Use a **BLOCK / SECTION BASED PAGE BUILDER** approach.
+
+Each page is composed of:
+• Page metadata
+• SEO metadata
+• Ordered content blocks (drag & drop)
+• Global layout (header/footer stays same)
+
+NO HARD-CODED PAGE CONTENT  
+ALL CONTENT MUST COME FROM CMS APIs  
+
+════════════════════════════════════
+BLOCK TYPES (MUST IMPLEMENT)
+════════════════════════════════════
+Create reusable block types similar to WordPress plugins:
+
+• Rich Text Block (WYSIWYG editor)
+• Heading Block
+• Image Block
+• Image + Text Block
+• Gallery Block
+• FAQ Accordion Block
+• Card Grid Block
+• Button / CTA Block
+• Divider / Spacer Block
+• Embed Block (YouTube, Maps)
+• Custom HTML Block (admin only)
+
+Each block must support:
+• Drag & drop reordering
+• Enable / disable
+• Block-level settings panel
+• Live preview
+
+════════════════════════════════════
+RICH TEXT EDITOR REQUIREMENTS
+════════════════════════════════════
+Implement a modern editor:
+• Bold, italic, underline
+• Headings H1–H6
+• Links
+• Lists
+• Tables
+• Inline images
+• Code blocks
+• Clean HTML output
+
+Editor must be:
+• XSS-safe
+• Mobile friendly
+• Theme-aware
+• Easy for non-technical admins
+
+════════════════════════════════════
+SEO MANAGEMENT (CRITICAL)
+════════════════════════════════════
+Provide full SEO control per page:
+
+• SEO title
+• Meta description
+• Meta keywords
+• Slug / URL
+• Canonical URL
+• Open Graph title
+• Open Graph description
+• Open Graph image
+• Index / no-index
+• Sitemap-ready
+
+SEO UI should feel like **Yoast / RankMath-style panels**.
+
+════════════════════════════════════
+PAGE LIFECYCLE
+════════════════════════════════════
+Support:
+• Draft
+• Preview
+• Published
+• Unpublished
+• Scheduled publish (future-ready)
+
+Preview must show **real frontend layout** with CMS content injected.
+
+════════════════════════════════════
+DRAG & DROP PAGE BUILDER UI
+════════════════════════════════════
+Create Super Admin UI that:
+• Lists available blocks on left
+• Page canvas in center
+• Settings panel on right
+• Drag blocks into page
+• Reorder blocks visually
+• Edit block content inline
+• Undo / redo (basic)
+
+This must feel like **Elementor / Gutenberg experience**.
+
+════════════════════════════════════
+MEDIA MANAGEMENT
+════════════════════════════════════
+Create a Media Library:
+• Upload images
+• Preview & reuse images
+• Auto optimize images
+• Alt text for SEO
+• Use images inside blocks
+
+════════════════════════════════════
+FRONTEND RENDERING
+════════════════════════════════════
+Build a page renderer that:
+• Fetches page + blocks via API
+• Renders blocks dynamically
+• Keeps existing website UI & theme
+• Is SEO-friendly (SSR or pre-render ready)
+
+Frontend must NEVER hard-code content.
+
+════════════════════════════════════
+SUPER ADMIN CONTROLS
+════════════════════════════════════
+Allow Super Admin to:
+• Create new page
+• Edit existing page
+• Clone page
+• Delete page
+• Manage page order
+• Control visibility
+
+════════════════════════════════════
+DATABASE DESIGN (REQUIRED)
+════════════════════════════════════
+Design schemas for:
+• Pages
+• Page SEO metadata
+• Blocks
+• Block settings
+• Media assets
+• Page versions (future)
+
+Use scalable relational design.
+
+════════════════════════════════════
+SECURITY & QUALITY
+════════════════════════════════════
+• Input sanitization
+• Role-based access (Super Admin only)
+• No inline scripts from editor
+• Clean HTML output
+• Fast page load
+
+════════════════════════════════════
+EXPECTED OUTPUT FROM YOU
+════════════════════════════════════
+Generate step-by-step:
+1. CMS architecture
+2. Database schema
+3. Backend APIs
+4. Super Admin UI
+5. Drag & drop builder
+6. Rich editor integration
+7. SEO panel
+8. Frontend renderer
+9. Sample pages (About, FAQ)
+
+════════════════════════════════════
+FINAL STANDARD
+════════════════════════════════════
+This CMS must feel like:
+
+“WordPress-level page builder power, inside a custom Olympiad SaaS Super Admin panel, with full SEO and visual editing control.”
+
+Build it clean, scalable, extensible, and production-ready.

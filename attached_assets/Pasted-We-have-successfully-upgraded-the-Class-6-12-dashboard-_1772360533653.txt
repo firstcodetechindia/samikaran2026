@@ -1,0 +1,127 @@
+We have successfully upgraded the Class 6–12 dashboard into a dark competitive arena style.
+
+Now extend this Arena Theme to the ENTIRE student portal for Class 6–12 students.
+
+⚠ CRITICAL RULES:
+- Do NOT modify any backend logic.
+- Do NOT change database schema.
+- Do NOT edit existing APIs.
+- Do NOT touch exam engine, ranking engine, XP logic or MIRA logic.
+- This is ONLY a UI and layout transformation.
+- All data must remain dynamic from existing services.
+- No hardcoded values.
+
+--------------------------------------------------
+
+🎯 OBJECTIVE:
+Convert entire portal into a unified DARK ESPORTS ARENA experience.
+
+Students must feel:
+- Competitive
+- Ranked
+- Progressing
+- Inside a digital arena
+
+--------------------------------------------------
+
+🏗 STEP 1: Create Layout Wrapper
+
+Create:
+ArenaLayout (applies only to Class 6–12 students)
+
+This layout must:
+- Apply dark gradient background
+- Apply neon accent system
+- Replace default sidebar
+- Include persistent top status bar
+
+--------------------------------------------------
+
+🏗 STEP 2: Convert Sidebar into Arena Navigation
+
+Replace light admin sidebar with:
+
+Dark vertical sidebar
+Neon active highlight
+Icons with glow on hover
+
+Rename menu items:
+
+Dashboard → Arena
+My Exams → Missions
+Exam Results → Performance
+Study Materials → Training
+Olympiad Calendar → Events
+MIRA Library → AI Coach
+Payments → Wallet
+Certificates → Achievements
+
+--------------------------------------------------
+
+🏗 STEP 3: Persistent Top Status Bar (All Pages)
+
+Show on every page:
+- Level
+- XP progress
+- League badge
+- District Rank
+- State Rank
+- Streak counter
+
+Sticky header.
+Animated XP progress.
+Rank change arrow.
+
+--------------------------------------------------
+
+🏗 STEP 4: Apply Theme to All Pages
+
+Convert:
+- Missions page
+- Performance page
+- Training page
+- AI Coach page
+- Events page
+- Achievements page
+
+All must use:
+- Same dark card style
+- Same border radius
+- Same neon glow accents
+- Same typography
+- Smooth transitions
+
+--------------------------------------------------
+
+🏗 STEP 5: Micro Animations
+
+Add:
+- XP increment animation
+- Hover glow effects
+- Rank up glow effect
+- Button press motion
+
+--------------------------------------------------
+
+🏗 STEP 6: Maintain Existing Logic
+
+All data must:
+- Come from existing backend
+- Use existing XP logic
+- Use existing rank calculation
+- Use existing AI/MIRA system
+
+No fake leaderboard values.
+
+--------------------------------------------------
+
+🚫 DO NOT:
+- Change business logic
+- Alter ranking algorithm
+- Add static rank numbers
+- Break mobile responsiveness
+
+--------------------------------------------------
+
+Final result must feel like a complete gaming ecosystem, not a partial redesign.
+Production-ready, modular, scalable.

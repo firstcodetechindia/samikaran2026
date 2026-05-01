@@ -1,0 +1,232 @@
+You are a senior SaaS architect, CMS product designer, full-stack engineer, and UX expert.
+
+I am building a **CMS (Content Management System)** inside the **SUPER ADMIN PANEL** of my GLOBAL AI-POWERED OLYMPIAD PLATFORM.
+
+Your task is to DESIGN AND IMPLEMENT a **FULLY FUNCTIONAL, REAL-WORLD, PRODUCTION-GRADE CMS MODULE** that allows Super Admin to manage all public website pages dynamically.
+
+════════════════════════════════════
+CMS CORE OBJECTIVE
+════════════════════════════════════
+Build a CMS that:
+• Manages all static & semi-dynamic pages
+• Allows non-technical admin to update content easily
+• Supports rich editor + drag & drop sections
+• Handles user form submissions
+• Sends automated emails on form submission
+• Is scalable, secure, and SaaS-ready
+
+NO HARD-CODED CONTENT  
+ALL CONTENT MUST BE CMS-DRIVEN  
+
+════════════════════════════════════
+PAGES TO BE MANAGED (MUST CREATE ALL)
+════════════════════════════════════
+Create CMS support + frontend pages for:
+
+• Resources
+• Academic Calendar
+• Hall of Fame
+• Gallery
+• FAQs
+• Company
+• About Us
+• Contact Us
+• Global Presence
+• Partner with Us
+• Privacy Policy
+• Terms & Conditions
+• Refund Policy
+• Coming Soon (generic CMS page)
+
+════════════════════════════════════
+CMS PAGE STRUCTURE (MANDATORY)
+════════════════════════════════════
+Each page must support:
+
+• Page title
+• SEO meta title, description, keywords
+• Multiple sections (drag & drop reorder)
+• Section types:
+  - Text block (rich editor)
+  - Image block
+  - Image + text
+  - FAQ accordion
+  - Gallery grid
+  - Timeline (for Academic Calendar)
+  - Cards (Hall of Fame, Partners, Global Presence)
+• Publish / Draft status
+• Versioning (future-ready)
+
+════════════════════════════════════
+EDITOR REQUIREMENTS
+════════════════════════════════════
+Provide a modern CMS editor with:
+• Rich text editor (bold, links, lists, tables)
+• Image upload & preview
+• Drag & drop section ordering
+• Live preview mode
+• Mobile / desktop preview
+• Easy add/remove sections
+• Field-level validation
+
+════════════════════════════════════
+REALISTIC DEFAULT CONTENT (SEED DATA)
+════════════════════════════════════
+Populate pages with REALISTIC SAMPLE CONTENT (admin will edit later):
+
+• About Us:
+  - Vision: “Empowering students globally through fair, AI-driven Olympiads”
+  - Mission, values, trust, global reach
+
+• Academic Calendar:
+  - Month-wise Olympiad schedule
+  - Registration start/end
+  - Exam date
+  - Result date
+
+• Hall of Fame:
+  - Top rankers
+  - Rank, name, country, Olympiad name
+  - Year-wise filter
+
+• Gallery:
+  - Olympiad moments
+  - Certificates
+  - Award ceremonies
+
+• FAQs:
+  - Registration
+  - Eligibility
+  - Exam pattern
+  - Certificates
+  - Refund policy reference
+
+• Global Presence:
+  - Countries served
+  - Partner schools count
+  - Student participation numbers
+
+• Partner With Us:
+  - Benefits
+  - Who can partner
+  - Partner application form
+
+• Policies:
+  - Legal-style structured content
+  - Last updated date
+
+════════════════════════════════════
+FORMS & USER INTERACTION (CRITICAL)
+════════════════════════════════════
+Create CMS-driven FORMS for:
+
+• Contact Us
+• Partner with Us
+• Coming Soon / Notify Me
+
+Each form must support:
+• Dynamic form fields (from CMS)
+• Mandatory field validation
+• Email validation
+• Phone validation
+• Error messages + SHAKE animation (same as login/register)
+• CAPTCHA-ready architecture
+
+════════════════════════════════════
+FORM SUBMISSION FLOW
+════════════════════════════════════
+On form submission:
+1. Save submission to database
+2. Notify Super Admin (dashboard + email-ready)
+3. Send AUTO-REPLY EMAIL to user based on form type:
+   - Contact → “Thanks for contacting us”
+   - Partner → “We will review your partnership request”
+   - Coming Soon → “We’ll notify you when live”
+
+Use email templates stored in CMS.
+
+════════════════════════════════════
+EMAIL SYSTEM
+════════════════════════════════════
+Design:
+• Email template manager in CMS
+• Placeholder variables ({{name}}, {{page}}, {{date}})
+• Auto-reply system
+• Admin notification emails
+• SMTP abstraction (keys later)
+
+════════════════════════════════════
+UI / UX REQUIREMENTS
+════════════════════════════════════
+• Use existing platform theme
+• Smooth animations on section load
+• Subtle transitions
+• Form error SHAKE animation (mandatory)
+• Accessible & responsive
+• SEO-friendly markup
+
+════════════════════════════════════
+IMAGE & MEDIA HANDLING
+════════════════════════════════════
+• CMS image library
+• Auto image optimization
+• Page-type-based default images
+• Gallery grid layout
+• Lazy loading
+
+════════════════════════════════════
+SUPER ADMIN CONTROLS
+════════════════════════════════════
+Provide controls to:
+• Create / edit / delete pages
+• Reorder sections
+• Enable / disable pages
+• Preview before publish
+• View form submissions
+• Reply to users (future-ready)
+
+════════════════════════════════════
+DATA MODELS (DESIGN REQUIRED)
+════════════════════════════════════
+Design schemas for:
+• Pages
+• Page sections
+• Media assets
+• Forms
+• Form fields
+• Form submissions
+• Email templates
+• Page SEO data
+
+════════════════════════════════════
+TECH & ARCHITECTURE
+════════════════════════════════════
+• Modular CMS architecture
+• API-driven pages
+• Secure input handling
+• Multi-tenant ready
+• Future localization ready
+• Clean separation of CMS & frontend
+
+════════════════════════════════════
+EXPECTED OUTPUT
+════════════════════════════════════
+Generate:
+• CMS backend services
+• Database schemas
+• APIs
+• Super Admin CMS UI
+• Page rendering components
+• Form engine
+• Email automation logic
+• Sample seeded content
+• Animations & validations
+
+════════════════════════════════════
+FINAL STANDARD
+════════════════════════════════════
+This CMS must feel like:
+
+“A modern, enterprise-grade CMS powering a global EdTech Olympiad platform — simple for admins, powerful under the hood.”
+
+Build it clean, scalable, and production-ready.

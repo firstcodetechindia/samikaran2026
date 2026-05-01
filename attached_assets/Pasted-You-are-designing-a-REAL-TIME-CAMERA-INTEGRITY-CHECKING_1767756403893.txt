@@ -1,0 +1,124 @@
+You are designing a REAL-TIME CAMERA INTEGRITY CHECKING SYSTEM for a HIGH-SECURITY ONLINE EXAM PLATFORM.
+
+This system must DETECT when a candidate tries to hide, cover, blur, block, or manipulate the camera
+BEFORE EXAM START AND DURING THE EXAM.
+
+Focus ONLY on CAMERA BEHAVIOR, REAL-TIME CHECKING, AND VIOLATION LOGGING.
+Do NOT design database schemas or backend architecture.
+Do NOT redesign the full exam UI.
+
+====================================================
+CORE PROBLEM TO SOLVE
+====================================================
+
+Some users physically cover the camera with tape, fingers, cloth, paper, or objects,
+yet the system still detects a face due to cached frames or low-quality detection.
+
+This must be prevented.
+
+====================================================
+CAMERA INTEGRITY REQUIREMENTS
+====================================================
+
+The system must continuously verify:
+- Camera is ON
+- Camera lens is NOT covered
+- Camera feed is LIVE (not frozen)
+- Camera feed is CLEAR enough for identification
+- Camera feed shows a real human face
+
+These checks must work:
+- Before exam verification
+- During system requirement checks
+- Continuously throughout the exam
+
+====================================================
+PRE-EXAM CAMERA VERIFICATION (MANDATORY)
+====================================================
+
+Before exam starts:
+- Force live camera movement validation
+- Ask user to perform random actions:
+  - Blink
+  - Turn head left/right
+  - Move closer to camera
+- Validate frame-to-frame motion
+- Validate brightness and contrast levels
+- Detect abnormal darkness or uniform color
+- Detect lens obstruction patterns
+- Reject static or fake camera feeds
+
+If camera is covered or manipulated:
+- Block exam start
+- Show clear error message:
+  “Camera is blocked or covered. Please clear the camera to continue.”
+
+====================================================
+REAL-TIME CAMERA MONITORING DURING EXAM
+====================================================
+
+Continuously (every few seconds):
+- Check frame variance (to detect frozen feed)
+- Check brightness histogram (to detect covered lens)
+- Detect sudden darkness or color flattening
+- Detect obstruction patterns (finger, tape, cloth)
+- Verify live face movement over time
+- Validate face depth cues (near/far changes)
+
+====================================================
+CAMERA COVER / HIDE DETECTION CONDITIONS
+====================================================
+
+Trigger CAMERA COVER VIOLATION if:
+- Frame suddenly becomes dark or uniformly colored
+- Face confidence drops abruptly
+- Camera feed loses depth or motion
+- Camera feed remains static beyond allowed threshold
+- Sudden blur persists beyond tolerance
+- Partial obstruction detected (finger, tape, shadow)
+
+====================================================
+VIOLATION HANDLING (REAL TIME)
+====================================================
+
+On detection:
+- Instantly log a CAMERA COVER VIOLATION
+- Capture and store a snapshot
+- Timestamp the event
+- Show live warning to candidate:
+  “Camera obstruction detected. Please remove obstruction immediately.”
+
+If obstruction persists:
+- Increase violation severity
+- Trigger auto actions:
+  - Multiple warnings
+  - Flag candidate
+  - Force exam submission (if threshold crossed)
+
+====================================================
+DURING EXAM RULES
+====================================================
+
+- Exam MUST continue only if camera integrity is restored
+- Violations must be visible in live violation feed
+- Camera checks must NEVER pause during exam
+- Disabling camera automatically counts as a violation
+- Repeated camera blocking escalates severity
+
+====================================================
+TRANSPARENCY & FAIRNESS
+====================================================
+
+- Clearly indicate camera status to candidate
+- Show camera integrity warnings non-intrusively
+- Do not falsely accuse — use multiple checks before violation
+- All events must be auditable after exam
+
+====================================================
+FINAL GOAL
+====================================================
+
+This system must make it PRACTICALLY IMPOSSIBLE for a candidate to cover, hide, or manipulate the camera
+without being detected in real time, both before and during the exam.
+
+Design and implement this real-time camera integrity and violation system now.

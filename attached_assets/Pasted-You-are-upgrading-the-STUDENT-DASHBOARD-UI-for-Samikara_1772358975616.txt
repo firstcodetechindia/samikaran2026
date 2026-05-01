@@ -1,0 +1,112 @@
+You are upgrading the STUDENT DASHBOARD UI for Samikaran Olympiad.
+
+⚠ VERY IMPORTANT:
+- DO NOT modify any existing backend logic.
+- DO NOT touch existing database schema.
+- DO NOT change any APIs.
+- DO NOT break old features.
+- Keep all old logic exactly as it is.
+- This is a NEW dashboard layer built on top of existing logic.
+- All existing services (MIRA AI, Exam Engine, Result Engine, Rank Logic) must remain untouched.
+- Only UI + new frontend components + new gamification layers.
+
+This dashboard is ONLY for Class 6–12 students.
+Category based rendering must be implemented.
+
+--------------------------------------
+
+🎯 OBJECTIVE:
+Create a MODERN, COMPETITIVE, GAMING-STYLE DASHBOARD.
+It must feel like an Olympiad Arena, not a school panel.
+
+UI Direction:
+- Dark theme
+- Neon highlights
+- Clean typography
+- Subtle motion animations
+- Premium modern design
+- Inspired by esports dashboards
+- Fully responsive
+
+--------------------------------------
+
+⚙ SYSTEM RULES:
+- Use existing APIs for data.
+- Fetch real XP, exams, results, ranks from database.
+- No hardcoded numbers.
+- No fake rank values.
+- All calculations must use current logic.
+
+--------------------------------------
+
+🧠 FEATURES TO ADD (WITHOUT TOUCHING OLD LOGIC):
+
+1️⃣ HERO ARENA SECTION
+- Student avatar
+- Current Level (from existing XP logic)
+- XP animated progress bar
+- Current streak (use existing attempt logic)
+- District / State / National rank (use current rank engine)
+- Rank change indicator (calculate difference from last exam)
+
+2️⃣ DAILY AI CHALLENGE CARD
+- Use existing AI/MIRA logic
+- Only redesign UI
+- Highlight as “Today’s Mission”
+- Show XP reward
+
+3️⃣ RIVAL CARD
+- Fetch closest rank student dynamically
+- Show point gap
+- “Battle Now” button (connect to existing exam logic)
+
+4️⃣ BATTLE MODE UI LAYER
+- 1v1 mode UI
+- League badge display
+- Matchmaking UI only
+- Use existing exam engine internally
+
+5️⃣ PERFORMANCE RADAR UI
+- Use existing performance data
+- Visual radar chart
+- No new logic
+
+6️⃣ BADGE SHOWCASE
+- Use existing achievement logic
+- Display recent badge
+- Show next badge progress
+
+7️⃣ RANK WALL PREVIEW
+- Top 5 district students
+- Highlight current user
+
+8️⃣ MIRA UI UPDATE
+- Keep same AI logic
+- Change UI styling to match dark arena theme
+- Add subtle motion
+
+--------------------------------------
+
+🎨 UI REQUIREMENTS:
+- Modern cards
+- Glassmorphism optional
+- Animated progress
+- Hover effects
+- Smooth transitions
+- Premium esports feeling
+
+--------------------------------------
+
+🚫 DO NOT:
+- Change business logic
+- Modify scoring algorithm
+- Alter ranking engine
+- Edit MIRA backend
+- Hardcode any leaderboard data
+
+--------------------------------------
+
+This must be production-ready.
+Component-based architecture.
+Clean and scalable.
+Category-based conditional rendering.

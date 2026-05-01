@@ -1,0 +1,128 @@
+We are redesigning the ENTIRE student panel experience for Class 1–5 students.
+
+CRITICAL:
+- Do NOT modify backend logic.
+- Do NOT change database schema.
+- Do NOT edit ranking, XP, exam or MIRA logic.
+- UI transformation only.
+- All data must remain dynamic.
+
+---------------------------------------
+
+OBJECTIVE:
+When a Class 1–5 student logs in, the entire portal must feel like a Little Champs Adventure World.
+
+It must NOT feel like a SaaS dashboard.
+It must NOT feel corporate.
+It must feel playful, safe, rewarding, and joyful.
+
+---------------------------------------
+
+GLOBAL DESIGN SYSTEM (APPLY EVERYWHERE):
+
+1. Background:
+   - Use soft pastel gradients.
+   - Add very subtle floating shapes (clouds, stars, blobs).
+   - No dark sections.
+
+2. Border Radius:
+   - 20–24px for all cards.
+   - Rounded pill buttons.
+
+3. Shadows:
+   - Soft floating shadows.
+   - Slight card elevation.
+
+4. Typography:
+   - Friendly rounded font style.
+   - Larger headings.
+   - Less dense text.
+
+5. Icons:
+   - Cartoon style icons.
+   - Colorful.
+   - Not outline-only minimal icons.
+
+---------------------------------------
+
+SIDEBAR TRANSFORMATION:
+
+- Make sidebar soft colored.
+- Use rounded highlight for active item.
+- Use playful menu names:
+   My World
+   Fun Events
+   My Missions
+   MIRA Buddy
+   Learning Zone
+   Parent Zone
+   My Stars
+   My Progress
+   Trophy Room
+
+- Add small emoji or icon beside each.
+
+---------------------------------------
+
+PROFILE AREA:
+
+- Bigger circular avatar.
+- Add colorful ring around avatar.
+- Show Level as:
+   "Explorer Lv.3"
+   "Star Hero"
+- Add animated star near level badge.
+
+---------------------------------------
+
+CARDS EVERYWHERE:
+
+- Use soft subject color themes.
+- Add small decorative sparkles in corner.
+- Replace formal language:
+   "Register Now" → "Join the Fun"
+   "View Results" → "See My Stars"
+   "Start Exam" → "Play Mission"
+
+---------------------------------------
+
+BUTTON STYLE:
+
+- Rounded pill shape.
+- High contrast text.
+- Slight bounce animation on hover.
+- Friendly CTA tone.
+
+---------------------------------------
+
+ANIMATION LAYER:
+
+- Confetti animation on level up.
+- Star pop animation on badge unlock.
+- Slight hover lift for cards.
+- Smooth page transitions.
+
+---------------------------------------
+
+MIRA UI:
+
+- Rename to "MIRA Buddy"
+- Use friendly chat bubble style.
+- Soft gradient background.
+- Emoji support.
+- Friendly tone styling.
+
+---------------------------------------
+
+FINAL RESULT:
+
+Entire portal must feel:
+Warm.
+Happy.
+Playful.
+Encouraging.
+Reward-driven.
+
+When a child logs in, it must feel like entering their own learning game world.
+Not an exam management system.
+Production ready.

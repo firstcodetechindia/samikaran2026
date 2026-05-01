@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samikaran Olympiad - Platform Features Presentation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+        
+        /* Print Controls */
+        .print-controls {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 12px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+        }
+        
+        .print-btn {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #8A2BE2 0%, #FF2FBF 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+        }
+        
+        .print-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(138, 43, 226, 0.4);
+        }
+        
+        .nav-btn {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #dc2626 0%, #f97316 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+        }
+        
+        .back-btn {
+            padding: 12px 20px;
+            background: white;
+            color: #8A2BE2;
+            border: 2px solid #8A2BE2;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        
+        .back-btn:hover {
+            background: #8A2BE2;
+            color: white;
+        }
+        
+        .version-badge {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+        }
+        
+        /* Page styles for print */
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            max-width: 900px;
+            margin: 0 auto 20px;
+            padding: 15mm 20mm;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #8A2BE2 0%, #FF2FBF 100%);
+            color: white;
+            min-height: 297mm;
+        }
+        
+        .logo {
+            font-size: 48px;
+            font-weight: 800;
+            letter-spacing: 4px;
+            margin-bottom: 8px;
+        }
+        
+        .logo-sub {
+            font-size: 28px;
+            font-weight: 300;
+            letter-spacing: 8px;
+            margin-bottom: 60px;
+        }
+        
+        .cover h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .cover p {
+            font-size: 20px;
+            opacity: 0.9;
+            max-width: 600px;
+        }
+        
+        .cover-footer {
+            position: absolute;
+            bottom: 40px;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+        
+        .section-header {
+            background: linear-gradient(135deg, #8A2BE2 0%, #FF2FBF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #8A2BE2;
+        }
+        
+        .section-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #8A2BE2 0%, #FF2FBF 100%);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-size: 20px;
+            font-weight: 700;
+            margin-right: 12px;
+            -webkit-text-fill-color: white;
+        }
+        
+        .feature-card {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 14px;
+            border-left: 4px solid #8A2BE2;
+        }
+        
+        .feature-card h3 {
+            color: #8A2BE2;
+            font-size: 15px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .feature-card p {
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+        
+        .feature-card ul {
+            margin-top: 8px;
+            padding-left: 18px;
+        }
+        
+        .feature-card li {
+            color: #64748b;
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+        }
+        
+        .stat-box {
+            background: linear-gradient(135deg, #8A2BE2 0%, #FF2FBF 100%);
+            color: white;
+            padding: 16px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-box .number {
+            font-size: 32px;
+            font-weight: 800;
+        }
+        
+        .stat-box .label {
+            font-size: 11px;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.1) 0%, rgba(255, 47, 191, 0.1) 100%);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            border-radius: 10px;
+            padding: 14px;
+            margin: 14px 0;
+        }
+        
+        .highlight-box h4 {
+            color: #8A2BE2;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+        
+        .highlight-box p {
+            font-size: 12px;
+            color: #475569;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: linear-gradient(135deg, #8A2BE2 0%, #FF2FBF 100%);
+            color: white;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-right: 6px;
+            margin-bottom: 6px;
+        }
+        
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .tech-item {
+            padding: 6px 12px;
+            background: #f1f5f9;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #475569;
+        }
+        
+        .page-number {
+            position: absolute;
+            bottom: 15mm;
+            right: 20mm;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+        
+        .toc-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px dashed #e2e8f0;
+            font-size: 13px;
+        }
+        
+        .toc-item:last-child {
+            border-bottom: none;
+        }
+        
+        .toc-title {
+            font-weight: 500;
+            color: #334155;
+        }
+        
+        .toc-page {
+            color: #8A2BE2;
+            font-weight: 600;
+        }
+        
+        .user-type-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 14px;
+            text-align: center;
+        }
+        
+        .user-type-card .avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #8A2BE2 0%, #FF2FBF 100%);
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+            font-weight: 700;
+        }
+        
+        .user-type-card h4 {
+            color: #1e293b;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+        
+        .user-type-card p {
+            font-size: 11px;
+            color: #64748b;
+        }
+        
+        .workflow-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        
+        .step-number {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #8A2BE2 0%, #FF2FBF 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        
+        .step-content h4 {
+            color: #1e293b;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+        
+        .step-content p {
+            font-size: 12px;
+            color: #64748b;
+        }
+        
+        .language-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+        
+        .lang-chip {
+            background: #f1f5f9;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            text-align: center;
+            color: #475569;
+        }
+        
+        /* Print styles - Landscape PPT */
+        @media print {
+            @page { size: A4 landscape; margin: 8mm; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            .print-controls { display: none !important; }
+            html, body { background: white !important; margin: 0 !important; }
+            .page {
+                width: 100% !important;
+                height: 190mm !important;
+                min-height: 190mm !important;
+                max-height: 190mm !important;
+                padding: 12mm 15mm !important;
+                margin: 0 !important;
+                box-shadow: none !important;
+                page-break-after: always !important;
+                page-break-inside: avoid !important;
+                break-after: page !important;
+                overflow: hidden !important;
+                box-sizing: border-box !important;
+                background: linear-gradient(135deg, #fdfbfb 0%, #f0f4ff 50%, #f5f0ff 100%) !important;
+            }
+            .page:last-child { page-break-after: auto !important; }
+            .cover {
+                height: 190mm !important;
+                min-height: 190mm !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: center !important;
+                align-items: center !important;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%) !important;
+            }
+            .feature-card, .highlight-box, .user-type-card, .stat-box { break-inside: avoid; padding: 10px !important; }
+            .grid-2, .grid-3 { break-inside: avoid; gap: 12px !important; }
+            h1 { font-size: 28pt !important; }
+            h2 { font-size: 18pt !important; margin-bottom: 12px !important; }
+            h3 { font-size: 12pt !important; }
+            p, li { font-size: 10pt !important; }
+            .logo-watermark { opacity: 0.3 !important; font-size: 7pt !important; bottom: 3mm !important; }
+            .logo-watermark svg { width: 10px !important; height: 10px !important; opacity: 0.3 !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="print-controls">
+        <span id="version-badge" class="version-badge">v2.1</span>
+        <a href="/sysctrl/console#docs" class="back-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Dashboard
+        </a>
+        <a href="/security-presentation.html" class="nav-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            Security Docs
+        </a>
+        <button class="print-btn" onclick="window.print()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+                <rect x="6" y="14" width="12" height="8"/>
+            </svg>
+            Print / PDF
+        </button>
+    </div>
+    
+    <script>
+        (async function loadVersion() {
+            try {
+                const res = await fetch('/docs-versions.json?t=' + Date.now());
+                const data = await res.json();
+                const doc = data.documents['features-presentation'];
+                if (doc) {
+                    document.getElementById('version-badge').textContent = 'v' + doc.version;
+                }
+            } catch(e) { console.log('Version load failed:', e); }
+        })();
+    </script>
+
+    <!-- Page 1: Cover -->
+    <div class="page cover">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 20px;">
+            <svg viewBox="0 0 100 100" width="70" height="70" style="filter: drop-shadow(0 4px 12px rgba(147,51,234,0.4));">
+                <defs>
+                    <linearGradient id="fLogoUp" x1="0%" y1="100%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#9333EA"/>
+                        <stop offset="50%" stop-color="#C026D3"/>
+                        <stop offset="100%" stop-color="#EC4899"/>
+                    </linearGradient>
+                    <linearGradient id="fLogoDown" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#A855F7"/>
+                        <stop offset="100%" stop-color="#F472B6"/>
+                    </linearGradient>
+                </defs>
+                <polygon points="50,12 85,72 15,72" fill="rgba(0,0,0,0.12)" transform="translate(2,4)"/>
+                <polygon points="50,88 15,28 85,28" fill="rgba(0,0,0,0.1)" transform="translate(2,4)"/>
+                <polygon points="50,10 88,75 12,75" fill="url(#fLogoUp)"/>
+                <polygon points="50,10 69,42.5 31,42.5" fill="rgba(255,255,255,0.18)"/>
+                <polygon points="50,90 12,25 88,25" fill="url(#fLogoDown)" opacity="0.88"/>
+                <polygon points="50,90 31,57.5 69,57.5" fill="rgba(255,255,255,0.12)"/>
+                <rect x="32" y="44" width="36" height="5" rx="2.5" fill="white"/>
+                <rect x="32" y="53" width="36" height="5" rx="2.5" fill="white"/>
+                <rect x="32" y="44" width="36" height="2" rx="1" fill="rgba(255,255,255,0.5)"/>
+                <rect x="32" y="53" width="36" height="2" rx="1" fill="rgba(255,255,255,0.5)"/>
+            </svg>
+            <div style="text-align: left;">
+                <div style="font-size: 2.5rem; font-weight: 800; letter-spacing: 3px; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">SAMIKARAN<span style="color: #FFD700;">.</span></div>
+                <div style="font-size: 1.2rem; letter-spacing: 8px; font-weight: 600; text-transform: uppercase; color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">OLYMPIAD</div>
+            </div>
+        </div>
+        <h1>Platform Features</h1>
+        <p><span style="color: white;">AI-Powered</span> <span style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700;">Samikaran Olympiad</span> - Complete Feature Documentation</p>
+        <div class="cover-footer">Complete Feature Documentation | Version 2.0 | January 2026</div>
+    </div>
+
+    <!-- Page 2: Table of Contents -->
+    <div class="page">
+        <h2 class="section-header">Table of Contents</h2>
+        
+        <div class="toc-item"><span class="toc-title">1. Platform Overview</span><span class="toc-page">3</span></div>
+        <div class="toc-item"><span class="toc-title">2. User Types & Access Control</span><span class="toc-page">4</span></div>
+        <div class="toc-item"><span class="toc-title">3. AI-Powered Features</span><span class="toc-page">5</span></div>
+        <div class="toc-item"><span class="toc-title">4. Exam Management System</span><span class="toc-page">6</span></div>
+        <div class="toc-item"><span class="toc-title">5. Question Types & Generation</span><span class="toc-page">7</span></div>
+        <div class="toc-item"><span class="toc-title">6. AI Proctoring System</span><span class="toc-page">8</span></div>
+        <div class="toc-item"><span class="toc-title">7. Multi-Language Support</span><span class="toc-page">9</span></div>
+        <div class="toc-item"><span class="toc-title">8. Content Management System</span><span class="toc-page">10</span></div>
+        <div class="toc-item"><span class="toc-title">9. Blog & Media Library</span><span class="toc-page">11</span></div>
+        <div class="toc-item"><span class="toc-title">10. Payment & Tax System</span><span class="toc-page">12</span></div>
+        <div class="toc-item"><span class="toc-title">11. Email Marketing & Automation</span><span class="toc-page">13</span></div>
+        <div class="toc-item"><span class="toc-title">12. AI Chatbot Platform</span><span class="toc-page">14</span></div>
+        <div class="toc-item"><span class="toc-title">13. TARA AI Voice Assistant</span><span class="toc-page">15</span></div>
+        <div class="toc-item"><span class="toc-title">14. SEO & Analytics</span><span class="toc-page">16</span></div>
+        <div class="toc-item"><span class="toc-title">15. Student Performance Analytics</span><span class="toc-page">17</span></div>
+        <div class="toc-item"><span class="toc-title">16. Security Features</span><span class="toc-page">18</span></div>
+        <div class="toc-item"><span class="toc-title">17. Technology Stack</span><span class="toc-page">19</span></div>
+        
+        <div class="page-number">2</div>
+    </div>
+
+    <!-- Page 3: Platform Overview -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">1</span>Platform Overview</h2>
+        
+        <p style="font-size: 14px; color: #475569; margin-bottom: 20px;">
+            The Global Olympiad Operating System is a comprehensive, AI-powered online examination platform designed for worldwide olympiad exams. It provides secure, proctored online examinations with real-time analytics and multi-tenant capabilities.
+        </p>
+        
+        <div class="grid-3" style="margin-bottom: 20px;">
+            <div class="stat-box">
+                <div class="number">12+</div>
+                <div class="label">Indian Languages</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">9+</div>
+                <div class="label">Question Types</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">5</div>
+                <div class="label">User Types</div>
+            </div>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Core Capabilities</h3>
+            <div class="grid-2">
+                <ul>
+                    <li>AI-powered question generation</li>
+                    <li>Real-time AI proctoring</li>
+                    <li>Multi-language voice warnings</li>
+                    <li>Secure browser lockdown</li>
+                    <li>Automated scoring & analytics</li>
+                </ul>
+                <ul>
+                    <li>School & group management</li>
+                    <li>Payment gateway integration</li>
+                    <li>CMS & blog system</li>
+                    <li>Email marketing automation</li>
+                    <li>AI chatbot support</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="highlight-box">
+            <h4>Key Differentiators</h4>
+            <p>Unlike traditional exam platforms, Samikaran Olympiad combines AI-driven question generation, real-time face detection proctoring with multi-language voice warnings, and a comprehensive content management system - all in one integrated platform.</p>
+        </div>
+        
+        <div class="page-number">3</div>
+    </div>
+
+    <!-- Page 4: User Types -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">2</span>User Types & Access Control</h2>
+        
+        <div class="grid-3" style="margin-bottom: 16px;">
+            <div class="user-type-card">
+                <div class="avatar">S</div>
+                <h4>Super Admin</h4>
+                <p>Full platform control, system settings, all dashboards</p>
+            </div>
+            <div class="user-type-card">
+                <div class="avatar">A</div>
+                <h4>Admin</h4>
+                <p>Exam management, question creation, oversight</p>
+            </div>
+            <div class="user-type-card">
+                <div class="avatar">T</div>
+                <h4>Teacher</h4>
+                <p>Question creation, monitoring, analysis</p>
+            </div>
+        </div>
+        
+        <div class="grid-2" style="margin-bottom: 16px;">
+            <div class="user-type-card">
+                <div class="avatar">SC</div>
+                <h4>School Coordinator</h4>
+                <p>Manage school registrations, bulk uploads, analytics</p>
+            </div>
+            <div class="user-type-card">
+                <div class="avatar">ST</div>
+                <h4>Student</h4>
+                <p>Take exams, view results, practice materials</p>
+            </div>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Access Control Features</h3>
+            <ul>
+                <li><strong>Role-based permissions:</strong> Each user type has specific access to features</li>
+                <li><strong>Screen lock protection:</strong> PIN-based screen lock for admin dashboards (Ctrl+L)</li>
+                <li><strong>Session management:</strong> Secure session handling with automatic timeout</li>
+                <li><strong>Route persistence:</strong> Users return to their last visited page after refresh</li>
+            </ul>
+        </div>
+        
+        <div class="highlight-box">
+            <h4>Multi-Tenant Architecture</h4>
+            <p>Schools and groups can manage their own students independently while sharing the same platform infrastructure.</p>
+        </div>
+        
+        <div class="page-number">4</div>
+    </div>
+
+    <!-- Page 5: AI Features -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">3</span>AI-Powered Features</h2>
+        
+        <div class="feature-card">
+            <h3>AI Question Generation</h3>
+            <p>Generate high-quality olympiad questions using advanced AI:</p>
+            <ul>
+                <li>Subject-specific question generation (Math, Science, English)</li>
+                <li>Difficulty level control (Easy, Medium, Hard)</li>
+                <li>Grade/class appropriate content</li>
+                <li>Automatic answer key generation</li>
+            </ul>
+        </div>
+        
+        <div class="feature-card">
+            <h3>AI Proctoring System</h3>
+            <p>Real-time exam monitoring with computer vision:</p>
+            <ul>
+                <li>Face detection and verification</li>
+                <li>Multiple face detection alerts</li>
+                <li>Eye gaze tracking</li>
+                <li>AI trust score calculation (0-100%)</li>
+            </ul>
+        </div>
+        
+        <div class="feature-card">
+            <h3>AI Chatbot Support</h3>
+            <p>Intelligent customer support on public pages:</p>
+            <ul>
+                <li>Multi-agent configuration with custom personalities</li>
+                <li>Automatic language detection and response</li>
+                <li>Knowledge base integration</li>
+                <li>Voice input/output support</li>
+            </ul>
+        </div>
+        
+        <div class="page-number">5</div>
+    </div>
+
+    <!-- Page 6: Exam Management -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">4</span>Exam Management System</h2>
+        
+        <div class="feature-card">
+            <h3>Olympiad Configuration</h3>
+            <div class="grid-2">
+                <ul>
+                    <li>Subject selection</li>
+                    <li>Grade/Class range</li>
+                    <li>Language selection</li>
+                    <li>Maximum questions</li>
+                    <li>Duration settings</li>
+                </ul>
+                <ul>
+                    <li>Negative marking rules</li>
+                    <li>Total marks configuration</li>
+                    <li>Participation fee</li>
+                    <li>Start/End scheduling</li>
+                    <li>Proctoring toggle</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Exam Workflow</h3>
+            <div class="workflow-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>Registration</h4>
+                    <p>Students register, pay fees, receive confirmation</p>
+                </div>
+            </div>
+            <div class="workflow-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>Pre-Exam Check</h4>
+                    <p>Camera verification, browser compatibility</p>
+                </div>
+            </div>
+            <div class="workflow-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>Secure Exam</h4>
+                    <p>Randomized questions, AI proctoring, auto-save</p>
+                </div>
+            </div>
+            <div class="workflow-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h4>Results & Analytics</h4>
+                    <p>Automated scoring, detailed analytics</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="highlight-box">
+            <h4>Question & Answer Randomization</h4>
+            <p>Each student receives questions in a different order with randomized MCQ options using Fisher-Yates shuffle algorithm.</p>
+        </div>
+        
+        <div class="page-number">6</div>
+    </div>
+
+    <!-- Page 7: Question Types -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">5</span>Question Types & Generation</h2>
+        
+        <div class="grid-2">
+            <div class="feature-card">
+                <h3>MCQ (Single Answer)</h3>
+                <p>Traditional multiple choice with one correct answer. Options randomized.</p>
+            </div>
+            <div class="feature-card">
+                <h3>MCQ (Multiple Answers)</h3>
+                <p>Multiple choice allowing multiple correct answers. Partial marking.</p>
+            </div>
+            <div class="feature-card">
+                <h3>True/False</h3>
+                <p>Binary choice questions for quick factual assessment.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Numerical</h3>
+                <p>Exact number input with tolerance range.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Short Answer</h3>
+                <p>Brief text responses for definitions.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Long Descriptive</h3>
+                <p>Extended text for detailed explanations.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Case Study</h3>
+                <p>Scenario-based analytical questions.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Image/Audio Based</h3>
+                <p>Questions with media for visual/audio analysis.</p>
+            </div>
+        </div>
+        
+        <div class="highlight-box">
+            <h4>Rich Text Editor</h4>
+            <p>TipTap-based editor with formatting support including bold, italic, lists, tables, and equations.</p>
+        </div>
+        
+        <div class="page-number">7</div>
+    </div>
+
+    <!-- Page 8: Proctoring System -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">6</span>AI Proctoring System</h2>
+        
+        <div class="feature-card">
+            <h3>Real-Time Monitoring</h3>
+            <p>Continuous camera-based monitoring with 2-second intervals:</p>
+            <ul>
+                <li><strong>Face Detection:</strong> Verifies student presence</li>
+                <li><strong>Multiple Face Alert:</strong> Detects additional persons</li>
+                <li><strong>No Face Warning:</strong> Alerts when student leaves view</li>
+                <li><strong>Eye Gaze Tracking:</strong> Monitors screen focus</li>
+            </ul>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Trust Score System</h3>
+            <p>AI calculates trust score (0-100%) based on:</p>
+            <div class="grid-2">
+                <ul>
+                    <li>Face visibility percentage</li>
+                    <li>Eye contact duration</li>
+                    <li>Number of violations</li>
+                </ul>
+                <ul>
+                    <li>Tab switch attempts</li>
+                    <li>Browser focus events</li>
+                    <li>Overall behavior pattern</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Voice Warning System</h3>
+            <ul>
+                <li><strong>Voice Types:</strong> Young (18-22), Adult (25-35), Mature Female (40+)</li>
+                <li><strong>Pitch Control:</strong> Adjustable for natural-sounding warnings</li>
+                <li><strong>Auto Translation:</strong> English to regional languages</li>
+            </ul>
+        </div>
+        
+        <div class="highlight-box">
+            <h4>Browser Lockdown</h4>
+            <p>Full-screen mode, right-click disabled, copy-paste blocked, tab switching detection.</p>
+        </div>
+        
+        <div class="page-number">8</div>
+    </div>
+
+    <!-- Page 9: Multi-Language -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">7</span>Multi-Language Support</h2>
+        
+        <p style="margin-bottom: 16px; color: #475569; font-size: 13px;">
+            The platform supports 12 commonly spoken Indian languages for proctoring voice warnings.
+        </p>
+        
+        <div class="language-grid" style="margin-bottom: 20px;">
+            <div class="lang-chip">English</div>
+            <div class="lang-chip">Hindi</div>
+            <div class="lang-chip">Bengali</div>
+            <div class="lang-chip">Tamil</div>
+            <div class="lang-chip">Telugu</div>
+            <div class="lang-chip">Marathi</div>
+            <div class="lang-chip">Gujarati</div>
+            <div class="lang-chip">Kannada</div>
+            <div class="lang-chip">Malayalam</div>
+            <div class="lang-chip">Punjabi</div>
+            <div class="lang-chip">Odia</div>
+            <div class="lang-chip">Urdu</div>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Voice Configuration</h3>
+            <ul>
+                <li><strong>Voice Type Selection:</strong> Young, adult, or mature female voices</li>
+                <li><strong>Pitch Control:</strong> Fine-tune voice pitch for clarity</li>
+                <li><strong>Language Mode:</strong> English only, Hindi only, or exam-specific</li>
+                <li><strong>Pre-generated Audio:</strong> Database-stored for instant playback</li>
+            </ul>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Translation System</h3>
+            <ul>
+                <li><strong>Base Language:</strong> All warnings written in English</li>
+                <li><strong>Auto Translation:</strong> AI-powered automatic translation</li>
+                <li><strong>Manual Override:</strong> Admin can edit individual translations</li>
+                <li><strong>Batch Translation:</strong> Translate all warnings at once</li>
+            </ul>
+        </div>
+        
+        <div class="page-number">9</div>
+    </div>
+
+    <!-- Page 10: CMS -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">8</span>Content Management System</h2>
+        
+        <div class="feature-card">
+            <h3>Page Builder</h3>
+            <p>Drag-and-drop interface for creating website pages:</p>
+            <ul>
+                <li>Hero sections with customizable backgrounds</li>
+                <li>Feature grids and comparison tables</li>
+                <li>Testimonials and team member sections</li>
+                <li>FAQ accordions and contact forms</li>
+                <li>Custom HTML and embed blocks</li>
+            </ul>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Page Types</h3>
+            <div class="tech-stack">
+                <span class="badge">Landing Pages</span>
+                <span class="badge">About Pages</span>
+                <span class="badge">Contact Pages</span>
+                <span class="badge">Policy Pages</span>
+                <span class="badge">FAQ Pages</span>
+                <span class="badge">Custom Pages</span>
+            </div>
+        </div>
+        
+        <div class="feature-card">
+            <h3>SEO Features</h3>
+            <ul>
+                <li>Custom meta titles and descriptions</li>
+                <li>Open Graph tags for social sharing</li>
+                <li>Canonical URL management</li>
+                <li>Sitemap generation</li>
+                <li>Robots.txt configuration</li>
+            </ul>
+        </div>
+        
+        <div class="page-number">10</div>
+    </div>
+
+    <!-- Page 11: Blog & Media -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">9</span>Blog & Media Library</h2>
+        
+        <div class="feature-card">
+            <h3>Blog System</h3>
+            <div class="grid-2">
+                <ul>
+                    <li>Rich text editor</li>
+                    <li>Categories and tags</li>
+                    <li>Featured images</li>
+                    <li>Draft/Published states</li>
+                    <li>Scheduled publishing</li>
+                </ul>
+                <ul>
+                    <li>Author management</li>
+                    <li>Reading time calculation</li>
+                    <li>View count tracking</li>
+                    <li>Comment system</li>
+                    <li>AI content generation</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Media Library</h3>
+            <ul>
+                <li>Image upload and management</li>
+                <li>File organization with folders</li>
+                <li>Image optimization</li>
+                <li>Alt text management</li>
+                <li>Usage tracking across content</li>
+            </ul>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Blog SEO</h3>
+            <ul>
+                <li>Custom meta tags per post</li>
+                <li>Open Graph and Twitter cards</li>
+                <li>Canonical URLs and structured data</li>
+            </ul>
+        </div>
+        
+        <div class="page-number">11</div>
+    </div>
+
+    <!-- Page 12: Payment System -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">10</span>Payment & Tax System</h2>
+        
+        <div class="feature-card">
+            <h3>Payment Gateways</h3>
+            <div class="grid-2">
+                <div>
+                    <h4 style="color: #8A2BE2; margin-bottom: 8px; font-size: 14px;">Razorpay</h4>
+                    <ul>
+                        <li>UPI payments</li>
+                        <li>Credit/Debit cards</li>
+                        <li>Net banking & Wallets</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="color: #8A2BE2; margin-bottom: 8px; font-size: 14px;">Stripe</h4>
+                    <ul>
+                        <li>International cards</li>
+                        <li>Apple Pay / Google Pay</li>
+                        <li>Bank transfers & 3D Secure</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Tax System</h3>
+            <ul>
+                <li><strong>GST for India:</strong> Automatic calculation based on state</li>
+                <li><strong>Tax Categories:</strong> Different rates for product types</li>
+                <li><strong>Invoice Generation:</strong> Automatic PDF with tax breakdown</li>
+                <li><strong>Tax Reports:</strong> Monthly and quarterly summaries</li>
+            </ul>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Financial Dashboard</h3>
+            <ul>
+                <li>Revenue tracking and analytics</li>
+                <li>Payment history and refund management</li>
+                <li>Financial reports export</li>
+            </ul>
+        </div>
+        
+        <div class="page-number">12</div>
+    </div>
+
+    <!-- Page 13: Email Marketing -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">11</span>Email Marketing & Automation</h2>
+        
+        <div class="feature-card">
+            <h3>Campaign Management</h3>
+            <ul>
+                <li>Email template builder</li>
+                <li>Audience segmentation</li>
+                <li>A/B testing</li>
+                <li>Send time optimization</li>
+                <li>Campaign analytics</li>
+            </ul>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Automation Workflows</h3>
+            <ul>
+                <li><strong>Welcome Series:</strong> Automated onboarding emails</li>
+                <li><strong>Exam Reminders:</strong> Scheduled notifications</li>
+                <li><strong>Result Notifications:</strong> Automatic result delivery</li>
+                <li><strong>Re-engagement:</strong> Win-back inactive users</li>
+            </ul>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Email Delivery</h3>
+            <ul>
+                <li>Enterprise-grade email delivery</li>
+                <li>High deliverability rates</li>
+                <li>Multiple provider support</li>
+            </ul>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Analytics</h3>
+            <ul>
+                <li>Open rate and click-through tracking</li>
+                <li>Bounce rate and unsubscribe monitoring</li>
+            </ul>
+        </div>
+        
+        <div class="page-number">13</div>
+    </div>
+
+    <!-- Page 14: AI Chatbot -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">12</span>AI Chatbot Platform</h2>
+        
+        <div class="feature-card">
+            <h3>Agent Management</h3>
+            <ul>
+                <li>Custom names and avatars</li>
+                <li>Gender and tone settings</li>
+                <li>System prompt customization</li>
+                <li>Confidence threshold configuration</li>
+                <li>Language support selection</li>
+            </ul>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Distribution Methods</h3>
+            <div class="tech-stack">
+                <span class="badge">First Active</span>
+                <span class="badge">Round Robin</span>
+                <span class="badge">Language Based</span>
+                <span class="badge">Time Based</span>
+                <span class="badge">Random</span>
+            </div>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Visual Flow Builder</h3>
+            <ul>
+                <li>Message nodes and Options menu</li>
+                <li>Data request and Condition nodes</li>
+                <li>AI response and End chat nodes</li>
+            </ul>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Voice Features</h3>
+            <ul>
+                <li>Speech-to-text input</li>
+                <li>Text-to-speech responses</li>
+                <li>Configurable voice gender, accent, speed</li>
+            </ul>
+        </div>
+        
+        <div class="page-number">14</div>
+    </div>
+
+    <!-- Page 15: TARA AI Voice Assistant -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">13</span>TARA AI Voice Assistant</h2>
+        
+        <div class="highlight-box" style="background: linear-gradient(135deg, #fdf4ff 0%, #fae8ff 100%); border-left: 4px solid #a855f7;">
+            <strong style="color: #a855f7;">Meet TARA (Talent Assessment & Research Assistant)</strong><br>
+            <span style="color: #7c3aed;">AI-POWERED LEARNING COMPANION</span> - Personalized AI tutor with voice interaction for students
+        </div>
+        
+        <div class="feature-card">
+            <h3>Voice Interaction</h3>
+            <ul>
+                <li><strong>Speech-to-Text:</strong> Voice input with real-time transcription</li>
+                <li><strong>Text-to-Speech:</strong> Natural voice responses with premium voices</li>
+                <li><strong>Multi-Language:</strong> Hindi and English voice support</li>
+                <li><strong>Voice Speed Control:</strong> Adjustable speaking rate</li>
+            </ul>
+        </div>
+        
+        <div class="feature-card">
+            <h3>AI-Powered Features</h3>
+            <ul>
+                <li><strong>Advanced AI:</strong> Latest AI models for intelligent responses</li>
+                <li><strong>Context-Aware:</strong> Remembers conversation history</li>
+                <li><strong>Subject Expert:</strong> Specialized in olympiad subjects</li>
+                <li><strong>Related Questions:</strong> Auto-suggests follow-up queries</li>
+            </ul>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Student Experience</h3>
+            <div class="grid-2">
+                <ul>
+                    <li>Animated avatar with expressions</li>
+                    <li>Conversation history</li>
+                    <li>Voice language preference</li>
+                    <li>Transcript toggle option</li>
+                </ul>
+                <ul>
+                    <li>Chat token balance tracking</li>
+                    <li>AI library access</li>
+                    <li>Quick question suggestions</li>
+                    <li>Mobile-friendly interface</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="page-number">15</div>
+    </div>
+
+    <!-- Page 16: SEO & Analytics -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">14</span>SEO & Analytics</h2>
+        
+        <div class="feature-card">
+            <h3>SEO Features</h3>
+            <ul>
+                <li><strong>Dynamic Sitemaps:</strong> Auto-generated XML sitemaps</li>
+                <li><strong>Robots.txt:</strong> Configurable crawl directives</li>
+                <li><strong>Meta Tags:</strong> Per-page meta title and description</li>
+                <li><strong>Structured Data:</strong> JSON-LD for rich snippets</li>
+            </ul>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Analytics Dashboard</h3>
+            <ul>
+                <li>Real-time visitor tracking</li>
+                <li>Page view statistics</li>
+                <li>User journey analysis</li>
+                <li>Conversion and geographic tracking</li>
+            </ul>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Exam Analytics</h3>
+            <ul>
+                <li>Question-wise performance analysis</li>
+                <li>Difficulty distribution</li>
+                <li>Time spent per question</li>
+                <li>Score distribution charts</li>
+            </ul>
+        </div>
+        
+        <div class="page-number">16</div>
+    </div>
+
+    <!-- Page 17: Student Performance Analytics -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">15</span>Student Performance Analytics</h2>
+        
+        <div class="highlight-box" style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-left: 4px solid #22c55e;">
+            <strong style="color: #22c55e;">NEW FEATURE</strong> - World-class analytics system for students, parents, schools, and groups
+        </div>
+        
+        <div class="feature-card">
+            <h3>Performance Overview</h3>
+            <div class="grid-2">
+                <ul>
+                    <li>Overall performance snapshot</li>
+                    <li>Total olympiads attempted</li>
+                    <li>Average percentage & accuracy</li>
+                    <li>Best & worst performance tracking</li>
+                </ul>
+                <ul>
+                    <li>City, state, country rankings</li>
+                    <li>Percentile analysis</li>
+                    <li>Certificates earned</li>
+                    <li>Improvement trend indicators</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Subject & Topic Analysis</h3>
+            <ul>
+                <li><strong>Subject-wise breakdown:</strong> Performance radar charts across all subjects</li>
+                <li><strong>Topic-wise analysis:</strong> Detailed insights into strong and weak topics</li>
+                <li><strong>Critical weak areas:</strong> Identification of areas needing immediate attention</li>
+                <li><strong>Strength areas:</strong> Recognition of student's best performing topics</li>
+            </ul>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Trend Visualization</h3>
+            <ul>
+                <li>Performance timeline graphs with area charts</li>
+                <li>Accuracy trends over multiple olympiads</li>
+                <li>Improvement score calculation</li>
+                <li>Historical comparison with previous reports</li>
+            </ul>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Smart Insights & Suggestions</h3>
+            <div class="grid-2">
+                <ul>
+                    <li>AI-powered performance insights</li>
+                    <li>Subject-specific improvement tips</li>
+                    <li>Topic-focused study suggestions</li>
+                </ul>
+                <ul>
+                    <li>Behavioral recommendations</li>
+                    <li>Personalized study plans</li>
+                    <li>Report generation history</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Multi-Panel Access</h3>
+            <div class="tech-stack">
+                <span class="badge">Student Dashboard</span>
+                <span class="badge">School Dashboard</span>
+                <span class="badge">Group Dashboard</span>
+            </div>
+            <p style="margin-top: 8px; font-size: 13px; color: #64748b;">Schools and groups can view detailed analytics for all associated students through the Performance button.</p>
+        </div>
+        
+        <div class="page-number">17</div>
+    </div>
+
+    <!-- Page 18: Security -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">16</span>Security Features</h2>
+        
+        <div class="feature-card">
+            <h3>Authentication & Authorization</h3>
+            <ul>
+                <li>OpenID Connect Authentication</li>
+                <li>Role-based access control (RBAC)</li>
+                <li>Session management with PostgreSQL</li>
+                <li>Screen lock with PIN protection</li>
+            </ul>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Exam Security</h3>
+            <ul>
+                <li>AI proctoring with face detection</li>
+                <li>Browser lockdown mode</li>
+                <li>Question and answer randomization</li>
+                <li>Copy-paste prevention and tab detection</li>
+            </ul>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Data Protection</h3>
+            <ul>
+                <li>PostgreSQL with encrypted connections</li>
+                <li>Environment variable encryption</li>
+                <li>Secure API endpoints with Zod validation</li>
+            </ul>
+        </div>
+        
+        <div class="highlight-box">
+            <h4>For detailed security documentation:</h4>
+            <a href="/security-presentation.html" class="nav-btn" style="display: inline-block; margin-top: 8px; text-decoration: none;">View Security Presentation</a>
+        </div>
+        
+        <div class="page-number">18</div>
+    </div>
+
+    <!-- Page 19: Technology Stack -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">17</span>Technology Stack</h2>
+        
+        <div class="feature-card">
+            <h3>Frontend</h3>
+            <div class="tech-stack">
+                <span class="tech-item">React 18</span>
+                <span class="tech-item">TypeScript</span>
+                <span class="tech-item">Vite</span>
+                <span class="tech-item">Tailwind CSS</span>
+                <span class="tech-item">shadcn/ui</span>
+                <span class="tech-item">Framer Motion</span>
+                <span class="tech-item">TanStack Query</span>
+                <span class="tech-item">Recharts</span>
+            </div>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Backend</h3>
+            <div class="tech-stack">
+                <span class="tech-item">Express.js</span>
+                <span class="tech-item">TypeScript</span>
+                <span class="tech-item">PostgreSQL</span>
+                <span class="tech-item">Drizzle ORM</span>
+                <span class="tech-item">Passport.js</span>
+                <span class="tech-item">Zod</span>
+            </div>
+        </div>
+        
+        <div class="feature-card">
+            <h3>AI & ML Services</h3>
+            <div class="tech-stack">
+                <span class="tech-item">Advanced LLM</span>
+                <span class="tech-item">Python FastAPI</span>
+                <span class="tech-item">Computer Vision</span>
+                <span class="tech-item">Face Detection</span>
+                <span class="tech-item">Speech API</span>
+            </div>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Infrastructure</h3>
+            <div class="tech-stack">
+                <span class="tech-item">Cloud Platform</span>
+                <span class="tech-item">Neon PostgreSQL</span>
+                <span class="tech-item">Object Storage</span>
+            </div>
+        </div>
+        
+        <div class="highlight-box" style="text-align: center; margin-top: 20px;">
+            <h4 style="font-size: 18px; margin-bottom: 10px;">Thank You</h4>
+            <p>For more information, visit the Samikaran Olympiad platform.</p>
+            <div style="margin-top: 12px;">
+                <span class="badge" style="font-size: 12px; padding: 6px 16px;">Version 2.1 | January 2026</span>
+            </div>
+        </div>
+        
+        <div class="page-number">19</div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,119 @@
+IMPORTANT PERFORMANCE ISSUE:
+My PWA is SLOW TO OPEN and DOES NOT FEEL like a native mobile application.
+This is NOT acceptable.
+
+I want you to STOP adding features and FIRST FIX PERFORMANCE, STARTUP SPEED, and APP OPEN EXPERIENCE.
+
+You must RESEARCH and APPLY best practices used by FAST PWAs and native-like apps.
+
+================================================
+CORE GOAL (NON-NEGOTIABLE)
+================================================
+- App should open INSTANTLY (like a mobile app)
+- First screen should appear under 1 second on normal network
+- No blank screen
+- No white flash
+- No heavy JS blocking on startup
+- Smooth, app-like launch experience
+
+================================================
+ROOT CAUSES YOU MUST FIX
+================================================
+You MUST assume current slowness is due to:
+- Heavy JavaScript bundle loading at startup
+- Too much logic running on initial render
+- Service worker misconfiguration
+- No proper app shell caching
+- Large Tailwind/CSS bundle
+- Unnecessary API calls on app open
+
+================================================
+MANDATORY OPTIMIZATION STRATEGY
+================================================
+
+1️⃣ APP SHELL FIRST (CRITICAL)
+- Implement TRUE App Shell architecture
+- Load UI shell (layout, navbar, splash) FIRST
+- Delay data fetching until after first paint
+- Show instant skeleton UI instead of waiting for data
+
+2️⃣ SPLIT JAVASCRIPT AGGRESSIVELY
+- Code split ALL routes
+- Lazy load:
+  - Dashboards
+  - Analytics
+  - Charts
+  - Heavy components
+- Home / first screen must be minimal JS
+
+3️⃣ BLOCK NOTHING ON STARTUP
+- NO API calls on app open
+- NO analytics init on first render
+- NO heavy state hydration on load
+- Defer everything non-critical
+
+4️⃣ SERVICE WORKER FIX (VERY IMPORTANT)
+- Cache app shell aggressively
+- Precache:
+  - index.html
+  - main CSS
+  - base JS
+- Use:
+  - Cache-first for UI
+  - Network-first for data
+- Avoid service worker revalidation delay on every load
+
+5️⃣ REMOVE TAILWIND BLOAT
+- Purge unused Tailwind classes properly
+- Ensure production build removes unused CSS
+- Avoid global utility overuse on first screen
+
+6️⃣ LAUNCH EXPERIENCE FIX
+- Show splash screen IMMEDIATELY (CSS only)
+- App shell loads behind splash
+- Hide splash as soon as shell is interactive
+- Never wait for data to hide splash
+
+7️⃣ NETWORK & API OPTIMIZATION
+- Delay all API calls
+- Batch requests
+- Use caching for user profile
+- Avoid refetch on every open
+
+8️⃣ MOBILE-FIRST PERFORMANCE
+- Test on slow mobile CPU
+- Reduce JS execution time
+- Avoid heavy animations on startup
+- Respect reduced motion
+
+================================================
+MEASURABLE PERFORMANCE TARGETS
+================================================
+You MUST optimize until:
+- First Contentful Paint < 1s
+- Time To Interactive < 2s
+- No render-blocking JS
+- Lighthouse Performance score HIGH
+- App opens like WhatsApp / Instagram PWA
+
+================================================
+WHAT NOT TO DO
+================================================
+- Do NOT add new UI
+- Do NOT add features
+- Do NOT add libraries
+- Do NOT blame network
+- Do NOT give explanations without fixing
+
+================================================
+FINAL EXPECTATION
+================================================
+After optimization:
+- App opens instantly
+- UI appears immediately
+- Feels like a real mobile app
+- No loading lag
+- No website feeling
+
+This task is ONLY about PERFORMANCE & STARTUP OPTIMIZATION.
+Treat this as a PRODUCTION-BLOCKING ISSUE and FIX IT FIRST.

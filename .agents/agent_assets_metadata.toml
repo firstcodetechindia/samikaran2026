@@ -1,0 +1,169 @@
+uploads = []
+
+[[generated]]
+id = "tLwA7jdQVZ5KPsyFfhvHm"
+uri = "file://client/src/assets/hero-students.png"
+type = "image"
+title = "Indian students celebrating achievement"
+
+[[generated]]
+id = "7q-hKrh3BjEvPcHjV6bi2"
+uri = "file://attached_assets/generated_images/samikaran_image1_who_we_are.png"
+type = "image"
+title = "samikaran olympiad who we are poster"
+
+[[generated]]
+id = "PPgeDovv69EkjuJpj41mk"
+uri = "file://attached_assets/generated_images/samikaran_image2_registration.png"
+type = "image"
+title = "samikaran olympiad registration opening soon poster"
+
+[[generated]]
+id = "Ijl3Hs1gHUV2ne32LpL6v"
+uri = "file://attached_assets/generated_images/samikaran_image3_ai_features.png"
+type = "image"
+title = "samikaran olympiad AI features poster"
+
+[[generated]]
+id = "PvIjPsPsuT3R5L_vfstQd"
+uri = "file://attached_assets/generated_images/samikaran_v2_image1_who_we_are.png"
+type = "image"
+title = "samikaran v2 who we are dark purple pink"
+
+[[generated]]
+id = "ThQzq0JpxIr_G-1N1ulOT"
+uri = "file://attached_assets/generated_images/samikaran_v2_image2_registration.png"
+type = "image"
+title = "samikaran v2 registration opening soon dark purple pink"
+
+[[generated]]
+id = "wOKQZopGCqShPK0B1Tdl5"
+uri = "file://attached_assets/generated_images/samikaran_v2_image3_ai_features.png"
+type = "image"
+title = "samikaran v2 AI features dark purple pink"
+
+[[generated]]
+id = "C80UaDmyPyokee5Lb55If"
+uri = "file://attached_assets/generated_images/samikaran_pro_image1.png"
+type = "image"
+title = "samikaran pro light science image1"
+
+[[generated]]
+id = "hlm5GbfieAfz98zhOH_7s"
+uri = "file://attached_assets/generated_images/samikaran_pro_image2.png"
+type = "image"
+title = "samikaran pro light science image2"
+
+[[generated]]
+id = "3TfOjWqMRA8oArp5CgffB"
+uri = "file://attached_assets/generated_images/samikaran_pro_image3.png"
+type = "image"
+title = "samikaran pro light science image3"
+
+[[generated]]
+id = "XiNf4J9j52qLKPrxwQLfC"
+uri = "file://attached_assets/generated_images/samikaran_final_image1.png"
+type = "image"
+title = "samikaran final professional image1"
+
+[[generated]]
+id = "hBDGZL42306w1hUDgNABs"
+uri = "file://attached_assets/generated_images/samikaran_final_image2.png"
+type = "image"
+title = "samikaran final professional image2"
+
+[[generated]]
+id = "4A7hBPZ_Gg_cUcpLyj-6v"
+uri = "file://attached_assets/generated_images/samikaran_final_image3.png"
+type = "image"
+title = "samikaran final professional image3"
+
+[[outputs]]
+id = "AXQlpkLlbA8Jax_oJN3cg"
+uri = "file://attached_assets/generated_images/samikaran_image1_who_we_are.png"
+type = "image"
+title = "Image 1 – Who We Are (Introducing Samikaran Olympiad 2026)"
+
+[[outputs]]
+id = "2NrkYxIOEQyCWKGA8jkL6"
+uri = "file://attached_assets/generated_images/samikaran_image2_registration.png"
+type = "image"
+title = "Image 2 – Registration Opening Soon (Science Olympiad 2026)"
+
+[[outputs]]
+id = "qn5U0tF_QP2h0MAG73hsO"
+uri = "file://attached_assets/generated_images/samikaran_image3_ai_features.png"
+type = "image"
+title = "Image 3 – AI-Enabled Olympiad Experience (Feature Highlights)"
+
+[[outputs]]
+id = "BjsOlqqVWro-kOG2o3XsJ"
+uri = "file://attached_assets/generated_images/samikaran_v2_image1_who_we_are.png"
+type = "image"
+title = "Image 1 – Who We Are (Brand Colors: Dark Navy + Purple + Pink)"
+
+[[outputs]]
+id = "1leAiGYAK2cyOH3zjEFvO"
+uri = "file://attached_assets/generated_images/samikaran_v2_image2_registration.png"
+type = "image"
+title = "Image 2 – Registrations Opening Soon (Brand Colors)"
+
+[[outputs]]
+id = "asCewGw09QA5YTyb_9xZ3"
+uri = "file://attached_assets/generated_images/samikaran_v2_image3_ai_features.png"
+type = "image"
+title = "Image 3 – AI-Enabled Olympiad Experience (Brand Colors)"
+
+[[outputs]]
+id = "IVMfHepgZA7on2vfRW4dn"
+uri = "file://attached_assets/generated_images/samikaran_pro_image1.png"
+type = "image"
+title = "Image 1 – Who We Are | Light Theme + Science BG"
+
+[[outputs]]
+id = "g2QXhOjpU368Hqz8M0rBR"
+uri = "file://attached_assets/generated_images/samikaran_pro_image2.png"
+type = "image"
+title = "Image 2 – Registrations Opening Soon | Light Theme + Science BG"
+
+[[outputs]]
+id = "-bUCqysazGAX5QbfSqgyO"
+uri = "file://attached_assets/generated_images/samikaran_pro_image3.png"
+type = "image"
+title = "Image 3 – AI Features | Light Theme + Science BG"
+
+[[outputs]]
+id = "PVyqn1n5qheZ_YxHv4iJx"
+uri = "file://attached_assets/generated_images/samikaran_final_image1.png"
+type = "image"
+title = "Image 1 – Who We Are | Where Minds Compete for Excellence"
+
+[[outputs]]
+id = "VLk82mZO-HTulf--5LWJt"
+uri = "file://attached_assets/generated_images/samikaran_final_image2.png"
+type = "image"
+title = "Image 2 – Science Olympiad 2026 | Registrations Open"
+
+[[outputs]]
+id = "AgbtW2-PAp3MX8j77iKDY"
+uri = "file://attached_assets/generated_images/samikaran_final_image3.png"
+type = "image"
+title = "Image 3 – AI Features | Meet TARA"
+
+[[outputs]]
+id = "bHoSGP2qLb3IJHtJcLBOL"
+uri = "file://attached_assets/generated_images/samikaran_brand_image1.png"
+type = "image"
+title = "Poster 1 – Samikaran Science Olympiad"
+
+[[outputs]]
+id = "6TXZo6s-ItYXXLYR1r4nc"
+uri = "file://attached_assets/generated_images/samikaran_brand_image2.png"
+type = "image"
+title = "Poster 2 – Registration Details"
+
+[[outputs]]
+id = "RaBo60cE7o9YyNwFE4MXr"
+uri = "file://attached_assets/generated_images/samikaran_brand_image3.png"
+type = "image"
+title = "Poster 3 – How It Works"

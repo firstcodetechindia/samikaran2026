@@ -1,0 +1,64 @@
+You are building a Referral & Discount System for an online Olympiad examination platform.
+
+GOAL:
+Encourage student referrals by providing discounts to both the referrer and the new student in a simple, scalable, and fraud-safe way.
+
+CORE RULES:
+1. Each user must have ONE permanent referral code.
+2. Referral code must NOT change or regenerate.
+3. A referral code can be used by multiple different users.
+4. A referral code can be used only ONCE per user.
+5. Self-referral is strictly prohibited.
+6. Referral discounts must be tracked per successful referral.
+
+DISCOUNT LOGIC:
+1. When a new student registers or pays using a referral code:
+   - The new student receives 10% discount on the current Olympiad fee.
+   - The referrer earns a 10% discount credit for their NEXT Olympiad only.
+2. Referrer discount should be stored as a credit and auto-applied on their next eligible Olympiad payment.
+3. Referrer discount should not be applied to the same Olympiad in which the referral occurred.
+4. One referral = one discount credit for the referrer.
+5. Optionally limit maximum referrals per Olympiad (e.g., 5).
+
+VALIDATION RULES:
+- Referral code must belong to an existing active user.
+- Referral code cannot be reused by the same user again.
+- Referral discount cannot stack with other referral discounts.
+- Referral discount must expire if not used in the next Olympiad cycle.
+
+DATA REQUIREMENTS:
+- Store referral codes uniquely per user.
+- Track who referred whom.
+- Track referral usage history.
+- Track pending and used discount credits.
+
+UI REQUIREMENTS:
+- Show referral code in user profile dashboard.
+- Provide “Copy Referral Code” button.
+- Show referral benefits clearly:
+  “Invite a friend and both get 10% OFF”
+- Show referral status:
+  - Total referrals
+  - Earned discounts
+  - Used / Pending discounts
+
+BACKEND REQUIREMENTS:
+- Generate referral code at user signup.
+- Validate referral code at registration/payment.
+- Apply discount during payment calculation.
+- Lock referral usage after successful payment.
+- Ensure concurrency safety (no double discount issue).
+
+TECH STACK ASSUMPTIONS:
+- Frontend: React (PWA)
+- Backend: Node.js + Express
+- Database: PostgreSQL
+- Auth: Session/JWT based
+
+OUTPUT EXPECTATION:
+- Database schema for referral system
+- API endpoints for referral validation & discount application
+- Business logic for applying discounts
+- Edge case handling (self-referral, repeat usage, abuse prevention)
+
+Build the system cleanly, modularly, and scalable for a multi-tenant Olympiad SaaS platform.

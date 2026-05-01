@@ -1,0 +1,164 @@
+You are building a complete enterprise-grade SUPPORT SYSTEM for a large multi-tenant SaaS platform (Online Olympiad + Exams + Payments + Users).
+
+Build this system as if it will be used by millions of users. This is NOT a demo.
+
+========================
+CORE OBJECTIVE
+========================
+Users should get instant AI support first.
+If AI cannot solve the issue OR user requests human help OR system confidence drops → chat must seamlessly hand over to a LIVE HUMAN SUPPORT AGENT who is currently FREE.
+Chat history must continue without reset.
+Super Admin must have full visibility and control.
+
+========================
+ROLES & PERMISSIONS
+========================
+1) SUPER ADMIN
+- Creates, edits, disables support agents
+- Generates agent USER ID & PASSWORD
+- Assigns agent role = Support Agent
+- Views ALL chats (AI + Human)
+- Sees real-time agent availability
+- Monitors response time, resolution time, chat quality
+- Can take over any live chat instantly
+- Can force transfer chat from one agent to another
+- Can blacklist abusive users
+- Can disable AI for specific users or globally
+
+2) SUPPORT AGENT (Human)
+- Logs in via secure dashboard
+- Sees only assigned/live chats
+- Has status: ONLINE / BUSY / OFFLINE
+- Receives chats automatically when free
+- Can view full AI chat history before joining
+- Can escalate to Super Admin
+- Can tag issue type (exam, payment, login, result, certificate, technical, other)
+- Can close chat with resolution summary
+
+3) END USER
+- Starts chat from website/app
+- Always interacts with AI first
+- Can request “Talk to Human”
+- Never sees internal transfers
+- Gets seamless experience
+
+========================
+AI CHATBOT BEHAVIOR
+========================
+- AI is the FIRST responder always
+- AI trained on:
+  - Platform FAQs
+  - Exam rules
+  - Payments & refunds
+  - Login issues
+  - Results & certificates
+  - Technical troubleshooting
+- AI tracks:
+  - Confidence score of its own answer
+  - User frustration level
+- AI HANDOVER CONDITIONS:
+  - User explicitly asks for human
+  - AI confidence < threshold
+  - Repeated unanswered questions
+  - Sensitive issues (payments, disputes)
+- AI must politely say:
+  “I’m connecting you with a support specialist now”
+- AI sends FULL CONTEXT to human agent (chat history + intent + issue tag)
+
+========================
+HUMAN AGENT ASSIGNMENT LOGIC
+========================
+- Maintain real-time agent pool
+- Only agents with status = ONLINE & not BUSY are eligible
+- Assign chat RANDOMLY among free agents (round-robin / weighted random)
+- Lock agent once chat is assigned
+- If agent disconnects → auto-reassign
+- Maintain SLA timers
+
+========================
+REAL-TIME CHAT SYSTEM
+========================
+- Use WebSockets (or Socket.IO)
+- Messages stored in DB instantly
+- Typing indicators
+- Read receipts
+- Online/offline detection
+- Works on mobile + desktop
+- Auto-reconnect on network drop
+
+========================
+CHAT CONTINUITY (VERY IMPORTANT)
+========================
+- Chat session ID must remain SAME
+- AI messages + human messages in same thread
+- User should NOT feel any reset
+- Agent sees:
+  - User profile
+  - Exam attempts
+  - Payments
+  - Previous tickets
+  - AI summary
+
+========================
+SUPPORT DASHBOARD (LOGIC ONLY)
+========================
+Super Admin Panel:
+- Live chat monitor (AI + human)
+- Agent availability board
+- Chat heatmap (peak hours)
+- AI vs Human resolution ratio
+- Average resolution time
+- Issue categories analytics
+- Export chat logs (CSV/PDF)
+- Flagged conversations
+
+Agent Panel:
+- Incoming chat queue
+- Active chats
+- Chat history
+- Quick replies
+- Internal notes (not visible to user)
+
+========================
+DATA MODELS (MINIMUM)
+========================
+- Users
+- SupportAgents
+- AgentSessions
+- ChatSessions
+- ChatMessages
+- AIHandoverLogs
+- AgentPerformanceMetrics
+- AbuseReports
+
+========================
+SECURITY & COMPLIANCE
+========================
+- Role-based access control
+- Chat encryption at rest
+- No agent can see another agent’s chats
+- Audit logs for admin actions
+- Rate limiting to prevent spam
+
+========================
+FAILSAFE & EDGE CASES
+========================
+- If no agent is free → AI continues + shows wait message
+- If AI is down → auto-route to human
+- If agent idle too long → auto-release
+- If user closes chat → session saved
+
+========================
+DELIVERABLE
+========================
+Generate:
+- Backend architecture
+- Database schema
+- Real-time flow logic
+- AI → Human handover logic
+- Agent assignment algorithm
+- Scalable, production-ready code structure
+
+Do NOT design UI.
+Focus on SYSTEM LOGIC, APIs, SOCKET EVENTS, and DATA FLOW.
+Build it as if this is the backbone of a global SaaS company.

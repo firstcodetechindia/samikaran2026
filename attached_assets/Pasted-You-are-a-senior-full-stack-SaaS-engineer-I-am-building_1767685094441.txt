@@ -1,0 +1,233 @@
+You are a senior full-stack SaaS engineer.
+
+I am building a GLOBAL SETTINGS module for my web application.
+This module must be FULLY FUNCTIONAL, production-ready, scalable, and cost-efficient.
+
+TECH STACK (MANDATORY):
+- Frontend: React + TypeScript
+- Backend: Node.js + Express (or existing backend if present)
+- Database: PostgreSQL (preferred) or existing DB
+- ORM: Drizzle / Prisma (use whichever already exists)
+- Auth: Existing admin authentication (no new auth system)
+- UI: Card-based layout using my existing theme
+- Deployment: Replit (must run efficiently on free/low-cost plan)
+
+DO NOT:
+- Do NOT add FTP or SFTP features
+- Do NOT add dark mode
+- Do NOT add unnecessary microservices
+- Do NOT hardcode secrets (use env vars)
+- Do NOT add paid services unless optional
+
+---
+
+### MODULE NAME
+Global Settings
+
+---
+
+## 1️⃣ BASIC CONTROL (SITE META & SEO)
+Create a section called **Basic Control** with:
+- Site Title
+- Meta Description
+- SEO Keywords (comma separated)
+- Favicon upload
+- Default OpenGraph image
+
+FUNCTIONAL REQUIREMENTS:
+- Values saved in database
+- Editable from admin UI
+- Automatically injected into frontend `<head>`
+- SEO-friendly
+- Cached for performance
+
+---
+
+## 2️⃣ PUSH NOTIFICATION (PWA READY)
+Create **Push Notification Settings**:
+- Firebase configuration:
+  - apiKey
+  - authDomain
+  - projectId
+  - storageBucket
+  - messagingSenderId
+  - appId
+- Enable / Disable Push Notifications
+- Push Notification Templates:
+  - Title
+  - Body
+  - Action URL
+  - Image (optional)
+
+FUNCTIONAL REQUIREMENTS:
+- Firebase config stored securely
+- Templates stored in DB
+- Ready for PWA integration
+- Toggle-based enable/disable
+- No push sending logic now, only configuration & templates
+
+---
+
+## 3️⃣ EMAIL SETTINGS
+Create **Email Settings**:
+- SMTP Provider selection:
+  - SMTP (generic)
+  - AWS SES (optional)
+  - Brevo / Sendinblue (optional)
+- SMTP Fields:
+  - Host
+  - Port
+  - Username
+  - Password
+  - From Name
+  - From Email
+- Email Templates:
+  - Template Name
+  - Subject
+  - HTML Body
+  - Variables support ({{name}}, {{otp}}, etc.)
+
+FUNCTIONAL REQUIREMENTS:
+- Credentials stored encrypted or env-based
+- Test email feature
+- Templates stored in DB
+- Reusable across the app
+
+---
+
+## 4️⃣ SMS SETTINGS
+Create **SMS Settings**:
+- SMS Provider (pluggable architecture):
+  - Generic HTTP API
+  - Twilio (optional)
+  - Other providers via API URL
+- Configuration:
+  - API URL
+  - API Key
+  - Sender ID
+- SMS Templates:
+  - Template Name
+  - Message Body
+  - Variables support
+
+FUNCTIONAL REQUIREMENTS:
+- Provider-agnostic
+- Templates stored in DB
+- Enable / Disable SMS globally
+- No SMS sending logic required now
+
+---
+
+## 5️⃣ STORAGE SETTINGS
+Create **Storage Settings**:
+Storage Type options:
+- Local Server
+- AWS S3
+- Other S3-compatible services
+
+Configuration Fields:
+- Bucket Name
+- Region
+- Access Key
+- Secret Key
+- Base URL
+
+FUNCTIONAL REQUIREMENTS:
+- Single active storage at a time
+- Abstracted storage service
+- Image uploads use selected storage
+- Cost-efficient defaults
+- No hardcoded credentials
+
+---
+
+## 6️⃣ PLUGIN SETTINGS
+Create **Plugin Management**:
+Plugins:
+- reCAPTCHA (v2 / v3)
+- Google Analytics
+- Customer Messaging (basic toggle)
+
+Each plugin must have:
+- Enable / Disable toggle
+- Required keys (Site key, Secret key, Tracking ID)
+
+FUNCTIONAL REQUIREMENTS:
+- Plugin-based architecture
+- Plugins loaded only if enabled
+- Safe fallback if disabled
+
+---
+
+## 7️⃣ LANGUAGE SETTINGS (MULTI-LANGUAGE)
+Create **Language Management**:
+- Add new language
+- Language code (en, hi, fr, etc.)
+- Default language selector
+- Keyword / translation management:
+  - Key
+  - Value per language
+
+FUNCTIONAL REQUIREMENTS:
+- Database-driven translations
+- No JSON hardcoding
+- Fallback to default language
+- Admin UI for managing translations
+
+---
+
+## 8️⃣ LOGO SETTINGS
+Create **Logo Settings**:
+- Upload site logo
+- Light-mode logo only (NO dark mode)
+- Preview before save
+
+FUNCTIONAL REQUIREMENTS:
+- Stored using selected storage
+- Used globally across app
+- Cached for performance
+
+---
+
+## UI REQUIREMENTS
+- Card-based layout (like provided reference image)
+- Clean admin dashboard design
+- Mobile responsive
+- Consistent spacing and typography
+- Save / Update buttons per section
+- Toast notifications on success/failure
+
+---
+
+## BACKEND REQUIREMENTS
+- REST APIs for each settings group
+- Single `settings` abstraction layer
+- Database schema well-normalized
+- Audit timestamps (updated_at)
+- Secure handling of secrets
+- Role-based access (admin only)
+
+---
+
+## COST & PERFORMANCE OPTIMIZATION
+- Minimal API calls
+- Batch loading settings
+- Server-side caching
+- Avoid background workers
+- Works on Replit free/low-cost plan
+
+---
+
+## FINAL OUTPUT REQUIRED
+1. Database schema
+2. API routes
+3. Admin UI pages/components
+4. Services for:
+   - Email
+   - SMS
+   - Storage
+   - Push
+5. Clear folder structure
+6. README explaining how to extend later
+
+Build this step-by-step and ensure everything is wired, functional, and ready for production use.

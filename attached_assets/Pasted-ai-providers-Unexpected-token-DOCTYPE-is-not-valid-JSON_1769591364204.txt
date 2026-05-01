@@ -1,0 +1,63 @@
+ai_providers: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+announcements: request entity too large
+answers: request entity too large
+api_health_checks: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+attempts: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+audit_alert_configs: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+audit_schedule_configs: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+blog_categories: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+blog_post_tags: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+blog_posts: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+blog_tags: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+calendar_events: request entity too large
+certificate_templates: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+chatbot_agents: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+chatbot_blocked_domains: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+chatbot_flows: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+chatbot_knowledge_base: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+chatbot_leads: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+chatbot_messages: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+chatbot_sessions: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+chatbot_settings: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+cities: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+cms_page_sections: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+cms_pages: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+coordinators: request entity too large
+countries: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+enquiries: request entity too large
+exam_registrations: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+exams: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+issue_categories: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+olympiad_categories: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+olympiad_page_content: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+otp_codes: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+partner_agreements: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+partner_applications: request entity too large
+partners: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+proctoring_warning_settings: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+proctoring_warning_translations: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+qa_release_evaluations: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+qa_test_cases: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+qa_test_runs: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+qa_test_suites: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+questions: request entity too large
+quick_replies: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+role_permissions: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+role_templates: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+school_collaborations: request entity too large
+sessions: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+site_settings: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+social_media_links: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+social_platforms: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+states: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+student_performance_reports: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+student_registrations: request entity too large
+super_admins: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+supervisor_registrations: request entity too large
+support_settings: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+system_audits: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+system_permissions: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+system_roles: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+user_roles: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+users: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+verified_contacts: Unexpected token '<', "<!DOCTYPE "... is not valid JSON

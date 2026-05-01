@@ -1,0 +1,78 @@
+IMAGE 1 – WHO WE ARE (SIZE: 1080x1920, VERTICAL)
+
+Create a 1080x1920 vertical social media poster for WhatsApp Status and Instagram Reel cover introducing “Samikaran Olympiad 2026”. Use ONLY the existing Samikaran website color scheme and the same Samikaran Olympiad logo exactly as on the portal (same colors, same style, no redesign, no new logo). Use a clean, modern, premium UI style that feels like a continuation of the current homepage design.
+
+Layout:
+- Top: Small subtle label “INTRODUCING” in uppercase.
+- Center: Large Samikaran Olympiad logo, perfectly clean and sharp.
+- Below logo: Bold headline text:
+  “India’s Trusted Online Olympiad Platform”
+- Subheadline in 1–2 lines:
+  “AI-powered, secure online exams for Class 1–12 students across India.”
+- Background: Abstract, minimal science and mathematics theme (equations, atoms, waves, graphs) using soft gradients and shapes ONLY in the Samikaran brand colors from the live site, no extra colors.
+- Add a subtle India hint (like a soft India map outline or student silhouettes) but keep it minimal and professional.
+- Bottom area: Small line of text:
+  “Samikaran Olympiad 2026 · Powered by AI-Proctored Exams”
+
+Design rules:
+- Canvas size must be 1080x1920 vertical.
+- Use only Samikaran brand colors sampled from the current site UI: hero section, buttons, backgrounds, and text colors.
+- Typography should look similar in style to the website: modern, sans-serif, high contrast, very readable on mobile.
+
+–––––––––––––––––––––––––––––––––––––––––
+
+IMAGE 2 – REGISTRATION OPENING SOON (SIZE: 1080x1920, VERTICAL)
+
+Create a 1080x1920 vertical announcement poster for WhatsApp Status and Instagram Reel story announcing upcoming registrations for Samikaran Science Olympiad 2026. Use ONLY the Samikaran website color palette and the same Samikaran Olympiad logo from the portal (no new colors, no new logo).
+
+Layout:
+- Top left: Small Samikaran Olympiad logo.
+- Main big headline in the center:
+  “Science Olympiad 2026”
+- Just below headline, in a strong callout style:
+  “Registrations Opening Soon”
+- Subtext in 1–2 short lines:
+  “Online AI-proctored olympiad for Class 1–12 · Pan-India participation”
+- Add an icon-style element: calendar icon with a label like
+  “2026 Session”
+  in brand colors.
+- Background: Clean gradient or layered shapes using only Samikaran brand colors, with subtle science-themed elements (molecules, test tubes, physics icons) in a thin-line, minimal style.
+- Bottom call-to-action strip:
+  “Stay tuned on samikaranolympiad.com”
+  and a small hint:
+  “Follow our Insta & WhatsApp for updates”
+
+Design rules:
+- Canvas size must be 1080x1920 vertical.
+- Maintain same color scheme and typography style as Image 1 so that both look like one campaign.
+- No photos with random colors; if you use silhouettes of students, tint them into the brand color palette.
+
+–––––––––––––––––––––––––––––––––––––––––
+
+IMAGE 3 – AI FEATURES / FUTURE READY (SIZE: 1080x1920, VERTICAL)
+
+Create a 1080x1920 vertical feature highlight poster for WhatsApp Status and Instagram Reel story showcasing the smart features of Samikaran Olympiad 2026. Use ONLY the Samikaran website color theme and the same Samikaran Olympiad logo from the live portal.
+
+Layout:
+- Top: Samikaran Olympiad logo, small but clearly visible.
+- Main headline:
+  “AI-Enabled Olympiad Experience”
+- Below headline, create 4 neat feature blocks with modern icons and short text:
+  1) Icon: AI brain / chip
+     Text: “AI-powered question engine”
+  2) Icon: Shield + eye
+     Text: “Secure online proctoring”
+  3) Icon: Microphone / sound waves
+     Text: “System asks questions in audio”
+  4) Icon: Mic + ticked options
+     Text: “Answer via voice and MCQs”
+- Use very minimal, flat icons in line/solid style that match the website’s visual language, colored using only brand colors.
+- Background: Futuristic but clean—subtle circuits, waves, or grid pattern in low opacity, only using Samikaran palette.
+- Bottom line of text:
+  “Designed for next-generation digital exams · Samikaran Olympiad 2026”
+
+Design rules:
+- Canvas size must be 1080x1920 vertical.
+- Use same typography family and general style as previous two images for a cohesive set.
+- Strictly no off-brand colors; pick all colors from the existing site (primary, secondary, accent, background, text).
+

@@ -1,0 +1,209 @@
+You are a senior full-stack SaaS architect, AI systems engineer, and voice-AI product designer.
+You are building a premium AI-powered educational voice assistant called “GURUJI” for the SAMIKARAN Olympiad platform.
+
+====================================================
+CORE VISION
+====================================================
+Build a voice-first, chat-first, education-only AI Guru for students.
+Students will talk to the system by saying “Guruji”, similar to Alexa or Siri.
+
+The system must feel:
+- Human
+- Simple
+- Calm
+- Teacher-like
+- Extremely easy for children
+
+This is NOT a generic chatbot.
+This is a controlled Olympiad-focused AI mentor.
+
+====================================================
+VOICE-FIRST EXPERIENCE (ALEXA / SIRI STYLE)
+====================================================
+1. When a student logs into the student panel and clicks the Guruji button:
+   - Ask for microphone permission (one-time).
+   - Launch a full-screen immersive AI interface.
+
+2. Idle / Sleep Mode:
+   - If no conversation is active, Guruji stays hidden or in sleep animation.
+   - Soft gradient background remains.
+
+3. Wake Word System:
+   - Once mic permission is granted, the system listens continuously
+     while the browser tab is active.
+   - When the student says “Guruji”, the system wakes instantly
+     without requiring any button click.
+
+4. Listening State:
+   - Show animated listening indicators (waves, glow, pulse).
+   - Convert speech to text in real time.
+   - Show live transcription on screen.
+
+5. Speaking State:
+   - Guruji responds using natural Text-to-Speech.
+   - Show an animated Guruji face/avatar while speaking.
+   - Display real-time transcript of Guruji’s spoken response.
+
+6. End of Conversation:
+   - When Guruji finishes speaking and no new input is detected,
+     the avatar fades out and returns to sleep mode.
+
+====================================================
+EXACT TECH STACK (MANDATORY)
+====================================================
+
+FRONTEND:
+- React / Next.js
+- Tailwind CSS for clean, student-friendly UI
+- Framer Motion for smooth animations
+- Lottie / Rive animations for Guruji avatar states
+- Web Speech API (fallback supported)
+- Web Audio API for mic handling
+- Full-screen immersive UI mode
+
+SPEECH TO TEXT (STT):
+- Primary: OpenAI Whisper API (accurate for Indian accents)
+- Fallback: Browser Web Speech API
+
+TEXT TO SPEECH (TTS):
+- Primary: OpenAI TTS / Azure Neural Voices
+- Support Hindi & English voices
+- Slow, teacher-style speech pacing
+
+AVATAR / FACE ANIMATION:
+- Lottie / Rive for animated Guruji face
+- Lip-sync based on TTS playback events
+- States:
+  - Sleeping
+  - Listening
+  - Speaking
+  - Thinking
+
+BACKEND:
+- Node.js with Express / Fastify
+- AI Orchestration Layer (modular services)
+- Secure API gateway
+- Credit calculation middleware
+
+DATABASE:
+- PostgreSQL / MongoDB
+- Tables/Collections:
+  - Users
+  - Student AI Library
+  - Voice Conversations
+  - Credits Ledger
+  - Exam Performance
+  - Admin Credit Rules
+
+====================================================
+MULTI-AI AGENT ORCHESTRATION
+====================================================
+Use a controller that routes every query through:
+
+1. Voice-to-Text Agent
+2. Education Safety Filter Agent
+3. Research Agent (education-only)
+4. Syllabus & Class Matching Agent
+5. Content Simplification Agent
+6. Language Translation Agent (if needed)
+7. Response Validation Agent
+8. Text-to-Speech Agent
+
+====================================================
+EDUCATION RULES
+====================================================
+- Only academic queries allowed
+- Difficulty strictly based on student class
+- Olympiad syllabus aligned
+- Layman explanations only
+- No political, adult, entertainment, or irrelevant content
+
+====================================================
+STUDENT PERSONAL AI LIBRARY
+====================================================
+Every interaction MUST be saved as TEXT:
+
+- Student spoken query (converted to text)
+- Guruji response (text)
+- Language
+- Subject / Chapter / Topic
+- Date & Time
+- Voice or Text mode
+- Credits consumed
+
+Students can:
+- Search past conversations
+- Re-open explanations
+- Use it as a digital notebook
+
+====================================================
+VOICE CREDIT CALCULATION LOGIC
+====================================================
+Implement a transparent, admin-controlled credit system.
+
+BASE CREDIT RULES:
+- Speech-to-text processing → base cost
+- AI response generation → variable cost
+- Text-to-speech playback → variable cost
+
+EXAMPLE CREDIT FORMULA:
+- Student query up to 20 words → 1 credit
+- Every additional 20 words → +1 credit
+- AI response:
+  - 1–100 words → 2 credits
+  - 100–300 words → 4 credits
+  - 300–500 words → 6 credits
+- Diagram / image generation → +3 credits
+- Multilingual translation → +1 credit
+
+VOICE PREMIUM:
+- Voice interaction costs +20% credits compared to text mode.
+
+CREDIT SOURCES:
+1. Purchased credits
+2. Free credits earned from exam performance
+
+EXAM PERFORMANCE REWARD:
+- 90%+ → High bonus credits
+- 75%–89% → Medium bonus credits
+- 60%–74% → Low bonus credits
+
+====================================================
+ADMIN PANEL CONTROL
+====================================================
+Super Admin must control:
+- Credit pricing formulas
+- Voice premium percentage
+- Free credit rewards
+- Daily / monthly usage caps
+- Enable / disable voice mode
+- Subject-wise AI cost
+
+====================================================
+PRINT & EXPORT
+====================================================
+- Allow students to export or print Guruji responses
+- Add mandatory watermark:
+  “© SAMIKARAN Olympiad”
+- Log every print action
+
+====================================================
+SECURITY & SAFETY
+====================================================
+- Strict AI content guardrails
+- Per-student rate limiting
+- Voice abuse prevention
+- No external data leakage
+
+====================================================
+FINAL GOAL
+====================================================
+Build GURUJI as:
+- A voice-enabled AI Guru
+- A personal research assistant
+- A digital notebook
+- An exam mentor
+- A premium paid SaaS feature
+
+The experience should feel magical, human, calm, and trustworthy,
+like a real Guru guiding students step by step.

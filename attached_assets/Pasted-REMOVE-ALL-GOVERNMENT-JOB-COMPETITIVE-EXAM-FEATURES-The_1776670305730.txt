@@ -1,0 +1,78 @@
+REMOVE ALL GOVERNMENT JOB / COMPETITIVE EXAM FEATURES:
+
+The client wants to focus ONLY on School Olympiads (Class 1-12). Remove ALL traces of Government Job Aspirants, UPSC, SSC, Banking, Railway, Competitive Exams.
+
+═══════════════════════════════════════════════════════════════════
+WHAT TO DELETE:
+═══════════════════════════════════════════════════════════════════
+
+1. DATABASE & BACKEND:
+   ✗ Drop tables: exam_categories, competitive_exams (if created)
+   ✗ Remove columns from users: user_type, education_level, target_exam_category
+   ✗ Remove "ASPIRANT" user type completely
+   ✗ Keep only "STUDENT" user type
+
+2. HOMEPAGE (Home.tsx):
+   ✗ Remove "Government Job Aspirants" from hero subtitle
+   ✗ Change to: "Secure AI-proctored online exams for School Students (Class 1–12)"
+   ✗ Remove "Competitive Exams" button from hero
+   ✗ Keep only "School Olympiads" button
+   ✗ Remove dual-track toggle (School Olympiads / Govt Exams)
+   ✗ Remove "School Olympiads + Govt Exams" feature from checklist
+   ✗ Update to just show olympiad features
+
+3. REGISTRATION PAGE (Register.tsx):
+   ✗ Remove "COMPETITIVE EXAM ASPIRANT" option
+   ✗ Remove "UPSC, SSC, Banking, Railway, Defence & State PSC" text
+   ✗ Keep only:
+     - School Student (Class 1-12)
+     - Supervisor/Parent
+     - School
+   ✗ Remove conditional fields for aspirants (education level, target exam)
+
+4. NAVIGATION & ROUTES:
+   ✗ Delete /competitive-exams route
+   ✗ Delete /upsc-exams route
+   ✗ Delete /ssc-exams route
+   ✗ Delete /banking-exams route
+   ✗ Delete /railway-exams route
+   ✗ Delete CompetitiveExams.tsx page/component
+   ✗ Remove nav links to competitive exams
+
+5. SEO & METADATA:
+   ✗ Remove "UPSC, SSC, Banking" from page titles
+   ✗ Update to: "Samikaran Olympiad | India's #1 Online Olympiad Platform for Class 1-12"
+   ✗ Update meta description to focus only on school olympiads
+   ✗ Remove competitive exam keywords
+
+6. CONTENT SECTIONS:
+   ✗ Remove any "For Aspirants" benefits
+   ✗ Remove government exam preparation mentions
+   ✗ Keep focus on school students only
+
+═══════════════════════════════════════════════════════════════════
+WHAT TO KEEP:
+═══════════════════════════════════════════════════════════════════
+
+✓ All School Olympiad features (Class 1-12)
+✓ Math, Science, English, Computer Science, Reasoning olympiads
+✓ Student registration and dashboard
+✓ School registration and partnership
+✓ Parent/Supervisor registration
+✓ Admin panel (school olympiad management)
+✓ AI proctoring for olympiad exams
+✓ Certificates, rankings, scholarships for students
+
+═══════════════════════════════════════════════════════════════════
+IMPLEMENTATION ORDER:
+═══════════════════════════════════════════════════════════════════
+
+1. Update Homepage - Remove govt job aspirants mentions
+2. Update Registration - Remove aspirant option
+3. Delete CompetitiveExams page and routes
+4. Update SEO metadata
+5. Clean database schema (if govt exam tables exist)
+6. Remove any competitive exam components
+7. Test to ensure no broken links
+
+START NOW. Make platform focused ONLY on School Students (Class 1-12) Olympiads.

@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Admin Guide - Samikaran Olympiad</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            color: #1e293b;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #059669 0%, #10B981 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            margin-bottom: 5px;
+        }
+        
+        .logo-sub {
+            font-size: 14px;
+            letter-spacing: 8px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            padding: 12px 20px;
+            background: white;
+            color: #059669;
+            border: none;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .welcome-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        
+        .welcome-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #059669 0%, #10B981 100%);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 50px;
+        }
+        
+        .welcome-card h2 {
+            font-size: 28px;
+            color: #1e293b;
+            margin-bottom: 15px;
+        }
+        
+        .welcome-card p {
+            font-size: 16px;
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+        
+        .section-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+        
+        .section-icon.green { background: linear-gradient(135deg, #059669 0%, #10B981 100%); }
+        .section-icon.blue { background: linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%); }
+        .section-icon.purple { background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%); }
+        .section-icon.orange { background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%); }
+        .section-icon.pink { background: linear-gradient(135deg, #EC4899 0%, #F472B6 100%); }
+        .section-icon.cyan { background: linear-gradient(135deg, #06B6D4 0%, #22D3EE 100%); }
+        
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .step {
+            display: flex;
+            gap: 20px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .step:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        
+        .step-number {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #059669 0%, #10B981 100%);
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        .step-content h4 {
+            font-size: 17px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+        
+        .step-content p {
+            font-size: 15px;
+            color: #64748b;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .feature-card {
+            padding: 25px;
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+        
+        .feature-card .icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+        
+        .feature-card p {
+            font-size: 14px;
+            color: #64748b;
+        }
+        
+        .tip-box {
+            background: linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%);
+            border-left: 4px solid #3B82F6;
+            padding: 20px 25px;
+            border-radius: 0 15px 15px 0;
+            margin-top: 25px;
+        }
+        
+        .tip-box h4 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1E40AF;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tip-box p {
+            font-size: 14px;
+            color: #1E3A8A;
+        }
+        
+        .workflow-diagram {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .workflow-step {
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+            position: relative;
+        }
+        
+        .workflow-step::after {
+            content: '';
+            position: absolute;
+            top: 30px;
+            right: -30px;
+            width: 40px;
+            height: 2px;
+            background: #10B981;
+        }
+        
+        .workflow-step:last-child::after {
+            display: none;
+        }
+        
+        .workflow-step .icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #059669 0%, #10B981 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 30px;
+        }
+        
+        .workflow-step h5 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
+        .faq-item {
+            padding: 20px;
+            background: #f0fdf4;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .faq-item h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #059669;
+            margin-bottom: 10px;
+        }
+        
+        .faq-item p {
+            font-size: 14px;
+            color: #64748b;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        .help-banner {
+            background: linear-gradient(135deg, #059669 0%, #10B981 100%);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .help-banner h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        
+        .help-banner p {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .help-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 30px;
+            background: white;
+            color: #059669;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .help-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 28px; }
+            .welcome-card { padding: 25px; }
+            .section { padding: 25px; }
+            .step { flex-direction: column; gap: 15px; }
+            .back-btn { top: 10px; left: 10px; padding: 10px 15px; font-size: 12px; }
+            .workflow-step::after { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <a href="javascript:history.back()" class="back-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Back to Dashboard
+    </a>
+
+    <header class="header">
+        <div class="header-content">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 15px;">
+                <svg viewBox="0 0 100 100" width="55" height="55" style="filter: drop-shadow(0 4px 12px rgba(147,51,234,0.4));">
+                    <defs>
+                        <linearGradient id="schLogoUp" x1="0%" y1="100%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#9333EA"/>
+                            <stop offset="50%" stop-color="#C026D3"/>
+                            <stop offset="100%" stop-color="#EC4899"/>
+                        </linearGradient>
+                        <linearGradient id="schLogoDown" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#A855F7"/>
+                            <stop offset="100%" stop-color="#F472B6"/>
+                        </linearGradient>
+                    </defs>
+                    <polygon points="50,12 85,72 15,72" fill="rgba(0,0,0,0.12)" transform="translate(2,4)"/>
+                    <polygon points="50,88 15,28 85,28" fill="rgba(0,0,0,0.1)" transform="translate(2,4)"/>
+                    <polygon points="50,10 88,75 12,75" fill="url(#schLogoUp)"/>
+                    <polygon points="50,10 69,42.5 31,42.5" fill="rgba(255,255,255,0.18)"/>
+                    <polygon points="50,90 12,25 88,25" fill="url(#schLogoDown)" opacity="0.88"/>
+                    <polygon points="50,90 31,57.5 69,57.5" fill="rgba(255,255,255,0.12)"/>
+                    <rect x="32" y="44" width="36" height="5" rx="2.5" fill="white"/>
+                    <rect x="32" y="53" width="36" height="5" rx="2.5" fill="white"/>
+                    <rect x="32" y="44" width="36" height="2" rx="1" fill="rgba(255,255,255,0.5)"/>
+                    <rect x="32" y="53" width="36" height="2" rx="1" fill="rgba(255,255,255,0.5)"/>
+                </svg>
+                <div style="text-align: left;">
+                    <div style="font-size: 1.6rem; font-weight: 800; letter-spacing: 2px; color: white;">SAMIKARAN<span style="color: #EC4899;">.</span></div>
+                    <div style="font-size: 0.8rem; letter-spacing: 6px; opacity: 0.95; text-transform: uppercase; color: white;">OLYMPIAD</div>
+                </div>
+            </div>
+            <h1>School Admin Guide</h1>
+            <p><span style="color: white;">AI-Powered</span> <span style="background: linear-gradient(135deg, #A855F7 0%, #EC4899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700;">Olympiad Platform</span> - School Admin Guide</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="welcome-card">
+            <div class="welcome-icon">
+                <span style="color: white;">&#127979;</span>
+            </div>
+            <h2>Welcome, School Administrator!</h2>
+            <p>As a school admin, you can register students in bulk, track their performance, and manage your school's olympiad participation. This guide explains everything you need to know.</p>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon green">
+                    <span style="color: white;">&#128101;</span>
+                </div>
+                <h3 class="section-title">How to Register Students</h3>
+            </div>
+            
+            <div class="workflow-diagram">
+                <div class="workflow-step">
+                    <div class="icon"><span style="color: white;">&#128196;</span></div>
+                    <h5>Download Template</h5>
+                </div>
+                <div class="workflow-step">
+                    <div class="icon"><span style="color: white;">&#9997;&#65039;</span></div>
+                    <h5>Fill Student Data</h5>
+                </div>
+                <div class="workflow-step">
+                    <div class="icon"><span style="color: white;">&#128228;</span></div>
+                    <h5>Upload File</h5>
+                </div>
+                <div class="workflow-step">
+                    <div class="icon"><span style="color: white;">&#9989;</span></div>
+                    <h5>Confirm & Pay</h5>
+                </div>
+            </div>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Download the Excel Template</h4>
+                        <p>Go to "Register Students" and click "Download Template". This Excel file has all required columns formatted correctly.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Fill in Student Details</h4>
+                        <p>Enter each student's name, class, email, phone number, and other required information. Each row is one student.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Upload the Completed File</h4>
+                        <p>Go back to "Register Students", click "Upload", and select your filled Excel file. The system will validate all entries.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Review and Confirm</h4>
+                        <p>Check the preview of students to be registered. Fix any errors highlighted in red. Click "Confirm Registration".</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h4>Complete Payment</h4>
+                        <p>Pay the total registration fee (may include school discount). Students receive login credentials via email.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="tip-box">
+                <h4><span>&#128161;</span> Bulk Registration Benefits</h4>
+                <p>Schools get special discounts on bulk registrations! The more students you register, the higher your discount. Contact us for special school partnership rates.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon blue">
+                    <span style="color: white;">&#128202;</span>
+                </div>
+                <h3 class="section-title">Dashboard Features</h3>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="icon">&#128101;</div>
+                    <h4>Student Management</h4>
+                    <p>View all registered students, their status, and manage their accounts easily.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">&#127942;</div>
+                    <h4>Olympiad Registrations</h4>
+                    <p>See which olympiads your students are registered for and registration status.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">&#128200;</div>
+                    <h4>Performance Reports</h4>
+                    <p>View detailed performance analytics for your entire school and individual students.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">&#128176;</div>
+                    <h4>Payment History</h4>
+                    <p>Track all payments, download invoices, and manage school billing.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">&#127941;</div>
+                    <h4>Results Dashboard</h4>
+                    <p>See results, rankings, and certificates for all your students in one place.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">&#128195;</div>
+                    <h4>Certificates</h4>
+                    <p>Download participation and achievement certificates for your students.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon purple">
+                    <span style="color: white;">&#128203;</span>
+                </div>
+                <h3 class="section-title">Managing Student Performance</h3>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>View Class-wise Reports</h4>
+                        <p>Filter students by class to see how each grade is performing. Compare averages across classes.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Track Subject Performance</h4>
+                        <p>Analyze which subjects your school excels in and where students need more support.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Export Reports</h4>
+                        <p>Download performance reports in Excel or PDF format to share with teachers and parents.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon orange">
+                    <span style="color: white;">&#10067;</span>
+                </div>
+                <h3 class="section-title">Frequently Asked Questions</h3>
+            </div>
+            <div class="faq-item">
+                <h4>How do I get school discount codes?</h4>
+                <p>Contact our school partnership team or your assigned partner. Discounts are automatically applied when you register through your school account.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Can I add more students after initial registration?</h4>
+                <p>Yes! You can add students anytime before the registration deadline. Just upload another Excel file with the new students.</p>
+            </div>
+            <div class="faq-item">
+                <h4>What if a student's email is wrong?</h4>
+                <p>Go to "Student Management", find the student, and click "Edit" to update their email. They'll receive new login credentials.</p>
+            </div>
+            <div class="faq-item">
+                <h4>How do I download all student results at once?</h4>
+                <p>Go to "Results Dashboard", select the olympiad, and click "Export All Results". You'll get an Excel file with all student scores.</p>
+            </div>
+        </div>
+
+        <div class="help-banner">
+            <h3>School Support Team</h3>
+            <p>Dedicated support for school administrators</p>
+            <a href="/school" class="help-btn" onclick="window.close(); return false;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+                Contact School Support
+            </a>
+            <p style="margin-top: 12px; font-size: 14px; opacity: 0.9;">Click to close this guide and use the chat widget on your dashboard</p>
+        </div>
+
+        <div class="footer">
+            <p>Samikaran Olympiad - Empowering Schools for Academic Excellence</p>
+            <p style="margin-top: 8px; opacity: 0.7;">Version 1.0 | Last Updated: January 2026</p>
+        </div>
+    </div>
+</body>
+</html>

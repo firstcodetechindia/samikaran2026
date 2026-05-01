@@ -1,0 +1,105 @@
+You are upgrading the STUDENT DASHBOARD UI for Samikaran Olympiad.
+
+⚠ VERY IMPORTANT:
+- Do NOT modify existing backend logic.
+- Do NOT change database schema.
+- Do NOT break current exam, XP, rank or MIRA logic.
+- Old logic remains exactly as it is.
+- This is only a NEW dashboard interface for Class 1–5.
+- All data must come dynamically from existing APIs.
+
+--------------------------------------
+
+🎯 OBJECTIVE:
+Build a FUN, COLORFUL, MODERN LEARNING ADVENTURE DASHBOARD
+for Class 1–5 students.
+
+It must feel like a game world, not an admin panel.
+
+UI Direction:
+- Bright gradients
+- Soft rounded corners
+- Cartoon-friendly icons
+- Smooth animations
+- Playful but modern
+- Clean layout
+
+--------------------------------------
+
+⚙ SYSTEM RULES:
+- Use existing XP logic.
+- Use existing ranking logic.
+- Use existing exam logic.
+- Use existing MIRA AI.
+- No fake values.
+- Everything dynamic.
+
+--------------------------------------
+
+🧠 FEATURES TO ADD (UI + Presentation Only):
+
+1️⃣ HERO CHARACTER SECTION
+- Student avatar (big friendly style)
+- Level display (Explorer Level 3 format)
+- Animated XP bar
+- Fire streak counter
+
+2️⃣ TODAY’S MISSION BUTTON (BIG AND COLORFUL)
+- Use existing AI challenge logic
+- Show XP reward
+- Show stars earned
+
+3️⃣ MINI GAME CARDS
+- Use existing exam topics
+- Display as colorful cards
+- “Play Now” button connects to existing system
+
+4️⃣ BADGE COLLECTION WALL
+- Grid of badges
+- Locked/unlocked states
+- Pull from existing achievement data
+
+5️⃣ WEEKLY STAR TRACKER
+- Show stars earned this week
+- Use existing attempt data
+
+6️⃣ SIMPLE RANK DISPLAY
+- Show District Rank
+- Display in playful style
+- No complex graphs
+
+7️⃣ CELEBRATION ENGINE (UI Only)
+- Confetti animation on level up
+- Badge unlock animation
+- Sound hook ready (optional)
+
+8️⃣ MIRA UI UPDATE
+- Keep AI logic same
+- Make chat UI more friendly
+- Softer colors
+- Emoji reactions
+
+--------------------------------------
+
+🎨 UI REQUIREMENTS:
+- Rounded buttons
+- Friendly typography
+- Soft shadows
+- Animated transitions
+- Responsive layout
+
+--------------------------------------
+
+🚫 DO NOT:
+- Modify backend
+- Change XP formulas
+- Edit ranking algorithm
+- Add fake numbers
+- Remove old features
+
+--------------------------------------
+
+Must feel like a learning adventure game.
+Modern but simple.
+Safe, scalable, production ready.
+Category-based conditional rendering only.

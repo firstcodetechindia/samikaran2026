@@ -1,0 +1,161 @@
+You are designing the EXAM WINDOW EXPERIENCE for a HIGH-SECURITY ONLINE OLYMPIAD EXAM SYSTEM.
+
+Your task is to BUILD THE BEST POSSIBLE EXAM UI AND USER EXPERIENCE with strict exam behavior rules.
+Do NOT focus on backend, database, or framework choices.
+Focus only on EXAM WINDOW UI, STUDENT INTERACTIONS, SECURITY BEHAVIOR, and LIVE FEEDBACK.
+
+====================================================
+EXAM WINDOW UI (CORE REQUIREMENT)
+====================================================
+
+Design a modern, clean, professional exam interface that works perfectly on:
+- Desktop
+- Laptop
+- Tablet
+
+Mobile should be readable but exam attempts are optimized for larger screens.
+
+----------------------------------------------------
+LAYOUT STRUCTURE
+----------------------------------------------------
+
+TOP BAR (Sticky):
+- Exam name
+- Live countdown timer (HH:MM:SS)
+- Exam status indicator (Running / Ending Soon)
+- Warning indicator (if violations occur)
+
+LEFT / CENTER PANEL (Main Exam Area):
+- Question display area
+- Supports:
+  - MCQ questions
+  - Questions with images
+  - Paragraph-based questions followed by sub-questions
+- Clear typography and spacing
+- No distractions
+
+RIGHT SIDE PANEL (Always Visible):
+- Live camera preview of candidate
+- Audio input gauge meter (real-time mic activity)
+- Proctoring status icons (camera, mic, screen, network)
+- Violation tab with LIVE FEED of violations and warnings
+
+----------------------------------------------------
+QUESTION NAVIGATION PANEL
+----------------------------------------------------
+
+- Show all 50 questions in a grid or list view
+- Allow switching between any question at any time
+- Allow answering questions in any order
+- Allow review and modification until final submission
+
+Color Coding Rules:
+- Grey: Not visited
+- Blue: Visited but not answered
+- Green: Answer submitted
+- Yellow: Marked for review
+
+Legend must be visible.
+
+====================================================
+EXAM BEHAVIOR RULES
+====================================================
+
+- Exam runs strictly in locked mode
+- Full window cannot be closed during exam
+- ESC key disabled
+- Browser back button disabled
+- Tab switching triggers warning
+- Refresh allowed only with auto-resume
+- Any attempt to exit exam triggers violation logging
+
+====================================================
+ANSWERING & REVIEW FLOW
+====================================================
+
+- User can answer, skip, or mark any question for review
+- Answers are saved automatically
+- User can review all questions before submission
+- Exam submission is NOT allowed freely
+
+----------------------------------------------------
+SUBMISSION RULES
+----------------------------------------------------
+
+AUTO SUBMISSION:
+- Exam auto-submits ONLY when time is fully consumed
+
+MANUAL SUBMISSION:
+- Manual submission allowed only through REVIEW MODE
+- User must:
+  1. Click “Review Exam”
+  2. See summary:
+     - Attempted questions
+     - Not attempted questions
+     - Marked for review
+  3. Confirm intention to submit
+
+FINAL CONFIRMATION (MANDATORY):
+- Show a text input box
+- User must type exactly: SUBMIT
+- Submit button remains disabled until text matches
+- After submission, exam locks permanently
+
+====================================================
+TIME & DEVICE RECORDING
+====================================================
+
+Record and associate the following with the exam attempt:
+- Server date and time
+- Candidate system (desktop) date and time
+- Candidate IP address
+- Browser and device details
+- Time drift between server and client
+
+====================================================
+QUESTION PAPER STRUCTURE
+====================================================
+
+Create a full exam with:
+- Total questions: 50
+
+Question types:
+- MCQs with text only
+- MCQs with images
+- One or more reading paragraphs
+- Multiple questions derived from each paragraph
+
+Each question includes:
+- Question text
+- Options (A, B, C, D)
+- Single correct answer
+- Clear formatting for readability
+
+====================================================
+LIVE FEEDBACK & TRANSPARENCY
+====================================================
+
+- Live audio gauge visible to student
+- Live camera preview visible at all times
+- Violation feed updates instantly
+- Warnings displayed non-intrusively
+- Student always knows exam status
+
+====================================================
+QUALITY & UX GOALS
+====================================================
+
+- Extremely clean and professional UI
+- Zero distraction during exam
+- Smooth performance on low-end devices
+- Clear visual hierarchy
+- No confusion or ambiguity for students
+- Exam experience should feel fair, strict, and transparent
+
+====================================================
+FINAL GOAL
+====================================================
+
+This exam window should feel more advanced, secure, and user-friendly than existing online exam platforms and should be suitable for national and international Olympiad-level exams.
+
+Design and build this exam window now.

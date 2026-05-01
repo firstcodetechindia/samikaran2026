@@ -1,0 +1,103 @@
+Option A - Build all remaining 9 features now sequentially:
+
+FEATURE 2: User Onboarding Flows
+- Add "Add New School" button in Schools section (SchoolManagementTab.tsx) with modal form: School Name, Principal, Email, Phone, City, State, Board dropdown (CBSE/ICSE/State/IGCSE), Student Count, Partnership Type (Free/Paid/Premium)
+- Add "Add Supervisor" button with form: Name, Email, Phone, Assigned Schools (multi-select), Role
+- Add "Add Coordinator" button with similar fields
+- Add "Add Partner" button: Org Name, Contact, Commission %, Type (School/Coaching/NGO/Franchisee)
+- Add "Bulk CSV Import" button on each page with file upload, column mapping interface, progress bar, success/error count display
+- API routes: POST /api/schools, POST /api/supervisors, POST /api/coordinators, POST /api/partners, POST /api/bulk-import/:type
+
+FEATURE 3: Certificate Designer & Bulk Generator
+- New sidebar item "Certificates" under Exam Management
+- Certificate Designer page with drag-drop canvas (use react-dnd or similar)
+- Template editor: add text placeholders {{studentName}}, {{olympiadName}}, {{rank}}, {{score}}, {{date}}
+- Image upload zones for logos, backgrounds, signatures
+- Font picker, color picker, alignment tools
+- Save template per olympiad in certificates_templates table
+- Bulk Generator: Select olympiad → filter students (all/toppers/passed) → Generate ZIP with all PDFs
+- Individual preview, WhatsApp share button, Email send button
+- API: POST /api/certificates/design, POST /api/certificates/bulk-generate, GET /api/certificates/:id/preview
+
+FEATURE 4: Coupon & Discount Management  
+- New sidebar item "Coupons" under Business & Operations
+- Create coupon form: Code (auto-generate option), Type (percentage/flat), Value, Min Order, Max Uses, Expiry, Applicable Olympiads (multi-select), User Types (Student/School/All)
+- Coupon list table: Code, Type, Value, Used/Total, Expiry, Status badge, Actions (Edit/Pause/Delete)
+- Analytics per coupon: Revenue saved, Redemptions, Conversion rate chart
+- Bulk generate: prefix + count → generates codes like SAMIK100, SAMIK101...
+- API: POST /api/coupons, GET /api/coupons, PUT /api/coupons/:id, DELETE /api/coupons/:id, POST /api/coupons/bulk
+
+FEATURE 5: WhatsApp Notification Module
+- New tab "WhatsApp" under Marketing & Outreach section
+- Template library: Registration Confirmed, Exam Reminder (1 day before), Result Ready, Certificate Available, Payment Successful
+- Campaign creator: Select segment (all students/class-wise/school-wise) → choose template → schedule/send now
+- Delivery tracking table: Message, Sent count, Delivered, Read, Failed
+- Opt-out management page
+- Integration placeholder for Twilio/WATI (config in settings)
+- API: POST /api/whatsapp/send, GET /api/whatsapp/campaigns, POST /api/whatsapp/template
+
+FEATURE 6: Leaderboard Management
+- New sidebar item "Leaderboards" under Exam Management  
+- Per-olympiad view: Rank, Student Name, School, City, State, Score, Time Taken
+- Filters: Class, State, School, Category dropdown
+- Top 3 highlight with gold/silver/bronze badges
+- Toggle: Public visibility on/off
+- Export as PDF (branded) / Excel
+- "Announce Toppers" button → auto-generates social media post using AI with top 3 names
+- API: GET /api/leaderboards/:olympiadId, PUT /api/leaderboards/:id/visibility, POST /api/leaderboards/announce
+
+FEATURE 7: Parent Portal Management
+- New sidebar item "Parents" under User Management
+- Parent accounts table: Name, Email, Phone, Linked Students (with student names), Registration Date, Status
+- Link student to parent functionality
+- Bulk communication to parents button
+- Parent Portal Preview mode (shows what parents see: student results, certificates, upcoming exams)
+- Enable/Disable parent login toggle
+- API: GET /api/parents, POST /api/parents/:id/link-student, POST /api/parents/bulk-message
+
+FEATURE 8: Notification Center (Admin)
+- Add bell icon in admin panel top header (next to search)
+- Real-time notification dropdown with categories:
+  - New Registration (green badge)
+  - Payment Received/Failed (blue/red)
+  - Proctoring Alert (yellow)
+  - Support Ticket (orange)
+  - Certificate Generated (purple)
+  - System Health Alert (red)
+- Mark as read, Mark all read, Clear all buttons
+- Notification History page (/sysctrl/notifications) with filters
+- Use WebSocket for real-time push
+- API: GET /api/notifications, PUT /api/notifications/:id/read, DELETE /api/notifications/clear
+
+FEATURE 9: Support Ticket System
+- New sidebar item "Support" under Platform Control
+- Ticket list table: ID, Student Name, Subject, Category (Payment/Exam/Tech/Other), Priority (Low/Medium/High/Critical), Status (Open/In Progress/Resolved), Created Date
+- Ticket detail page: conversation thread, admin reply box, file attachments, assign to team member dropdown
+- Auto-assign logic based on category
+- SLA tracking: Response Time, Resolution Time with progress bars
+- Canned Responses library sidebar
+- Stats dashboard: Open tickets count, Avg response time, Resolved today
+- API: GET /api/tickets, POST /api/tickets/:id/reply, PUT /api/tickets/:id/assign, GET /api/tickets/stats
+
+FEATURE 10: Advanced Reports & Analytics
+- New sidebar item "Reports" under Dashboard & Insights
+- Report types with filters:
+  - Registration Report: daily/weekly/monthly chart, source breakdown (organic/referral/school)
+  - Revenue Report: per olympiad bar chart, per gateway pie chart, date range, export buttons
+  - Exam Performance Report: olympiad-wise avg score, pass rate %, drop-off funnel
+  - School-wise Report: table with registrations, revenue, avg performance per school
+  - Geography Report: India map heatmap with state-wise data
+  - Cohort Analysis: students who registered in Month X → performance tracking
+- Export options: CSV, PDF, Excel for all reports
+- Scheduled Reports: email report every Monday toggle with recipient emails
+- API: GET /api/reports/:type, POST /api/reports/schedule, GET /api/reports/export/:type
+
+Database schema additions needed:
+- certificates_templates table
+- coupons table  
+- whatsapp_campaigns, whatsapp_messages tables
+- parent_accounts, parent_student_links tables
+- admin_notifications table
+- support_tickets, ticket_messages, canned_responses tables
+
+Start building all 9 features now. Work systematically and show progress.

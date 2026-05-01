@@ -1,0 +1,194 @@
+You are a senior product designer, full-stack engineer, and SEO architect.
+
+I am building a large-scale Online Olympiad Platform with MANY Olympiads.
+Some Olympiads are already created. Many more will be added in future.
+
+Your task is to DESIGN & IMPLEMENT a **WORLD-CLASS, SCALABLE OLYMPIAD DETAIL PAGE SYSTEM**
+inspired by:
+https://www.indiantalent.org/international-maths-olympiad
+
+This is NOT one page.
+This is a **MASTER TEMPLATE + DESIGN SYSTEM + SEO FRAMEWORK**
+that applies to:
+✅ All existing Olympiads
+✅ All future Olympiads
+
+---
+
+## 🎯 CORE OBJECTIVE
+
+Create a **single reusable Olympiad Detail Page template** that:
+- Feels PREMIUM & TRUST-BUILDING
+- Is SEO-first
+- Is conversion-focused
+- Scales to 100+ Olympiads without redesign
+- Automatically adapts UI, content & SEO per Olympiad
+
+---
+
+## 🎨 WORLD-CLASS UI / UX (VERY IMPORTANT)
+
+1. **Each Olympiad must have its OWN COLOR THEME**
+   - Example:
+     - Maths → Blue / Indigo
+     - Science → Green / Teal
+     - English → Purple
+     - GK → Orange
+     - Reasoning → Red
+   - Theme controls:
+     - Header gradient
+     - Buttons
+     - Icons
+     - Section highlights
+     - Accent lines
+
+2. **Animated but LIGHTWEIGHT visuals**
+   - Use SVG illustrations ONLY
+   - Subtle animations (Lottie / SVG / CSS)
+   - Subject-based visuals:
+     - Maths → numbers, graphs, formulas
+     - Science → atom, microscope, DNA
+     - English → books, letters, pen
+   - NO heavy images
+   - Lazy-loaded animations
+   - Performance first
+
+3. **Premium layout**
+   - Hero section with:
+     - Olympiad name
+     - One-line value proposition
+     - Animated subject SVG
+     - “Register Now” CTA (above the fold)
+   - Clean spacing
+   - Big readable typography
+   - Parent-friendly + student-friendly
+
+4. **Micro-interactions**
+   - Hover effects on cards
+   - Smooth scroll
+   - Section reveal animations
+   - CTA button pulse (subtle)
+
+---
+
+## 🧠 PAGE STRUCTURE (MANDATORY FOR EVERY OLYMPIAD)
+
+1. H1: Olympiad Name (Primary SEO keyword)
+2. Hero section (animated SVG + CTA)
+3. What is this Olympiad?
+4. Why participate? (Benefits)
+5. Eligibility (class / age / grade)
+6. Syllabus overview (structured & skimmable)
+7. Exam pattern & marking scheme
+8. Important dates (table / timeline)
+9. How to register (steps)
+10. Preparation tips
+11. Awards, certificates & recognition
+12. FAQs (SEO-rich)
+13. Repeated CTA sections (“Register Now”)
+
+---
+
+## 🔍 SEO (ON-PAGE + CONTENT)
+
+For EACH Olympiad page dynamically generate:
+
+- SEO Title (≤60 chars)
+- Meta Description (≤160 chars)
+- SEO-friendly slug: /olympiads/{slug}
+- Proper H1 → H2 → H3 hierarchy
+- Primary + secondary keywords
+- Internal links to:
+  - Other Olympiads
+  - Syllabus pages
+- Image / SVG alt text
+- FAQ-ready content
+
+Content must be:
+- Original
+- Non-duplicate
+- Parent-friendly
+- Long-form (SEO authority)
+
+---
+
+## ⚙️ TECHNICAL SEO (GLOBAL)
+
+Apply to ALL Olympiad pages:
+
+- Schema:
+  - FAQ Schema
+  - Breadcrumb Schema
+  - Event Schema (Olympiad)
+- OpenGraph & Twitter meta
+- Canonical URLs
+- Mobile-first
+- Core Web Vitals optimized
+- Lazy loading assets
+- Semantic HTML
+
+---
+
+## 🔁 EXISTING OLYMPIADS (CRITICAL)
+
+All Olympiads already created in the system must be:
+
+- Auto-mapped to this new template
+- Assigned a color theme
+- Assigned subject-specific SVG animations
+- SEO metadata generated or updated
+- URLs standardized
+- UI upgraded automatically
+
+NO manual redesign per Olympiad.
+NO inconsistent layouts.
+
+---
+
+## 🔮 FUTURE-READY SYSTEM
+
+Design the system so that:
+
+- Admin adds a new Olympiad
+- Inputs:
+  - Name
+  - Subject
+  - Color theme
+  - Content blocks
+- Page auto-generates:
+  - UI
+  - Animations
+  - SEO
+  - CTA
+
+No developer intervention needed.
+
+---
+
+## 🔘 REGISTER BUTTON INTEGRATION
+
+- Registration is ALREADY implemented
+- Just integrate “Register Now” button
+- Button must:
+  - Match Olympiad color theme
+  - Appear in hero + mid + end
+  - Redirect to correct registration URL
+
+---
+
+## 🚀 FINAL EXPECTATION
+
+Deliver:
+1. One reusable Olympiad detail page template
+2. Dynamic theme system
+3. Lightweight animated SVG system
+4. SEO-ready metadata engine
+5. Migration of existing Olympiads to this standard
+6. Future-proof scalability
+
+Think like a **global ed-tech product** aiming for:
+- Trust
+- SEO dominance
+- Conversion
+- Performance
+- Visual excellence

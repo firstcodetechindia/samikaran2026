@@ -1,0 +1,113 @@
+{
+  "lastUpdated": "2026-01-25T00:00:00.000Z",
+  "documents": {
+    "features-presentation": {
+      "name": "Platform Features",
+      "version": "2.2",
+      "majorVersion": 2,
+      "minorVersion": 2,
+      "lastModified": "2026-02-01T00:00:00.000Z",
+      "changelog": [
+        { "version": "2.2", "date": "2026-02-01", "changes": "Added TARA AI Voice Assistant, AI Provider Management sections" },
+        { "version": "2.1", "date": "2026-01-25", "changes": "Added glassmorphism UI, PWA features" },
+        { "version": "2.0", "date": "2026-01-20", "changes": "Major redesign with new features" },
+        { "version": "1.0", "date": "2026-01-15", "changes": "Initial release" }
+      ]
+    },
+    "security-presentation": {
+      "name": "Security Documentation",
+      "version": "1.1",
+      "majorVersion": 1,
+      "minorVersion": 1,
+      "lastModified": "2026-01-25T00:00:00.000Z",
+      "changelog": [
+        { "version": "1.1", "date": "2026-01-25", "changes": "Added proctoring security details" },
+        { "version": "1.0", "date": "2026-01-20", "changes": "Initial release" }
+      ]
+    },
+    "results-presentation": {
+      "name": "Results & Ranking System",
+      "version": "1.0",
+      "majorVersion": 1,
+      "minorVersion": 0,
+      "lastModified": "2026-01-25T00:00:00.000Z",
+      "changelog": [
+        { "version": "1.0", "date": "2026-01-25", "changes": "Initial release with dual ranking systems" }
+      ]
+    },
+    "student-guide": {
+      "name": "Student User Guide",
+      "version": "1.0",
+      "majorVersion": 1,
+      "minorVersion": 0,
+      "lastModified": "2026-01-25T00:00:00.000Z",
+      "changelog": [
+        { "version": "1.0", "date": "2026-01-25", "changes": "Initial release with complete student guide" }
+      ]
+    },
+    "school-guide": {
+      "name": "School Admin Guide",
+      "version": "1.0",
+      "majorVersion": 1,
+      "minorVersion": 0,
+      "lastModified": "2026-01-25T00:00:00.000Z",
+      "changelog": [
+        { "version": "1.0", "date": "2026-01-25", "changes": "Initial release with bulk registration guide" }
+      ]
+    },
+    "partner-guide": {
+      "name": "Partner Guide",
+      "version": "1.0",
+      "majorVersion": 1,
+      "minorVersion": 0,
+      "lastModified": "2026-01-25T00:00:00.000Z",
+      "changelog": [
+        { "version": "1.0", "date": "2026-01-25", "changes": "Initial release with commission structure" }
+      ]
+    },
+    "group-guide": {
+      "name": "Group Admin Guide",
+      "version": "1.0",
+      "majorVersion": 1,
+      "minorVersion": 0,
+      "lastModified": "2026-01-25T00:00:00.000Z",
+      "changelog": [
+        { "version": "1.0", "date": "2026-01-25", "changes": "Initial release with multi-school management" }
+      ]
+    },
+    "portal-guide": {
+      "name": "Full Portal Guide",
+      "version": "2.0",
+      "majorVersion": 2,
+      "minorVersion": 0,
+      "lastModified": "2026-01-25T00:00:00.000Z",
+      "lastUpdated": "January 2026",
+      "changelog": [
+        { "version": "2.0", "date": "2026-01-25", "changes": "Complete A-Z platform documentation with vision, technology, and roadmap" }
+      ]
+    },
+    "aws-deployment-guide": {
+      "name": "Deployment Operations Guide",
+      "version": "2.0",
+      "majorVersion": 2,
+      "minorVersion": 0,
+      "lastModified": "2026-01-26T00:00:00.000Z",
+      "lastUpdated": "January 2026",
+      "changelog": [
+        { "version": "2.0", "date": "2026-01-26", "changes": "Complete rewrite - Technical operations guide with AWS, Railway, Render, DigitalOcean, Vercel, Fly.io" },
+        { "version": "1.0", "date": "2026-01-26", "changes": "Initial release - AWS deployment guide for non-technical founders" }
+      ]
+    },
+    "system-audit-report": {
+      "name": "System Audit Report",
+      "version": "1.0",
+      "majorVersion": 1,
+      "minorVersion": 0,
+      "lastModified": "2026-01-26T00:00:00.000Z",
+      "lastUpdated": "January 2026",
+      "changelog": [
+        { "version": "1.0", "date": "2026-01-26", "changes": "Initial release - Transparent 8-module audit methodology with auto-fix algorithms" }
+      ]
+    }
+  }
+}

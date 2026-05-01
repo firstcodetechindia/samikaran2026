@@ -1,0 +1,116 @@
+You are building a production-grade Olympiad Examination Lifecycle & Status Auto-Engine.
+This system must behave like a real national-level examination authority platform.
+
+CORE OBJECTIVE:
+Create an automatic Exam Status Engine that derives the exam’s current status
+purely from SERVER TIME and configured lifecycle dates — without any manual switching.
+
+────────────────────────────────────
+EXAM LIFECYCLE DATES (MANDATORY INPUT)
+────────────────────────────────────
+1. Registration Open DateTime
+2. Registration Close DateTime
+3. Exam Start DateTime
+4. Exam End DateTime
+5. Result Publish DateTime
+
+All dates are stored in ISO 8601 format and evaluated using SERVER TIME ONLY.
+
+────────────────────────────────────
+STRICT DATE VALIDATION RULES
+────────────────────────────────────
+- Registration Open < Registration Close
+- Registration Close ≤ Exam Start
+- Exam Start < Exam End
+- Result Publish ≥ Exam End
+
+Any attempt to violate this hierarchy must be rejected at BOTH UI and BACKEND level.
+
+────────────────────────────────────
+AUTO STATUS ENGINE (NO MANUAL OVERRIDE)
+────────────────────────────────────
+The exam status must be automatically computed based on current server time
+using the following deterministic rules:
+
+1. UPCOMING
+   - Current time < Registration Open
+
+2. REGISTRATION_OPEN
+   - Registration Open ≤ Current time < Registration Close
+
+3. REGISTRATION_CLOSED
+   - Registration Close ≤ Current time < Exam Start
+
+4. LIVE
+   - Exam Start ≤ Current time ≤ Exam End
+
+5. COMPLETED
+   - Exam End < Current time < Result Publish
+
+6. RESULT_PUBLISHED
+   - Current time ≥ Result Publish
+
+Status must NEVER be manually editable by any admin.
+
+────────────────────────────────────
+SYSTEM BEHAVIOR REQUIREMENTS
+────────────────────────────────────
+- Status updates must happen automatically in real time
+- No cron dependency required for correctness
+- Status should always be calculated dynamically on read
+- Database may store last_known_status only for caching, not authority
+
+────────────────────────────────────
+UI / ADMIN PANEL REQUIREMENTS
+────────────────────────────────────
+- Display current status as a read-only badge
+- Status badge must update automatically based on server time
+- Disable conflicting admin actions based on status:
+  - Cannot edit dates once exam is LIVE or beyond
+  - Cannot register students after REGISTRATION_CLOSED
+  - Cannot attempt exam unless status is LIVE
+  - Cannot publish result before RESULT_PUBLISHED state
+
+────────────────────────────────────
+BACKEND ENFORCEMENT (NON-NEGOTIABLE)
+────────────────────────────────────
+- Every API request must re-evaluate status using server time
+- Reject actions that do not match the current exam status
+- Never trust client-side time or status
+- Centralized status calculation utility must be used everywhere
+
+────────────────────────────────────
+ERROR HANDLING
+────────────────────────────────────
+- Return human-readable validation messages
+- Example:
+  "Registration is closed"
+  "Exam is not live yet"
+  "Result cannot be accessed before publish time"
+
+────────────────────────────────────
+AUDIT & SAFETY
+────────────────────────────────────
+- Log all date changes before exam goes LIVE
+- Lock all lifecycle dates once exam enters LIVE state
+- Preserve historical status transitions for analytics
+
+────────────────────────────────────
+TECH STACK ASSUMPTIONS
+────────────────────────────────────
+- React + Tailwind frontend
+- Node.js backend
+- Single reusable function: computeExamStatus(dates, serverTime)
+- Timezone-safe comparison (UTC standard)
+
+────────────────────────────────────
+EXPECTED OUTPUT
+────────────────────────────────────
+- Exam Status calculation engine
+- Date validation utilities
+- Backend enforcement logic
+- UI behavior control using status
+- Clean, production-ready, readable code
+
+This must be implemented with zero ambiguity, zero manual overrides,
+and absolute date integrity — suitable for a national-level Olympiad platform.

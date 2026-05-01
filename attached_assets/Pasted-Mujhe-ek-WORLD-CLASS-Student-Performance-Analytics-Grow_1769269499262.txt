@@ -1,0 +1,166 @@
+Mujhe ek WORLD-CLASS Student Performance Analytics & Growth Intelligence System banana hai jo Students, Parents, Schools aur Groups ke panel me dikhai de.
+
+SYSTEM GOAL:
+Ye system sirf marks dikhane ke liye nahi hai.
+Ye system student ke PAST + PRESENT performance ke base par uska FUTURE improve karne ke liye design hona chahiye.
+
+Ye system ALL ATTEMPTED OLYMPIADS ke data par kaam karega, sirf ek exam ke result par nahi.
+
+========================
+CORE OBJECTIVE
+========================
+Har student ko clearly ye samajh aaye:
+- Wo abhi kahan stand karta hai
+- Wo kis subject aur kis topic me weak hai
+- Wo kis area me improve kar raha hai
+- Uski performance time ke sath better hui ya worse
+- Future me usko kya karna chahiye taaki wo better perform kare
+
+========================
+MODULE 1: OVERALL STUDENT PERFORMANCE SNAPSHOT
+========================
+Student / Parent / School panel me ek clear snapshot dikhna chahiye:
+
+- Total Olympiads attempted
+- Average percentage (all exams combined)
+- Best performance Olympiad
+- Worst performance Olympiad
+- Overall accuracy %
+- Improvement trend (Upward / Stable / Downward)
+
+Visual indicators:
+- Performance trend graph (time-based)
+- Accuracy vs Attempts graph
+
+========================
+MODULE 2: SUBJECT-WISE & TOPIC-WISE ANALYSIS
+========================
+System automatically calculate kare:
+
+Subject-wise:
+- Total attempts
+- Average score
+- Accuracy %
+- Time spent
+- Strong subjects
+- Weak subjects
+
+Topic-wise (bahut important):
+- Kis topic me baar-baar galti ho rahi hai
+- Kis topic me improvement aa raha hai
+- Kis topic ko avoid kar raha hai (low attempts)
+
+Weakness Identification Logic:
+- Low accuracy + high attempts = Critical Weak Area
+- Low attempts + low score = Avoidance Area
+- High accuracy + low time = Strength Area
+
+========================
+MODULE 3: COMPARATIVE & PROGRESS ANALYSIS
+========================
+Jab student ek nayi report generate kare:
+
+- System LAST GENERATED REPORT ko save kare
+- New report ke sath COMPARISON dikhaye:
+  - Subject-wise improvement %
+  - Topic-wise improvement or decline
+  - Accuracy change
+  - Rank movement trend (if available)
+
+Example:
+- Mathematics: +12% improvement
+- Algebra: Accuracy 45% → 68%
+- Physics: No improvement (alert)
+
+========================
+MODULE 4: SMART PERFORMANCE INSIGHTS
+========================
+System sirf data nahi dikhaye, INSIGHTS de:
+
+Examples:
+- "You are consistently losing marks in word problems."
+- "Your speed is good but accuracy is low."
+- "You perform better in conceptual questions than numerical ones."
+- "Your performance drops in longer exams."
+
+Insights should be:
+- Easy language
+- Student-friendly
+- Actionable
+
+========================
+MODULE 5: FUTURE GROWTH & SUGGESTION ENGINE
+========================
+System student ko clear suggestions de:
+
+Subject-wise Suggestions:
+- Kis subject par zyada focus kare
+- Kis subject ko maintain kare
+
+Topic-wise Suggestions:
+- Kis topic ko revise kare
+- Kis topic par extra practice kare
+
+Behavioural Suggestions:
+- Time management improvement
+- Accuracy improvement tips
+- Exam attempt strategy
+
+Examples:
+- "Focus on Algebra and Geometry for next 30 days."
+- "Attempt more medium-level questions to improve confidence."
+- "Reduce negative marking by avoiding guesswork."
+
+Suggestions dynamic honi chahiye, static nahi.
+
+========================
+MODULE 6: REPORT GENERATION & HISTORY
+========================
+- Student manually "Generate Performance Report" kar sakta hai
+- Har generated report system me store ho:
+  - Date
+  - Data snapshot
+- Student / Parent dekh sake:
+  - Last report
+  - Previous reports
+  - Improvement comparison
+
+Report formats:
+- On-screen dashboard
+- Downloadable PDF (optional)
+
+========================
+MODULE 7: PARENT & SCHOOL VIEW
+========================
+Parents aur Schools ke liye:
+- Simple language
+- Less technical data
+- Clear summary:
+  - Child improvement
+  - Weak areas
+  - Suggested next steps
+
+School / Group view:
+- Batch-wise performance
+- Common weak topics
+- Overall academic health
+
+========================
+MODULE 8: DATA LOGIC & ACCURACY
+========================
+- All analytics system-driven ho
+- No manual manipulation
+- Calculations reproducible
+- Historical data immutable
+
+========================
+FINAL EXPECTATION
+========================
+Ye system ek NORMAL REPORT CARD nahi hona chahiye.
+Ye system ek STUDENT GROWTH & INTELLIGENCE PLATFORM hona chahiye jo:
+- Student ko direction de
+- Parent ko clarity de
+- School ko insight de
+- Future performance improve karne me madad kare
+
+System logically strong, deeply analytical, future-focused aur real-world education standards ke according hona chahiye.

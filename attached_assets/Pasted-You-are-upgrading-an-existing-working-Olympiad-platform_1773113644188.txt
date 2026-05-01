@@ -1,0 +1,473 @@
+You are upgrading an existing working Olympiad platform into a secure Multi-Tenant AI Powered School Assessment SaaS Platform with a White-Label School Experience.
+
+CRITICAL RULE — DO NOT BREAK EXISTING SYSTEM
+
+The current Olympiad system must remain fully functional exactly as it is.
+
+Do NOT remove, modify, or break any existing working Olympiad features.
+
+The upgrade must be implemented as an extension layer on top of the current system.
+
+Preserve:
+
+• Existing exam flows
+• Existing result logic
+• Existing analytics
+• Existing Olympiad competition system
+
+No data loss.
+No breaking changes.
+Maintain full backward compatibility.
+
+The new architecture must integrate with the existing system safely.
+
+All modules must remain fully connected and dynamically managed from the database.
+
+Absolutely nothing should be hardcoded anywhere in the system.
+
+Every configuration, structure, academic entity, and exam logic must be dynamically managed through the database.
+
+---
+
+PLATFORM IDENTITY
+
+This platform is an AI Powered Olympiad Intelligence Network designed for school students (Classes 1-12) and educational institutions.
+
+The platform focuses on:
+
+• Olympiad competitions
+• Academic intelligence analysis
+• School level academic competition
+• AI assisted learning
+
+This is NOT a generic exam portal.
+
+---
+
+AI ASSISTANT RENAMING
+
+The existing AI assistant MIRA (My Intelligent Research Assistant) must be completely renamed across the entire platform.
+
+Rename everywhere to:
+
+TARA – Talent Assessment & Research Assistant
+
+Update references across:
+
+• Frontend UI
+• Backend services
+• AI prompts
+• Chat modules
+• Analytics modules
+• Database references
+• APIs
+
+There must be no reference to MIRA anywhere in the platform.
+
+TARA must behave like an intelligent academic mentor similar to a real teacher.
+
+Capabilities include:
+
+• Concept explanation
+• Step-by-step problem solving
+• Olympiad practice generation
+• Weakness analysis
+• Learning recommendations
+
+---
+
+MULTI TENANT SAAS ARCHITECTURE
+
+Convert the system into a strict multi-tenant architecture.
+
+Add School (Tenant) table.
+
+Every entity must include schoolId.
+
+Strict row-level data isolation must be enforced.
+
+No cross school data access is allowed.
+
+Existing Olympiad data must remain accessible and functional.
+
+Each school must operate as an isolated environment inside the same platform.
+
+---
+
+ROLE SYSTEM
+
+Roles must include:
+
+SuperAdmin (Platform owner)
+
+SchoolHead (Full control of school)
+
+SubjectTeacher
+
+ClassTeacher
+
+Student
+
+Coordinator role should only be removed if not used in the existing system.
+If already implemented, refactor carefully without breaking flows.
+
+Rules:
+
+SchoolHead
+• Manage teachers
+• Manage classes
+• Manage subjects
+• View all analytics
+
+ClassTeacher
+• Manage students
+• View class performance
+• Modify student records
+
+SubjectTeacher
+• Manage subject exams
+• View subject analytics
+
+Teacher profiles must support:
+
+Is Class Teacher? (Yes/No)
+Assigned Class
+Assigned Subjects
+
+Implement strict role middleware without breaking existing permissions.
+
+---
+
+SCHOOL WHITE LABEL BRANDING
+
+Each school profile must support:
+
+• School Logo
+• School Name
+• Tagline
+• Address
+• Contact Info
+• Principal Name
+• Board Affiliation
+• Academic Year
+
+Theme selection:
+
+Provide exactly 5 built-in themes:
+
+Blue Academic
+Green Modern
+Purple Smart
+Red Premium
+Dark Professional
+
+Schools may select only one theme.
+
+No custom CSS allowed.
+
+Platform identity must remain consistent.
+
+School panels must show:
+
+• School logo
+• Selected theme
+• School name in header
+
+---
+
+ACADEMIC STRUCTURE
+
+Academic hierarchy must be fully dynamic.
+
+Structure:
+
+School
+→ Classes
+→ Subjects
+→ Chapters
+→ Syllabus (Text + PDF)
+→ Learning Objectives
+→ Concept Tags
+→ Difficulty Level
+→ Bloom Taxonomy Tags
+
+All entities must support full CRUD operations.
+
+No hardcoded classes or subjects anywhere.
+
+Existing academic data must remain usable.
+
+---
+
+PDF AI PROCESSING SYSTEM
+
+When syllabus PDF is uploaded:
+
+Step 1
+Extract text.
+
+Step 2
+Extract embedded images.
+
+Step 3
+Store files only in S3.
+
+Step 4
+Save structured data in database.
+
+Step 5
+Send text to AI for:
+
+• Concept extraction
+• Formula detection
+• Structured JSON question generation
+
+Image extraction rules:
+
+Images must be saved in:
+
+bucket/schoolId/subjectId/chapterId/images/
+
+Images must be tagged with:
+
+• Concept reference
+• Page number
+• Image type
+
+During question generation, if a relevant image exists it must automatically attach to the generated question.
+
+---
+
+S3 STORAGE ARCHITECTURE
+
+No local storage allowed.
+
+All files must be stored in S3.
+
+Structure:
+
+bucket/
+
+schoolId/
+
+subjects/
+
+subjectId/
+
+chapters/
+
+chapterId/
+
+pdf/
+
+images/
+
+exams/
+
+reports/
+
+Use signed URLs.
+
+Buckets must not be public.
+
+Strict isolation required.
+
+---
+
+EXAM ENGINE
+
+The existing Olympiad exam system must remain unchanged.
+
+New capabilities must extend without breaking current logic.
+
+Exam Types:
+
+Chapter Test
+Subject Cumulative Test
+Grand Overall Test
+
+Exam configuration must support:
+
+• Question shuffle
+• Option shuffle
+• Fixed duration
+• Auto submit
+• Weighted random selection
+• Regeneration support
+
+---
+
+PROCTORING SYSTEM
+
+During exam creation provide toggle:
+
+Proctoring ON / OFF
+
+Default must be ON.
+
+Features include:
+
+• Tab switch detection
+• Full screen enforcement
+• Window blur detection
+• Time tracking per question
+
+Integration must not break current exam submission logic.
+
+---
+
+STUDENT PANEL MENU SIMPLIFICATION
+
+Replace complex gamified wording with simple language.
+
+Classes 1-5 menu:
+
+Home
+My Tests
+My Results
+Practice
+Profile
+
+Classes 6-12 menu:
+
+Dashboard
+Tests
+Results
+Practice Tests
+Performance
+Profile
+
+System must auto detect class group and render appropriate menu.
+
+---
+
+OLYMPIAD INTELLIGENCE ANALYTICS
+
+Every exam must generate analytics including:
+
+• Subject performance
+• Concept mastery
+• Accuracy percentage
+• Time per question
+
+Create Brain Score metric evaluating:
+
+• Logical reasoning
+• Problem solving ability
+• Speed
+• Accuracy
+
+---
+
+SCHOOL ANALYTICS
+
+SchoolHead dashboard must include:
+
+• Class performance comparison
+• Subject performance comparison
+• Teacher analytics
+• Participation analytics
+
+---
+
+ADAPTIVE ENGINE
+
+If a student is weak in a concept, the system must increase question weightage in future tests.
+
+This must NOT interfere with Olympiad scoring logic.
+
+---
+
+QUALITY CONTROLS
+
+Implement:
+
+• Question duplication detection
+• AI quality score
+• Syllabus coverage percentage
+• Exam blueprint templates
+• Risk prediction scoring
+
+---
+
+USER INTERFACE DESIGN RULES
+
+The UI must be modern, intelligent, attractive, and student friendly.
+
+Rules:
+
+• No dark theme for the platform UI
+• Clean white background
+• Soft academic color palette
+• Card based layouts
+• Minimal navigation
+
+Dashboard menus must be extremely simple.
+
+Students must understand the platform within seconds.
+
+---
+
+ARCHITECTURE REQUIREMENTS
+
+The entire system must be fully dynamic and database driven.
+
+No hardcoded:
+
+• Subjects
+• Classes
+• Exams
+• Questions
+• Reports
+• Analytics
+
+All modules must be connected.
+
+System must be modular and scalable.
+
+---
+
+STRICT PRESERVATION RULE
+
+No existing feature removal.
+No route breakage.
+No exam logic modification.
+No analytics loss.
+No destructive database migration.
+
+Use additive migrations only.
+
+Maintain full backward compatibility.
+
+---
+
+FULL END TO END VALIDATION
+
+After implementation verify:
+
+• Existing Olympiad system flow
+• School onboarding
+• Branding
+• Academic structure creation
+• PDF upload
+• AI processing
+• Image extraction
+• Exam creation
+• Proctoring toggle
+• Student attempt flow
+• Result generation
+• Analytics dashboards
+
+Ensure zero broken flow.
+
+Optimize performance.
+
+Maintain clean architecture.
+
+Implement fully and safely.
+
+---
+
+FINAL OBJECTIVE
+
+Transform this platform into the world's first AI Powered Multi-Tenant Olympiad Intelligence SaaS Platform where schools can run their own branded assessment systems while students compete in Olympiad competitions and improve their academic intelligence under the guidance of the AI mentor TARA.

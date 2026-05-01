@@ -1,0 +1,107 @@
+ADD SEO-RICH CONTENT TO HOMEPAGE:
+
+Homepage mein abhi sirf hero section aur basic content hai. Google ranking ke liye detailed, keyword-rich content chahiye with proper H1, H2, H3 heading tags. 
+
+Implement these NEW content sections on Home.tsx AFTER the existing "Explore Olympiads" section:
+
+## SECTION 1: About Online Olympiad Exams (after Olympiad cards)
+<section with white background>
+  <h2>What is Samikaran Olympiad? India's Premier Online Olympiad Examination Platform</h2>
+  <p>Samikaran Olympiad is India's most trusted online olympiad examination platform designed for students from Class 1 to Class 12. We conduct AI-powered competitive exams in over 20 subjects including Mathematics Olympiad, Science Olympiad, English Olympiad, Computer Science Olympiad, Reasoning Olympiad, and more. Our platform combines cutting-edge artificial intelligence with secure proctoring technology to deliver a fair, transparent, and world-class examination experience.</p>
+  
+  <h3>Why Choose Online Olympiad Exams?</h3>
+  <p>Online olympiad exams offer unparalleled convenience and accessibility for students across India. Whether you're in a metro city or a remote village, Samikaran brings competitive examinations to your doorstep. Our AI-proctored online exams ensure 100% exam integrity with facial recognition technology and tab-detection systems, making cheating impossible while allowing students to take exams from the comfort of their homes.</p>
+</section>
+
+## SECTION 2: Subject-wise Olympiad Information
+<section>
+  <h2>Olympiad Subjects We Offer - Class 1 to 12</h2>
+  
+  <h3>Mathematics Olympiad for School Students</h3>
+  <p>Our Mathematics Olympiad tests logical reasoning, problem-solving skills, and mathematical aptitude for students from Class 1 to Class 12. Questions are designed by expert mathematicians and aligned with NCERT, CBSE, ICSE, and State Board curricula. Students get exposure to challenging problems that prepare them for national and international mathematics competitions like IMO (International Mathematical Olympiad).</p>
+  
+  <h3>Science Olympiad - Physics, Chemistry, Biology</h3>
+  <p>Science Olympiad exams on Samikaran cover Physics, Chemistry, and Biology with hands-on conceptual questions. Our AI-powered question bank includes real-world applications, experiments, and scientific reasoning challenges that develop scientific temper and analytical thinking in young minds.</p>
+  
+  <h3>English Olympiad & Language Skills</h3>
+  <p>The English Olympiad focuses on grammar, vocabulary, comprehension, and creative writing skills. Students from Class 1 to Class 12 can participate and improve their English language proficiency through competitive assessment.</p>
+  
+  <h3>Computer Science & Coding Olympiad</h3>
+  <p>In today's digital age, our Computer Science Olympiad introduces students to programming logic, algorithms, and computational thinking. Questions range from basic computer fundamentals for younger students to advanced coding challenges for senior classes.</p>
+  
+  <h3>General Knowledge & Reasoning Olympiad</h3>
+  <p>Reasoning and General Knowledge olympiads test awareness, current affairs knowledge, logical reasoning, and critical thinking abilities essential for holistic development and competitive exam preparation.</p>
+</section>
+
+## SECTION 3: Benefits for Students, Schools, Parents
+<section>
+  <h2>Benefits of Participating in Samikaran Olympiad Exams</h2>
+  
+  <h3>For Students:</h3>
+  <ul>
+    <li>National & State-level Rankings to compare performance with peers across India</li>
+    <li>Instant Results & Performance Analytics powered by AI</li>
+    <li>Certificates of Excellence (Gold, Silver, Bronze) for top performers</li>
+    <li>Cash Prizes & Scholarships worth lakhs of rupees</li>
+    <li>Letters of Recommendation for outstanding students</li>
+    <li>Preparation for competitive exams like JEE, NEET, NDA, NTSE</li>
+  </ul>
+  
+  <h3>For Schools:</h3>
+  <ul>
+    <li>Hassle-free online examination with zero infrastructure cost</li>
+    <li>Dedicated School Dashboard to track student performance</li>
+    <li>Bulk registration facility for entire classes</li>
+    <li>School-wise rankings and performance reports</li>
+    <li>Partnership benefits and revenue sharing opportunities</li>
+  </ul>
+  
+  <h3>For Parents:</h3>
+  <ul>
+    <li>Safe, secure, and AI-proctored exams from home</li>
+    <li>Real-time performance tracking and detailed analytics</li>
+    <li>Affordable exam fees with high-value learning outcomes</li>
+    <li>Exposure to competitive environment without stress</li>
+  </ul>
+</section>
+
+## SECTION 4: How It Works - Detailed Process
+<section>
+  <h2>How to Participate in Samikaran Olympiad Online Exams</h2>
+  
+  <h3>Step 1: Register on Samikaran Olympiad Platform</h3>
+  <p>Create your free student account on www.samikaranolympiad.com in under 2 minutes. Students, schools, and parents can register independently. Fill in basic details like name, class, school, city, and contact information.</p>
+  
+  <h3>Step 2: Choose Your Olympiad Subject and Date</h3>
+  <p>Browse our olympiad calendar and select the subjects you want to participate in - Mathematics, Science, English, Computer Science, or others. Choose a convenient exam date and time slot. We offer flexible scheduling to accommodate students across different time zones.</p>
+  
+  <h3>Step 3: Make Payment & Confirm Registration</h3>
+  <p>Pay the nominal exam fee online through secure payment gateways (UPI, Credit Card, Debit Card, Net Banking). Receive instant confirmation via email and SMS with exam instructions and admit card.</p>
+  
+  <h3>Step 4: Take AI-Proctored Exam from Home</h3>
+  <p>On exam day, login to your Samikaran dashboard 15 minutes before the scheduled time. Our AI proctoring system will verify your identity using facial recognition. Take the exam on your laptop or desktop with a stable internet connection. The AI continuously monitors for any malpractice.</p>
+  
+  <h3>Step 5: Get Instant Results & Certificates</h3>
+  <p>Receive your results within seconds of exam submission. View detailed performance analytics including subject-wise breakdown, time management insights, and improvement suggestions. Download your digital certificate immediately and share it on social media.</p>
+</section>
+
+## SECTION 5: FAQs Preview
+<section>
+  <h2>Frequently Asked Questions About Samikaran Olympiad</h2>
+  
+  <h3>Who can participate in Samikaran Olympiad exams?</h3>
+  <p>Students from Class 1 to Class 12 studying in any school across India (CBSE, ICSE, State Board, IGCSE) can participate in our olympiad exams.</p>
+  
+  <h3>What is the exam fee for olympiad exams?</h3>
+  <p>Exam fees vary by subject and class level, typically ranging from ₹100 to ₹500 per olympiad. Bulk discounts available for schools.</p>
+  
+  <h3>Are the exams AI-proctored and secure?</h3>
+  <p>Yes, all Samikaran olympiad exams use advanced AI proctoring with facial recognition, tab-detection, and real-time monitoring to ensure 100% exam integrity.</p>
+  
+  <h3>When will I receive my results and certificates?</h3>
+  <p>Results are generated instantly upon exam submission. Certificates are available for download within 24 hours of the exam.</p>
+  
+  <p><a href="/faq">View All FAQs →</a></p>
+</section>
+
+Implement all 5 sections with proper semantic HTML: <section>, <h2>, <h3>, <p>, <ul>, <li>. Ensure content is crawlable (not in JavaScript-hidden divs). Also update the existing meta tags to include these keywords: "online olympiad exams india", "mathematics olympiad", "science olympiad", "class 1-12", "AI proctored exams", "competitive exams for students".

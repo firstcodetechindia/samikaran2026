@@ -1,0 +1,313 @@
+You are a senior full-stack SaaS engineer.
+
+You are building a GLOBAL ONLINE OLYMPIAD EXAMINATION PLATFORM
+that will accept REAL PAYMENTS from students worldwide.
+
+The system must be PRODUCTION-GRADE, AUDIT-READY,
+and scalable from day one.
+
+I am working in REPLIT.
+DO NOT change existing UI layout or navigation.
+Extend only where explicitly required.
+
+---------------------------------------------------
+SYSTEM CONTEXT (ALREADY EXISTS)
+---------------------------------------------------
+
+The platform already has:
+- Users (Students, Admin)
+- Authentication
+- Olympiads
+- Categories & Sub-categories
+- Exams
+- Exam dashboard
+- Exam registration flow
+- Admin panel with sidebar
+- Global Settings module (can be extended)
+
+---------------------------------------------------
+FINAL GOAL
+---------------------------------------------------
+
+Build a COMPLETE, END-TO-END PAYMENT & TAX SYSTEM
+from ZERO to OPERATIONAL covering:
+
+- Razorpay (India)
+- Stripe (International)
+- Smart country-based routing
+- Admin-controlled tax (GST & future-ready)
+- Payment failure & retry UX
+- Exam unlock automation
+- Invoice / receipt generation
+- Test & Live environments
+- Secure webhook verification
+
+This system will be used by REAL students and parents.
+
+---------------------------------------------------
+1️⃣ GLOBAL SETTINGS (FOUNDATION LAYER)
+---------------------------------------------------
+
+Extend Admin → GLOBAL SETTINGS with a new tab:
+
+GLOBAL SETTINGS → PAYMENTS & TAX
+
+This tab is the SINGLE SOURCE OF TRUTH.
+
+Sections:
+
+[A] Environment
+- Mode: TEST | LIVE
+- Applies globally
+
+[B] Payment Gateways
+- Enable Razorpay (ON/OFF)
+- Razorpay Key ID
+- Razorpay Key Secret
+- Razorpay Webhook Secret
+
+- Enable Stripe (ON/OFF)
+- Stripe Secret Key
+- Stripe Webhook Secret
+
+[C] Smart Routing Rules
+- Default Country: India
+- Routing Logic (backend only):
+   IF student.country == "India" → Razorpay
+   ELSE → Stripe
+
+[D] Tax Configuration (ADMIN CONTROLLED)
+- Enable Tax (ON/OFF)
+- Tax Name (default: GST)
+- Tax Rate (%) (default: 18)
+- Apply Tax Only For:
+   ☑ India
+   ☐ All Countries
+- Tax Calculation Mode:
+   - Percentage Based
+
+[E] Business Identity (for invoices)
+- Legal Business Name
+- GSTIN / Tax ID
+- Registered Address
+- State Code (India)
+
+[F] Invoice Settings
+- Auto Generate Invoice (ON/OFF)
+- Invoice Prefix
+- Show Tax Breakdown
+- Footer Notes (editable)
+
+[G] Payment UX Rules
+- Allow Retry on Failure (ON/OFF)
+- Max Retry Attempts (default: 3)
+- Auto Unlock Exam After Payment (ON/OFF)
+
+⚠️ Secrets must NEVER be exposed to frontend.
+⚠️ Keys stored securely (env or encrypted store).
+
+---------------------------------------------------
+2️⃣ USER COUNTRY & CURRENCY LOGIC
+---------------------------------------------------
+
+Determine student country using:
+1. User profile country (primary)
+2. Signup country (fallback)
+
+Currency rules:
+- India → INR
+- International → USD (default, future-ready)
+
+---------------------------------------------------
+3️⃣ TAX (GST) BUSINESS RULES
+---------------------------------------------------
+
+- Olympiads & online exams are TAXABLE in India
+- Tax applies ONLY to Indian students by default
+- International students = Export of Service → Tax = 0%
+- Tax rate must be editable by Admin
+- Tax applies ONLY to new payments
+
+Tax calculation:
+- Base Amount = exam.price
+- Tax Amount = (Base × Tax Rate) / 100
+- Total Payable = Base + Tax
+
+India tax split:
+IF business.state == student.state
+   → CGST = tax / 2
+   → SGST = tax / 2
+ELSE
+   → IGST = tax
+
+---------------------------------------------------
+4️⃣ DATABASE DESIGN (CORE)
+---------------------------------------------------
+
+Create / extend tables:
+
+payments
+- id (uuid)
+- user_id
+- exam_id
+- olympiad_id
+- gateway (razorpay | stripe)
+- gateway_order_id
+- gateway_payment_id
+- base_amount
+- tax_rate
+- tax_amount
+- cgst_amount
+- sgst_amount
+- igst_amount
+- total_amount
+- currency
+- status (pending | paid | failed | refunded)
+- retry_count
+- country
+- is_export_service
+- environment (test | live)
+- invoice_number
+- invoice_url
+- created_at
+- updated_at
+
+exam_registrations
+- id
+- user_id
+- exam_id
+- payment_id
+- status (locked | unlocked)
+
+---------------------------------------------------
+5️⃣ PAYMENT FLOW (END TO END)
+---------------------------------------------------
+
+STEP 1: Student clicks “Pay & Register”
+- Fetch exam price from DB
+- Calculate tax server-side
+- Create:
+   - exam_registration (LOCKED)
+   - payment record (PENDING)
+
+STEP 2: Gateway Selection
+- Apply smart routing
+- Razorpay for India
+- Stripe for others
+
+STEP 3: Create Payment
+Razorpay:
+- Create order with TOTAL amount (including tax)
+
+Stripe:
+- Create payment intent with TOTAL amount
+
+STEP 4: Frontend Checkout
+- Auto open correct checkout
+- Disable button + loader
+- Prevent duplicate clicks
+
+---------------------------------------------------
+6️⃣ PAYMENT FAILURE & RETRY UX
+---------------------------------------------------
+
+Failure scenarios:
+- Payment cancelled
+- Payment failed
+- Network issue
+- Timeout
+
+UX rules:
+- Show clear message:
+  “Payment failed. No exam access granted.”
+- Show “Retry Payment” button
+- DO NOT create new exam registration
+- Reuse existing payment record
+- Increase retry_count
+- Stop retry after max attempts
+
+---------------------------------------------------
+7️⃣ WEBHOOK-BASED VERIFICATION (STRICT)
+---------------------------------------------------
+
+Frontend success is NOT trusted.
+
+Razorpay webhook:
+- Verify signature
+- Match order_id, amount
+
+Stripe webhook:
+- Verify signature
+- Confirm payment_intent.succeeded
+
+On success:
+- Mark payment = PAID
+- Unlock exam_registration
+- Generate invoice
+- Send confirmation (stub allowed)
+
+Prevent:
+- Duplicate webhook processing
+- Amount mismatch
+- Multiple unlocks
+
+---------------------------------------------------
+8️⃣ INVOICE / RECEIPT GENERATION
+---------------------------------------------------
+
+On successful payment:
+
+Generate PDF invoice with:
+- Business identity
+- Invoice number & date
+- Student details
+- Exam name
+- Base amount
+- Tax breakdown
+- Total paid
+- Gateway & payment ID
+- Export of service note (if applicable)
+
+Store invoice URL.
+Allow download from Student Dashboard.
+
+---------------------------------------------------
+9️⃣ ADMIN CONTROLS
+---------------------------------------------------
+
+Admin can:
+- Change tax rate
+- Enable / disable tax
+- Switch test / live mode
+- View all payments
+- Filter by country, tax, gateway
+- Download invoices
+- Manually unlock exam (override)
+
+---------------------------------------------------
+🔟 SECURITY & QUALITY RULES
+---------------------------------------------------
+
+- All pricing & tax logic server-side
+- Secrets never exposed
+- One payment → one exam → one student
+- Idempotent webhooks
+- Clean modular architecture
+- Production-grade error handling
+
+---------------------------------------------------
+FINAL OUTCOME
+---------------------------------------------------
+
+Deliver a FULLY OPERATIONAL,
+REAL-MONEY-READY PAYMENT & TAX SYSTEM
+for a GLOBAL OLYMPIAD SAAS platform.
+
+This must be:
+- Legally compliant (India)
+- International-ready
+- Admin-controlled
+- Secure
+- Scalable
+
+BUILD THIS AS A REAL-WORLD SAAS MODULE.

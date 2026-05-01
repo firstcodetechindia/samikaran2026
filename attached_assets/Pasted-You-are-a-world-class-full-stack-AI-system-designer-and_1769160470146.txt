@@ -1,0 +1,169 @@
+You are a world-class full-stack AI system designer and visual UX architect. 
+
+Your task is to build a best-in-the-world **Chatbot Flow Builder** inside Replit — a **no-code, drag-and-drop, highly intuitive visual tool** that allows anyone — even users with zero technical experience — to design complex chatbot conversations easily.
+
+This Flow Builder must support **every possible chatbot requirement**, including conditions, loops, variables, triggers, fallback logic, multilingual text, scores, state, API integrations, timers, audio triggers, and advanced routing.
+
+You must generate the full source code and architecture inside Replit, with the following requirements:
+
+---
+
+## 🧠 1. VISUAL FLOW BUILDER UI
+
+### Core Features
+• **Drag-and-drop nodes** (Start, Message, Input, Condition, Loop, API, NLP Intent, Fallback, Redirect, End)  
+• **Connectors** with multiple branches  
+• Unlimited branching and nested flows  
+• **Color coded nodes** (Info, Logic, API, NLP, Decision)  
+• **Zoom + pan + multi-select + grid snap**  
+• **Real-time simulation/testing sandbox**  
+• **Undo/Redo + version history**  
+• **Search within flow**  
+
+### Node Types (with rich settings)
+• **Start Node** – Entry point  
+• **Message Node** – Static or dynamic text  
+• **User Input Node** – Free text, choice, numeric, regex  
+• **Condition Node** – Branch based on variables or NLP intent  
+• **Loop Node** – Repeat until condition  
+• **Delay/Timer Node** – Wait or remind later  
+• **API Node** – Call external APIs, save responses  
+• **NLP Intent Node** – Use AI intent classification  
+• **Fallback Node** – Graceful fallback with retry paths  
+• **Redirect Node** – To other flows or sub-flows  
+• **Exit Node** – End of conversation  
+
+### UX Specifications
+• Node palette sidebar with drag icons  
+• Canvas center workspace  
+• Property inspector panel on selection  
+• Inline editable titles/text  
+• Click-to-test individual node paths  
+• Flow export/import (JSON)  
+• **Preview chat panel** for live test
+
+Each node supports **conditions, variables, language variants, and rich text**. The builder must manage context state and allow previewing the full conversation. :contentReference[oaicite:1]{index=1}
+
+---
+
+## 🛠️ 2. FUNCTIONAL CONDITIONS & LOGIC
+
+Your system must support:
+✔ **If / Else conditions** (multiple branching)  
+✔ **Boolean expressions** (AND / OR / NOT)  
+✔ **Variables** (session, user data, counters)  
+✔ **Regex pattern matching**  
+✔ **Intent matching with NLP**  
+✔ **Fallback routes** for all nodes  
+✔ **Exit and restart flows**  
+✔ **Loop limits** to prevent infinite cycles
+
+Flows should feel like real conversation maps — not linear scripts — and adapt dynamically to user input. :contentReference[oaicite:2]{index=2}
+
+---
+
+## 💬 3. CHAT FLOW ENGINE INTEGRATION
+
+Your builder must generate a runtime engine that:
+• Executes flows node-by-node  
+• Maintains **session state** and context  
+• Persists **variables and memory**  
+• Integrates with the AI agent backend  
+• Routes to multilingual text based on user language detection  
+• Supports voice audio triggers as well as text
+
+NLP nodes must call a backend model for intent classification and sentiment if needed. Fallback paths should have clear retry limits.
+
+---
+
+## 🔧 4. COMPLETE SETTINGS PANEL
+
+Settings must include:
+• Default language and language fallback  
+• Naming and description for flows  
+• Variables list and scope  
+• Timeout behavior  
+• Fallback/exit messaging  
+• API credentials and headers  
+• Analytics tracking toggles  
+• Access control (who can edit flows)  
+• Preview language switch
+
+---
+
+## 🧪 5. REAL-TIME SIMULATION & TESTING
+
+Provide:
+• Play button to run the flow from any node  
+• Chat simulator right in the UI  
+• Logging of variables and inputs in test mode  
+• Error highlights when a node is unreachable  
+• Test builder suggestions (“Did you mean…?”)
+
+Flows should be testable without publishing. :contentReference[oaicite:3]{index=3}
+
+---
+
+## 🧾 6. EXPORT / SHARE / TEMPLATES
+
+• Export flows as reusable templates  
+• Share via URL  
+• Import via JSON or drag files  
+• Marketplace of prebuilt flow templates (support, registration, onboarding, FAQs, etc.)
+
+---
+
+## 💡 7. LAYMAN-FRIENDLY DESIGN
+
+The Flow Builder must be so simple that:
+✔ A complete beginner can build customer support flows  
+✔ Anyone can add conditions without writing code  
+✔ Users can connect flows with simple connectors  
+✔ Users can drag nodes and fill fields only
+✔ Real-time hints and tips appear while dragging  
+✔ No terminology that requires developer knowledge
+
+Your system must automatically generate smart defaults, error-proof flows, and contextual suggestions.
+
+---
+
+## 📐 8. ADVANCED FEATURES (CUTTING EDGE)
+
+Include support for:
+• NLP intent recognition nodes  
+• Sentiment-based branching  
+• Context memory nodes  
+• AI-suggested next steps while building  
+• Auto flags for unreachable nodes  
+• Analytics on conversation bottlenecks  
+• AB testing between flows
+
+---
+
+## 📦 9. REPLIT CODE STRUCTURE
+
+Generate full Replit project with:
+• Frontend (React + Canvas/ReactFlow)  
+• Backend (Node.js or Python API engine)  
+• Database schema for flows, nodes, and user data  
+• Real-time testing and preview server  
+• Hosting and deployment settings  
+
+Make this fully reproducible and runnable from Replit in one click. :contentReference[oaicite:4]{index=4}
+
+---
+
+## ⭐ FINAL OBJECTIVE
+
+Build the **best chatbot flow builder in the world** — one that feels effortless, supports the most advanced logic, and empowers even non-technical users to build any type of chatbot behavior.
+
+Stop only when the builder supports:
+• Multiple languages  
+• Full conditional logic  
+• API integration  
+• NLP + AI intent nodes  
+• User session state  
+• Testing & preview  
+• Templates & sharing
+
+Make it feel like building a conversation in your mind — not writing code.
