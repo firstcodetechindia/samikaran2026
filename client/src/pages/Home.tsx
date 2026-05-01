@@ -84,8 +84,8 @@ function OlympiadIllustration() {
     { name: 'Maths', icon: '∑', sub: 'π²', color: '#f472b6', border: '#ec4899', bg: '#2d0f30' },
     { name: 'Science', icon: '⚛', sub: '', color: '#a78bfa', border: '#7c3aed', bg: '#1a0d35' },
     { name: 'English', icon: 'ABC', sub: 'abc', color: '#34d399', border: '#059669', bg: '#0d2420' },
-    { name: 'Reasoning', icon: '🧩', sub: 'IQ', color: '#fbbf24', border: '#d97706', bg: '#2d1a00' },
-    { name: 'Computers', icon: '</', sub: '/>', color: '#38bdf8', border: '#0284c7', bg: '#001a2d' },
+    { name: 'Reasoning', icon: '♟', sub: 'Logic', color: '#fbbf24', border: '#d97706', bg: '#2d1a00' },
+    { name: 'Computers', icon: '</>', sub: 'Code', color: '#38bdf8', border: '#0284c7', bg: '#001a2d' },
   ];
   const [dims, setDims] = useState({ R: 165, iconSize: 68, height: 520 });
   useEffect(() => {
@@ -143,7 +143,7 @@ function OlympiadIllustration() {
                   boxShadow: `0 0 16px ${s.border}55`,
                 }}
               >
-                <span style={{ color: s.color, fontSize: s.icon === '⚛' ? 22 : 17, fontWeight: 800, lineHeight: 1 }}>{s.icon}</span>
+                <span style={{ color: s.color, fontSize: s.icon === '⚛' || s.icon === '♟' ? 24 : s.icon === '</>' ? 13 : 17, fontWeight: 800, lineHeight: 1 }}>{s.icon}</span>
                 {s.sub && <span style={{ color: s.color, fontSize: 10, lineHeight: 1, marginTop: 2 }}>{s.sub}</span>}
               </div>
               <span style={{ color: s.color, fontSize: 11, fontWeight: 700, letterSpacing: 0.3, whiteSpace: 'nowrap' }}>{s.name}</span>
