@@ -98,14 +98,14 @@ function OlympiadIllustration() {
     { name: 'EVS', icon: '♻', color: '#4ade80', border: '#16a34a', bg: '#002a14' },
     { name: 'Social', icon: '⊕', color: '#c084fc', border: '#9333ea', bg: '#1a0030' },
   ];
-  const [dims, setDims] = useState({ R: 165, iconSize: 68, height: 520 });
+  const [dims, setDims] = useState({ R: 165, iconSize: 68, height: 470 });
   useEffect(() => {
     const update = () => {
       const w = window.innerWidth;
-      if (w < 480) setDims({ R: 108, iconSize: 50, height: 360 });
-      else if (w < 768) setDims({ R: 130, iconSize: 58, height: 420 });
-      else if (w < 1024) setDims({ R: 148, iconSize: 62, height: 460 });
-      else setDims({ R: 165, iconSize: 68, height: 520 });
+      if (w < 480) setDims({ R: 108, iconSize: 50, height: 340 });
+      else if (w < 768) setDims({ R: 130, iconSize: 58, height: 390 });
+      else if (w < 1024) setDims({ R: 148, iconSize: 62, height: 430 });
+      else setDims({ R: 165, iconSize: 68, height: 470 });
     };
     update();
     window.addEventListener('resize', update);
@@ -116,7 +116,7 @@ function OlympiadIllustration() {
   const is2 = Math.round(iconSize * 0.50);
   const dur = 22;
   return (
-    <div className="relative w-full flex items-center justify-center select-none overflow-hidden" style={{ height }}>
+    <div className="relative w-full flex items-center justify-center select-none" style={{ height }}>
       {/* Ambient glow */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <div className="rounded-full bg-purple-600/10 blur-[70px]" style={{ width: R * 2.2, height: R * 2.2 }} />
@@ -265,15 +265,6 @@ function OlympiadIllustration() {
         transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
       />
 
-      {/* Badges */}
-      <div className="absolute flex items-center gap-3 z-20" style={{ bottom: 'clamp(12px, 3vw, 24px)' }}>
-        <div className="px-4 py-1.5 rounded-full backdrop-blur-sm" style={{ background: 'rgba(124,58,237,0.85)' }}>
-          <span className="text-white text-sm font-black tracking-widest">2026</span>
-        </div>
-        <div className="px-4 py-1.5 rounded-full backdrop-blur-sm" style={{ background: 'rgba(236,72,153,0.85)' }}>
-          <span className="text-white text-xs font-bold">₹5L Scholarship</span>
-        </div>
-      </div>
     </div>
   );
 }
@@ -428,9 +419,17 @@ export default function Home() {
               </motion.div>
             </div>
 
-            <div className="w-full lg:w-[45%] relative">
-              <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }} className="relative">
+            <div className="w-full lg:w-[45%] relative flex flex-col items-center">
+              <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }} className="relative w-full">
                 <OlympiadIllustration />
+              </motion.div>
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.6 }} className="flex items-center gap-3 mt-3">
+                <div className="px-4 py-1.5 rounded-full backdrop-blur-sm" style={{ background: 'rgba(124,58,237,0.85)' }}>
+                  <span className="text-white text-sm font-black tracking-widest">2026</span>
+                </div>
+                <div className="px-4 py-1.5 rounded-full backdrop-blur-sm" style={{ background: 'rgba(236,72,153,0.85)' }}>
+                  <span className="text-white text-xs font-bold">₹5L Scholarship</span>
+                </div>
               </motion.div>
             </div>
           </div>
