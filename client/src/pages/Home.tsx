@@ -998,63 +998,121 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── SEO Section 5: FAQs ─────────────────────────────────────── */}
-      <section className="relative py-20 sm:py-28 overflow-hidden bg-gray-50 dark:bg-gray-950/40" aria-label="Frequently Asked Questions">
-        {/* Floating dots */}
-        <div className="absolute top-10 left-10 w-3 h-3 rounded-full bg-violet-400/30 animate-pulse" />
-        <div className="absolute top-1/3 right-16 w-2 h-2 rounded-full bg-fuchsia-400/40 animate-pulse" style={{ animationDelay: "1s" }} />
-        <div className="absolute bottom-20 left-1/4 w-4 h-4 rounded-full bg-purple-400/20 animate-pulse" style={{ animationDelay: "0.5s" }} />
+      {/* ── CTA + FAQs combined row ──────────────────────────────────── */}
+      <section className="relative py-14 sm:py-20 overflow-hidden bg-gray-50 dark:bg-gray-950/40" aria-label="CTA and Frequently Asked Questions">
+        {/* ambient glows */}
+        <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-violet-500/6 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-fuchsia-500/6 rounded-full blur-[100px] pointer-events-none" />
 
-        <div className="container mx-auto px-4 sm:px-6 max-w-3xl relative z-10">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight tracking-tight text-foreground mb-4">
-              Frequently Asked Questions About{" "}
-              <span className="bg-gradient-to-r from-violet-600 to-fuchsia-600 bg-clip-text text-transparent">Samikaran Olympiad</span>
-            </h2>
-            <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500" />
-          </motion.div>
+        <div className="container mx-auto px-4 sm:px-6 max-w-6xl relative z-10">
+          <div className="grid lg:grid-cols-[1fr_1.25fr] gap-6 lg:gap-8 items-start">
 
-          <div className="space-y-3">
-            {[
-              { q: "Who can participate in Samikaran Olympiad exams?", a: "Students from Class 1 to Class 12 studying in any school across India (CBSE, ICSE, State Board, IGCSE) can participate in our olympiad exams." },
-              { q: "What is the exam fee for olympiad exams?", a: "Exam fees vary by subject and class level, typically ranging from ₹100 to ₹500 per olympiad. Bulk discounts are available for schools registering multiple students." },
-              { q: "Are the exams AI-proctored and secure?", a: "Yes, all Samikaran olympiad exams use advanced AI proctoring with facial recognition, tab-detection, and real-time monitoring to ensure 100% exam integrity." },
-              { q: "When will I receive my results and certificates?", a: "Results are generated instantly upon exam submission. Certificates are available for download within 24 hours of the exam." },
-            ].map((faq, i) => (
-              <motion.div
-                key={i}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4, delay: i * 0.08 } } }}
-                className={`group rounded-2xl border bg-white dark:bg-card shadow-sm hover:border-violet-400 dark:hover:border-violet-500 transition-colors duration-300 overflow-hidden ${openFaq === i ? "border-violet-400 dark:border-violet-500" : "border-gray-100 dark:border-border/50"}`}
-              >
-                <button
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full flex items-center gap-4 p-5 sm:p-6 text-left"
-                  aria-expanded={openFaq === i}
-                  data-testid={`button-faq-${i}`}
-                >
-                  <div className={`shrink-0 w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${openFaq === i ? "bg-gradient-to-br from-violet-500 to-fuchsia-600" : "bg-violet-50 dark:bg-violet-900/20"}`}>
-                    <HelpCircle className={`w-4 h-4 transition-colors ${openFaq === i ? "text-white" : "text-violet-600 dark:text-violet-400"}`} />
+            {/* ── LEFT: CTA card ── */}
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
+              <div className="brand-gradient rounded-3xl p-8 sm:p-10 relative overflow-hidden h-full flex flex-col">
+                {/* inner glow */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl pointer-events-none" />
+                <div className="absolute -bottom-16 -left-16 w-64 h-64 bg-white/5 rounded-full blur-3xl pointer-events-none" />
+
+                <div className="relative z-10 flex flex-col h-full">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/15 border border-white/20 text-[10px] font-bold uppercase tracking-widest text-white/90 mb-5 w-fit">
+                    <Zap className="w-3 h-3" /> Join Now — Free
+                  </span>
+                  <h2 className="text-3xl sm:text-4xl font-black text-white leading-tight mb-3" style={{ letterSpacing: "0.01em" }}>
+                    Ready to<br />Compete?
+                  </h2>
+                  <p className="text-sm sm:text-base text-white/75 leading-relaxed mb-8">
+                    Join thousands of students across India in the most advanced olympiad platform. Registration is free and takes under 2 minutes.
+                  </p>
+
+                  <div className="flex flex-col gap-3 mb-8">
+                    <Link href="/register">
+                      <Button size="lg" className="w-full bg-white text-purple-700 hover:bg-white/90 rounded-2xl h-12 text-sm font-bold shadow-xl" data-testid="button-cta-register">
+                        Register Now — It's Free <ArrowRight className="ml-2 w-4 h-4" />
+                      </Button>
+                    </Link>
+                    <Link href="/register?role=school">
+                      <Button size="lg" variant="outline" className="w-full border-white/30 text-white hover:bg-white/10 bg-transparent rounded-2xl h-12 text-sm font-bold" data-testid="button-cta-school">
+                        <GraduationCap className="mr-2 w-4 h-4" /> School Registration
+                      </Button>
+                    </Link>
                   </div>
-                  <h3 className="flex-1 text-sm sm:text-base font-semibold leading-normal tracking-normal text-foreground">{faq.q}</h3>
-                  <ChevronDown className={`shrink-0 w-5 h-5 text-muted-foreground transition-transform duration-300 ${openFaq === i ? "rotate-180 text-violet-600" : ""}`} />
-                </button>
-                <div className={`overflow-hidden transition-all duration-300 ${openFaq === i ? "max-h-40 pb-5" : "max-h-0"}`}>
-                  <p className="px-5 sm:px-6 text-sm text-gray-600 dark:text-gray-400 leading-[1.8] tracking-normal text-justify">{faq.a}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
 
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="mt-10 text-center">
-            <Link href="/faq">
-              <Button className="px-8 py-4 h-auto rounded-2xl font-bold text-sm brand-gradient text-white shadow-lg shadow-violet-500/30 hover:opacity-90 transition-opacity" data-testid="button-view-all-faqs">
-                View All FAQs <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-            </Link>
-          </motion.div>
+                  {/* mini stats */}
+                  <div className="grid grid-cols-3 gap-3 pt-6 border-t border-white/15 mt-auto">
+                    {[
+                      { val: "10K+", label: "Students" },
+                      { val: "50+",  label: "Subjects" },
+                      { val: "100%", label: "AI Secure" },
+                    ].map(s => (
+                      <div key={s.label} className="text-center">
+                        <div className="text-xl font-black text-white">{s.val}</div>
+                        <div className="text-[10px] text-white/60 font-medium mt-0.5">{s.label}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* ── RIGHT: FAQ ── */}
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
+              <div className="mb-7">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-violet-100 dark:bg-violet-900/30 border border-violet-200 dark:border-violet-700/40 text-[10px] font-bold uppercase tracking-widest text-violet-600 dark:text-violet-400 mb-3">
+                  <HelpCircle className="w-3 h-3" /> FAQs
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-bold leading-tight tracking-tight text-foreground">
+                  Frequently Asked{" "}
+                  <span className="bg-gradient-to-r from-violet-600 to-fuchsia-600 bg-clip-text text-transparent">Questions</span>
+                </h2>
+                <p className="text-sm text-muted-foreground mt-1.5">Everything you need to know about Samikaran Olympiad</p>
+              </div>
+
+              <div className="space-y-2.5">
+                {[
+                  { q: "Who can participate in Samikaran Olympiad exams?", a: "Students from Class 1 to Class 12 studying in any school across India (CBSE, ICSE, State Board, IGCSE) can participate in our olympiad exams." },
+                  { q: "What is the exam fee for olympiad exams?",          a: "Exam fees vary by subject and class level, typically ranging from ₹100 to ₹500 per olympiad. Bulk discounts are available for schools registering multiple students." },
+                  { q: "Are the exams AI-proctored and secure?",            a: "Yes, all Samikaran olympiad exams use advanced AI proctoring with facial recognition, tab-detection, and real-time monitoring to ensure 100% exam integrity." },
+                  { q: "When will I receive my results and certificates?",  a: "Results are generated instantly upon exam submission. Certificates are available for download within 24 hours of the exam." },
+                  { q: "Can I participate from any device?",                a: "Our exams are optimised for desktop and laptop browsers. A stable internet connection and webcam are required for AI proctoring." },
+                ].map((faq, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.38, delay: i * 0.07 }}
+                    className={`group rounded-2xl border bg-white dark:bg-card shadow-sm hover:border-violet-300 dark:hover:border-violet-600 transition-all duration-300 overflow-hidden ${openFaq === i ? "border-violet-400 dark:border-violet-500 shadow-violet-100 dark:shadow-violet-900/20" : "border-gray-100 dark:border-border/50"}`}
+                  >
+                    <button
+                      onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                      className="w-full flex items-center gap-3.5 px-5 py-4 text-left"
+                      aria-expanded={openFaq === i}
+                      data-testid={`button-faq-${i}`}
+                    >
+                      <div className={`shrink-0 w-8 h-8 rounded-xl flex items-center justify-center transition-colors ${openFaq === i ? "bg-gradient-to-br from-violet-500 to-fuchsia-600" : "bg-violet-50 dark:bg-violet-900/20"}`}>
+                        <HelpCircle className={`w-3.5 h-3.5 transition-colors ${openFaq === i ? "text-white" : "text-violet-600 dark:text-violet-400"}`} />
+                      </div>
+                      <h3 className="flex-1 text-sm font-semibold leading-snug text-foreground">{faq.q}</h3>
+                      <ChevronDown className={`shrink-0 w-4 h-4 text-muted-foreground transition-transform duration-300 ${openFaq === i ? "rotate-180 text-violet-600" : ""}`} />
+                    </button>
+                    <div className={`overflow-hidden transition-all duration-300 ${openFaq === i ? "max-h-40 pb-4" : "max-h-0"}`}>
+                      <p className="px-5 text-[13px] text-gray-600 dark:text-gray-400 leading-[1.75]">{faq.a}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+              <div className="mt-6">
+                <Link href="/faq">
+                  <Button variant="outline" className="rounded-2xl font-bold text-sm border-violet-200 dark:border-violet-800 text-violet-700 dark:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900/20" data-testid="button-view-all-faqs">
+                    View All FAQs <ArrowRight className="ml-2 w-4 h-4" />
+                  </Button>
+                </Link>
+              </div>
+            </motion.div>
+
+          </div>
         </div>
       </section>
 
@@ -1089,35 +1147,6 @@ export default function Home() {
         </section>
       )}
 
-      {/* ═══════════ CTA BANNER ═══════════ */}
-      <section className="py-10 sm:py-14 mx-3 sm:mx-4 lg:mx-6">
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={scaleIn} className="brand-gradient rounded-3xl sm:rounded-[2rem] p-8 sm:p-12 lg:p-16 relative overflow-hidden">
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-[-50%] right-[-20%] w-[500px] h-[500px] bg-white/5 rounded-full blur-3xl" />
-            <div className="absolute bottom-[-50%] left-[-20%] w-[400px] h-[400px] bg-white/5 rounded-full blur-3xl" />
-          </div>
-          <div className="relative z-10 text-center max-w-2xl mx-auto">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-4" style={{ letterSpacing: '0.02em' }}>
-              Ready to Compete?
-            </h2>
-            <p className="text-base sm:text-lg text-white/80 mb-8 leading-relaxed">
-              Join thousands of students across India in the most advanced olympiad platform. Registration is free and takes under 2 minutes.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/register">
-                <Button size="lg" className="bg-white text-purple-700 hover:bg-white/90 rounded-full px-8 h-14 text-sm font-bold shadow-xl" data-testid="button-cta-register">
-                  Register Now — It's Free <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
-              </Link>
-              <Link href="/register?role=school">
-                <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 bg-transparent rounded-full px-8 h-14 text-sm font-bold" data-testid="button-cta-school">
-                  <GraduationCap className="mr-2 w-5 h-5" /> School Registration
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </motion.div>
-      </section>
 
       {/* ═══════════ NEWS & UPDATES ═══════════ */}
       <section className="py-12 bg-gradient-to-br from-[#0f0a1e] via-[#1a1035] to-[#0f0a1e] text-white rounded-2xl sm:rounded-[3rem] mx-3 sm:mx-4 lg:mx-6 relative overflow-hidden">
