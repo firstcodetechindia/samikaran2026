@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
+import { PublicLayout } from "@/components/PublicLayout";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -108,7 +109,7 @@ export default function ContactPage() {
   ];
 
   return (
-    <>
+    <PublicLayout>
       <Helmet>
         <title>Contact Us | Samikaran Olympiad</title>
         <meta name="description" content="Get in touch with Samikaran Olympiad. Contact us for support, queries, partnerships, or any assistance regarding our online olympiad exams." />
@@ -338,6 +339,6 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
-    </>
+    </PublicLayout>
   );
 }
