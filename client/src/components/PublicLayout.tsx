@@ -234,27 +234,35 @@ function MobileBottomNav({ user, moreOpen, setMoreOpen }: {
               <button
                 key={tab.key}
                 onClick={() => { navigate(tab.href!); setMoreOpen(false); }}
-                className="flex-1 flex flex-col items-center justify-center gap-[4px] h-full relative group"
+                className="flex-1 flex flex-col items-center justify-center gap-[6px] h-full"
                 data-testid={`mobile-bottom-${tab.key}`}
               >
-                {/* Active dot above icon */}
+                {/* Icon pill */}
                 <span
-                  className="absolute top-[10px] left-1/2 -translate-x-1/2 w-[5px] h-[5px] rounded-full transition-all duration-300"
-                  style={active
-                    ? { background: 'linear-gradient(135deg,#c084fc,#f472b6)', boxShadow: '0 0 8px rgba(192,132,252,1)', opacity: 1 }
-                    : { opacity: 0 }
-                  }
-                />
-                <tab.icon
-                  className="w-[21px] h-[21px] transition-all duration-200"
-                  style={active
-                    ? { color: '#f3e8ff', filter: 'drop-shadow(0 0 4px rgba(216,180,254,0.9))' }
-                    : { color: 'rgba(255,255,255,0.58)' }
-                  }
-                />
+                  className="relative w-10 h-8 rounded-xl flex items-center justify-center transition-all duration-250"
+                  style={active ? {
+                    background: 'linear-gradient(135deg, rgba(192,132,252,0.22) 0%, rgba(244,114,182,0.15) 100%)',
+                    border: '1px solid rgba(255,255,255,0.22)',
+                    boxShadow: '0 2px 10px rgba(168,85,247,0.28), inset 0 1px 0 rgba(255,255,255,0.15)',
+                  } : {
+                    background: 'transparent',
+                    border: '1px solid transparent',
+                  }}
+                >
+                  {active && (
+                    <span className="absolute inset-0 rounded-xl" style={{ background: 'linear-gradient(160deg, rgba(255,255,255,0.10) 0%, transparent 60%)' }} />
+                  )}
+                  <tab.icon
+                    className="relative w-[18px] h-[18px] transition-all duration-200"
+                    style={active
+                      ? { color: '#f3e8ff' }
+                      : { color: 'rgba(255,255,255,0.52)' }
+                    }
+                  />
+                </span>
                 <span
                   className="text-[7px] font-bold uppercase tracking-[0.14em] transition-colors duration-200"
-                  style={active ? { color: '#f3e8ff' } : { color: 'rgba(255,255,255,0.45)' }}
+                  style={active ? { color: '#e9d5ff' } : { color: 'rgba(255,255,255,0.40)' }}
                 >
                   {tab.label}
                 </span>
@@ -328,26 +336,35 @@ function MobileBottomNav({ user, moreOpen, setMoreOpen }: {
                   if (tab.key === 'more') { setMoreOpen(!moreOpen); }
                   else { navigate(tab.href!); setMoreOpen(false); }
                 }}
-                className="flex-1 flex flex-col items-center justify-center gap-[4px] h-full relative"
+                className="flex-1 flex flex-col items-center justify-center gap-[6px] h-full"
                 data-testid={`mobile-bottom-${tab.key}`}
               >
+                {/* Icon pill */}
                 <span
-                  className="absolute top-[10px] left-1/2 -translate-x-1/2 w-[5px] h-[5px] rounded-full transition-all duration-300"
-                  style={active
-                    ? { background: 'linear-gradient(135deg,#c084fc,#f472b6)', boxShadow: '0 0 8px rgba(192,132,252,1)', opacity: 1 }
-                    : { opacity: 0 }
-                  }
-                />
-                <tab.icon
-                  className="w-[21px] h-[21px] transition-all duration-200"
-                  style={active
-                    ? { color: '#f3e8ff', filter: 'drop-shadow(0 0 4px rgba(216,180,254,0.9))' }
-                    : { color: 'rgba(255,255,255,0.58)' }
-                  }
-                />
+                  className="relative w-10 h-8 rounded-xl flex items-center justify-center transition-all duration-250"
+                  style={active ? {
+                    background: 'linear-gradient(135deg, rgba(192,132,252,0.22) 0%, rgba(244,114,182,0.15) 100%)',
+                    border: '1px solid rgba(255,255,255,0.22)',
+                    boxShadow: '0 2px 10px rgba(168,85,247,0.28), inset 0 1px 0 rgba(255,255,255,0.15)',
+                  } : {
+                    background: 'transparent',
+                    border: '1px solid transparent',
+                  }}
+                >
+                  {active && (
+                    <span className="absolute inset-0 rounded-xl" style={{ background: 'linear-gradient(160deg, rgba(255,255,255,0.10) 0%, transparent 60%)' }} />
+                  )}
+                  <tab.icon
+                    className="relative w-[18px] h-[18px] transition-all duration-200"
+                    style={active
+                      ? { color: '#f3e8ff' }
+                      : { color: 'rgba(255,255,255,0.52)' }
+                    }
+                  />
+                </span>
                 <span
                   className="text-[7px] font-bold uppercase tracking-[0.14em] transition-colors duration-200"
-                  style={active ? { color: '#f3e8ff' } : { color: 'rgba(255,255,255,0.45)' }}
+                  style={active ? { color: '#e9d5ff' } : { color: 'rgba(255,255,255,0.40)' }}
                 >
                   {tab.label}
                 </span>
