@@ -271,7 +271,7 @@ function MobileBottomNav({ user, moreOpen, setMoreOpen }: {
           })}
 
           {/* ── Center CTA ── */}
-          <div className="flex-1 flex justify-center items-center relative">
+          <div className="w-[120px] shrink-0 flex justify-center items-center relative">
             {user ? (
               /* Dashboard pill for logged-in users */
               <button
@@ -296,14 +296,17 @@ function MobileBottomNav({ user, moreOpen, setMoreOpen }: {
               /* Login — horizontal pill for guests */
               <button
                 onClick={() => { navigate('/login'); setMoreOpen(false); }}
-                className="relative flex items-center gap-[7px] px-4 h-[42px] rounded-full overflow-hidden"
+                className="relative flex items-center gap-[6px] rounded-full overflow-hidden"
                 data-testid="mobile-bottom-cta"
                 aria-label="Login"
                 style={{
+                  padding: '0 14px 0 6px',
+                  height: '38px',
                   background: 'linear-gradient(120deg, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.07) 100%)',
                   border: '1px solid rgba(255,255,255,0.22)',
                   boxShadow: '0 4px 20px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.18)',
                   backdropFilter: 'blur(12px)',
+                  whiteSpace: 'nowrap',
                 }}
               >
                 {/* Gradient shimmer overlay */}
@@ -311,14 +314,14 @@ function MobileBottomNav({ user, moreOpen, setMoreOpen }: {
                   className="absolute inset-0 pointer-events-none"
                   style={{ background: 'linear-gradient(135deg, rgba(192,132,252,0.18) 0%, rgba(244,114,182,0.12) 60%, transparent 100%)' }}
                 />
-                {/* Icon in gradient */}
+                {/* Icon in gradient circle */}
                 <span
-                  className="relative w-[22px] h-[22px] rounded-full flex items-center justify-center shrink-0"
+                  className="relative w-[26px] h-[26px] rounded-full flex items-center justify-center shrink-0"
                   style={{ background: 'linear-gradient(135deg, #a855f7, #ec4899)', boxShadow: '0 2px 8px rgba(168,85,247,0.5)' }}
                 >
-                  <LogIn className="w-[11px] h-[11px] text-white" />
+                  <LogIn className="w-[12px] h-[12px] text-white" />
                 </span>
-                <span className="relative text-[11px] font-bold tracking-wide text-white/90">Sign In</span>
+                <span className="relative text-[11px] font-bold tracking-wide text-white/90 whitespace-nowrap">Sign In</span>
               </button>
             )}
           </div>
