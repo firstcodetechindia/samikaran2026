@@ -7,8 +7,13 @@ import { Separator } from "@/components/ui/separator";
 import { 
   Award, User, School, Calendar, Trophy, Target, 
   CheckCircle2, XCircle, Loader2, GraduationCap,
-  Medal, Star, FileText, Download, Printer
+  Medal, Star, FileText, Download, Printer, Eye
 } from "lucide-react";
+import {
+  FullCertificatePreview,
+  certTextFromSettings,
+  CERT_TEXT_DEFAULTS,
+} from "@/components/CertificatePreviewSection";
 
 interface PerformanceData {
   certificateNumber: string;
@@ -35,6 +40,69 @@ interface PerformanceData {
   }>;
   issuedAt: string;
   verificationStatus: "verified" | "invalid";
+}
+
+function DemoCertificatePreview({ certNumber }: { certNumber: string }) {
+  const { data: settings } = useQuery<Record<string, string>>({
+    queryKey: ["/api/public/settings"],
+  });
+
+  const certText = certTextFromSettings(settings ?? {});
+
+  const sampleStudent = {
+    certNumber: certNumber || "DEMO-PREVIEW",
+    awardType: "gold" as const,
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 py-8 px-4">
+      <div className="max-w-4xl mx-auto space-y-6">
+        <Card className="border-amber-300 bg-amber-50">
+          <CardContent className="pt-5 pb-5">
+            <div className="flex items-start gap-3">
+              <Eye className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" />
+              <div>
+                <p className="font-semibold text-amber-800">Sample Certificate Preview</p>
+                <p className="text-sm text-amber-700 mt-1">
+                  Certificate number <strong>{certNumber}</strong> has not been issued yet, or is a demo QR code.
+                  The design below shows exactly what a real verified certificate will look like once issued.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <div className="w-full rounded-xl overflow-hidden shadow-xl border border-gray-200">
+          <FullCertificatePreview
+            type={sampleStudent.awardType}
+            signatories={{
+              s1Name:  settings?.["cert_signatory1_name"]  ?? "Founder",
+              s1Title: settings?.["cert_signatory1_title"] ?? "Founder, Samikaran Olympiad",
+              s2Name:  settings?.["cert_signatory2_name"]  ?? "Controller of Examinations (CoE)",
+              s2Title: settings?.["cert_signatory2_title"] ?? "Controller of Examinations (CoE)",
+            }}
+            studentData={{
+              studentName:  "Arjun Sharma",
+              schoolName:   "Delhi Public School, New Delhi",
+              grade:        "Grade 8",
+              rank:         "1",
+              percentage:   "96",
+              indexNumber:  "A000001",
+              certNumber:   sampleStudent.certNumber,
+              olympiadName: "NATIONAL JUNIOR SCIENCE OLYMPIAD 2026",
+              date:         "15th January 2026",
+            }}
+            certText={certText}
+          />
+        </div>
+
+        <div className="text-center text-sm text-muted-foreground pb-4">
+          <p>This preview is generated from the live certificate template.</p>
+          <p className="mt-1 text-purple-600 font-medium">www.samikaranolympiad.com</p>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default function PerformanceReport() {
@@ -88,22 +156,7 @@ export default function PerformanceReport() {
   }
 
   if (error || !performance) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 flex items-center justify-center p-4">
-        <Card className="max-w-md w-full">
-          <CardContent className="pt-6 text-center">
-            <XCircle className="w-16 h-16 text-destructive mx-auto mb-4" />
-            <h2 className="text-xl font-bold mb-2">Certificate Not Found</h2>
-            <p className="text-muted-foreground">
-              Unable to verify certificate with number: <strong>{certNumber}</strong>
-            </p>
-            <p className="text-sm text-muted-foreground mt-2">
-              Please ensure you have scanned the correct QR code.
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-    );
+    return <DemoCertificatePreview certNumber={certNumber} />;
   }
 
   const getAwardColor = (type: string) => {
