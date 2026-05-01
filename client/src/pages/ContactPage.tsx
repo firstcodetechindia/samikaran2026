@@ -323,41 +323,20 @@ export default function ContactPage() {
                   </motion.div>
                 ) : (
                   <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="relative p-8 sm:p-12 lg:p-14">
-                    <div className="grid lg:grid-cols-[1fr_1.6fr] gap-10 lg:gap-16 items-start">
-
-                      {/* Left info panel */}
-                      <div className="space-y-8">
-                        <div>
-                          <h2 className="text-2xl sm:text-3xl font-black text-foreground mb-2 leading-tight">Let's talk.</h2>
-                          <p className="text-sm text-muted-foreground leading-relaxed">Fill the form and our team will respond within 24 hours on working days.</p>
-                        </div>
-
-                        <div className="space-y-5">
-                          {[
-                            { icon: Mail,          label: "Email us",       value: "support@samikaranolympiad.com", color: "from-violet-500 to-purple-600" },
-                            { icon: MessageCircle, label: "WhatsApp",       value: "+91 98765 43210",               color: "from-emerald-400 to-green-600"  },
-                            { icon: Clock,         label: "Working hours",  value: "Mon–Sat, 9 AM – 6 PM",          color: "from-orange-400 to-amber-500"   },
-                          ].map(r => (
-                            <div key={r.label} className="flex items-center gap-3.5">
-                              <div className={`w-9 h-9 rounded-xl bg-gradient-to-br ${r.color} flex items-center justify-center shadow-sm shrink-0`}>
-                                <r.icon className="w-4 h-4 text-white" strokeWidth={2} />
-                              </div>
-                              <div>
-                                <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-white/30 leading-none mb-0.5">{r.label}</p>
-                                <p className="text-sm font-semibold text-foreground">{r.value}</p>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-
+                      {/* Header */}
+                      <div className="mb-8">
+                        <h2 className="text-2xl sm:text-3xl font-black text-foreground mb-1.5 leading-tight">Let's talk.</h2>
+                        <p className="text-sm text-muted-foreground">Fill the form and our team will respond within 24 hours on working days.</p>
                       </div>
 
-                      {/* Right: form fields */}
-                      <form onSubmit={handleSubmit} className="space-y-4">
-                        <div className="grid sm:grid-cols-2 gap-4">
+                      {/* Full-width form */}
+                      <form onSubmit={handleSubmit} className="space-y-5">
+                        {/* Row 1: Name | Email | Subject */}
+                        <div className="grid sm:grid-cols-3 gap-4">
                           {[
-                            { id: "name",  label: "Your Name",  type: "text",  ph: "John Doe",            req: true },
-                            { id: "email", label: "Email",       type: "email", ph: "you@example.com",     req: true },
+                            { id: "name",    label: "Your Name", type: "text",  ph: "John Doe",            req: true },
+                            { id: "email",   label: "Email",      type: "email", ph: "you@example.com",     req: true },
+                            { id: "subject", label: "Subject",    type: "text",  ph: "What is this about?", req: false },
                           ].map(f => (
                             <div key={f.id} className="space-y-1.5">
                               <label className="text-[11px] font-black uppercase tracking-[0.12em] text-gray-500 dark:text-white/40">
@@ -378,24 +357,11 @@ export default function ContactPage() {
                         </div>
 
                         <div className="space-y-1.5">
-                          <label className="text-[11px] font-black uppercase tracking-[0.12em] text-gray-500 dark:text-white/40">Subject</label>
-                          <input
-                            placeholder="What is this about?"
-                            value={form.subject}
-                            onChange={e => setForm(p => ({ ...p, subject: e.target.value }))}
-                            onFocus={() => setFocused("subject")}
-                            onBlur={() => setFocused(null)}
-                            className={fieldClass("subject")}
-                            data-testid="input-contact-subject"
-                          />
-                        </div>
-
-                        <div className="space-y-1.5">
                           <label className="text-[11px] font-black uppercase tracking-[0.12em] text-gray-500 dark:text-white/40">
                             Message <span className="text-rose-400">*</span>
                           </label>
                           <textarea
-                            rows={6}
+                            rows={8}
                             placeholder="Tell us how we can help you..."
                             value={form.message}
                             onChange={e => setForm(p => ({ ...p, message: e.target.value }))}
@@ -428,7 +394,6 @@ export default function ContactPage() {
                           )}
                         </motion.button>
                       </form>
-                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
