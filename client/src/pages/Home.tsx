@@ -50,13 +50,18 @@ const scaleIn = {
 };
 
 function HeroParticles() {
-  const symbols = ['∑', 'π', '∞', '√', '⚛', '∫', 'Δ', '≈', 'λ', '⊕', 'μ', 'σ', '∂', 'θ', '÷', 'α', 'β', '≡', 'φ', 'ω'];
-  const particles = Array.from({ length: 28 }, (_, i) => ({
+  const symbols = [
+    '∑', 'π', '∞', '√', '⚛', '∫', 'Δ', '≈', 'λ', '⊕',
+    'μ', 'σ', '∂', 'θ', 'α', 'β', 'φ', 'ω', 'ψ', 'ℏ',
+    '∇', '∈', '∧', '∨', '⊂', '≠', 'χ', 'η', 'ξ', '★',
+    '♪', '✦', '◈', '⌬', '⊗', '∮',
+  ];
+  const particles = Array.from({ length: 36 }, (_, i) => ({
     id: i,
     symbol: symbols[i % symbols.length],
     x: Math.random() * 100,
     y: Math.random() * 100,
-    size: 10 + Math.random() * 16,
+    size: 7 + Math.random() * 9,
     duration: 18 + Math.random() * 22,
     delay: Math.random() * 12,
     dx: (Math.random() - 0.5) * 120,
