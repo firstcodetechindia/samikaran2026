@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { PlayCircle, ArrowRight, Heart, User, ChevronDown, LogOut, LayoutDashboard, Menu, X, Star, Brain, Calculator, Atom, BookOpen, FlaskConical, Dna, Monitor, Globe, Puzzle, Languages, Shield, Sparkles, Bell, Rocket, GraduationCap, School, Handshake, Users, UserCog } from "lucide-react";
+import { PlayCircle, ArrowRight, Heart, User, ChevronDown, LogOut, LayoutDashboard, Menu, X, Star, Brain, Calculator, Atom, BookOpen, FlaskConical, Dna, Monitor, Globe, Puzzle, Languages, Shield, Sparkles, Bell, Rocket, GraduationCap, School, Handshake, Users, UserCog, Home, MoreHorizontal, LogIn, Phone, Info, Trophy } from "lucide-react";
 import { BrandLogo } from "@/components/BrandLogo";
 import { SiFacebook, SiInstagram, SiX, SiLinkedin, SiYoutube, SiWhatsapp } from "react-icons/si";
 import { Button } from "@/components/ui/button";
@@ -176,6 +176,186 @@ function UserProfileMenu({ user }: { user: any }) {
   );
 }
 
+function MobileBottomNav({ user, moreOpen, setMoreOpen }: {
+  user: any;
+  moreOpen: boolean;
+  setMoreOpen: (v: boolean) => void;
+}) {
+  const [location, navigate] = useLocation();
+  const isActive = (href: string) => href === '/' ? location === '/' : location.startsWith(href);
+  const moreActive = ['/about','/brand','/awards','/partners','/contact','/faq'].some(h => location.startsWith(h));
+
+  const dashPath = !user ? '/login'
+    : user.userType === 'student' ? '/dashboard'
+    : user.userType === 'school' ? '/school'
+    : user.userType === 'group' ? '/group'
+    : user.userType === 'partner' ? '/partner'
+    : user.userType === 'supervisor' ? '/supervisor'
+    : '/admin';
+
+  const moreItems = [
+    { icon: Info,      label: 'About',    href: '/about' },
+    { icon: Sparkles,  label: 'Brand',    href: '/brand' },
+    { icon: Trophy,    label: 'Awards',   href: '/awards' },
+    { icon: Handshake, label: 'Partners', href: '/partners' },
+    { icon: Phone,     label: 'Contact',  href: '/contact' },
+    { icon: Shield,    label: 'FAQs',     href: '/faq' },
+  ];
+
+  const tabs = [
+    { icon: Home,         label: 'Home',    href: '/',          key: 'home' },
+    { icon: GraduationCap,label: 'Exams',   href: '/olympiads', key: 'olympiad' },
+    null,
+    { icon: BookOpen,     label: 'Blog',    href: '/blog',      key: 'blog' },
+    { icon: MoreHorizontal,label: 'More',   href: null,         key: 'more' },
+  ];
+
+  return (
+    <>
+      {/* ── Bottom navigation bar ── */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
+        <div className="relative flex items-end h-[62px] bg-[#080512]/96 backdrop-blur-2xl border-t border-white/[0.07]">
+
+          {tabs.map((tab, i) => {
+            if (!tab) {
+              /* ── Center floating CTA ── */
+              return (
+                <div key="cta" className="flex-1 flex justify-center" style={{ marginBottom: 10 }}>
+                  <motion.button
+                    onClick={() => { navigate(dashPath); setMoreOpen(false); }}
+                    className="relative w-[54px] h-[54px] rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center shadow-[0_0_24px_rgba(139,92,246,0.55)] border-[3px] border-[#080512]"
+                    whileTap={{ scale: 0.92 }}
+                    data-testid="mobile-bottom-cta"
+                    aria-label={user ? 'Dashboard' : 'Login'}
+                  >
+                    {/* Glow ring */}
+                    <span className="absolute inset-0 rounded-full ring-1 ring-violet-400/30" />
+                    {user
+                      ? <LayoutDashboard className="w-6 h-6 text-white" />
+                      : <LogIn className="w-6 h-6 text-white" />}
+                  </motion.button>
+                </div>
+              );
+            }
+
+            const active = tab.key === 'more'
+              ? moreOpen || moreActive
+              : tab.href === '/' ? isActive('/') : isActive(tab.key === 'olympiad' ? '/olympiad' : tab.href!);
+
+            return (
+              <button
+                key={tab.key}
+                onClick={() => {
+                  if (tab.key === 'more') { setMoreOpen(!moreOpen); }
+                  else { navigate(tab.href!); setMoreOpen(false); }
+                }}
+                className="flex-1 flex flex-col items-center justify-end gap-[3px] pb-2 relative"
+                data-testid={`mobile-bottom-${tab.key}`}
+              >
+                {/* Active indicator bar at top */}
+                {active && (
+                  <motion.span
+                    layoutId="bottomActiveBar"
+                    className="absolute top-0 left-1/2 -translate-x-1/2 w-7 h-[2.5px] rounded-full bg-gradient-to-r from-violet-400 to-fuchsia-400"
+                  />
+                )}
+                <tab.icon className={`w-[19px] h-[19px] transition-all duration-200 ${active ? 'text-violet-400 drop-shadow-[0_0_7px_rgba(139,92,246,0.9)]' : 'text-white/35'}`} />
+                <span className={`text-[8.5px] font-bold uppercase tracking-[0.1em] transition-colors ${active ? 'text-violet-400' : 'text-white/30'}`}>{tab.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* ── More slide-up panel ── */}
+      <AnimatePresence>
+        {moreOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              transition={{ duration: 0.18 }}
+              className="lg:hidden fixed inset-0 z-[55] bg-black/60 backdrop-blur-[2px]"
+              onClick={() => setMoreOpen(false)}
+            />
+
+            {/* Slide-up sheet */}
+            <motion.div
+              initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 34, stiffness: 320 }}
+              className="lg:hidden fixed bottom-0 left-0 right-0 z-[60] rounded-t-[28px] overflow-hidden"
+              style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 62px)' }}
+            >
+              {/* Layered glass bg */}
+              <div className="absolute inset-0 bg-[#0d0820]/98 backdrop-blur-3xl" />
+              <div className="absolute inset-0 bg-gradient-to-b from-violet-600/8 via-transparent to-transparent" />
+              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-500/40 to-transparent" />
+
+              <div className="relative z-10 pt-3 px-5 pb-4">
+                {/* Drag handle */}
+                <div className="w-9 h-1 bg-white/20 rounded-full mx-auto mb-4" />
+
+                {/* Header */}
+                <div className="flex items-center justify-between mb-5">
+                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-white/30">Navigate</span>
+                  <motion.button
+                    whileTap={{ scale: 0.88 }}
+                    onClick={() => setMoreOpen(false)}
+                    className="w-7 h-7 rounded-full bg-white/8 border border-white/10 flex items-center justify-center"
+                  >
+                    <X className="w-3.5 h-3.5 text-white/50" />
+                  </motion.button>
+                </div>
+
+                {/* 3×2 grid of nav items */}
+                <div className="grid grid-cols-3 gap-3 mb-5">
+                  {moreItems.map(({ icon: Icon, label, href }) => {
+                    const active = isActive(href);
+                    return (
+                      <motion.button
+                        key={label}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => { navigate(href); setMoreOpen(false); }}
+                        className={`flex flex-col items-center gap-2 py-4 rounded-2xl border transition-all duration-200 ${active ? 'bg-violet-500/15 border-violet-500/25' : 'bg-white/[0.04] border-white/[0.07] active:bg-white/10'}`}
+                        data-testid={`mobile-more-${label.toLowerCase()}`}
+                      >
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${active ? 'bg-gradient-to-br from-violet-500 to-fuchsia-600 shadow-lg shadow-violet-500/30' : 'bg-white/[0.07]'}`}>
+                          <Icon className={`w-5 h-5 ${active ? 'text-white' : 'text-white/55'}`} />
+                        </div>
+                        <span className={`text-[10px] font-bold tracking-wide ${active ? 'text-violet-300' : 'text-white/45'}`}>{label}</span>
+                      </motion.button>
+                    );
+                  })}
+                </div>
+
+                {/* Bottom strip */}
+                <div className="border-t border-white/[0.07] pt-4 flex items-center justify-center gap-5">
+                  <Link href="/faq" onClick={() => setMoreOpen(false)}>
+                    <span className="text-[11px] font-semibold text-white/35 hover:text-white/60 transition-colors">Help / FAQs</span>
+                  </Link>
+                  <span className="w-px h-3 bg-white/12" />
+                  {user ? (
+                    <button
+                      onClick={() => { localStorage.removeItem('samikaran_user'); localStorage.removeItem('samikaran_session_token'); window.location.href = '/'; }}
+                      className="text-[11px] font-bold text-rose-400/70 hover:text-rose-400 transition-colors"
+                    >
+                      Logout
+                    </button>
+                  ) : (
+                    <Link href="/register" onClick={() => setMoreOpen(false)}>
+                      <span className="text-[11px] font-bold text-violet-400">Register Free →</span>
+                    </Link>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
+
 interface PublicLayoutProps {
   children: React.ReactNode;
   showNotificationBar?: boolean;
@@ -201,6 +381,7 @@ export function PublicLayout({ children, showNotificationBar = true }: PublicLay
   const { user } = useAuth();
   const [location, navigate] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [moreMenuOpen, setMoreMenuOpen] = useState(false);
   const [olympiadDropdownOpen, setOlympiadDropdownOpen] = useState(false);
   const [mobileOlympiadExpanded, setMobileOlympiadExpanded] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -550,16 +731,6 @@ export function PublicLayout({ children, showNotificationBar = true }: PublicLay
               </PopoverContent>
             </Popover>
             
-            <Button
-              variant="ghost"
-              size="icon"
-              className="lg:hidden"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              data-testid="button-mobile-menu"
-              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-            >
-              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </Button>
           </div>
         </div>
       </nav>
@@ -727,7 +898,7 @@ export function PublicLayout({ children, showNotificationBar = true }: PublicLay
         )}
       </AnimatePresence>
 
-      <main id="main-content" role="main" className="flex-1 mb-12 sm:mb-20">
+      <main id="main-content" role="main" className="flex-1 mb-12 sm:mb-20 pb-16 lg:pb-0">
         {children}
       </main>
 
@@ -846,6 +1017,9 @@ export function PublicLayout({ children, showNotificationBar = true }: PublicLay
       
       {/* Back to Top Button */}
       <BackToTop />
+
+      {/* Mobile bottom navigation */}
+      <MobileBottomNav user={user} moreOpen={moreMenuOpen} setMoreOpen={setMoreMenuOpen} />
     </div>
   );
 }
