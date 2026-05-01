@@ -468,83 +468,83 @@ export function FullCertificatePreview({
 
           <DecorativeDivider color={design.dividerColor} accent={design.accentColor} />
 
-          {/* Certificate title */}
-          <div className="text-center mt-[0.5%]">
-            <h1
-              className="font-black uppercase"
+          {/* Middle content — vertically centered in remaining space */}
+          <div className="flex-1 flex flex-col items-center justify-center">
+            {/* Certificate title */}
+            <div className="text-center">
+              <h1
+                className="font-black uppercase"
+                style={{
+                  fontFamily: "Georgia, 'Times New Roman', serif",
+                  fontSize: "clamp(10px, 1.7vw, 20px)",
+                  color: design.titleColor,
+                  letterSpacing: "0.2em",
+                  textShadow: `0 1px 0 rgba(255,255,255,0.6), 0 2px 4px rgba(0,0,0,0.1)`,
+                }}
+              >
+                {resolvedCertTitle}
+              </h1>
+            </div>
+
+            {/* Certify intro */}
+            <p
+              className="text-center italic mt-[2%]"
               style={{
                 fontFamily: "Georgia, 'Times New Roman', serif",
-                fontSize: "clamp(10px, 1.7vw, 20px)",
-                color: design.titleColor,
-                letterSpacing: "0.2em",
-                textShadow: `0 1px 0 rgba(255,255,255,0.6), 0 2px 4px rgba(0,0,0,0.1)`,
+                fontSize: "clamp(6px, 1vw, 12px)",
+                color: design.bodyText,
               }}
             >
-              {resolvedCertTitle}
-            </h1>
-          </div>
+              {txt.introText}
+            </p>
 
-          {/* Certify intro */}
-          <p
-            className="text-center italic mt-[1.5%]"
-            style={{
-              fontFamily: "Georgia, 'Times New Roman', serif",
-              fontSize: "clamp(6px, 1vw, 12px)",
-              color: design.bodyText,
-            }}
-          >
-            {txt.introText}
-          </p>
+            {/* Student name */}
+            <div className="text-center mt-[1%] mb-[1%]">
+              <h3
+                className="font-black"
+                style={{
+                  fontFamily: "Georgia, 'Times New Roman', serif",
+                  fontSize: "clamp(15px, 3.4vw, 38px)",
+                  color: design.nameColor,
+                  textShadow: `0 2px 6px rgba(0,0,0,0.12), 0 1px 0 rgba(255,255,255,0.5)`,
+                  lineHeight: 1.05,
+                }}
+              >
+                {sample.studentName}
+              </h3>
+            </div>
 
-          {/* Student name */}
-          <div className="text-center mt-[0.5%] mb-[0.5%]">
-            <h3
-              className="font-black"
+            {/* School */}
+            <p
+              className="text-center font-semibold"
               style={{
                 fontFamily: "Georgia, 'Times New Roman', serif",
-                fontSize: "clamp(15px, 3.4vw, 38px)",
-                color: design.nameColor,
-                textShadow: `0 2px 6px rgba(0,0,0,0.12), 0 1px 0 rgba(255,255,255,0.5)`,
-                lineHeight: 1.05,
+                fontSize: "clamp(8px, 1.35vw, 16px)",
+                color: design.bodyText,
+                letterSpacing: "0.03em",
               }}
             >
-              {sample.studentName}
-            </h3>
+              {sample.schoolName}
+            </p>
+
+            {/* Achievement */}
+            <p
+              className="text-center mt-[2%]"
+              style={{
+                fontSize: "clamp(6px, 1vw, 12px)",
+                color: design.bodyText,
+                lineHeight: 1.5,
+              }}
+            >
+              {txt.achievementPrefix} <span className="font-bold">{sample.grade}</span>,&nbsp;
+              <span className="font-bold">{sample.olympiadName}</span>
+              {" — "}securing <span className="font-bold">Rank {sample.rank}</span> with <span className="font-bold">{sample.percentage}%</span>
+            </p>
+
+            <p className="text-center mt-[1.2%]" style={{ fontSize: "clamp(5px, 0.8vw, 10px)", color: design.subtleText }}>
+              {txt.dateLabel} <span className="font-semibold">{sample.date}</span>
+            </p>
           </div>
-
-          {/* School */}
-          <p
-            className="text-center font-semibold"
-            style={{
-              fontFamily: "Georgia, 'Times New Roman', serif",
-              fontSize: "clamp(8px, 1.35vw, 16px)",
-              color: design.bodyText,
-              letterSpacing: "0.03em",
-            }}
-          >
-            {sample.schoolName}
-          </p>
-
-          {/* Achievement */}
-          <p
-            className="text-center mt-[1.5%]"
-            style={{
-              fontSize: "clamp(6px, 1vw, 12px)",
-              color: design.bodyText,
-              lineHeight: 1.5,
-            }}
-          >
-            {txt.achievementPrefix} <span className="font-bold">{sample.grade}</span>,&nbsp;
-            <span className="font-bold">{sample.olympiadName}</span>
-            {" — "}securing <span className="font-bold">Rank {sample.rank}</span> with <span className="font-bold">{sample.percentage}%</span>
-          </p>
-
-          <p className="text-center mt-[0.8%]" style={{ fontSize: "clamp(5px, 0.8vw, 10px)", color: design.subtleText }}>
-            {txt.dateLabel} <span className="font-semibold">{sample.date}</span>
-          </p>
-
-          {/* Spacer */}
-          <div className="flex-1" />
 
           {/* Bottom */}
           <div className="flex items-end justify-between gap-[2%]">
