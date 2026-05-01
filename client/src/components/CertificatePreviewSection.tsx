@@ -432,35 +432,34 @@ export function FullCertificatePreview({
               colorLight={design.logoColorLight}
               size="clamp(30px, 4.8vw, 56px)"
             />
-            {/* Text — tight block, logo center aligns with SAMIKARAN baseline */}
+            {/* Text — tight block, matches BrandLogo.tsx style exactly */}
             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 0 }}>
               <h2
-                className="font-black uppercase"
+                className="font-black tracking-tight"
                 style={{
-                  fontFamily: "Georgia, 'Times New Roman', serif",
+                  fontFamily: "inherit",
                   fontSize: "clamp(12px, 2.2vw, 26px)",
                   color: design.titleColor,
-                  letterSpacing: "0.08em",
                   lineHeight: 1,
                   margin: 0,
                   padding: 0,
                 }}
               >
-                SAMIKARAN
+                SAMIKARAN<span style={{ color: design.accentColor }}>.</span>
               </h2>
               <p
                 className="font-semibold uppercase"
                 style={{
-                  fontFamily: "Georgia, 'Times New Roman', serif",
+                  fontFamily: "inherit",
                   fontSize: "clamp(5.5px, 0.85vw, 10px)",
                   color: design.subtleText,
-                  letterSpacing: "0.22em",
+                  letterSpacing: "0.2em",
                   lineHeight: 1,
-                  marginTop: "clamp(2px, 0.3vw, 4px)",
+                  margin: 0,
                   padding: 0,
                 }}
               >
-                OLYMPIAD
+                Olympiad
               </p>
             </div>
           </div>
