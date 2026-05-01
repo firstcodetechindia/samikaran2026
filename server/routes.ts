@@ -433,6 +433,9 @@ Crawl-delay: 1
         { url: '/faq', priority: '0.7', changefreq: 'monthly', lastmod: today },
         { url: '/contact', priority: '0.6', changefreq: 'monthly', lastmod: today },
         { url: '/syllabus', priority: '0.7', changefreq: 'monthly', lastmod: today },
+        { url: '/privacy-policy', priority: '0.4', changefreq: 'yearly', lastmod: '2026-01-01' },
+        { url: '/terms-and-conditions', priority: '0.4', changefreq: 'yearly', lastmod: '2026-01-01' },
+        { url: '/refund-policy', priority: '0.4', changefreq: 'yearly', lastmod: '2026-01-01' },
       ];
 
       let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
@@ -517,6 +520,103 @@ Crawl-delay: 1
     } catch (error) {
       console.error("Error generating sitemap:", error);
       res.status(500).send('Error generating sitemap');
+    }
+  });
+
+  // --- LLMs.txt: Machine-readable site description for AI crawlers ---
+  app.get("/llms.txt", async (req, res) => {
+    try {
+      const baseUrl = "https://www.samikaranolympiad.com";
+      const today = new Date().toISOString().split('T')[0];
+
+      let txt = `# Samikaran Olympiad — llms.txt
+# Generated: ${today}
+# Standard: https://llmstxt.org
+
+> Samikaran Olympiad is India's premier multidisciplinary online olympiad platform for students in Classes 1–12. It offers competitive examinations across subjects like Mathematics, Science, English, Logical Reasoning, and more. Students earn medals, trophies, certificates, and cash prizes. The platform is operated by Samikaran Foundation.
+
+## Core Pages
+
+- [Home](${baseUrl}/): Main landing page with olympiad overview and highlights
+- [Olympiads](${baseUrl}/olympiads): Full list of all available olympiad examinations
+- [Register](${baseUrl}/register): Student registration for olympiad exams
+- [Results](${baseUrl}/results): Exam results lookup by roll number
+- [Verify](${baseUrl}/verify): Certificate verification portal
+- [Syllabus](${baseUrl}/syllabus): Subject-wise syllabus for all olympiads
+- [Awards](${baseUrl}/awards): Prizes, medals, and recognition details
+- [FAQ](${baseUrl}/faq): Frequently asked questions about exams, eligibility, and process
+- [About](${baseUrl}/about): About Samikaran Foundation and its mission
+- [Contact](${baseUrl}/contact): Contact information and support form
+- [Blog](${baseUrl}/blog): Articles, news, and updates about Samikaran Olympiad
+- [Partners](${baseUrl}/partners): School and institutional partnership information
+- [Become a Partner](${baseUrl}/become-a-partner): Partnership application for schools
+- [Brand](${baseUrl}/brand): Brand assets and media kit
+
+## Legal
+
+- [Privacy Policy](${baseUrl}/privacy-policy): How we collect, use, and protect personal information
+- [Terms & Conditions](${baseUrl}/terms-and-conditions): Platform rules and user agreement
+- [Refund Policy](${baseUrl}/refund-policy): Refund guidelines for exam registrations
+
+`;
+
+      // Dynamic: Olympiad exam pages
+      try {
+        const exams = await db.execute(sql`SELECT slug, title FROM exams WHERE status = 'published' AND slug IS NOT NULL ORDER BY created_at DESC`);
+        const examRows = Array.isArray(exams.rows) ? exams.rows : [];
+        if (examRows.length > 0) {
+          txt += `## Olympiad Exam Pages\n\n`;
+          for (const exam of examRows) {
+            if (exam.slug) {
+              txt += `- [${exam.title || exam.slug}](${baseUrl}/olympiad/${exam.slug})\n`;
+            }
+          }
+          txt += '\n';
+        }
+      } catch (e) {
+        // Exams may not exist yet
+      }
+
+      // Dynamic: CMS pages
+      try {
+        const pages = await storage.getCmsPages();
+        const publishedPages = pages.filter(p => p.status === 'published');
+        if (publishedPages.length > 0) {
+          txt += `## Content Pages\n\n`;
+          for (const page of publishedPages) {
+            const desc = page.metaDescription || page.heroSubtitle || '';
+            txt += `- [${page.title}](${baseUrl}/${page.slug})${desc ? ': ' + desc : ''}\n`;
+          }
+          txt += '\n';
+        }
+      } catch (e) {
+        // CMS pages may not exist yet
+      }
+
+      // Dynamic: Blog posts
+      try {
+        const blogPosts = await storage.getBlogPosts();
+        const publishedPosts = blogPosts.filter(p => p.status === 'published').slice(0, 30);
+        if (publishedPosts.length > 0) {
+          txt += `## Blog Posts\n\n`;
+          for (const post of publishedPosts) {
+            const desc = post.metaDescription || post.excerpt || '';
+            txt += `- [${post.title}](${baseUrl}/blog/${post.slug})${desc ? ': ' + desc : ''}\n`;
+          }
+          txt += '\n';
+        }
+      } catch (e) {
+        // Blog posts may not exist yet
+      }
+
+      txt += `## Contact\n\n- Email: info@samikaranolympiad.com\n- Website: ${baseUrl}\n`;
+
+      res.header('Content-Type', 'text/plain; charset=utf-8');
+      res.header('Cache-Control', 'public, max-age=3600');
+      res.send(txt);
+    } catch (error) {
+      console.error("Error generating llms.txt:", error);
+      res.status(500).send('Error generating llms.txt');
     }
   });
 
