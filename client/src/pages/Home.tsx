@@ -92,6 +92,12 @@ function OlympiadIllustration() {
     { name: 'Reasoning', icon: '♟', sub: 'Logic', color: '#fbbf24', border: '#d97706', bg: '#2d1a00' },
     { name: 'Computers', icon: '</>', sub: 'Code', color: '#38bdf8', border: '#0284c7', bg: '#001a2d' },
   ];
+  const innerSubjects = [
+    { name: 'GK', icon: '★', color: '#fde68a', border: '#f59e0b', bg: '#2a1a00' },
+    { name: 'Hindi', icon: 'अ', color: '#fb923c', border: '#ea580c', bg: '#2a0e00' },
+    { name: 'EVS', icon: '♻', color: '#4ade80', border: '#16a34a', bg: '#002a14' },
+    { name: 'Social', icon: '⊕', color: '#c084fc', border: '#9333ea', bg: '#1a0030' },
+  ];
   const [dims, setDims] = useState({ R: 165, iconSize: 68, height: 520 });
   useEffect(() => {
     const update = () => {
@@ -106,6 +112,8 @@ function OlympiadIllustration() {
     return () => window.removeEventListener('resize', update);
   }, []);
   const { R, iconSize, height } = dims;
+  const R2 = Math.round(R * 0.62);
+  const is2 = Math.round(iconSize * 0.50);
   const dur = 22;
   return (
     <div className="relative w-full flex items-center justify-center select-none overflow-hidden" style={{ height }}>
@@ -113,13 +121,50 @@ function OlympiadIllustration() {
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <div className="rounded-full bg-purple-600/10 blur-[70px]" style={{ width: R * 2.2, height: R * 2.2 }} />
       </div>
-      {/* Orbit ring — explicitly centered */}
+      {/* Outer orbit ring */}
       <div className="absolute rounded-full border border-dashed border-purple-400/20 pointer-events-none"
         style={{ width: R * 2, height: R * 2, left: '50%', top: '50%', marginLeft: -R, marginTop: -R }} />
-      <div className="absolute rounded-full border border-dashed border-pink-400/10 pointer-events-none"
-        style={{ width: R * 1.35, height: R * 1.35, left: '50%', top: '50%', marginLeft: -R * 0.675, marginTop: -R * 0.675 }} />
+      {/* Inner orbit ring */}
+      <div className="absolute rounded-full border border-dashed border-cyan-400/15 pointer-events-none"
+        style={{ width: R2 * 2, height: R2 * 2, left: '50%', top: '50%', marginLeft: -R2, marginTop: -R2 }} />
 
-      {/* Rotating orbit wrapper — explicitly centered */}
+      {/* Inner rotating orbit — GK, Hindi, EVS, Social */}
+      <motion.div
+        className="absolute"
+        style={{ width: R2 * 2, height: R2 * 2, left: '50%', top: '50%', marginLeft: -R2, marginTop: -R2 }}
+        animate={{ rotate: -360 }}
+        transition={{ duration: 16, repeat: Infinity, ease: 'linear' }}
+      >
+        {innerSubjects.map((s, i) => {
+          const angleDeg = i * (360 / innerSubjects.length) - 45;
+          const angleRad = angleDeg * (Math.PI / 180);
+          const cx = R2 + R2 * Math.cos(angleRad) - is2 / 2;
+          const cy = R2 + R2 * Math.sin(angleRad) - is2 / 2;
+          return (
+            <motion.div
+              key={s.name}
+              className="absolute flex flex-col items-center gap-[2px]"
+              style={{ left: cx, top: cy, width: is2 }}
+              animate={{ rotate: 360 }}
+              transition={{ duration: 16, repeat: Infinity, ease: 'linear' }}
+            >
+              <div className="flex items-center justify-center rounded-full"
+                style={{
+                  width: is2, height: is2,
+                  background: s.bg,
+                  border: `2px solid ${s.border}`,
+                  boxShadow: `0 0 10px ${s.border}66`,
+                }}
+              >
+                <span style={{ color: s.color, fontSize: is2 * 0.42, fontWeight: 800, lineHeight: 1 }}>{s.icon}</span>
+              </div>
+              <span style={{ color: s.color, fontSize: 9, fontWeight: 700, letterSpacing: 0.2, whiteSpace: 'nowrap' }}>{s.name}</span>
+            </motion.div>
+          );
+        })}
+      </motion.div>
+
+      {/* Rotating outer orbit wrapper — explicitly centered */}
       <motion.div
         className="absolute"
         style={{ width: R * 2, height: R * 2, left: '50%', top: '50%', marginLeft: -R, marginTop: -R }}
