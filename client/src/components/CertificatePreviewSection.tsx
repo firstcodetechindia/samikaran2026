@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Award, Crown, Medal, Star } from "lucide-react";
 import QRCode from "react-qr-code";
 
-const CERTIFICATE_TYPES = [
+export const CERTIFICATE_TYPES = [
   { type: "gold",          label: "Gold Award",    icon: Crown,  description: "Top performers — Rank 1-10" },
   { type: "silver",        label: "Silver Award",  icon: Medal,  description: "Excellent performance — Rank 11-50" },
   { type: "bronze",        label: "Bronze Award",  icon: Award,  description: "Good performance — Rank 51-200" },
@@ -33,7 +33,7 @@ interface CertDesign {
   rankLabel: string;
 }
 
-const designs: Record<string, CertDesign> = {
+export const designs: Record<string, CertDesign> = {
   gold: {
     sidebarGrad: "linear-gradient(180deg, #92400E 0%, #B45309 30%, #D97706 60%, #F59E0B 85%, #B45309 100%)",
     mainBg: "linear-gradient(160deg, #FFFBEB 0%, #FEF3C7 40%, #FDE68A 70%, #FEF3C7 100%)",
@@ -139,7 +139,7 @@ function DecorativeDivider({ color, accent }: { color: string; accent: string })
   );
 }
 
-function FullCertificatePreview({
+export function FullCertificatePreview({
   type,
   signatories,
 }: {
