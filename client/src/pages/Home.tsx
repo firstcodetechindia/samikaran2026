@@ -84,20 +84,23 @@ const HeroParticles = memo(function HeroParticles() {
   );
 });
 
-function OlympiadIllustration() {
-  const subjects = [
-    { name: 'Maths', icon: '∑', sub: 'π²', color: '#f472b6', border: '#ec4899', bg: '#2d0f30' },
-    { name: 'Science', icon: '⚛', sub: '', color: '#a78bfa', border: '#7c3aed', bg: '#1a0d35' },
-    { name: 'English', icon: 'ABC', sub: 'abc', color: '#34d399', border: '#059669', bg: '#0d2420' },
-    { name: 'Reasoning', icon: '♟', sub: 'Logic', color: '#fbbf24', border: '#d97706', bg: '#2d1a00' },
-    { name: 'Computers', icon: '</>', sub: 'Code', color: '#38bdf8', border: '#0284c7', bg: '#001a2d' },
-  ];
-  const innerSubjects = [
-    { name: 'GK', icon: '★', color: '#fde68a', border: '#f59e0b', bg: '#2a1a00' },
-    { name: 'Hindi', icon: 'अ', color: '#fb923c', border: '#ea580c', bg: '#2a0e00' },
-    { name: 'EVS', icon: '♻', color: '#4ade80', border: '#16a34a', bg: '#002a14' },
-    { name: 'Social', icon: '⊕', color: '#c084fc', border: '#9333ea', bg: '#1a0030' },
-  ];
+const ILLUSTRATION_SUBJECTS = [
+  { name: 'Maths', icon: '∑', sub: 'π²', color: '#f472b6', border: '#ec4899', bg: '#2d0f30' },
+  { name: 'Science', icon: '⚛', sub: '', color: '#a78bfa', border: '#7c3aed', bg: '#1a0d35' },
+  { name: 'English', icon: 'ABC', sub: 'abc', color: '#34d399', border: '#059669', bg: '#0d2420' },
+  { name: 'Reasoning', icon: '♟', sub: 'Logic', color: '#fbbf24', border: '#d97706', bg: '#2d1a00' },
+  { name: 'Computers', icon: '</>', sub: 'Code', color: '#38bdf8', border: '#0284c7', bg: '#001a2d' },
+];
+const INNER_SUBJECTS = [
+  { name: 'GK', icon: '★', color: '#fde68a', border: '#f59e0b', bg: '#2a1a00' },
+  { name: 'Hindi', icon: 'अ', color: '#fb923c', border: '#ea580c', bg: '#2a0e00' },
+  { name: 'EVS', icon: '♻', color: '#4ade80', border: '#16a34a', bg: '#002a14' },
+  { name: 'Social', icon: '⊕', color: '#c084fc', border: '#9333ea', bg: '#1a0030' },
+];
+
+function OlympiadIllustration({ isMobile }: { isMobile: boolean }) {
+  const subjects = ILLUSTRATION_SUBJECTS;
+  const innerSubjects = INNER_SUBJECTS;
   const [dims, setDims] = useState({ R: 165, iconSize: 68, height: 470 });
   useEffect(() => {
     const update = () => {
@@ -115,9 +118,14 @@ function OlympiadIllustration() {
   const R2 = Math.round(R * 0.62);
   const is2 = Math.round(iconSize * 0.50);
   const dur = 22;
+
+  // On mobile: render static positions (no infinite rotation — saves ~12 rAF animations)
+  const innerOrbitStyle = { width: R2 * 2, height: R2 * 2, left: '50%', top: '50%', marginLeft: -R2, marginTop: -R2 };
+  const outerOrbitStyle = { width: R * 2, height: R * 2, left: '50%', top: '50%', marginLeft: -R, marginTop: -R };
+
   return (
     <div className="relative w-full flex items-center justify-center select-none" style={{ height }}>
-      {/* Ambient glow */}
+      {/* Ambient glow — hidden on mobile via CSS */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <div className="rounded-full bg-purple-600/10 blur-[70px]" style={{ width: R * 2.2, height: R * 2.2 }} />
       </div>
@@ -128,86 +136,88 @@ function OlympiadIllustration() {
       <div className="absolute rounded-full border border-dashed border-cyan-400/15 pointer-events-none"
         style={{ width: R2 * 2, height: R2 * 2, left: '50%', top: '50%', marginLeft: -R2, marginTop: -R2 }} />
 
-      {/* Inner rotating orbit — GK, Hindi, EVS, Social */}
-      <motion.div
-        className="absolute"
-        style={{ width: R2 * 2, height: R2 * 2, left: '50%', top: '50%', marginLeft: -R2, marginTop: -R2 }}
-        animate={{ rotate: -360 }}
-        transition={{ duration: 16, repeat: Infinity, ease: 'linear' }}
-      >
-        {innerSubjects.map((s, i) => {
-          const angleDeg = i * (360 / innerSubjects.length) - 45;
-          const angleRad = angleDeg * (Math.PI / 180);
-          const cx = R2 + R2 * Math.cos(angleRad) - is2 / 2;
-          const cy = R2 + R2 * Math.sin(angleRad) - is2 / 2;
-          return (
-            <motion.div
-              key={s.name}
-              className="absolute flex flex-col items-center gap-[2px]"
-              style={{ left: cx, top: cy, width: is2 }}
-              animate={{ rotate: 360 }}
-              transition={{ duration: 16, repeat: Infinity, ease: 'linear' }}
-            >
-              <div className="flex items-center justify-center rounded-full"
-                style={{
-                  width: is2, height: is2,
-                  background: s.bg,
-                  border: `2px solid ${s.border}`,
-                  boxShadow: `0 0 10px ${s.border}66`,
-                }}
-              >
-                <span style={{ color: s.color, fontSize: is2 * 0.42, fontWeight: 800, lineHeight: 1 }}>{s.icon}</span>
+      {/* Inner orbit — animated on desktop, static on mobile */}
+      {isMobile ? (
+        <div className="absolute" style={innerOrbitStyle}>
+          {innerSubjects.map((s, i) => {
+            const angleDeg = i * (360 / innerSubjects.length) - 45;
+            const angleRad = angleDeg * (Math.PI / 180);
+            const cx = R2 + R2 * Math.cos(angleRad) - is2 / 2;
+            const cy = R2 + R2 * Math.sin(angleRad) - is2 / 2;
+            return (
+              <div key={s.name} className="absolute flex flex-col items-center gap-[2px]" style={{ left: cx, top: cy, width: is2 }}>
+                <div className="flex items-center justify-center rounded-full" style={{ width: is2, height: is2, background: s.bg, border: `2px solid ${s.border}` }}>
+                  <span style={{ color: s.color, fontSize: is2 * 0.42, fontWeight: 800, lineHeight: 1 }}>{s.icon}</span>
+                </div>
+                <span style={{ color: s.color, fontSize: 9, fontWeight: 700, letterSpacing: 0.2, whiteSpace: 'nowrap' }}>{s.name}</span>
               </div>
-              <span style={{ color: s.color, fontSize: 9, fontWeight: 700, letterSpacing: 0.2, whiteSpace: 'nowrap' }}>{s.name}</span>
-            </motion.div>
-          );
-        })}
-      </motion.div>
+            );
+          })}
+        </div>
+      ) : (
+        <motion.div className="absolute" style={innerOrbitStyle} animate={{ rotate: -360 }} transition={{ duration: 16, repeat: Infinity, ease: 'linear' }}>
+          {innerSubjects.map((s, i) => {
+            const angleDeg = i * (360 / innerSubjects.length) - 45;
+            const angleRad = angleDeg * (Math.PI / 180);
+            const cx = R2 + R2 * Math.cos(angleRad) - is2 / 2;
+            const cy = R2 + R2 * Math.sin(angleRad) - is2 / 2;
+            return (
+              <motion.div key={s.name} className="absolute flex flex-col items-center gap-[2px]" style={{ left: cx, top: cy, width: is2 }} animate={{ rotate: 360 }} transition={{ duration: 16, repeat: Infinity, ease: 'linear' }}>
+                <div className="flex items-center justify-center rounded-full" style={{ width: is2, height: is2, background: s.bg, border: `2px solid ${s.border}`, boxShadow: `0 0 10px ${s.border}66` }}>
+                  <span style={{ color: s.color, fontSize: is2 * 0.42, fontWeight: 800, lineHeight: 1 }}>{s.icon}</span>
+                </div>
+                <span style={{ color: s.color, fontSize: 9, fontWeight: 700, letterSpacing: 0.2, whiteSpace: 'nowrap' }}>{s.name}</span>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+      )}
 
-      {/* Rotating outer orbit wrapper — explicitly centered */}
-      <motion.div
-        className="absolute"
-        style={{ width: R * 2, height: R * 2, left: '50%', top: '50%', marginLeft: -R, marginTop: -R }}
-        animate={{ rotate: 360 }}
-        transition={{ duration: dur, repeat: Infinity, ease: 'linear' }}
-      >
-        {subjects.map((s, i) => {
-          const angleDeg = i * (360 / subjects.length) - 90;
-          const angleRad = angleDeg * (Math.PI / 180);
-          const cx = R + R * Math.cos(angleRad) - iconSize / 2;
-          const cy = R + R * Math.sin(angleRad) - iconSize / 2;
-          return (
-            <motion.div
-              key={s.name}
-              className="absolute flex flex-col items-center gap-[3px]"
-              style={{ left: cx, top: cy, width: iconSize }}
-              animate={{ rotate: -360 }}
-              transition={{ duration: dur, repeat: Infinity, ease: 'linear' }}
-            >
-              <div
-                className="flex flex-col items-center justify-center rounded-full shadow-lg"
-                style={{
-                  width: iconSize, height: iconSize,
-                  background: s.bg,
-                  border: `2px solid ${s.border}`,
-                  boxShadow: `0 0 16px ${s.border}55`,
-                }}
-              >
-                <span style={{ color: s.color, fontSize: s.icon === '⚛' || s.icon === '♟' ? 24 : s.icon === '</>' ? 13 : 17, fontWeight: 800, lineHeight: 1 }}>{s.icon}</span>
-                {s.sub && <span style={{ color: s.color, fontSize: 10, lineHeight: 1, marginTop: 2 }}>{s.sub}</span>}
+      {/* Outer orbit — animated on desktop, static on mobile */}
+      {isMobile ? (
+        <div className="absolute" style={outerOrbitStyle}>
+          {subjects.map((s, i) => {
+            const angleDeg = i * (360 / subjects.length) - 90;
+            const angleRad = angleDeg * (Math.PI / 180);
+            const cx = R + R * Math.cos(angleRad) - iconSize / 2;
+            const cy = R + R * Math.sin(angleRad) - iconSize / 2;
+            return (
+              <div key={s.name} className="absolute flex flex-col items-center gap-[3px]" style={{ left: cx, top: cy, width: iconSize }}>
+                <div className="flex flex-col items-center justify-center rounded-full shadow-lg" style={{ width: iconSize, height: iconSize, background: s.bg, border: `2px solid ${s.border}` }}>
+                  <span style={{ color: s.color, fontSize: s.icon === '⚛' || s.icon === '♟' ? 24 : s.icon === '</>' ? 13 : 17, fontWeight: 800, lineHeight: 1 }}>{s.icon}</span>
+                  {s.sub && <span style={{ color: s.color, fontSize: 10, lineHeight: 1, marginTop: 2 }}>{s.sub}</span>}
+                </div>
+                <span style={{ color: s.color, fontSize: 11, fontWeight: 700, letterSpacing: 0.3, whiteSpace: 'nowrap' }}>{s.name}</span>
               </div>
-              <span style={{ color: s.color, fontSize: 11, fontWeight: 700, letterSpacing: 0.3, whiteSpace: 'nowrap' }}>{s.name}</span>
-            </motion.div>
-          );
-        })}
-      </motion.div>
+            );
+          })}
+        </div>
+      ) : (
+        <motion.div className="absolute" style={outerOrbitStyle} animate={{ rotate: 360 }} transition={{ duration: dur, repeat: Infinity, ease: 'linear' }}>
+          {subjects.map((s, i) => {
+            const angleDeg = i * (360 / subjects.length) - 90;
+            const angleRad = angleDeg * (Math.PI / 180);
+            const cx = R + R * Math.cos(angleRad) - iconSize / 2;
+            const cy = R + R * Math.sin(angleRad) - iconSize / 2;
+            return (
+              <motion.div key={s.name} className="absolute flex flex-col items-center gap-[3px]" style={{ left: cx, top: cy, width: iconSize }} animate={{ rotate: -360 }} transition={{ duration: dur, repeat: Infinity, ease: 'linear' }}>
+                <div className="flex flex-col items-center justify-center rounded-full shadow-lg" style={{ width: iconSize, height: iconSize, background: s.bg, border: `2px solid ${s.border}`, boxShadow: `0 0 16px ${s.border}55` }}>
+                  <span style={{ color: s.color, fontSize: s.icon === '⚛' || s.icon === '♟' ? 24 : s.icon === '</>' ? 13 : 17, fontWeight: 800, lineHeight: 1 }}>{s.icon}</span>
+                  {s.sub && <span style={{ color: s.color, fontSize: 10, lineHeight: 1, marginTop: 2 }}>{s.sub}</span>}
+                </div>
+                <span style={{ color: s.color, fontSize: 11, fontWeight: 700, letterSpacing: 0.3, whiteSpace: 'nowrap' }}>{s.name}</span>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+      )}
 
-      {/* Central Trophy SVG — static, solid anchor */}
+      {/* Central Trophy SVG — pulse only on desktop */}
       <motion.div
         className="absolute z-10 flex items-center justify-center"
         style={{ marginTop: -20 }}
-        animate={{ scale: [1, 1.025, 1] }}
-        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+        animate={isMobile ? {} : { scale: [1, 1.025, 1] }}
+        transition={isMobile ? {} : { duration: 4, repeat: Infinity, ease: 'easeInOut' }}
       >
         <svg viewBox="0 0 180 220" width="clamp(110px, 13vw, 160px)" height="clamp(135px, 16vw, 190px)" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -302,10 +312,13 @@ export default function Home() {
   const [ageTab, setAgeTab] = useState<"little" | "elite">("little");
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const heroRef = useRef<HTMLElement>(null);
+  // Compute once at mount — no need for reactive state (screen size doesn't meaningfully change during session)
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
+  // Parallax scroll — only on desktop (scroll listeners + transforms are expensive on mobile)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, 50]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.3]);
+  const heroY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [0, 50]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 1], isMobile ? [1, 1] : [1, 0.3]);
 
   const { data: olympiads } = useQuery<Exam[]>({ queryKey: ["/api/public/olympiads"] });
   const { data: categories } = useQuery<OlympiadCategory[]>({ queryKey: ["/api/public/olympiad-categories"] });
@@ -389,12 +402,16 @@ export default function Home() {
       {/* ═══════════ HERO SECTION ═══════════ */}
       <section ref={heroRef} className="relative min-h-[92vh] flex items-center overflow-hidden bg-gradient-to-br from-[#0f0a1e] via-[#1a1035] to-[#0f0a1e]" aria-label="Hero Section">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px]" />
-          <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-pink-600/8 rounded-full blur-[120px]" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-violet-500/5 rounded-full blur-[100px]" />
+          {/* Blur orbs — GPU-expensive, skip on mobile */}
+          {!isMobile && <>
+            <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px]" />
+            <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-pink-600/8 rounded-full blur-[120px]" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-violet-500/5 rounded-full blur-[100px]" />
+          </>}
           <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
         </div>
-        <HeroParticles />
+        {/* HeroParticles — desktop only (18 infinite canvas animations) */}
+        {!isMobile && <HeroParticles />}
 
         <motion.div style={{ y: heroY, opacity: heroOpacity }} className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-12 pb-16 lg:pt-20 lg:pb-24">
           <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
@@ -449,7 +466,7 @@ export default function Home() {
 
             <div className="w-full lg:w-[45%] relative flex flex-col items-center">
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }} className="relative w-full">
-                <OlympiadIllustration />
+                <OlympiadIllustration isMobile={isMobile} />
               </motion.div>
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.6 }} className="flex items-center gap-3 mt-3">
                 <div className="px-4 py-1.5 rounded-full backdrop-blur-sm" style={{ background: 'rgba(124,58,237,0.85)' }}>

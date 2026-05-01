@@ -37,21 +37,40 @@ export default defineConfig(async () => {
       rollupOptions: {
         output: {
           manualChunks: {
-            // Core React runtime
+            // Core React runtime — first thing the browser needs
             "vendor-react": ["react", "react-dom"],
-            // Routing + query
+            // Routing + query state
             "vendor-router": ["wouter", "@tanstack/react-query"],
-            // Framer motion separate — large lib
+            // Framer motion — large lib, split off
             "vendor-motion": ["framer-motion"],
-            // Radix UI components
-            "vendor-ui": [
+            // Lucide icons — large, rarely changes
+            "vendor-icons": ["lucide-react"],
+            // Radix UI primitives
+            "vendor-radix": [
               "@radix-ui/react-accordion",
+              "@radix-ui/react-alert-dialog",
+              "@radix-ui/react-avatar",
+              "@radix-ui/react-checkbox",
               "@radix-ui/react-dialog",
               "@radix-ui/react-dropdown-menu",
+              "@radix-ui/react-label",
+              "@radix-ui/react-popover",
+              "@radix-ui/react-progress",
+              "@radix-ui/react-radio-group",
               "@radix-ui/react-select",
+              "@radix-ui/react-separator",
+              "@radix-ui/react-slider",
+              "@radix-ui/react-slot",
+              "@radix-ui/react-switch",
               "@radix-ui/react-tabs",
+              "@radix-ui/react-toast",
+              "@radix-ui/react-toggle",
               "@radix-ui/react-tooltip",
             ],
+            // Form handling
+            "vendor-forms": ["react-hook-form", "@hookform/resolvers", "zod"],
+            // Helmet for SEO meta tags
+            "vendor-helmet": ["react-helmet-async"],
           },
         },
       },
