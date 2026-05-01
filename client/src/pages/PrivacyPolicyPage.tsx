@@ -224,7 +224,7 @@ export function LegalPageLayout({ icon: Icon, title, subtitle, effectiveDate, se
                       <h2 className="text-lg font-black text-foreground">{s.title}</h2>
                     </div>
 
-                    <div className="pl-3 space-y-3 text-[15.5px] text-gray-600 dark:text-gray-400 leading-[1.9]">
+                    <div className="pl-3 space-y-3 text-[17px] text-gray-600 dark:text-gray-400 leading-[1.9]">
                       {s.content.map((block, bi) =>
                         block.type === "p" ? (
                           <p key={bi}>{block.text}</p>
