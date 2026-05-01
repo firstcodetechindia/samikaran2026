@@ -127,37 +127,34 @@ export const designs: Record<string, CertDesign> = {
   },
 };
 
+// Uses the exact same SVG geometry as BrandLogo.tsx — viewBox 0 0 100 100,
+// same triangle points, same bar positions — only colors differ per cert type.
 function SamikaranLogoMark({
   colorDark,
   colorLight,
-  glowColor = "transparent",
   size = "100%",
 }: {
   colorDark: string;
   colorLight: string;
-  glowColor?: string;
   size?: string;
 }) {
-  const id = colorDark.replace(/[^a-z0-9]/gi, "");
   return (
-    <svg viewBox="0 0 110 110" xmlns="http://www.w3.org/2000/svg" width={size} height={size} style={{ display: "block", flexShrink: 0 }}>
-      <defs>
-        <radialGradient id={`glow-${id}`} cx="50%" cy="50%" r="50%">
-          <stop offset="0%"   stopColor={glowColor} stopOpacity="1" />
-          <stop offset="100%" stopColor={glowColor} stopOpacity="0" />
-        </radialGradient>
-      </defs>
-      {/* Glow ring */}
-      <circle cx="55" cy="55" r="48" fill={`url(#glow-${id})`} />
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width={size} height={size} style={{ display: "block", flexShrink: 0 }}>
+      {/* Shadow layer */}
+      <polygon points="50,12 85,72 15,72" fill="rgba(0,0,0,0.12)" transform="translate(2, 4)" />
+      <polygon points="50,88 15,28 85,28" fill="rgba(0,0,0,0.10)" transform="translate(2, 4)" />
       {/* Upward triangle — dark tone */}
-      <polygon points="55,10 95,78 15,78" fill={colorDark} />
-      <polygon points="55,10 73,44 37,44" fill="rgba(255,255,255,0.15)" />
+      <polygon points="50,10 88,75 12,75" fill={colorDark} />
+      <polygon points="50,10 69,42.5 31,42.5" fill="rgba(255,255,255,0.18)" />
       {/* Downward triangle — light tone */}
-      <polygon points="55,100 15,32 95,32" fill={colorLight} opacity="0.90" />
-      <polygon points="55,100 37,66 73,66" fill="rgba(255,255,255,0.10)" />
-      {/* Equals bars — white */}
-      <rect x="34" y="47" width="42" height="6.5" rx="3.25" fill="white" opacity="0.95" />
-      <rect x="34" y="56.5" width="42" height="6.5" rx="3.25" fill="white" opacity="0.95" />
+      <polygon points="50,90 12,25 88,25" fill={colorLight} opacity="0.88" />
+      <polygon points="50,90 31,57.5 69,57.5" fill="rgba(255,255,255,0.12)" />
+      {/* Equals bars */}
+      <rect x="32" y="44" width="36" height="5" rx="2.5" fill="white" />
+      <rect x="32" y="53" width="36" height="5" rx="2.5" fill="white" />
+      {/* Shine */}
+      <rect x="32" y="44" width="36" height="2" rx="1" fill="rgba(255,255,255,0.5)" />
+      <rect x="32" y="53" width="36" height="2" rx="1" fill="rgba(255,255,255,0.5)" />
     </svg>
   );
 }
@@ -418,7 +415,6 @@ export function FullCertificatePreview({
             <SamikaranLogoMark
               colorDark={design.logoColorDark}
               colorLight={design.logoColorLight}
-              glowColor={design.logoGlow}
               size="clamp(30px, 4.8vw, 56px)"
             />
             {/* Text — tight block, logo center aligns with SAMIKARAN baseline */}
@@ -429,7 +425,7 @@ export function FullCertificatePreview({
                   fontFamily: "Georgia, 'Times New Roman', serif",
                   fontSize: "clamp(12px, 2.2vw, 26px)",
                   color: design.titleColor,
-                  letterSpacing: "0.3em",
+                  letterSpacing: "0.08em",
                   lineHeight: 1,
                   margin: 0,
                   padding: 0,
@@ -443,7 +439,7 @@ export function FullCertificatePreview({
                   fontFamily: "Georgia, 'Times New Roman', serif",
                   fontSize: "clamp(5.5px, 0.85vw, 10px)",
                   color: design.subtleText,
-                  letterSpacing: "0.4em",
+                  letterSpacing: "0.22em",
                   lineHeight: 1,
                   marginTop: "clamp(2px, 0.3vw, 4px)",
                   padding: 0,
