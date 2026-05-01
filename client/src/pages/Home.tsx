@@ -49,6 +49,36 @@ const scaleIn = {
   visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeOut" } }
 };
 
+function HeroParticles() {
+  const symbols = ['∑', 'π', '∞', '√', '⚛', '∫', 'Δ', '≈', 'λ', '⊕', 'μ', 'σ', '∂', 'θ', '÷', 'α', 'β', '≡', 'φ', 'ω'];
+  const particles = Array.from({ length: 28 }, (_, i) => ({
+    id: i,
+    symbol: symbols[i % symbols.length],
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    size: 10 + Math.random() * 16,
+    duration: 18 + Math.random() * 22,
+    delay: Math.random() * 12,
+    dx: (Math.random() - 0.5) * 120,
+    dy: (Math.random() - 0.5) * 120,
+  }));
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+      {particles.map(p => (
+        <motion.span
+          key={p.id}
+          className="absolute font-bold select-none"
+          style={{ left: `${p.x}%`, top: `${p.y}%`, fontSize: p.size, color: 'white', opacity: 0 }}
+          animate={{ x: [0, p.dx, 0], y: [0, p.dy, 0], opacity: [0, 0.045, 0.06, 0.045, 0] }}
+          transition={{ duration: p.duration, repeat: Infinity, delay: p.delay, ease: 'easeInOut' }}
+        >
+          {p.symbol}
+        </motion.span>
+      ))}
+    </div>
+  );
+}
+
 function OlympiadIllustration() {
   return (
     <div className="relative w-full flex items-center justify-center py-8 px-4" style={{minHeight: '420px'}}>
@@ -297,6 +327,7 @@ export default function Home() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-violet-500/5 rounded-full blur-[100px]" />
           <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
         </div>
+        <HeroParticles />
 
         <motion.div style={{ y: heroY, opacity: heroOpacity }} className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-12 pb-16 lg:pt-20 lg:pb-24">
           <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
@@ -307,14 +338,14 @@ export default function Home() {
               </motion.div>
 
               <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.7, ease: "easeOut" }} className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] xl:text-6xl font-black tracking-tight mb-6 leading-[1.12]" style={{ letterSpacing: '-0.01em' }} data-testid="text-hero-heading">
-                <span className="text-white">India's Biggest</span><br />
-                <span className="brand-text">School Olympiad</span><br />
-                <span className="text-white">For Every Child</span>
+                <span className="text-white">Prove Your</span><br />
+                <span className="brand-text">Genius.</span><br />
+                <span className="text-white">Make India Proud</span>
                 <span className="text-pink-500">.</span>
               </motion.h1>
 
               <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.6 }} className="text-base sm:text-lg text-gray-400 mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                Compete nationally, win scholarships & medals — <strong className="text-white font-semibold">Science, Math, English, Reasoning</strong> & more for Class 1–12.
+                India's most prestigious academic Olympiad — where <strong className="text-white font-semibold">talent meets recognition</strong>, and every champion gets their moment. Class 1–12.
               </motion.p>
 
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65, duration: 0.5 }} className="flex flex-col sm:flex-row gap-4 items-center justify-center lg:justify-start">
@@ -351,78 +382,7 @@ export default function Home() {
 
             <div className="w-full lg:w-[45%] relative">
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }} className="relative">
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-purple-900/40 border border-white/[0.08] bg-gradient-to-br from-[#1a1035] via-[#1e0d3e] to-[#12082a] flex items-center justify-center" style={{minHeight: '420px'}}>
-                  <OlympiadIllustration />
-                </div>
-
-                <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.8, duration: 0.6 }}
-                  className="absolute right-3 sm:right-6 top-8 z-20"
-                >
-                  <motion.div
-                    animate={prefersReducedMotion ? {} : { y: [0, -6, 0] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                    className="px-4 py-3 rounded-xl bg-white/[0.1] backdrop-blur-xl border border-white/[0.15] shadow-xl"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-emerald-500 to-green-500 flex items-center justify-center">
-                        <BarChart3 className="w-5 h-5 text-white" />
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold text-white">Instant Results</div>
-                        <div className="text-[10px] text-gray-400">AI-powered analytics</div>
-                      </div>
-                    </div>
-                  </motion.div>
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 1.0, duration: 0.6 }}
-                  className="absolute left-3 sm:left-6 bottom-24 z-20"
-                >
-                  <motion.div
-                    animate={prefersReducedMotion ? {} : { y: [0, -8, 0] }}
-                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                    className="px-4 py-3 rounded-xl bg-white/[0.1] backdrop-blur-xl border border-white/[0.15] shadow-xl"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-                        <Globe className="w-5 h-5 text-white" />
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold text-white">National Recognition</div>
-                        <div className="text-[10px] text-gray-400">Pan-India rankings</div>
-                      </div>
-                    </div>
-                  </motion.div>
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.2, duration: 0.6 }}
-                  className="absolute right-6 sm:right-10 bottom-3 z-20"
-                >
-                  <motion.div
-                    animate={prefersReducedMotion ? {} : { y: [0, -5, 0] }}
-                    transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                    className="px-4 py-3 rounded-xl bg-white/[0.1] backdrop-blur-xl border border-white/[0.15] shadow-xl"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center">
-                        <Trophy className="w-5 h-5 text-white" />
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold text-white">Scholarships & Rewards</div>
-                        <div className="text-[10px] text-gray-400">Cash prizes & certificates</div>
-                      </div>
-                    </div>
-                  </motion.div>
-                </motion.div>
+                <OlympiadIllustration />
               </motion.div>
             </div>
           </div>
