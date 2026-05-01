@@ -831,7 +831,7 @@ export default function ChatWidget() {
 
   if (agentLoading && isOpen) {
     return (
-      <div className="fixed bottom-24 md:bottom-6 right-4 md:right-6 z-[60] print:hidden">
+      <div className="fixed bottom-[78px] lg:bottom-6 right-4 lg:right-6 z-[60] print:hidden">
         <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center shadow-lg">
           <Loader2 className="w-5 h-5 md:w-6 md:h-6 text-white animate-spin" />
         </div>
@@ -840,7 +840,7 @@ export default function ChatWidget() {
   }
 
   return (
-    <div className="fixed bottom-24 md:bottom-6 right-4 md:right-6 z-[60] print:hidden" data-testid="chat-widget">
+    <div className="fixed bottom-[78px] lg:bottom-6 right-4 lg:right-6 z-[60] print:hidden" data-testid="chat-widget">
       <AnimatePresence>
         {isOpen && (
           <motion.div
