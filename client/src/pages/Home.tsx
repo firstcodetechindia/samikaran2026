@@ -886,52 +886,69 @@ export default function Home() {
             <p className="text-sm text-gray-400 max-w-md mx-auto">From registration to certificate — 5 simple steps.</p>
           </motion.div>
 
-          {/* Steps — horizontal */}
+          {/* Steps — horizontal equal-height grid */}
           <div className="relative">
-            {/* Animated connector line */}
+
+            {/* Connector line (drawn left→right on scroll) */}
             <motion.div
-              className="absolute top-9 left-[8%] right-[8%] h-px bg-gradient-to-r from-violet-500 via-fuchsia-500 to-pink-500 origin-left hidden sm:block"
+              className="absolute top-9 left-[9%] right-[9%] h-[2px] bg-gradient-to-r from-violet-500 via-fuchsia-500 to-pink-500 origin-left hidden sm:block rounded-full"
               initial={{ scaleX: 0 }}
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 1.2, ease: "easeInOut", delay: 0.2 }}
+              transition={{ duration: 1.1, ease: "easeInOut", delay: 0.15 }}
             />
 
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 sm:gap-3">
+            {/* Directional flow arrows on the line — 4 gaps between 5 steps */}
+            {[0, 1, 2, 3].map(i => (
+              <motion.div
+                key={i}
+                className="absolute hidden sm:flex top-[27px] items-center z-20 pointer-events-none"
+                style={{ left: `${18 + i * 20.5}%` }}
+                animate={{ x: [0, 6, 0], opacity: [0.45, 1, 0.45] }}
+                transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut", delay: i * 0.28 }}
+              >
+                <ChevronRight className="w-4 h-4 text-fuchsia-400 drop-shadow-[0_0_4px_rgba(232,121,249,0.8)]" />
+              </motion.div>
+            ))}
+
+            {/* 5-column grid — items-stretch for equal height */}
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 items-stretch">
               {[
-                { step: "01", icon: UserPlus,  title: "Register Free",        short: "Create your student account in under 2 minutes" },
-                { step: "02", icon: Calendar,  title: "Pick Subject & Date",  short: "Choose your exam subject and preferred time slot" },
-                { step: "03", icon: CreditCard,title: "Pay & Confirm",        short: "Secure payment via UPI, card, or net banking" },
-                { step: "04", icon: Monitor,   title: "Take Exam at Home",    short: "AI-proctored exam from your laptop or desktop" },
-                { step: "05", icon: Award,     title: "Get Results & Cert",   short: "Instant results and downloadable certificate" },
+                { step: "01", icon: UserPlus,   title: "Register Free",       short: "Create your student account in under 2 minutes" },
+                { step: "02", icon: Calendar,   title: "Pick Subject & Date", short: "Choose your exam subject and a preferred time slot" },
+                { step: "03", icon: CreditCard, title: "Pay & Confirm",       short: "Secure payment via UPI, card, or net banking" },
+                { step: "04", icon: Monitor,    title: "Take Exam at Home",   short: "AI-proctored exam from your laptop or desktop" },
+                { step: "05", icon: Award,      title: "Get Results & Cert",  short: "Instant results and downloadable certificate" },
               ].map(({ step, icon: Icon, title, short }, i) => (
                 <motion.div
                   key={step}
                   className="flex flex-col items-center text-center group cursor-default"
-                  initial={{ opacity: 0, y: 28 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, x: -24 }}
+                  whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.45, delay: 0.3 + i * 0.12 }}
+                  transition={{ duration: 0.42, ease: "easeOut", delay: 0.2 + i * 0.13 }}
                 >
-                  {/* Icon */}
+                  {/* Icon box — same fixed size */}
                   <motion.div
-                    className="relative w-[72px] h-[72px] rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center shadow-lg shadow-violet-500/25 border border-violet-400/20 mb-4 z-10"
-                    whileHover={{ scale: 1.1, boxShadow: "0 0 28px rgba(139,92,246,0.45)" }}
-                    transition={{ type: "spring", stiffness: 300, damping: 18 }}
+                    className="relative w-[72px] h-[72px] shrink-0 rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center shadow-lg shadow-violet-500/25 border border-violet-400/20 mb-3 z-10"
+                    whileHover={{ scale: 1.08, boxShadow: "0 0 24px rgba(168,85,247,0.5)" }}
+                    transition={{ type: "spring", stiffness: 320, damping: 20 }}
                   >
                     <Icon className="w-7 h-7 text-white" />
-                    {/* Pulse ring on hover */}
-                    <span className="absolute inset-0 rounded-2xl ring-2 ring-violet-400/0 group-hover:ring-violet-400/40 transition-all duration-300" />
+                    <motion.span
+                      className="absolute inset-0 rounded-2xl border-2 border-violet-300/0"
+                      whileHover={{ borderColor: "rgba(196,181,253,0.5)" }}
+                    />
                   </motion.div>
 
-                  {/* Step badge */}
-                  <span className="text-[10px] font-black text-violet-400 tracking-widest mb-1.5">STEP {step}</span>
+                  {/* Step label — fixed line */}
+                  <span className="text-[10px] font-black text-violet-400 tracking-widest mb-1">STEP {step}</span>
 
-                  {/* Title */}
-                  <h3 className="text-sm font-semibold text-white leading-snug mb-1.5">{title}</h3>
+                  {/* Title — 2 lines reserved */}
+                  <h3 className="text-sm font-bold text-white leading-snug mb-2 min-h-[2.5rem] flex items-center justify-center px-1">{title}</h3>
 
-                  {/* Short desc */}
-                  <p className="text-[11px] text-gray-400 leading-relaxed px-1">{short}</p>
+                  {/* Description — fills remaining space, top-aligned */}
+                  <p className="text-[11px] text-gray-400 leading-relaxed px-1 flex-1">{short}</p>
                 </motion.div>
               ))}
             </div>
