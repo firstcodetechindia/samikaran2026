@@ -502,9 +502,9 @@ export function FullCertificatePreview({
             <div className="text-center mt-[1%] mb-[1%]" style={{ width: "100%" }}>
               <h3
                 style={{
-                  fontFamily: "'Yeseva One', serif",
-                  fontWeight: 400,
-                  fontSize: "clamp(13px, 3vw, 36px)",
+                  fontFamily: "'Rufina', serif",
+                  fontWeight: 700,
+                  fontSize: "clamp(13px, 3.2vw, 38px)",
                   color: design.nameColor,
                   textShadow: `0 2px 6px rgba(0,0,0,0.12), 0 1px 0 rgba(255,255,255,0.5)`,
                   lineHeight: 1.15,
