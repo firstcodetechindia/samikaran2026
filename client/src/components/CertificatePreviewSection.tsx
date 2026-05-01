@@ -499,15 +499,20 @@ export function FullCertificatePreview({
             </p>
 
             {/* Student name */}
-            <div className="text-center mt-[1%] mb-[1%]">
+            <div className="text-center mt-[1%] mb-[1%]" style={{ width: "100%" }}>
               <h3
-                className="font-black"
                 style={{
-                  fontFamily: "Georgia, 'Times New Roman', serif",
-                  fontSize: "clamp(15px, 3.4vw, 38px)",
+                  fontFamily: "'Cinzel Decorative', serif",
+                  fontWeight: 700,
+                  fontSize: "clamp(11px, 2.8vw, 34px)",
                   color: design.nameColor,
                   textShadow: `0 2px 6px rgba(0,0,0,0.12), 0 1px 0 rgba(255,255,255,0.5)`,
-                  lineHeight: 1.05,
+                  lineHeight: 1.15,
+                  margin: 0,
+                  padding: 0,
+                  overflowWrap: "break-word",
+                  wordBreak: "break-word",
+                  maxWidth: "100%",
                 }}
               >
                 {sample.studentName}
