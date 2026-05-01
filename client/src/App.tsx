@@ -21,6 +21,7 @@ import ServiceUnavailable from "@/pages/error-503";
 import ComingSoonPage from "@/pages/ComingSoonPage";
 import MaintenancePage from "@/pages/MaintenancePage";
 import AboutPage from "@/pages/AboutPage";
+import ContactPage from "@/pages/ContactPage";
 
 // Lazy load only heavy dashboard pages
 const StudentDashboard = lazy(() => import("@/pages/StudentDashboard"));
@@ -363,6 +364,7 @@ function Router() {
           <Route path="/olympiad/:slug" component={OlympiadDetail} />
           <Route path="/olympiad/:examId/register" component={OlympiadRegister} />
           <Route path="/about" component={AboutPage} />
+          <Route path="/contact" component={ContactPage} />
           <Route path="/:slug" component={CmsPage} />
           <Route component={NotFound} />
         </Switch>
