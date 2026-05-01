@@ -214,11 +214,12 @@ function MobileBottomNav({ user, moreOpen, setMoreOpen }: {
     <>
       {/* ── Bottom navigation bar ── */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
-        {/* Hard shadow separator line above bar */}
-        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-violet-500/25 to-transparent" />
-        <div className="absolute -top-6 inset-x-0 h-6 bg-gradient-to-t from-[#07041a] to-transparent pointer-events-none" />
+        {/* Feathered top edge */}
+        <div className="absolute -top-8 inset-x-0 h-8 bg-gradient-to-t from-[#100c28]/90 to-transparent pointer-events-none" />
+        {/* Thin violet separator */}
+        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-violet-500/30 to-transparent" />
 
-        <div className="relative flex items-end h-[66px] bg-[#07041a] shadow-[0_-12px_40px_rgba(0,0,0,0.75)]">
+        <div className="relative flex items-end h-[66px]" style={{ background: 'rgba(13,9,34,0.97)', backdropFilter: 'blur(20px) saturate(180%)' }}>
 
           {tabs.map((tab, i) => {
             if (!tab) {
@@ -294,10 +295,10 @@ function MobileBottomNav({ user, moreOpen, setMoreOpen }: {
               className="lg:hidden fixed bottom-0 left-0 right-0 z-[60] rounded-t-[28px] overflow-hidden"
               style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 62px)' }}
             >
-              {/* Sheet background — solid deep dark, no bleed-through */}
-              <div className="absolute inset-0 bg-[#0b0720]" />
-              <div className="absolute inset-0 bg-gradient-to-b from-violet-900/12 via-transparent to-transparent" />
-              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-400/50 to-transparent" />
+              {/* Sheet background */}
+              <div className="absolute inset-0" style={{ background: 'rgba(13,9,34,0.99)', backdropFilter: 'blur(24px) saturate(160%)' }} />
+              <div className="absolute inset-0 bg-gradient-to-b from-violet-800/10 via-transparent to-transparent" />
+              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-400/40 to-transparent" />
 
               <div className="relative z-10 pt-3 px-5 pb-4">
                 {/* Drag handle */}
