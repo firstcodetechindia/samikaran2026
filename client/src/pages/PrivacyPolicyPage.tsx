@@ -184,18 +184,18 @@ export function LegalPageLayout({ icon: Icon, title, subtitle, effectiveDate, se
 
       {/* ══ CONTENT ══ */}
       <div className="bg-gray-50 dark:bg-background py-8 sm:py-12">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+        <div className="max-w-5xl mx-auto px-4 sm:px-5">
           <motion.div
             initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.15 }}
             className="bg-white dark:bg-card rounded-3xl border border-gray-100 dark:border-white/8 shadow-sm overflow-hidden"
           >
             {/* TOC */}
-            <div className="px-6 sm:px-10 lg:px-12 pt-8 pb-6 border-b border-gray-100 dark:border-white/8 bg-gray-50/60 dark:bg-white/2">
+            <div className="px-6 sm:px-8 pt-7 pb-5 border-b border-gray-100 dark:border-white/8 bg-gray-50/60 dark:bg-white/2">
               <p className="text-[10px] font-black uppercase tracking-[0.14em] text-muted-foreground mb-3">Table of Contents</p>
               <div className="flex flex-wrap gap-2">
                 {sections.map((s, i) => (
                   <a key={s.id} href={`#${s.id}`}
-                    className="flex items-center gap-1.5 text-[11px] font-semibold text-muted-foreground hover:text-violet-600 dark:hover:text-violet-400 transition-colors px-3 py-1.5 rounded-lg bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 hover:border-violet-200 dark:hover:border-violet-700/50">
+                    className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-violet-600 dark:hover:text-violet-400 transition-colors px-3 py-1.5 rounded-lg bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 hover:border-violet-200 dark:hover:border-violet-700/50">
                     <span className="text-violet-400 font-black">{String(i + 1).padStart(2, "0")}</span>
                     {s.title}
                   </a>
@@ -204,7 +204,7 @@ export function LegalPageLayout({ icon: Icon, title, subtitle, effectiveDate, se
             </div>
 
             {/* Sections */}
-            <div className="px-6 sm:px-10 lg:px-12 py-8 space-y-10">
+            <div className="px-6 sm:px-8 py-8 space-y-10">
               {sections.map((s, i) => {
                 const SIcon = s.icon;
                 return (
@@ -218,21 +218,21 @@ export function LegalPageLayout({ icon: Icon, title, subtitle, effectiveDate, se
                     className="scroll-mt-24"
                   >
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center shrink-0 shadow-md shadow-violet-500/20">
-                        <SIcon className="w-3.5 h-3.5 text-white" />
+                      <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center shrink-0 shadow-md shadow-violet-500/20">
+                        <SIcon className="w-4 h-4 text-white" />
                       </div>
-                      <h2 className="text-base font-black text-foreground">{s.title}</h2>
+                      <h2 className="text-lg font-black text-foreground">{s.title}</h2>
                     </div>
 
-                    <div className="pl-11 space-y-3 text-[14.5px] text-gray-600 dark:text-gray-400 leading-[1.85]">
+                    <div className="pl-3 space-y-3 text-[15.5px] text-gray-600 dark:text-gray-400 leading-[1.9]">
                       {s.content.map((block, bi) =>
                         block.type === "p" ? (
                           <p key={bi}>{block.text}</p>
                         ) : (
-                          <ul key={bi} className="space-y-2 list-none">
+                          <ul key={bi} className="space-y-2.5 list-none">
                             {block.items.map((item: string, ii: number) => (
-                              <li key={ii} className="flex items-start gap-2.5">
-                                <span className="mt-2 w-1.5 h-1.5 rounded-full bg-gradient-to-br from-violet-400 to-fuchsia-500 shrink-0" />
+                              <li key={ii} className="flex items-start gap-3">
+                                <span className="mt-2.5 w-1.5 h-1.5 rounded-full bg-gradient-to-br from-violet-400 to-fuchsia-500 shrink-0" />
                                 <span>{item}</span>
                               </li>
                             ))}
@@ -250,7 +250,7 @@ export function LegalPageLayout({ icon: Icon, title, subtitle, effectiveDate, se
             </div>
 
             {/* Footer strip */}
-            <div className="border-t border-gray-100 dark:border-white/8 px-6 sm:px-10 lg:px-12 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 bg-gray-50/60 dark:bg-white/2">
+            <div className="border-t border-gray-100 dark:border-white/8 px-6 sm:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 bg-gray-50/60 dark:bg-white/2">
               <p className="text-[11px] text-muted-foreground">
                 Questions? Email us at <a href="mailto:support@samikaranolympiad.com" className="text-violet-600 dark:text-violet-400 hover:underline font-medium">support@samikaranolympiad.com</a>
               </p>
