@@ -162,24 +162,9 @@ export default function ContactPage() {
                   hear from you
                 </span>
               </motion.h1>
-              <motion.p variants={item} className="text-base sm:text-lg text-gray-400 max-w-md mx-auto lg:mx-0 leading-relaxed mb-8">
+              <motion.p variants={item} className="text-base sm:text-lg text-gray-400 max-w-md mx-auto lg:mx-0 leading-relaxed">
                 Whether you have a question, need support, or want to partner with us — our team is always here to help.
               </motion.p>
-
-              {/* inline quick contact pills */}
-              <motion.div variants={item} className="flex flex-wrap gap-3 justify-center lg:justify-start">
-                {[
-                  { icon: Mail,          text: "support@samikaranolympiad.com", href: "mailto:support@samikaranolympiad.com" },
-                  { icon: MessageCircle, text: "+91 98765 43210",               href: "https://wa.me/919876543210" },
-                ].map(p => (
-                  <a key={p.text} href={p.href} target="_blank" rel="noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/8 border border-white/12 text-sm text-gray-300 hover:text-white hover:bg-white/14 hover:border-white/20 transition-all duration-200 backdrop-blur-sm"
-                  >
-                    <p.icon className="w-3.5 h-3.5 text-violet-400 shrink-0" />
-                    <span className="font-medium">{p.text}</span>
-                  </a>
-                ))}
-              </motion.div>
             </motion.div>
 
             {/* Right: illustration */}
@@ -198,12 +183,10 @@ export default function ContactPage() {
           </div>
         </div>
 
-        {/* bottom fade into white */}
-        <div className="h-12 bg-gradient-to-b from-transparent to-white dark:to-background" />
       </section>
 
       {/* ══════ CONTACT CARDS ═════════════════════════════ */}
-      <section className="bg-white dark:bg-background">
+      <section className="bg-white dark:bg-background pt-10 pb-6">
         <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
           <motion.div
             variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-30px" }}
@@ -249,6 +232,38 @@ export default function ContactPage() {
                 <div key={card.label} className="h-full">{content}</div>
               );
             })}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ══════ SOCIAL STRIP ══════════════════════════════ */}
+      <section className="bg-white dark:bg-background py-5">
+        <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-5 rounded-2xl bg-gray-50 dark:bg-white/[0.03] border border-gray-100 dark:border-white/[0.06]"
+          >
+            <p className="text-sm font-semibold text-gray-500 dark:text-white/40 shrink-0">Follow us on social media</p>
+            <div className="flex items-center gap-3">
+              {socialLinks.filter(l => l.isActive && l.pageUrl).map((link, i) => {
+                const Icon = socialIcons[link.platformCode];
+                if (!Icon) return null;
+                return (
+                  <motion.a
+                    key={link.id} href={link.pageUrl} target="_blank" rel="noreferrer"
+                    initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }} transition={{ delay: i * 0.06, duration: 0.4 }}
+                    whileHover={{ scale: 1.15, y: -3 }} whileTap={{ scale: 0.92 }}
+                    className={`group relative flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-gradient-to-r ${socialGrad[link.platformCode] || "from-violet-500 to-fuchsia-500"} shadow-md hover:shadow-lg transition-shadow duration-300`}
+                    title={link.platformName} data-testid={`link-social-${link.platformCode}`}
+                  >
+                    <Icon style={{ width: "0.95rem", height: "0.95rem", color: "white" }} />
+                    <span className="text-white text-xs font-bold hidden sm:block">{link.platformName}</span>
+                  </motion.a>
+                );
+              })}
+            </div>
           </motion.div>
         </div>
       </section>
@@ -335,26 +350,6 @@ export default function ContactPage() {
                           ))}
                         </div>
 
-                        {/* social */}
-                        <div>
-                          <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-white/30 mb-3">Follow us</p>
-                          <div className="flex gap-2.5">
-                            {socialLinks.filter(l => l.isActive && l.pageUrl).map(link => {
-                              const Icon = socialIcons[link.platformCode];
-                              if (!Icon) return null;
-                              return (
-                                <motion.a key={link.id} href={link.pageUrl} target="_blank" rel="noreferrer"
-                                  whileHover={{ scale: 1.12, y: -2 }} whileTap={{ scale: 0.95 }}
-                                  transition={{ type: "spring", stiffness: 400 }}
-                                  className={`w-9 h-9 rounded-xl bg-gradient-to-br ${socialGrad[link.platformCode] || "from-violet-500 to-fuchsia-500"} flex items-center justify-center shadow-md hover:shadow-lg transition-shadow`}
-                                  title={link.platformName} data-testid={`link-social-${link.platformCode}`}
-                                >
-                                  <Icon style={{ width: "1rem", height: "1rem", color: "white" }} />
-                                </motion.a>
-                              );
-                            })}
-                          </div>
-                        </div>
                       </div>
 
                       {/* Right: form fields */}
