@@ -129,7 +129,7 @@ export default function PrivacyPolicyPage() {
         icon={Shield}
         title="Privacy Policy"
         subtitle="How we collect, use, and protect your personal information."
-        effectiveDate="Effective: 1 January 2025 · Last updated: May 2026"
+        effectiveDate="Effective: 1 January 2026 · Last updated: May 2026"
         sections={sections}
       />
     </PublicLayout>

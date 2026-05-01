@@ -138,7 +138,7 @@ export default function TermsAndConditionsPage() {
         icon={ScrollText}
         title="Terms & Conditions"
         subtitle="Please read these terms carefully before using the Samikaran Olympiad platform."
-        effectiveDate="Effective: 1 January 2025 · Last updated: May 2026"
+        effectiveDate="Effective: 1 January 2026 · Last updated: May 2026"
         sections={sections}
       />
     </PublicLayout>

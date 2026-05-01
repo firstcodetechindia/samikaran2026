@@ -131,7 +131,7 @@ export default function RefundPolicyPage() {
         icon={RefreshCw}
         title="Refund Policy"
         subtitle="Transparent and fair refund guidelines for all Samikaran Olympiad registrations."
-        effectiveDate="Effective: 1 January 2025 · Last updated: May 2026"
+        effectiveDate="Effective: 1 January 2026 · Last updated: May 2026"
         sections={sections}
       />
     </PublicLayout>
