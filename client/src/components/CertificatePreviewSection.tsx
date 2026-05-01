@@ -139,17 +139,31 @@ function DecorativeDivider({ color, accent }: { color: string; accent: string })
   );
 }
 
+export interface CertStudentData {
+  studentName: string;
+  schoolName: string;
+  olympiadName: string;
+  certNumber: string;
+  indexNumber: string;
+  grade: string;
+  rank: string;
+  percentage: string;
+  date: string;
+}
+
 export function FullCertificatePreview({
   type,
   signatories,
+  studentData,
 }: {
   type: string;
   signatories?: { s1Name: string; s1Title: string; s2Name: string; s2Title: string };
+  studentData?: CertStudentData;
 }) {
   const design = designs[type] || designs.gold;
   const year = new Date().getFullYear().toString();
 
-  const sample = {
+  const sample: CertStudentData = studentData ?? {
     studentName: "NIPUN SAHA",
     schoolName: "DHIRUBHAI AMBANI INTERNATIONAL SCHOOL",
     olympiadName: "NATIONAL JUNIOR SCIENCE OLYMPIAD 2025",

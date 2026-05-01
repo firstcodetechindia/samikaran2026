@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -7,13 +7,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Award, Crown, Medal, Star, Users, CheckCircle, Trophy,
-  Loader2, ChevronRight
+  Loader2, ChevronRight, FileDown, Printer, X, AlertCircle
 } from "lucide-react";
-import { FullCertificatePreview, CERTIFICATE_TYPES } from "@/components/CertificatePreviewSection";
+import { FullCertificatePreview, CERTIFICATE_TYPES, CertStudentData } from "@/components/CertificatePreviewSection";
 
 const CERT_COLORS: Record<string, { dot: string; bg: string; text: string }> = {
   gold:          { dot: "bg-yellow-500",  bg: "bg-yellow-50",  text: "text-yellow-800" },
@@ -22,6 +23,212 @@ const CERT_COLORS: Record<string, { dot: string; bg: string; text: string }> = {
   participation: { dot: "bg-emerald-500", bg: "bg-emerald-50", text: "text-emerald-800" },
 };
 
+function certTypeToDesignKey(certType: string): string {
+  if (certType === "merit_gold")   return "gold";
+  if (certType === "merit_silver") return "silver";
+  if (certType === "merit_bronze") return "bronze";
+  return "participation";
+}
+
+interface BulkCertRow {
+  certType: string;
+  verificationCode: string | null;
+  rank: number | null;
+  score: number | null;
+  issuedAt: string;
+  studentName: string;
+  schoolName: string;
+  gradeLevel: string;
+  olympiadName: string;
+}
+
+function BulkPdfModal({
+  open,
+  onClose,
+  examId,
+  examTitle,
+  signatories,
+}: {
+  open: boolean;
+  onClose: () => void;
+  examId: number;
+  examTitle: string;
+  signatories: { s1Name: string; s1Title: string; s2Name: string; s2Title: string };
+}) {
+  const printRef = useRef<HTMLDivElement>(null);
+
+  const { data: rows = [], isLoading, error } = useQuery<BulkCertRow[]>({
+    queryKey: ["/api/certificates/bulk-data", examId],
+    queryFn: () => fetch(`/api/certificates/bulk-data/${examId}`).then(r => r.json()),
+    enabled: open && !!examId,
+  });
+
+  const handlePrint = () => {
+    const style = document.createElement("style");
+    style.id = "__bulk-cert-print-style";
+    style.innerHTML = `
+      @media print {
+        body > *:not(#__bulk-cert-print-root) { display: none !important; }
+        #__bulk-cert-print-root { display: block !important; }
+        .bulk-cert-page { page-break-after: always; break-after: page; padding: 8mm; box-sizing: border-box; }
+        .bulk-cert-page:last-child { page-break-after: avoid; break-after: avoid; }
+        @page { size: A4 landscape; margin: 0; }
+      }
+    `;
+    document.head.appendChild(style);
+
+    const root = document.createElement("div");
+    root.id = "__bulk-cert-print-root";
+    root.style.cssText = "display:none;position:fixed;inset:0;z-index:99999;background:white;overflow:auto;";
+    if (printRef.current) {
+      root.innerHTML = printRef.current.innerHTML;
+    }
+    document.body.appendChild(root);
+
+    window.print();
+
+    setTimeout(() => {
+      document.body.removeChild(root);
+      document.head.removeChild(style);
+    }, 1000);
+  };
+
+  const typeGroups = {
+    gold: rows.filter(r => r.certType === "merit_gold"),
+    silver: rows.filter(r => r.certType === "merit_silver"),
+    bronze: rows.filter(r => r.certType === "merit_bronze"),
+    participation: rows.filter(r => r.certType === "participation"),
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent className="max-w-4xl max-h-[90vh] flex flex-col p-0 gap-0">
+        <DialogHeader className="px-6 py-4 border-b flex-shrink-0">
+          <div className="flex items-center justify-between">
+            <div>
+              <DialogTitle className="text-lg flex items-center gap-2">
+                <FileDown className="w-5 h-5 text-violet-600" />
+                Bulk PDF — {examTitle}
+              </DialogTitle>
+              <p className="text-sm text-muted-foreground mt-0.5">
+                {isLoading ? "Loading..." : `${rows.length} certificates ready to print`}
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              {rows.length > 0 && (
+                <Button
+                  onClick={handlePrint}
+                  className="bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white gap-2"
+                  data-testid="button-print-all-certs"
+                >
+                  <Printer className="w-4 h-4" />
+                  Print / Save as PDF
+                </Button>
+              )}
+            </div>
+          </div>
+        </DialogHeader>
+
+        <div className="flex-1 overflow-y-auto p-6 space-y-4">
+          {isLoading && (
+            <div className="flex items-center justify-center py-20 text-muted-foreground">
+              <Loader2 className="w-6 h-6 animate-spin mr-3" /> Fetching certificate data...
+            </div>
+          )}
+
+          {!isLoading && (error || (rows as any)?.message) && (
+            <div className="flex items-center gap-3 p-4 rounded-lg bg-red-50 border border-red-200 text-red-700">
+              <AlertCircle className="w-5 h-5 flex-shrink-0" />
+              <p className="text-sm">Failed to load certificate data. Please try again.</p>
+            </div>
+          )}
+
+          {!isLoading && rows.length === 0 && !(error) && (
+            <div className="text-center py-16 text-muted-foreground">
+              <Award className="w-12 h-12 mx-auto mb-3 opacity-30" />
+              <p className="font-medium">No certificates issued yet</p>
+              <p className="text-sm mt-1">Distribute certificates first, then generate bulk PDF</p>
+            </div>
+          )}
+
+          {!isLoading && rows.length > 0 && (
+            <>
+              {/* Summary breakdown */}
+              <div className="grid grid-cols-4 gap-3">
+                {(["gold", "silver", "bronze", "participation"] as const).map(key => {
+                  const count = typeGroups[key].length;
+                  const colors = CERT_COLORS[key];
+                  const labels = { gold: "Gold", silver: "Silver", bronze: "Bronze", participation: "Participation" };
+                  return (
+                    <div key={key} className={`rounded-lg p-3 text-center ${colors.bg}`}>
+                      <div className={`w-3 h-3 rounded-full ${colors.dot} mx-auto mb-1`} />
+                      <p className={`text-xl font-bold ${colors.text}`}>{count}</p>
+                      <p className={`text-xs ${colors.text} opacity-80`}>{labels[key]}</p>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="text-xs text-muted-foreground bg-amber-50 border border-amber-200 rounded-lg px-4 py-2.5">
+                <strong>Print tip:</strong> Click "Print / Save as PDF" → In the print dialog, set <strong>Layout: Landscape</strong>, Margins: None, and choose "Save as PDF" to get individual certificate files.
+              </div>
+
+              {/* Hidden print container */}
+              <div ref={printRef} className="hidden">
+                {rows.map((row, i) => {
+                  const sd: CertStudentData = {
+                    studentName: row.studentName,
+                    schoolName: row.schoolName,
+                    olympiadName: row.olympiadName.toUpperCase(),
+                    certNumber: row.verificationCode || `CERT-${i + 1}`,
+                    indexNumber: `IDX-${String(i + 1).padStart(4, "0")}`,
+                    grade: row.gradeLevel,
+                    rank: String(row.rank ?? "—"),
+                    percentage: row.score ? String(row.score) : "—",
+                    date: row.issuedAt,
+                  };
+                  return (
+                    <div key={i} className="bulk-cert-page" style={{ width: "297mm", height: "210mm", overflow: "hidden" }}>
+                      <FullCertificatePreview
+                        type={certTypeToDesignKey(row.certType)}
+                        signatories={signatories}
+                        studentData={sd}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* On-screen preview list */}
+              <div className="space-y-3">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Preview — All Certificates</p>
+                {rows.map((row, i) => {
+                  const key = certTypeToDesignKey(row.certType);
+                  const colors = CERT_COLORS[key] || CERT_COLORS.participation;
+                  const labels: Record<string, string> = { gold: "Gold Award", silver: "Silver Award", bronze: "Bronze Award", participation: "Participation" };
+                  return (
+                    <div key={i} className={`flex items-center gap-3 px-4 py-3 rounded-lg border ${colors.bg}`}>
+                      <div className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${colors.dot}`} />
+                      <div className="flex-1 min-w-0">
+                        <p className={`font-semibold text-sm truncate ${colors.text}`}>{row.studentName}</p>
+                        <p className="text-xs text-muted-foreground truncate">{row.schoolName}</p>
+                      </div>
+                      <div className="text-right flex-shrink-0">
+                        <Badge variant="outline" className={`text-xs ${colors.text} border-current`}>{labels[key]}</Badge>
+                        {row.rank && <p className="text-xs text-muted-foreground mt-0.5">Rank {row.rank}</p>}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </>
+          )}
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 export default function CertificateDesignerTab() {
   const { toast } = useToast();
   const [previewType, setPreviewType] = useState("gold");
@@ -29,6 +236,7 @@ export default function CertificateDesignerTab() {
   const [goldThreshold, setGoldThreshold] = useState(90);
   const [silverThreshold, setSilverThreshold] = useState(75);
   const [bronzeThreshold, setBronzeThreshold] = useState(60);
+  const [bulkPdfOpen, setBulkPdfOpen] = useState(false);
 
   const { data: siteSettings } = useQuery<Record<string, string>>({
     queryKey: ["/api/public/settings"],
@@ -88,17 +296,31 @@ export default function CertificateDesignerTab() {
     return CERT_COLORS[t]?.dot ?? "bg-emerald-500";
   };
 
+  const issuedCount = distributionStatus?.distributedCertificates ?? 0;
+
   return (
     <div className="space-y-8">
 
       {/* ── Header ── */}
-      <div>
-        <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-          <Award className="w-6 h-6 text-amber-500" /> Certificate Management
-        </h2>
-        <p className="text-gray-500 text-sm mt-1">
-          Preview all 4 award templates and distribute certificates to students
-        </p>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+            <Award className="w-6 h-6 text-amber-500" /> Certificate Management
+          </h2>
+          <p className="text-gray-500 text-sm mt-1">
+            Preview all 4 award templates, distribute certificates to students, and generate bulk PDFs for printing
+          </p>
+        </div>
+        {selectedOlympiad && issuedCount > 0 && (
+          <Button
+            onClick={() => setBulkPdfOpen(true)}
+            className="flex-shrink-0 bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white gap-2 shadow"
+            data-testid="button-open-bulk-pdf"
+          >
+            <FileDown className="w-4 h-4" />
+            Bulk PDF ({issuedCount})
+          </Button>
+        )}
       </div>
 
       {/* ── Section 1: Template Previews ── */}
@@ -117,12 +339,7 @@ export default function CertificateDesignerTab() {
               {CERTIFICATE_TYPES.map((cert) => {
                 const Icon = cert.icon;
                 return (
-                  <TabsTrigger
-                    key={cert.type}
-                    value={cert.type}
-                    className="text-xs"
-                    data-testid={`tab-cert-${cert.type}`}
-                  >
+                  <TabsTrigger key={cert.type} value={cert.type} className="text-xs" data-testid={`tab-cert-${cert.type}`}>
                     <Icon className="w-3 h-3 mr-1" />
                     {cert.label}
                   </TabsTrigger>
@@ -159,8 +376,8 @@ export default function CertificateDesignerTab() {
               <Users className="w-5 h-5 text-white" />
             </div>
             <div>
-              <CardTitle className="text-lg">Distribute Certificates</CardTitle>
-              <CardDescription>Select an olympiad and set thresholds to issue certificates to all participants</CardDescription>
+              <CardTitle className="text-lg">Distribute & Print Certificates</CardTitle>
+              <CardDescription>Select an olympiad, set thresholds, distribute to students, then generate bulk PDFs</CardDescription>
             </div>
           </div>
         </CardHeader>
@@ -251,7 +468,7 @@ export default function CertificateDesignerTab() {
                           <p className="text-xs text-blue-700">Total Participants</p>
                         </div>
                         <div className="bg-emerald-50 rounded-lg p-3 text-center">
-                          <p className="text-xl font-bold text-emerald-600">{distributionStatus.distributedCertificates}</p>
+                          <p className="text-xl font-bold text-emerald-600">{issuedCount}</p>
                           <p className="text-xs text-emerald-700">Certificates Issued</p>
                         </div>
                       </div>
@@ -271,25 +488,41 @@ export default function CertificateDesignerTab() {
                 </div>
               )}
 
-              {/* Distribute Button */}
-              <Button
-                className="w-full h-11 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold shadow"
-                onClick={() => distributeMutation.mutate()}
-                disabled={!selectedOlympiad || distributeMutation.isPending}
-                data-testid="button-distribute-certificates"
-              >
-                {distributeMutation.isPending ? (
-                  <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Distributing...</>
-                ) : (
-                  <><Award className="w-4 h-4 mr-2" /> Distribute Certificates</>
-                )}
-              </Button>
+              {/* Action Buttons */}
+              <div className="flex gap-3">
+                <Button
+                  className="flex-1 h-11 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold shadow"
+                  onClick={() => distributeMutation.mutate()}
+                  disabled={!selectedOlympiad || distributeMutation.isPending}
+                  data-testid="button-distribute-certificates"
+                >
+                  {distributeMutation.isPending ? (
+                    <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Distributing...</>
+                  ) : (
+                    <><Award className="w-4 h-4 mr-2" /> Distribute Certificates</>
+                  )}
+                </Button>
+
+                <Button
+                  variant="outline"
+                  className="h-11 px-5 gap-2 border-violet-300 text-violet-700 hover:bg-violet-50"
+                  onClick={() => setBulkPdfOpen(true)}
+                  disabled={!selectedOlympiad || issuedCount === 0}
+                  data-testid="button-bulk-pdf"
+                  title={!selectedOlympiad ? "Select an olympiad first" : issuedCount === 0 ? "No certificates issued yet" : ""}
+                >
+                  <FileDown className="w-4 h-4" />
+                  Bulk PDF
+                  {issuedCount > 0 && (
+                    <Badge className="bg-violet-600 text-white text-xs px-1.5 py-0 h-4">{issuedCount}</Badge>
+                  )}
+                </Button>
+              </div>
             </div>
 
             {/* Right: Info panels */}
             <div className="space-y-4">
 
-              {/* How it works */}
               <Card className="bg-gradient-to-br from-violet-50 to-fuchsia-50 border-violet-200">
                 <CardHeader className="pb-2">
                   <CardTitle className="text-sm text-violet-800 flex items-center gap-2">
@@ -301,7 +534,8 @@ export default function CertificateDesignerTab() {
                     "Select an olympiad with published results",
                     "Set percentage thresholds for each award level",
                     'Click "Distribute Certificates"',
-                    "Students see certificates instantly in their dashboard",
+                    'Click "Bulk PDF" to generate printable PDFs',
+                    "Print dialog → Save as PDF / Send to printer",
                   ].map((step, i) => (
                     <div key={i} className="flex items-start gap-2.5">
                       <span className="flex-shrink-0 w-5 h-5 rounded-full bg-violet-500 text-white text-xs flex items-center justify-center font-bold">
@@ -313,7 +547,6 @@ export default function CertificateDesignerTab() {
                 </CardContent>
               </Card>
 
-              {/* Award types */}
               <Card className="bg-gradient-to-br from-amber-50 to-yellow-50 border-amber-200">
                 <CardHeader className="pb-2">
                   <CardTitle className="text-sm text-amber-800 flex items-center gap-2">
@@ -322,10 +555,10 @@ export default function CertificateDesignerTab() {
                 </CardHeader>
                 <CardContent className="space-y-2">
                   {[
-                    { dot: "bg-yellow-500",  label: `Gold — ≥${goldThreshold}%`,      icon: Crown  },
-                    { dot: "bg-gray-400",    label: `Silver — ≥${silverThreshold}%`,  icon: Medal  },
-                    { dot: "bg-orange-500",  label: `Bronze — ≥${bronzeThreshold}%`,  icon: Award  },
-                    { dot: "bg-emerald-500", label: "Participation — All others",       icon: Star   },
+                    { dot: "bg-yellow-500",  label: `Gold — ≥${goldThreshold}%`      },
+                    { dot: "bg-gray-400",    label: `Silver — ≥${silverThreshold}%`  },
+                    { dot: "bg-orange-500",  label: `Bronze — ≥${bronzeThreshold}%`  },
+                    { dot: "bg-emerald-500", label: "Participation — All others"       },
                   ].map((a, i) => (
                     <div key={i} className="flex items-center gap-2">
                       <div className={`w-3 h-3 rounded-full flex-shrink-0 ${a.dot}`} />
@@ -335,10 +568,9 @@ export default function CertificateDesignerTab() {
                 </CardContent>
               </Card>
 
-              {/* Template preview hint */}
               <div className="rounded-xl border border-dashed border-gray-300 p-4 text-center">
                 <p className="text-xs text-muted-foreground leading-relaxed">
-                  The certificate design used is shown in the <strong>Templates</strong> section above — one per award type
+                  The certificate design is shown in the <strong>Templates</strong> section above — one per award type
                 </p>
                 <button
                   onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
@@ -351,6 +583,17 @@ export default function CertificateDesignerTab() {
           </div>
         </CardContent>
       </Card>
+
+      {/* ── Bulk PDF Modal ── */}
+      {selectedOlympiad && (
+        <BulkPdfModal
+          open={bulkPdfOpen}
+          onClose={() => setBulkPdfOpen(false)}
+          examId={selectedOlympiad}
+          examTitle={selectedExam?.title || ""}
+          signatories={signatories}
+        />
+      )}
     </div>
   );
 }

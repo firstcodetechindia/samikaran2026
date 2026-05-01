@@ -3114,6 +3114,55 @@ Reply with ONLY a number from 0-100.`;
     }
   });
 
+  // Get all issued certificates for an exam with full student data (for bulk PDF)
+  app.get("/api/certificates/bulk-data/:examId", async (req, res) => {
+    try {
+      const superAdminId = (req.session as any)?.superAdminId;
+      if (!superAdminId) {
+        return res.status(403).json({ message: "Access denied." });
+      }
+      const examId = parseInt(req.params.examId);
+      if (isNaN(examId)) return res.status(400).json({ message: "Invalid exam ID" });
+
+      const exam = await db.select({ title: exams.title }).from(exams).where(eq(exams.id, examId)).limit(1);
+      const olympiadName = exam[0]?.title || "Samikaran Olympiad";
+
+      const rows = await db.select({
+        certType:         certificates.type,
+        verificationCode: certificates.verificationCode,
+        rank:             certificates.rank,
+        score:            certificates.score,
+        issuedAt:         certificates.issuedAt,
+        firstName:        studentRegistrations.firstName,
+        middleName:       studentRegistrations.middleName,
+        lastName:         studentRegistrations.lastName,
+        schoolName:       studentRegistrations.schoolName,
+        gradeLevel:       studentRegistrations.gradeLevel,
+      })
+        .from(certificates)
+        .leftJoin(studentRegistrations, eq(certificates.studentId, studentRegistrations.id))
+        .where(eq(certificates.examId, examId))
+        .orderBy(sql`CASE WHEN ${certificates.type} = 'merit_gold' THEN 1 WHEN ${certificates.type} = 'merit_silver' THEN 2 WHEN ${certificates.type} = 'merit_bronze' THEN 3 ELSE 4 END`, certificates.rank);
+
+      const result = rows.map(r => ({
+        certType: r.certType,
+        verificationCode: r.verificationCode,
+        rank: r.rank,
+        score: r.score,
+        issuedAt: r.issuedAt ? new Date(r.issuedAt).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" }) : "",
+        studentName: [r.firstName, r.middleName, r.lastName].filter(Boolean).join(" ").toUpperCase() || "STUDENT",
+        schoolName: r.schoolName?.toUpperCase() || "SCHOOL",
+        gradeLevel: r.gradeLevel ? `Grade ${r.gradeLevel}` : "",
+        olympiadName,
+      }));
+
+      res.json(result);
+    } catch (err) {
+      console.error("[Bulk PDF Data] Error:", err);
+      res.status(500).json({ message: "Failed to fetch certificate data" });
+    }
+  });
+
   // --- Calendar Events ---
   app.get(api.calendarEvents.list.path, async (req, res) => {
     const audience = req.query.audience as string | undefined;
