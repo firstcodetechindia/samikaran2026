@@ -368,36 +368,40 @@ export function FullCertificatePreview({
           </div>
 
           {/* Org name with logo */}
-          <div className="flex items-center justify-center" style={{ gap: "clamp(6px, 1.2%, 14px)" }}>
+          <div className="flex items-center justify-center" style={{ gap: "clamp(5px, 1%, 12px)" }}>
             {/* Logo mark */}
             <SamikaranLogoMark
               colorDark={design.logoColorDark}
               colorLight={design.logoColorLight}
               glowColor={design.logoGlow}
-              size="clamp(32px, 5.5vw, 64px)"
+              size="clamp(30px, 4.8vw, 56px)"
             />
-            {/* Text */}
-            <div className="text-left">
+            {/* Text — tight block, logo center aligns with SAMIKARAN baseline */}
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 0 }}>
               <h2
                 className="font-black uppercase"
                 style={{
                   fontFamily: "Georgia, 'Times New Roman', serif",
                   fontSize: "clamp(12px, 2.2vw, 26px)",
                   color: design.titleColor,
-                  letterSpacing: "0.35em",
-                  lineHeight: 1.1,
+                  letterSpacing: "0.3em",
+                  lineHeight: 1,
+                  margin: 0,
+                  padding: 0,
                 }}
               >
                 SAMIKARAN
               </h2>
               <p
-                className="font-bold"
+                className="font-semibold uppercase"
                 style={{
                   fontFamily: "Georgia, 'Times New Roman', serif",
-                  fontSize: "clamp(6px, 1vw, 12px)",
+                  fontSize: "clamp(5.5px, 0.85vw, 10px)",
                   color: design.subtleText,
-                  letterSpacing: "0.55em",
-                  marginTop: "1px",
+                  letterSpacing: "0.4em",
+                  lineHeight: 1,
+                  marginTop: "clamp(2px, 0.3vw, 4px)",
+                  padding: 0,
                 }}
               >
                 OLYMPIAD
