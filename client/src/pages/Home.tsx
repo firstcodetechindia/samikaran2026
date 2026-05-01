@@ -5,7 +5,7 @@ import { buildOrganizationSchema, buildWebSiteSchema, buildEducationalOrgSchema,
 import { Button } from "@/components/ui/button";
 import type { Exam, BlogPost, OlympiadCategory } from "@shared/schema";
 import { Trophy, BookOpen, ArrowRight, Star, Shield, Award, Users, Globe, CheckCircle2, Download, GraduationCap, Brain, Target, BarChart3, Quote, Calculator, Atom, BookText, IndianRupee, FileText, Share2, Calendar, Clock, Sparkles, Code, Puzzle, Monitor, FlaskConical, Languages, Landmark, TrendingUp, Briefcase, Heart, Rocket, Cpu, Dna, Map, Wrench, Car, ShoppingCart, ChevronRight, Lightbulb, ClipboardCheck, Laptop, Zap, School, UserPlus, CreditCard, Building2, HelpCircle, ChevronDown } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo, memo } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { PublicLayout } from "@/components/PublicLayout";
 
@@ -49,24 +49,23 @@ const scaleIn = {
   visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeOut" } }
 };
 
-function HeroParticles() {
-  const symbols = [
-    '∑', 'π', '∞', '√', '⚛', '∫', 'Δ', '≈', 'λ', '⊕',
-    'μ', 'σ', '∂', 'θ', 'α', 'β', 'φ', 'ω', 'ψ', 'ℏ',
-    '∇', '∈', '∧', '∨', '⊂', '≠', 'χ', 'η', 'ξ', '★',
-    '♪', '✦', '◈', '⌬', '⊗', '∮',
-  ];
-  const particles = Array.from({ length: 36 }, (_, i) => ({
+const HERO_PARTICLES = (() => {
+  const symbols = ['∑','π','∞','√','⚛','∫','Δ','≈','λ','⊕','μ','σ','∂','θ','α','β','φ','ω'];
+  return Array.from({ length: 18 }, (_, i) => ({
     id: i,
     symbol: symbols[i % symbols.length],
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: 7 + Math.random() * 9,
-    duration: 18 + Math.random() * 22,
-    delay: Math.random() * 12,
-    dx: (Math.random() - 0.5) * 120,
-    dy: (Math.random() - 0.5) * 120,
+    x: (i * 5.5) % 100,
+    y: (i * 7.3 + 10) % 100,
+    size: 7 + (i % 5) * 2,
+    duration: 20 + (i % 4) * 6,
+    delay: (i % 6) * 2,
+    dx: ((i % 3) - 1) * 80,
+    dy: ((i % 5) - 2) * 50,
   }));
+})();
+
+const HeroParticles = memo(function HeroParticles() {
+  const particles = HERO_PARTICLES;
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
       {particles.map(p => (
@@ -82,7 +81,7 @@ function HeroParticles() {
       ))}
     </div>
   );
-}
+});
 
 function OlympiadIllustration() {
   const subjects = [

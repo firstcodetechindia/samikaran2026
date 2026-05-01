@@ -7356,6 +7356,7 @@ Reply with ONLY a number from 0-100.`;
         });
       }
       
+      res.setHeader('Cache-Control', 'public, max-age=300, stale-while-revalidate=600');
       res.json(exams);
     } catch (err) {
       res.status(500).json({ message: "Failed to fetch olympiads" });
@@ -8279,6 +8280,7 @@ Generate questions that are educational, challenging, and appropriate for olympi
     try {
       const comingSoon = await storage.getSetting("coming_soon_enabled");
       const maintenance = await storage.getSetting("maintenance_mode");
+      res.setHeader('Cache-Control', 'public, max-age=60, stale-while-revalidate=120');
       res.json({
         comingSoonEnabled: comingSoon?.value === "true",
         maintenanceMode: maintenance?.value === "true"
@@ -8857,6 +8859,7 @@ Format your response as JSON with these fields: title, excerpt, content, metaKey
         return { ...post, category, tags };
       }));
       
+      res.setHeader('Cache-Control', 'public, max-age=300, stale-while-revalidate=600');
       res.json(postsWithCategories);
     } catch (err) {
       res.status(500).json({ message: "Failed to fetch posts" });

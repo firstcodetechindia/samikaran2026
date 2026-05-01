@@ -10,22 +10,24 @@ import { PWAInstallPrompt } from "@/components/PWAInstallPrompt";
 import ChatWidget from "@/components/ChatWidget";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
-import Register from "@/pages/Register";
-import Login from "@/pages/Login";
-import ForgotPassword from "@/pages/ForgotPassword";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
-import ServerError from "@/pages/server-error";
-import Forbidden from "@/pages/error-403";
-import Unauthorized from "@/pages/error-401";
-import ServiceUnavailable from "@/pages/error-503";
-import ComingSoonPage from "@/pages/ComingSoonPage";
-import MaintenancePage from "@/pages/MaintenancePage";
-import AboutPage from "@/pages/AboutPage";
-import ContactPage from "@/pages/ContactPage";
-import FaqPage from "@/pages/FaqPage";
-import PrivacyPolicyPage from "@/pages/PrivacyPolicyPage";
-import TermsAndConditionsPage from "@/pages/TermsAndConditionsPage";
-import RefundPolicyPage from "@/pages/RefundPolicyPage";
+
+// Lazy-load all non-home pages to reduce initial bundle
+const Register = lazy(() => import("@/pages/Register"));
+const Login = lazy(() => import("@/pages/Login"));
+const ForgotPassword = lazy(() => import("@/pages/ForgotPassword"));
+const ServerError = lazy(() => import("@/pages/server-error"));
+const Forbidden = lazy(() => import("@/pages/error-403"));
+const Unauthorized = lazy(() => import("@/pages/error-401"));
+const ServiceUnavailable = lazy(() => import("@/pages/error-503"));
+const ComingSoonPage = lazy(() => import("@/pages/ComingSoonPage"));
+const MaintenancePage = lazy(() => import("@/pages/MaintenancePage"));
+const AboutPage = lazy(() => import("@/pages/AboutPage"));
+const ContactPage = lazy(() => import("@/pages/ContactPage"));
+const FaqPage = lazy(() => import("@/pages/FaqPage"));
+const PrivacyPolicyPage = lazy(() => import("@/pages/PrivacyPolicyPage"));
+const TermsAndConditionsPage = lazy(() => import("@/pages/TermsAndConditionsPage"));
+const RefundPolicyPage = lazy(() => import("@/pages/RefundPolicyPage"));
 
 // Lazy load only heavy dashboard pages
 const StudentDashboard = lazy(() => import("@/pages/StudentDashboard"));

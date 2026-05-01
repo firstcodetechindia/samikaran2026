@@ -34,6 +34,27 @@ export default defineConfig(async () => {
     build: {
       outDir: path.resolve(import.meta.dirname, "dist/public"),
       emptyOutDir: true,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            // Core React runtime
+            "vendor-react": ["react", "react-dom"],
+            // Routing + query
+            "vendor-router": ["wouter", "@tanstack/react-query"],
+            // Framer motion separate — large lib
+            "vendor-motion": ["framer-motion"],
+            // Radix UI components
+            "vendor-ui": [
+              "@radix-ui/react-accordion",
+              "@radix-ui/react-dialog",
+              "@radix-ui/react-dropdown-menu",
+              "@radix-ui/react-select",
+              "@radix-ui/react-tabs",
+              "@radix-ui/react-tooltip",
+            ],
+          },
+        },
+      },
     },
     server: {
       host: "0.0.0.0",

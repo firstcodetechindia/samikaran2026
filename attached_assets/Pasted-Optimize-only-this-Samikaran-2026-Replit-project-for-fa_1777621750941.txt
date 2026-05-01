@@ -1,0 +1,114 @@
+Optimize only this Samikaran 2026 Replit project for fast browser loading and app-like smoothness without changing existing working functionality, business logic, database flow, routes, auth, exam flow, registration flow, SEO pages, sitemap.xml, llms.txt, or UI branding.
+
+Project scope:
+- Work only inside this current Samikaran Olympiad project.
+- Keep the same design language, same colors, same logo, same content structure, and same public/private flow.
+- Do NOT break any existing feature that is already working fine.
+- Focus on performance optimization, perceived speed, and app-like responsiveness.
+
+Primary objective:
+Improve Lighthouse/mobile + desktop performance and real-world load speed, especially homepage/public pages, while preserving full functionality.
+
+Apply these optimizations carefully:
+
+1. Frontend bundle and rendering
+- Identify heavy components, unnecessary re-renders, oversized client bundles, and blocking scripts.
+- Lazy load below-the-fold sections/components where safe.
+- Code split non-critical pages and large components.
+- Defer non-essential JS.
+- Remove unused imports, dead code, duplicate UI logic, and unused icon bundles.
+- Memoize expensive React components where useful.
+- Avoid hydration/render work for offscreen sections.
+
+2. Homepage optimization
+- The homepage has many sections; optimize it first because it is the main performance bottleneck.
+- Keep hero section loading first.
+- Load below-the-fold sections lazily or progressively.
+- Reduce initial DOM complexity where possible without visual loss.
+- Optimize animated decorative symbols/effects so they do not hurt performance.
+- Reduce layout shifts and unnecessary animation cost.
+
+3. Images and media
+- Find all heavy images/background assets.
+- Compress and convert to efficient formats where possible.
+- Serve properly sized responsive images.
+- Add lazy loading for non-critical images.
+- Preload only the most important hero/logo assets.
+- Prevent oversized images from loading on mobile.
+
+4. Fonts
+- Audit font loading.
+- Remove unused font weights/styles.
+- Use preload/preconnect where needed.
+- Ensure text appears quickly without blocking render.
+
+5. CSS and styling
+- Reduce unused CSS.
+- Avoid expensive paint/layout effects where unnecessary.
+- Optimize large shadows, blur, filter, and animation usage.
+- Keep same visual style, but make effects lighter if they hurt speed.
+- Minimize CLS by reserving space for dynamic sections, images, and banners.
+
+6. App-like browser feel
+- Improve smoothness so the website feels fast like an app.
+- Add/verify:
+  - proper caching headers strategy if applicable in project setup
+  - prefetching for likely next routes where safe
+  - smooth transitions without heavy animations
+  - responsive navigation performance
+  - fast button/tap feedback
+- If feasible without changing core functionality, improve PWA readiness:
+  - manifest
+  - theme-color
+  - icons
+  - basic service-worker strategy for static asset caching only
+- Do NOT cache sensitive/private/auth/exam dynamic data incorrectly.
+
+7. Network/API behavior
+- Audit repeated API calls and eliminate unnecessary duplicate fetches.
+- Prevent multiple requests for same public data.
+- Use caching/stale-while-revalidate patterns where safe.
+- Keep all existing backend behavior intact.
+
+8. Replit-specific optimization
+- Make sure this project runs efficiently on Replit deployment.
+- Optimize build/start config if needed.
+- Reduce cold-start pain where possible.
+- Keep deployment simple and stable.
+
+9. Safety rules
+- Do not redesign the website.
+- Do not remove sections/content unless they are duplicate or technically unnecessary.
+- Do not alter database schema unless absolutely required for performance and fully safe.
+- Do not break auth, register, login, olympiad pages, blog, legal pages, sitemap.xml, llms.txt, or dashboard functionality.
+- Do not touch features that are already working fine unless required for safe optimization.
+- Do all changes in a controlled way and verify after each step.
+
+10. Verification required
+After optimization:
+- run the app
+- verify homepage
+- verify public pages
+- verify login/register flow still loads
+- verify key routes still work
+- compare before/after performance
+- report exactly what was optimized
+- mention any tradeoffs
+- ensure no visible functionality is broken
+
+Expected outcome:
+- faster first load
+- improved Lighthouse performance score
+- smoother mobile experience
+- more app-like feel in browser
+- same branding and functionality
+
+Priority order:
+1. Homepage/public page speed
+2. Mobile performance
+3. Bundle reduction
+4. App-like smoothness
+5. Safe PWA/static caching improvements
+
+Important:
+Only optimize this current Samikaran project. Do not do unrelated cleanup. Preserve existing functionality unless a change is strictly required for performance and remains fully compatible.
