@@ -211,72 +211,85 @@ function OlympiadIllustration() {
       >
         <svg viewBox="0 0 180 220" width="clamp(150px, 18vw, 210px)" height="clamp(180px, 22vw, 250px)" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <radialGradient id="tg2" cx="50%" cy="30%" r="70%">
-              <stop offset="0%" stopColor="#fde68a" />
-              <stop offset="50%" stopColor="#f59e0b" />
-              <stop offset="100%" stopColor="#b45309" />
-            </radialGradient>
-            <radialGradient id="gs2" cx="35%" cy="25%" r="60%">
-              <stop offset="0%" stopColor="#fef3c7" stopOpacity="0.9" />
-              <stop offset="100%" stopColor="#d97706" stopOpacity="0" />
-            </radialGradient>
-            {/* Samikaran logo — gold embossed */}
-            <linearGradient id="logoTriUp" x1="20%" y1="0%" x2="80%" y2="100%">
-              <stop offset="0%" stopColor="#fef9c3" />
-              <stop offset="50%" stopColor="#fde68a" />
-              <stop offset="100%" stopColor="#fbbf24" />
+            {/* Metallic linear gradient — light source top-left */}
+            <linearGradient id="tg2" x1="0%" y1="0%" x2="100%" y2="60%">
+              <stop offset="0%"   stopColor="#fef9c3" />
+              <stop offset="18%"  stopColor="#fde68a" />
+              <stop offset="42%"  stopColor="#f59e0b" />
+              <stop offset="68%"  stopColor="#d97706" />
+              <stop offset="100%" stopColor="#78350f" />
             </linearGradient>
-            <linearGradient id="logoTriDown" x1="20%" y1="100%" x2="80%" y2="0%">
-              <stop offset="0%" stopColor="#92400e" />
-              <stop offset="60%" stopColor="#b45309" />
-              <stop offset="100%" stopColor="#d97706" />
+            {/* Shine sweep */}
+            <linearGradient id="gs2" x1="0%" y1="0%" x2="50%" y2="100%">
+              <stop offset="0%"   stopColor="white" stopOpacity="0.22" />
+              <stop offset="55%"  stopColor="white" stopOpacity="0" />
             </linearGradient>
+            {/* Handle gradient — left-to-right */}
+            <linearGradient id="hGr" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%"   stopColor="#fde68a" />
+              <stop offset="45%"  stopColor="#f59e0b" />
+              <stop offset="100%" stopColor="#92400e" />
+            </linearGradient>
+            <linearGradient id="hGrR" x1="100%" y1="0%" x2="0%" y2="0%">
+              <stop offset="0%"   stopColor="#fde68a" />
+              <stop offset="45%"  stopColor="#f59e0b" />
+              <stop offset="100%" stopColor="#92400e" />
+            </linearGradient>
+            {/* Soft glow on trophy */}
             <filter id="tglow">
-              <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
-              <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-            <filter id="logoGlow">
-              <feGaussianBlur stdDeviation="3" result="blur"/>
-              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              <feGaussianBlur stdDeviation="5" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
             </filter>
           </defs>
-          <ellipse cx="90" cy="195" rx="44" ry="9" fill="#f59e0b" fillOpacity="0.15" />
-          <path d="M48 28 L48 118 Q48 140 90 140 Q132 140 132 118 L132 28 Z" fill="url(#tg2)" filter="url(#tglow)" />
-          <path d="M48 28 L48 118 Q48 140 90 140 Q132 140 132 118 L132 28 Z" fill="url(#gs2)" />
-          <path d="M48 52 Q18 52 18 82 Q18 112 48 112" fill="none" stroke="#f59e0b" strokeWidth="9" strokeLinecap="round"/>
-          <path d="M132 52 Q162 52 162 82 Q162 112 132 112" fill="none" stroke="#f59e0b" strokeWidth="9" strokeLinecap="round"/>
-          <rect x="76" y="140" width="28" height="28" fill="#d97706" rx="2"/>
-          <rect x="58" y="166" width="64" height="12" fill="#b45309" rx="4"/>
-          <rect x="65" y="177" width="50" height="8" fill="#92400e" rx="3"/>
-          {/* ── Samikaran Gold Embossed Seal ── */}
-          {/* Outer drop-shadow ring */}
-          <circle cx="91" cy="70" r="27" fill="rgba(80,30,0,0.3)" />
-          {/* Sunken base disc */}
-          <circle cx="90" cy="68" r="27" fill="rgba(120,50,0,0.4)" />
-          {/* Inner face */}
-          <circle cx="90" cy="68" r="24" fill="rgba(180,83,9,0.18)" />
-          {/* Outer decorative ring */}
-          <circle cx="90" cy="68" r="27" fill="none" stroke="#fde68a" strokeWidth="1.2" strokeOpacity="0.7" />
-          {/* Inner fine ring */}
-          <circle cx="90" cy="68" r="23.5" fill="none" stroke="#fbbf24" strokeWidth="0.7" strokeOpacity="0.5" />
-          {/* 8 small jewel dots on the outer ring */}
-          {[0,45,90,135,180,225,270,315].map(deg => {
-            const rad = deg * Math.PI / 180;
-            return <circle key={deg} cx={90 + 27 * Math.cos(rad)} cy={68 + 27 * Math.sin(rad)} r="1.6" fill="#fef3c7" fillOpacity="0.85" />;
-          })}
-          {/* Upward triangle — bright gold */}
-          <polygon points="90,46 108,76 72,76" fill="url(#logoTriUp)" filter="url(#logoGlow)" />
-          <polygon points="90,46 99,61 81,61" fill="rgba(255,255,255,0.2)" />
-          {/* Downward triangle — deep amber */}
-          <polygon points="90,90 72,60 108,60" fill="url(#logoTriDown)" />
-          <polygon points="90,90 81,75 99,75" fill="rgba(255,190,30,0.15)" />
-          {/* Equals bars — cream ivory */}
-          <rect x="79.5" y="63.5" width="21" height="3" rx="1.5" fill="#fef9c3" fillOpacity="0.95" />
-          <rect x="79.5" y="69" width="21" height="3" rx="1.5" fill="#fef9c3" fillOpacity="0.95" />
-          {/* Trophy body subtle engraving line */}
-          <line x1="58" y1="100" x2="122" y2="100" stroke="#b45309" strokeWidth="1" strokeOpacity="0.35" />
-          {/* Left body highlight */}
-          <ellipse cx="64" cy="74" rx="5" ry="13" fill="white" fillOpacity="0.10" transform="rotate(-12 64 74)" />
+
+          {/* Floor shadow */}
+          <ellipse cx="90" cy="197" rx="46" ry="7" fill="#7c3200" fillOpacity="0.18" />
+
+          {/* ── Trophy body ── */}
+          <path d="M50 36 L50 120 Q50 142 90 142 Q130 142 130 120 L130 36 Z"
+                fill="url(#tg2)" filter="url(#tglow)" />
+          {/* Shine overlay */}
+          <path d="M50 36 L50 120 Q50 142 90 142 Q130 142 130 120 L130 36 Z"
+                fill="url(#gs2)" />
+
+          {/* Top rim — raised lip */}
+          <rect x="44" y="28" width="92" height="12" rx="6" fill="#fde68a" />
+          <rect x="44" y="28" width="92" height="12" rx="6" fill="url(#gs2)" />
+          <rect x="50" y="37" width="80" height="4" rx="1" fill="#b45309" fillOpacity="0.35" />
+
+          {/* ── Left handle ── */}
+          <path d="M50 55 Q14 55 14 84 Q14 113 50 113"
+                fill="none" stroke="url(#hGr)" strokeWidth="12" strokeLinecap="round"/>
+          <path d="M50 59 Q20 59 20 84 Q20 109 50 109"
+                fill="none" stroke="#b45309" strokeWidth="5" strokeLinecap="round" strokeOpacity="0.45"/>
+
+          {/* ── Right handle ── */}
+          <path d="M130 55 Q166 55 166 84 Q166 113 130 113"
+                fill="none" stroke="url(#hGrR)" strokeWidth="12" strokeLinecap="round"/>
+          <path d="M130 59 Q160 59 160 84 Q160 109 130 109"
+                fill="none" stroke="#fde68a" strokeWidth="4" strokeLinecap="round" strokeOpacity="0.22"/>
+
+          {/* ── Stem ── */}
+          <rect x="78" y="142" width="24" height="22" fill="#d97706" rx="2"/>
+          <rect x="80" y="142" width="8"  height="22" fill="white" fillOpacity="0.07" rx="1"/>
+
+          {/* ── Base — three tiers ── */}
+          <rect x="56" y="162" width="68" height="11" rx="4" fill="#d97706"/>
+          <rect x="56" y="162" width="68" height="11" rx="4" fill="url(#gs2)" />
+          <rect x="62" y="172" width="56" height="8"  rx="3" fill="#b45309"/>
+          <rect x="66" y="179" width="48" height="7"  rx="3" fill="#7c2d12"/>
+
+          {/* ── Samikaran mark — engraved into trophy surface ── */}
+          {/* Upward △ — cream-gold (light side) */}
+          <polygon points="90,58 107,86 73,86" fill="#fef3c7" fillOpacity="0.72" />
+          <polygon points="90,58 98.5,72 81.5,72" fill="white"   fillOpacity="0.16" />
+          {/* Downward △ — deep amber (shadow side) */}
+          <polygon points="90,94 73,66 107,66"  fill="#78350f"  fillOpacity="0.52" />
+          {/* Equals bars */}
+          <rect x="81.5" y="72"   width="17" height="2.5" rx="1.25" fill="#fef9c3" fillOpacity="0.85" />
+          <rect x="81.5" y="77.5" width="17" height="2.5" rx="1.25" fill="#fef9c3" fillOpacity="0.85" />
+          {/* Subtle mid-body engraving line */}
+          <line x1="54" y1="104" x2="126" y2="104" stroke="#92400e" strokeWidth="0.7" strokeOpacity="0.28" />
         </svg>
       </motion.div>
 
