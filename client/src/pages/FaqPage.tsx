@@ -179,19 +179,6 @@ export default function FaqPage() {
               </div>
             </div>
 
-            {/* Stats row */}
-            <div className="flex items-center justify-center gap-8 mt-6">
-              {[
-                { val: `${categories.length}`, label: "Categories" },
-                { val: `${totalFaqs}+`, label: "Questions" },
-                { val: "24h", label: "Support Response" },
-              ].map(s => (
-                <div key={s.label} className="text-center">
-                  <div className="text-2xl font-black text-white">{s.val}</div>
-                  <div className="text-[10px] text-gray-500 uppercase tracking-widest font-medium mt-0.5">{s.label}</div>
-                </div>
-              ))}
-            </div>
           </motion.div>
         </div>
       </section>
