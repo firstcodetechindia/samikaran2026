@@ -112,6 +112,22 @@ export const designs: Record<string, CertDesign> = {
   },
 };
 
+function SamikaranLogoMark({ color, size = "100%" }: { color: string; size?: string }) {
+  return (
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width={size} height={size} style={{ display: "block" }}>
+      {/* Upward triangle */}
+      <polygon points="50,10 88,75 12,75" fill={color} opacity="0.95" />
+      <polygon points="50,10 69,42.5 31,42.5" fill="rgba(255,255,255,0.2)" />
+      {/* Downward triangle */}
+      <polygon points="50,90 12,25 88,25" fill={color} opacity="0.78" />
+      <polygon points="50,90 31,57.5 69,57.5" fill="rgba(255,255,255,0.12)" />
+      {/* Equals bars */}
+      <rect x="32" y="44" width="36" height="5" rx="2.5" fill="rgba(255,255,255,0.92)" />
+      <rect x="32" y="53" width="36" height="5" rx="2.5" fill="rgba(255,255,255,0.92)" />
+    </svg>
+  );
+}
+
 const SIDEBAR_ICONS = [
   /* book */      <svg key="0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>,
   /* trophy */    <svg key="1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>,
@@ -197,11 +213,9 @@ export function FullCertificatePreview({
           boxShadow: "inset -4px 0 16px rgba(0,0,0,0.15)",
         }}
       >
-        {/* Top triangle */}
-        <div className="w-full flex justify-center mb-1">
-          <svg viewBox="0 0 40 20" style={{ width: "70%", fill: design.iconFill }}>
-            <polygon points="20,2 38,18 2,18" />
-          </svg>
+        {/* Top logo mark */}
+        <div className="w-full flex justify-center mb-1" style={{ padding: "0 18%" }}>
+          <SamikaranLogoMark color={design.iconFill} size="100%" />
         </div>
 
         {/* Icon grid */}
@@ -239,11 +253,9 @@ export function FullCertificatePreview({
           SAMIKARAN OLYMPIAD
         </div>
 
-        {/* Bottom triangle */}
-        <div className="w-full flex justify-center mt-1">
-          <svg viewBox="0 0 40 20" style={{ width: "70%", fill: design.iconFill }}>
-            <polygon points="2,2 38,2 20,18" />
-          </svg>
+        {/* Bottom logo mark */}
+        <div className="w-full flex justify-center mt-1" style={{ padding: "0 18%" }}>
+          <SamikaranLogoMark color={design.iconFill} size="100%" />
         </div>
       </div>
 
@@ -295,9 +307,10 @@ export function FullCertificatePreview({
             boxShadow: `0 4px 16px rgba(0,0,0,0.3), inset 0 2px 8px rgba(255,255,255,0.25), 0 0 0 5px ${design.sealRing}30`,
           }}
         >
-          <span style={{ color: design.sealText, fontSize: "clamp(4px, 0.6vw, 7px)", letterSpacing: "0.12em", fontWeight: 700 }}>SAMIKARAN</span>
-          <span style={{ color: design.sealText, fontSize: "clamp(10px, 1.6vw, 18px)", fontWeight: 900, lineHeight: 1.1 }}>{year}</span>
-          <span style={{ color: design.sealText, fontSize: design.rankLabel.length > 6 ? "clamp(2.5px, 0.42vw, 5.5px)" : "clamp(3px, 0.55vw, 7px)", letterSpacing: design.rankLabel.length > 6 ? "0.05em" : "0.15em", fontWeight: 800, opacity: 0.95, textAlign: "center", lineHeight: 1.2 }}>{design.rankLabel}</span>
+          <span style={{ color: design.sealText, fontSize: "clamp(3.5px, 0.52vw, 6px)", letterSpacing: "0.1em", fontWeight: 700, lineHeight: 1.1 }}>SAMIKARAN</span>
+          <span style={{ color: design.sealText, fontSize: "clamp(3px, 0.45vw, 5.5px)", letterSpacing: "0.14em", fontWeight: 600, opacity: 0.9, lineHeight: 1.1 }}>OLYMPIAD</span>
+          <span style={{ color: design.sealText, fontSize: "clamp(9px, 1.45vw, 16px)", fontWeight: 900, lineHeight: 1.1 }}>{year}</span>
+          <span style={{ color: design.sealText, fontSize: design.rankLabel.length > 6 ? "clamp(2.5px, 0.4vw, 5px)" : "clamp(3px, 0.5vw, 6px)", letterSpacing: design.rankLabel.length > 6 ? "0.04em" : "0.12em", fontWeight: 800, opacity: 0.95, textAlign: "center", lineHeight: 1.2 }}>{design.rankLabel}</span>
         </div>
 
         {/* Content */}
