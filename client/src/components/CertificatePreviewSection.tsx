@@ -273,8 +273,8 @@ function FullCertificatePreview({
           style={{
             top: "clamp(10px,2%,20px)",
             right: "clamp(10px,2%,20px)",
-            width: "clamp(52px, 8%, 80px)",
-            height: "clamp(52px, 8%, 80px)",
+            width: "clamp(52px, 7vw, 82px)",
+            aspectRatio: "1 / 1",
             borderRadius: "50%",
             background: design.sealBg,
             border: `3px solid ${design.sealRing}`,
@@ -283,7 +283,7 @@ function FullCertificatePreview({
         >
           <span style={{ color: design.sealText, fontSize: "clamp(4px, 0.6vw, 7px)", letterSpacing: "0.15em", fontWeight: 700 }}>SAMIKARAN</span>
           <span style={{ color: design.sealText, fontSize: "clamp(10px, 1.6vw, 18px)", fontWeight: 900, lineHeight: 1.1 }}>{year}</span>
-          <span style={{ color: design.sealText, fontSize: "clamp(3px, 0.5vw, 7px)", letterSpacing: "0.1em", fontWeight: 600, opacity: 0.9 }}>{design.rankLabel}</span>
+          <span style={{ color: design.sealText, fontSize: "clamp(3px, 0.55vw, 7px)", letterSpacing: "0.15em", fontWeight: 800, opacity: 0.95 }}>{design.rankLabel}</span>
         </div>
 
         {/* Content */}
