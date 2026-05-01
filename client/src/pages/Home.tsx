@@ -69,7 +69,7 @@ function HeroParticles() {
           key={p.id}
           className="absolute font-bold select-none"
           style={{ left: `${p.x}%`, top: `${p.y}%`, fontSize: p.size, color: 'white', opacity: 0 }}
-          animate={{ x: [0, p.dx, 0], y: [0, p.dy, 0], opacity: [0, 0.12, 0.18, 0.12, 0] }}
+          animate={{ x: [0, p.dx, 0], y: [0, p.dy, 0], opacity: [0, 0.16, 0.16, 0.16, 0] }}
           transition={{ duration: p.duration, repeat: Infinity, delay: p.delay, ease: 'easeInOut' }}
         >
           {p.symbol}
