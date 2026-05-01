@@ -712,13 +712,13 @@ export default function Home() {
       </section>
 
       {/* ── SEO Section 1: What is Samikaran Olympiad? ─────────────── */}
-      <section className="relative py-20 sm:py-28 overflow-hidden bg-gradient-to-br from-[#0f0a1e] via-[#1a1035] to-[#0f0a1e]" aria-label="About Samikaran Olympiad">
+      <section className="relative py-12 sm:py-16 overflow-hidden bg-gradient-to-br from-[#0f0a1e] via-[#1a1035] to-[#0f0a1e]" aria-label="About Samikaran Olympiad">
         {/* Bg orbs */}
         <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-violet-700/20 rounded-full blur-[120px] pointer-events-none" />
         <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-fuchsia-700/15 rounded-full blur-[100px] pointer-events-none" />
 
         <div className="container mx-auto px-4 sm:px-6 max-w-7xl relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <div className="grid lg:grid-cols-[3fr_2fr] gap-8 lg:gap-12 items-center">
             {/* Left: content */}
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
               <span className="inline-block text-xs font-bold uppercase tracking-widest text-violet-400 mb-4 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20">About Us</span>
@@ -727,11 +727,11 @@ export default function Home() {
                 <span className="bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">India's Premier Online Olympiad</span>{" "}
                 Examination Platform
               </h2>
-              <p className="text-base sm:text-lg text-gray-300 leading-relaxed text-justify mb-6">
+              <p className="text-base sm:text-lg text-gray-300 leading-relaxed mb-6">
                 Samikaran Olympiad is India's most trusted online olympiad examination platform designed for students from Class 1 to Class 12. We conduct AI-powered competitive exams in over 20 subjects including Mathematics Olympiad, Science Olympiad, English Olympiad, Computer Science Olympiad, Reasoning Olympiad, and more. Our platform combines cutting-edge artificial intelligence with secure proctoring technology to deliver a fair, transparent, and world-class examination experience.
               </p>
               <h3 className="text-xl font-semibold leading-snug tracking-normal text-white mb-4">Why Choose Online Olympiad Exams?</h3>
-              <p className="text-base sm:text-lg text-gray-300 leading-relaxed text-justify">
+              <p className="text-base sm:text-lg text-gray-300 leading-relaxed">
                 Online olympiad exams offer unparalleled convenience and accessibility for students across India. Whether you're in a metro city or a remote village, Samikaran brings competitive examinations to your doorstep. Our AI-proctored online exams ensure 100% exam integrity with facial recognition technology and tab-detection systems, making cheating impossible while allowing students to take exams from the comfort of their homes.
               </p>
             </motion.div>
