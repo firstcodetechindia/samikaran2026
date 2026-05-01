@@ -13,7 +13,7 @@ import { registerSchoolBridgeRoutes } from "./school-bridge-routes";
 import { openai } from "./replit_integrations/image/client";
 import { api } from "@shared/routes";
 import { z } from "zod";
-import { insertQuestionSchema, insertOlympiadCategorySchema, attempts, attemptQuestions, countries, states, cities, studentRegistrations, partnerApplications, partners, partnerEarnings, partnerPayouts, partnerAgreements, partnerSettings, emailTemplates, emailCampaigns, emailSegments, emailAutomations, users, chatbotAgents, chatbotFlows, agentFlows, flowNodes, flowEdges, chatbotKnowledgeBase, chatbotSessions, chatbotMessages, chatbotLeads, chatbotBlockedDomains, chatbotSettings, humanAgents, chatAssignments, proctoringWarningSettings, aiProviders, proctoringWarningTranslations, insertProctoringWarningTranslationSchema, exams, questions, answers, olympiadResults, resultPublications, resultAuditLogs, studentPerformanceReports, systemRoles, userRoles, certificateTemplates, insertCertificateTemplateSchema, certificates, examRegistrations, managedStudents, schools as schoolsTable, schoolTeachers as schoolTeachersTable } from "@shared/schema";
+import { insertQuestionSchema, insertOlympiadCategorySchema, attempts, attemptQuestions, countries, states, cities, studentRegistrations, partnerApplications, partners, partnerEarnings, partnerPayouts, partnerAgreements, partnerSettings, emailTemplates, emailCampaigns, emailSegments, emailAutomations, users, chatbotAgents, chatbotFlows, agentFlows, flowNodes, flowEdges, chatbotKnowledgeBase, chatbotSessions, chatbotMessages, chatbotLeads, chatbotBlockedDomains, chatbotSettings, humanAgents, chatAssignments, proctoringWarningSettings, aiProviders, proctoringWarningTranslations, insertProctoringWarningTranslationSchema, exams, questions, answers, olympiadResults, resultPublications, resultAuditLogs, studentPerformanceReports, systemRoles, userRoles, certificateTemplates, insertCertificateTemplateSchema, certificates, examRegistrations, managedStudents, schools as schoolsTable, schoolTeachers as schoolTeachersTable, siteSettings } from "@shared/schema";
 import bcrypt from "bcrypt";
 import { getClientIp, lookupGeo } from "./geolocation";
 import { DBFFile } from "dbffile";
@@ -8184,12 +8184,12 @@ Generate questions that are educational, challenging, and appropriate for olympi
         "certificate_bronze_title",
         "certificate_participation_title",
       ];
-      const results = await db.execute(
-        sql`SELECT key, value FROM site_settings WHERE key = ANY(${keys})`
-      );
+      const rows = await db.select({ key: siteSettings.key, value: siteSettings.value })
+        .from(siteSettings)
+        .where(inArray(siteSettings.key, keys));
       const settings: Record<string, string> = {};
-      for (const row of results.rows as any[]) {
-        settings[row.key] = row.value;
+      for (const row of rows) {
+        if (row.value !== null) settings[row.key] = row.value;
       }
       res.json(settings);
     } catch (err) {
