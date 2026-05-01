@@ -626,7 +626,7 @@ export function PublicLayout({ children, showNotificationBar = true }: PublicLay
               <span className="bg-white/20 px-3 py-0.5 rounded-full text-[10px] font-black backdrop-blur-sm">NEW</span>
               <p className="text-xs font-bold tracking-wide">Sample Papers for Class 1-12 now available!</p>
             </div>
-            <div className="hidden md:flex items-center gap-4 text-[10px] font-bold">
+            <div className="hidden md:flex items-center gap-4 text-[11px] sm:text-[12px] font-bold">
               <Link href="/faq" className="hover:underline">FAQS</Link>
               <span className="text-white/40">|</span>
               <Link href="/contact" className="hover:underline">CONTACT</Link>
@@ -655,7 +655,7 @@ export function PublicLayout({ children, showNotificationBar = true }: PublicLay
                     onMouseLeave={handleDropdownLeave}
                   >
                     <Link href={item.href} className="group relative py-2 flex items-center gap-1">
-                      <span className={`text-[11px] font-black uppercase tracking-[0.15em] transition-colors ${isActive ? 'text-primary' : 'hover:text-primary'}`}>
+                      <span className={`text-[12px] lg:text-[13px] font-black uppercase tracking-[0.15em] transition-colors ${isActive ? 'text-primary' : 'hover:text-primary'}`}>
                         {item.label}
                       </span>
                       <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${olympiadDropdownOpen ? 'rotate-180 text-primary' : 'text-muted-foreground'}`} />
@@ -677,8 +677,8 @@ export function PublicLayout({ children, showNotificationBar = true }: PublicLay
                                 <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center">
                                   <Rocket className="w-3.5 h-3.5 text-white" />
                                 </div>
-                                <span className="text-[10px] font-black uppercase tracking-widest text-amber-600 dark:text-amber-400">Little Champs</span>
-                                <span className="text-[9px] font-bold text-muted-foreground bg-muted px-1.5 py-0.5 rounded-full">Class 1-5</span>
+                                <span className="text-[11px] font-black uppercase tracking-widest text-amber-600 dark:text-amber-400">Little Champs</span>
+                                <span className="text-[10px] font-bold text-muted-foreground bg-muted px-1.5 py-0.5 rounded-full">Class 1-5</span>
                               </div>
                               <div className="space-y-0.5">
                                 {littleChampsOlympiads.map(exam => {
@@ -706,8 +706,8 @@ export function PublicLayout({ children, showNotificationBar = true }: PublicLay
                                 <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center">
                                   <GraduationCap className="w-3.5 h-3.5 text-white" />
                                 </div>
-                                <span className="text-[10px] font-black uppercase tracking-widest text-purple-600 dark:text-purple-400">Elite Seniors</span>
-                                <span className="text-[9px] font-bold text-muted-foreground bg-muted px-1.5 py-0.5 rounded-full">Class 6-12</span>
+                                <span className="text-[11px] font-black uppercase tracking-widest text-purple-600 dark:text-purple-400">Elite Seniors</span>
+                                <span className="text-[10px] font-bold text-muted-foreground bg-muted px-1.5 py-0.5 rounded-full">Class 6-12</span>
                               </div>
                               <div className="space-y-0.5">
                                 {eliteSeniorsOlympiads.map(exam => {
@@ -748,7 +748,7 @@ export function PublicLayout({ children, showNotificationBar = true }: PublicLay
 
               return (
                 <Link key={item.label} href={item.href} className="group relative py-2">
-                  <span className={`text-[11px] font-black uppercase tracking-[0.15em] transition-colors ${isActive ? 'text-primary' : 'hover:text-primary'}`}>
+                  <span className={`text-[12px] lg:text-[13px] font-black uppercase tracking-[0.15em] transition-colors ${isActive ? 'text-primary' : 'hover:text-primary'}`}>
                     {item.label}
                   </span>
                   <span className={`absolute bottom-0 left-0 h-0.5 brand-gradient transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`} />
@@ -762,7 +762,7 @@ export function PublicLayout({ children, showNotificationBar = true }: PublicLay
               <UserProfileMenu user={user} />
             ) : (
               <Link href="/login">
-                <Button className="brand-button rounded-xl px-4 sm:px-8 h-9 sm:h-10 font-black tracking-widest text-[9px] sm:text-[10px]" data-testid="button-login">
+                <Button className="brand-button rounded-xl px-4 sm:px-8 h-9 sm:h-10 font-black tracking-widest text-[10px] sm:text-[11px]" data-testid="button-login">
                   <span className="hidden sm:inline">LOGIN / REGISTER</span>
                   <span className="sm:hidden">LOGIN</span>
                 </Button>
@@ -930,7 +930,7 @@ export function PublicLayout({ children, showNotificationBar = true }: PublicLay
                                   <Link href="/olympiads" onClick={() => setMobileMenuOpen(false)}>
                                     <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-primary/5 hover:bg-primary/10 transition-colors" data-testid="mobile-nav-all-olympiads">
                                       <ArrowRight className="w-3.5 h-3.5 text-primary" />
-                                      <span className="text-xs font-black uppercase tracking-wider text-primary">View All Olympiads</span>
+                                      <span className="text-[13px] font-black uppercase tracking-wider text-primary">View All Olympiads</span>
                                     </div>
                                   </Link>
                                   {littleChampsOlympiads.length > 0 && (
@@ -939,7 +939,7 @@ export function PublicLayout({ children, showNotificationBar = true }: PublicLay
                                         <div className="w-5 h-5 rounded-md bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center">
                                           <Rocket className="w-3 h-3 text-white" />
                                         </div>
-                                        <span className="text-[10px] font-black uppercase tracking-widest text-amber-600 dark:text-amber-400">Little Champs (1-5)</span>
+                                        <span className="text-[11px] font-black uppercase tracking-widest text-amber-600 dark:text-amber-400">Little Champs (1-5)</span>
                                       </div>
                                       {littleChampsOlympiads.map(exam => {
                                         const SubIcon = navSubjectIcons[exam.subject || 'default'] || navSubjectIcons['default'];
@@ -947,7 +947,7 @@ export function PublicLayout({ children, showNotificationBar = true }: PublicLay
                                           <Link key={exam.id} href={`/olympiad/${exam.id}`} onClick={() => setMobileMenuOpen(false)}>
                                             <div className="flex items-center gap-2.5 px-2 py-2 rounded-lg hover:bg-amber-50 dark:hover:bg-amber-950/20 transition-colors" data-testid={`mobile-nav-olympiad-${exam.id}`}>
                                               <SubIcon className="w-3.5 h-3.5 text-amber-500" />
-                                              <span className="text-xs font-semibold text-foreground">{exam.subject}</span>
+                                              <span className="text-[13px] font-semibold text-foreground">{exam.subject}</span>
                                             </div>
                                           </Link>
                                         );
@@ -960,7 +960,7 @@ export function PublicLayout({ children, showNotificationBar = true }: PublicLay
                                         <div className="w-5 h-5 rounded-md bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center">
                                           <GraduationCap className="w-3 h-3 text-white" />
                                         </div>
-                                        <span className="text-[10px] font-black uppercase tracking-widest text-purple-600 dark:text-purple-400">Elite Seniors (6-12)</span>
+                                        <span className="text-[11px] font-black uppercase tracking-widest text-purple-600 dark:text-purple-400">Elite Seniors (6-12)</span>
                                       </div>
                                       {eliteSeniorsOlympiads.map(exam => {
                                         const SubIcon = navSubjectIcons[exam.subject || 'default'] || navSubjectIcons['default'];
@@ -968,7 +968,7 @@ export function PublicLayout({ children, showNotificationBar = true }: PublicLay
                                           <Link key={exam.id} href={`/olympiad/${exam.id}`} onClick={() => setMobileMenuOpen(false)}>
                                             <div className="flex items-center gap-2.5 px-2 py-2 rounded-lg hover:bg-purple-50 dark:hover:bg-purple-950/20 transition-colors" data-testid={`mobile-nav-olympiad-${exam.id}`}>
                                               <SubIcon className="w-3.5 h-3.5 text-purple-500" />
-                                              <span className="text-xs font-semibold text-foreground">{exam.subject}</span>
+                                              <span className="text-[13px] font-semibold text-foreground">{exam.subject}</span>
                                             </div>
                                           </Link>
                                         );
@@ -1006,11 +1006,11 @@ export function PublicLayout({ children, showNotificationBar = true }: PublicLay
               <div className="border-t border-border/50 px-5 py-4 space-y-3">
                 <div className="flex items-center justify-center gap-6">
                   <Link href="/faq" onClick={() => setMobileMenuOpen(false)}>
-                    <span className="text-xs font-bold text-muted-foreground hover:text-primary transition-colors" data-testid="mobile-nav-faq">FAQs</span>
+                    <span className="text-[13px] font-bold text-muted-foreground hover:text-primary transition-colors" data-testid="mobile-nav-faq">FAQs</span>
                   </Link>
                   <span className="w-px h-3 bg-border" />
                   <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
-                    <span className="text-xs font-bold text-muted-foreground hover:text-primary transition-colors" data-testid="mobile-nav-contact-footer">Contact</span>
+                    <span className="text-[13px] font-bold text-muted-foreground hover:text-primary transition-colors" data-testid="mobile-nav-contact-footer">Contact</span>
                   </Link>
                 </div>
               </div>
