@@ -212,52 +212,99 @@ function MobileBottomNav({ user, moreOpen, setMoreOpen }: {
 
   return (
     <>
-      {/* ── Bottom navigation bar ── */}
+      {/* ── Mobile bottom navigation bar ── */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
-        {/* Top border — single clean line */}
-        <div className="absolute top-0 inset-x-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(167,139,250,0.45) 40%, rgba(232,121,249,0.35) 60%, transparent)' }} />
 
-        {/* Bar — purple gradient glass */}
+        {/* Glass bar */}
         <div
-          className="relative flex items-end h-[66px]"
+          className="relative flex items-center h-[64px]"
           style={{
-            background: 'linear-gradient(160deg, rgba(91,33,182,0.72) 0%, rgba(109,40,217,0.65) 35%, rgba(126,34,206,0.70) 65%, rgba(88,28,135,0.72) 100%)',
-            backdropFilter: 'blur(28px) saturate(200%) brightness(0.85)',
-            WebkitBackdropFilter: 'blur(28px) saturate(200%) brightness(0.85)',
+            background: 'linear-gradient(135deg, rgba(88,28,135,0.82) 0%, rgba(109,40,217,0.78) 45%, rgba(91,33,182,0.82) 100%)',
+            backdropFilter: 'blur(30px) saturate(180%) brightness(0.88)',
+            WebkitBackdropFilter: 'blur(30px) saturate(180%) brightness(0.88)',
+            borderTop: '1px solid rgba(196,181,253,0.20)',
+            boxShadow: '0 -1px 0 rgba(255,255,255,0.06) inset',
           }}
         >
-          {/* Subtle inner top highlight */}
-          <div className="absolute top-0 inset-x-0 h-[40px] pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(255,255,255,0.06) 0%, transparent 100%)' }} />
+          {/* Left two tabs */}
+          {[tabs[0], tabs[1]].map((tab) => {
+            if (!tab) return null;
+            const active = tab.href === '/' ? isActive('/') : isActive(tab.href!);
+            return (
+              <button
+                key={tab.key}
+                onClick={() => { navigate(tab.href!); setMoreOpen(false); }}
+                className="flex-1 flex flex-col items-center justify-center gap-[4px] h-full relative group"
+                data-testid={`mobile-bottom-${tab.key}`}
+              >
+                {/* Active dot above icon */}
+                <span
+                  className="absolute top-[10px] left-1/2 -translate-x-1/2 w-[5px] h-[5px] rounded-full transition-all duration-300"
+                  style={active
+                    ? { background: 'linear-gradient(135deg,#c084fc,#f472b6)', boxShadow: '0 0 8px rgba(192,132,252,1)', opacity: 1 }
+                    : { opacity: 0 }
+                  }
+                />
+                <tab.icon
+                  className="w-[21px] h-[21px] transition-all duration-200"
+                  style={active
+                    ? { color: '#f3e8ff', filter: 'drop-shadow(0 0 4px rgba(216,180,254,0.9))' }
+                    : { color: 'rgba(255,255,255,0.58)' }
+                  }
+                />
+                <span
+                  className="text-[7px] font-bold uppercase tracking-[0.14em] transition-colors duration-200"
+                  style={active ? { color: '#f3e8ff' } : { color: 'rgba(255,255,255,0.45)' }}
+                >
+                  {tab.label}
+                </span>
+              </button>
+            );
+          })}
 
-          {tabs.map((tab, i) => {
-            if (!tab) {
-              /* ── Center floating CTA ── */
-              return (
-                <div key="cta" className="flex-1 flex justify-center" style={{ marginBottom: 20 }}>
-                  <motion.button
-                    onClick={() => { navigate(dashPath); setMoreOpen(false); }}
-                    className="relative w-[52px] h-[52px] rounded-full flex items-center justify-center"
-                    style={{
-                      background: 'linear-gradient(135deg, #a855f7 0%, #ec4899 100%)',
-                      boxShadow: '0 0 0 1.5px rgba(232,121,249,0.4), 0 6px 24px rgba(168,85,247,0.55), 0 2px 8px rgba(0,0,0,0.4)',
-                    }}
-                    whileTap={{ scale: 0.9 }}
-                    data-testid="mobile-bottom-cta"
-                    aria-label={user ? 'Dashboard' : 'Login'}
-                  >
-                    <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to bottom, rgba(255,255,255,0.22) 0%, transparent 60%)' }} />
-                    {user
-                      ? <LayoutDashboard className="w-[22px] h-[22px] text-white" />
-                      : <LogIn className="w-[22px] h-[22px] text-white" />}
-                  </motion.button>
-                </div>
-              );
-            }
+          {/* ── Center CTA — absolutely centred, floats above bar ── */}
+          <div className="flex-1 flex justify-center items-end pb-3 relative">
+            <motion.button
+              onClick={() => { navigate(dashPath); setMoreOpen(false); }}
+              className="relative flex flex-col items-center gap-1"
+              whileTap={{ scale: 0.88 }}
+              data-testid="mobile-bottom-cta"
+              aria-label={user ? 'Dashboard' : 'Login'}
+            >
+              {/* Outer glow ring */}
+              <motion.span
+                className="absolute rounded-full pointer-events-none"
+                animate={{ scale: [1, 1.18, 1], opacity: [0.35, 0.55, 0.35] }}
+                transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+                style={{ inset: -6, background: 'transparent', border: '1.5px solid rgba(232,121,249,0.55)' }}
+              />
+              {/* Button circle */}
+              <span
+                className="relative w-[50px] h-[50px] rounded-full flex items-center justify-center"
+                style={{
+                  background: 'linear-gradient(145deg, #c084fc 0%, #a855f7 40%, #ec4899 100%)',
+                  boxShadow: '0 0 0 2px rgba(255,255,255,0.12), 0 8px 28px rgba(168,85,247,0.60)',
+                }}
+              >
+                {/* Inner shine */}
+                <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(160deg, rgba(255,255,255,0.28) 0%, transparent 55%)' }} />
+                {user
+                  ? <LayoutDashboard className="relative w-5 h-5 text-white" />
+                  : <LogIn className="relative w-5 h-5 text-white" />}
+              </span>
+              {/* Label under button */}
+              <span className="text-[7px] font-black uppercase tracking-[0.18em] text-fuchsia-200/90">
+                {user ? 'You' : 'Login'}
+              </span>
+            </motion.button>
+          </div>
 
+          {/* Right two tabs */}
+          {[tabs[3], tabs[4]].map((tab) => {
+            if (!tab) return null;
             const active = tab.key === 'more'
               ? moreOpen || moreActive
-              : tab.href === '/' ? isActive('/') : isActive(tab.key === 'olympiad' ? '/olympiad' : tab.href!);
-
+              : isActive(tab.href!);
             return (
               <button
                 key={tab.key}
@@ -265,35 +312,26 @@ function MobileBottomNav({ user, moreOpen, setMoreOpen }: {
                   if (tab.key === 'more') { setMoreOpen(!moreOpen); }
                   else { navigate(tab.href!); setMoreOpen(false); }
                 }}
-                className="flex-1 flex flex-col items-center justify-end gap-[4px] pb-[10px] relative"
+                className="flex-1 flex flex-col items-center justify-center gap-[4px] h-full relative"
                 data-testid={`mobile-bottom-${tab.key}`}
               >
-                {/* Active pill indicator at top */}
-                <AnimatePresence>
-                  {active && (
-                    <motion.span
-                      layoutId="bottomActiveBar"
-                      initial={{ scaleX: 0, opacity: 0 }}
-                      animate={{ scaleX: 1, opacity: 1 }}
-                      exit={{ scaleX: 0, opacity: 0 }}
-                      className="absolute top-0 left-1/2 -translate-x-1/2 w-6 h-[3px] rounded-full"
-                      style={{ background: 'linear-gradient(90deg, #c084fc, #f472b6)', boxShadow: '0 0 10px rgba(192,132,252,0.9)' }}
-                    />
-                  )}
-                </AnimatePresence>
-
-                {/* Icon */}
-                <tab.icon
-                  className="w-[20px] h-[20px] transition-all duration-200"
+                <span
+                  className="absolute top-[10px] left-1/2 -translate-x-1/2 w-[5px] h-[5px] rounded-full transition-all duration-300"
                   style={active
-                    ? { color: '#e9d5ff', filter: 'drop-shadow(0 0 5px rgba(216,180,254,0.85))' }
-                    : { color: 'rgba(255,255,255,0.62)' }
+                    ? { background: 'linear-gradient(135deg,#c084fc,#f472b6)', boxShadow: '0 0 8px rgba(192,132,252,1)', opacity: 1 }
+                    : { opacity: 0 }
                   }
                 />
-                {/* Label */}
+                <tab.icon
+                  className="w-[21px] h-[21px] transition-all duration-200"
+                  style={active
+                    ? { color: '#f3e8ff', filter: 'drop-shadow(0 0 4px rgba(216,180,254,0.9))' }
+                    : { color: 'rgba(255,255,255,0.58)' }
+                  }
+                />
                 <span
-                  className="text-[7.5px] font-bold uppercase tracking-[0.13em] transition-all duration-200"
-                  style={active ? { color: '#e9d5ff' } : { color: 'rgba(255,255,255,0.50)' }}
+                  className="text-[7px] font-bold uppercase tracking-[0.14em] transition-colors duration-200"
+                  style={active ? { color: '#f3e8ff' } : { color: 'rgba(255,255,255,0.45)' }}
                 >
                   {tab.label}
                 </span>
