@@ -201,17 +201,62 @@ export interface CertStudentData {
   date: string;
 }
 
+export interface CertTextConfig {
+  introText:           string;
+  achievementPrefix:   string;
+  dateLabel:           string;
+  footerNote:          string;
+  goldTitle:           string;
+  silverTitle:         string;
+  bronzeTitle:         string;
+  participationTitle:  string;
+}
+
+export const CERT_TEXT_DEFAULTS: CertTextConfig = {
+  introText:          "This is to certify with honour that",
+  achievementPrefix:  "for outstanding performance in",
+  dateLabel:          "Date of Examination:",
+  footerNote:         "This e-certificate is valid only for the year of competition. Awardees should use physical certificate subsequently.",
+  goldTitle:          "CERTIFICATE OF EXCELLENCE",
+  silverTitle:        "CERTIFICATE OF EXCELLENCE",
+  bronzeTitle:        "CERTIFICATE OF ACHIEVEMENT",
+  participationTitle: "CERTIFICATE OF PARTICIPATION",
+};
+
+export function certTextFromSettings(s: Record<string, string>): CertTextConfig {
+  return {
+    introText:          s.certificate_intro_text         || CERT_TEXT_DEFAULTS.introText,
+    achievementPrefix:  s.certificate_achievement_prefix || CERT_TEXT_DEFAULTS.achievementPrefix,
+    dateLabel:          s.certificate_date_label         || CERT_TEXT_DEFAULTS.dateLabel,
+    footerNote:         s.certificate_footer_note        || CERT_TEXT_DEFAULTS.footerNote,
+    goldTitle:          s.certificate_gold_title         || CERT_TEXT_DEFAULTS.goldTitle,
+    silverTitle:        s.certificate_silver_title       || CERT_TEXT_DEFAULTS.silverTitle,
+    bronzeTitle:        s.certificate_bronze_title       || CERT_TEXT_DEFAULTS.bronzeTitle,
+    participationTitle: s.certificate_participation_title || CERT_TEXT_DEFAULTS.participationTitle,
+  };
+}
+
 export function FullCertificatePreview({
   type,
   signatories,
   studentData,
+  certText,
 }: {
   type: string;
   signatories?: { s1Name: string; s1Title: string; s2Name: string; s2Title: string };
   studentData?: CertStudentData;
+  certText?: CertTextConfig;
 }) {
   const design = designs[type] || designs.gold;
   const year = new Date().getFullYear().toString();
+  const txt = certText ?? CERT_TEXT_DEFAULTS;
+
+  // Resolve cert title: from certText override, else from design default
+  const resolvedCertTitle =
+    type === "gold"          ? (txt.goldTitle          || design.certTitle) :
+    type === "silver"        ? (txt.silverTitle        || design.certTitle) :
+    type === "bronze"        ? (txt.bronzeTitle        || design.certTitle) :
+                               (txt.participationTitle || design.certTitle);
 
   const sample: CertStudentData = studentData ?? {
     studentName: "NIPUN SAHA",
@@ -423,7 +468,7 @@ export function FullCertificatePreview({
                 textShadow: `0 1px 0 rgba(255,255,255,0.6), 0 2px 4px rgba(0,0,0,0.1)`,
               }}
             >
-              {design.certTitle}
+              {resolvedCertTitle}
             </h1>
           </div>
 
@@ -436,7 +481,7 @@ export function FullCertificatePreview({
               color: design.bodyText,
             }}
           >
-            This is to certify with honour that
+            {txt.introText}
           </p>
 
           {/* Student name */}
@@ -477,13 +522,13 @@ export function FullCertificatePreview({
               lineHeight: 1.5,
             }}
           >
-            for outstanding performance in <span className="font-bold">{sample.grade}</span>,&nbsp;
+            {txt.achievementPrefix} <span className="font-bold">{sample.grade}</span>,&nbsp;
             <span className="font-bold">{sample.olympiadName}</span>
             {" — "}securing <span className="font-bold">Rank {sample.rank}</span> with <span className="font-bold">{sample.percentage}%</span>
           </p>
 
           <p className="text-center mt-[0.8%]" style={{ fontSize: "clamp(5px, 0.8vw, 10px)", color: design.subtleText }}>
-            Date of Examination: <span className="font-semibold">{sample.date}</span>
+            {txt.dateLabel} <span className="font-semibold">{sample.date}</span>
           </p>
 
           {/* Spacer */}
@@ -557,7 +602,7 @@ export function FullCertificatePreview({
             {/* Validity */}
             <div className="text-right flex-shrink-0" style={{ maxWidth: "clamp(60px, 12%, 110px)" }}>
               <p className="italic leading-relaxed" style={{ color: design.subtleText, fontSize: "clamp(4px, 0.6vw, 7px)" }}>
-                This e-certificate is valid only for the year of competition. Awardees should use physical certificate subsequently.
+                {txt.footerNote}
               </p>
             </div>
           </div>
@@ -579,6 +624,8 @@ export function CertificatePreviewSection() {
     s2Name: siteSettings?.certificate_signatory_2_name || "Authorized Signatory",
     s2Title: siteSettings?.certificate_signatory_2_title || "Controller of Examinations (CoE)",
   };
+
+  const certText = siteSettings ? certTextFromSettings(siteSettings) : CERT_TEXT_DEFAULTS;
 
   return (
     <div className="space-y-6">
@@ -617,10 +664,10 @@ export function CertificatePreviewSection() {
                       </h3>
                       <p className="text-sm text-muted-foreground">{cert.description}</p>
                     </div>
-                    <Badge variant="outline">Hardcoded Design</Badge>
+                    <Badge variant="outline">Settings-Driven</Badge>
                   </div>
 
-                  <FullCertificatePreview type={cert.type} signatories={signatories} />
+                  <FullCertificatePreview type={cert.type} signatories={signatories} certText={certText} />
 
                   <div className="p-4 bg-muted/50 rounded-lg">
                     <p className="text-sm font-medium mb-2">Signatories:</p>

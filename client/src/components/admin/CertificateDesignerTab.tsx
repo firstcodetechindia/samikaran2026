@@ -1,20 +1,30 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Separator } from "@/components/ui/separator";
 import {
   Award, Crown, Medal, Star, Users, CheckCircle, Trophy,
-  Loader2, ChevronRight, FileDown, Printer, X, AlertCircle
+  Loader2, ChevronRight, FileDown, Printer, X, AlertCircle,
+  Save, Settings2, Type, PenLine, UserCheck,
 } from "lucide-react";
-import { FullCertificatePreview, CERTIFICATE_TYPES, CertStudentData } from "@/components/CertificatePreviewSection";
+import {
+  FullCertificatePreview,
+  CERTIFICATE_TYPES,
+  CertStudentData,
+  CertTextConfig,
+  CERT_TEXT_DEFAULTS,
+  certTextFromSettings,
+} from "@/components/CertificatePreviewSection";
 
 const CERT_COLORS: Record<string, { dot: string; bg: string; text: string }> = {
   gold:          { dot: "bg-yellow-500",  bg: "bg-yellow-50",  text: "text-yellow-800" },
@@ -48,12 +58,14 @@ function BulkPdfModal({
   examId,
   examTitle,
   signatories,
+  certText,
 }: {
   open: boolean;
   onClose: () => void;
   examId: number;
   examTitle: string;
   signatories: { s1Name: string; s1Title: string; s2Name: string; s2Title: string };
+  certText: CertTextConfig;
 }) {
   const printRef = useRef<HTMLDivElement>(null);
 
@@ -153,7 +165,6 @@ function BulkPdfModal({
 
           {!isLoading && rows.length > 0 && (
             <>
-              {/* Summary breakdown */}
               <div className="grid grid-cols-4 gap-3">
                 {(["gold", "silver", "bronze", "participation"] as const).map(key => {
                   const count = typeGroups[key].length;
@@ -173,7 +184,6 @@ function BulkPdfModal({
                 <strong>Print tip:</strong> Click "Print / Save as PDF" → In the print dialog, set <strong>Layout: Landscape</strong>, Margins: None, and choose "Save as PDF" to get individual certificate files.
               </div>
 
-              {/* Hidden print container */}
               <div ref={printRef} className="hidden">
                 {rows.map((row, i) => {
                   const sd: CertStudentData = {
@@ -193,13 +203,13 @@ function BulkPdfModal({
                         type={certTypeToDesignKey(row.certType)}
                         signatories={signatories}
                         studentData={sd}
+                        certText={certText}
                       />
                     </div>
                   );
                 })}
               </div>
 
-              {/* On-screen preview list */}
               <div className="space-y-3">
                 <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Preview — All Certificates</p>
                 {rows.map((row, i) => {
@@ -233,11 +243,30 @@ export default function CertificateDesignerTab() {
   const { toast } = useToast();
   const [previewType, setPreviewType] = useState("gold");
   const [selectedOlympiad, setSelectedOlympiad] = useState<number | null>(null);
-  const [goldThreshold, setGoldThreshold] = useState(90);
-  const [silverThreshold, setSilverThreshold] = useState(75);
-  const [bronzeThreshold, setBronzeThreshold] = useState(60);
   const [bulkPdfOpen, setBulkPdfOpen] = useState(false);
 
+  // ── Award threshold local state (initialized from settings below) ──
+  const [goldThreshold, setGoldThreshold]   = useState(90);
+  const [silverThreshold, setSilverThreshold] = useState(75);
+  const [bronzeThreshold, setBronzeThreshold] = useState(60);
+
+  // ── Signatory local state ──
+  const [s1Name,  setS1Name]  = useState("Authorized Signatory");
+  const [s1Title, setS1Title] = useState("Founder, Samikaran Olympiad");
+  const [s2Name,  setS2Name]  = useState("Authorized Signatory");
+  const [s2Title, setS2Title] = useState("Controller of Examinations (CoE)");
+
+  // ── Certificate text local state ──
+  const [introText,          setIntroText]          = useState(CERT_TEXT_DEFAULTS.introText);
+  const [achievementPrefix,  setAchievementPrefix]  = useState(CERT_TEXT_DEFAULTS.achievementPrefix);
+  const [dateLabel,          setDateLabel]          = useState(CERT_TEXT_DEFAULTS.dateLabel);
+  const [footerNote,         setFooterNote]         = useState(CERT_TEXT_DEFAULTS.footerNote);
+  const [goldTitle,          setGoldTitle]          = useState(CERT_TEXT_DEFAULTS.goldTitle);
+  const [silverTitle,        setSilverTitle]        = useState(CERT_TEXT_DEFAULTS.silverTitle);
+  const [bronzeTitle,        setBronzeTitle]        = useState(CERT_TEXT_DEFAULTS.bronzeTitle);
+  const [participationTitle, setParticipationTitle] = useState(CERT_TEXT_DEFAULTS.participationTitle);
+
+  // ── Queries ──
   const { data: siteSettings } = useQuery<Record<string, string>>({
     queryKey: ["/api/public/settings"],
   });
@@ -260,6 +289,27 @@ export default function CertificateDesignerTab() {
     enabled: !!selectedOlympiad,
   });
 
+  // ── Initialize form state from DB settings ──
+  useEffect(() => {
+    if (!siteSettings) return;
+    if (siteSettings.certificate_gold_threshold)   setGoldThreshold(parseInt(siteSettings.certificate_gold_threshold)   || 90);
+    if (siteSettings.certificate_silver_threshold) setSilverThreshold(parseInt(siteSettings.certificate_silver_threshold) || 75);
+    if (siteSettings.certificate_bronze_threshold) setBronzeThreshold(parseInt(siteSettings.certificate_bronze_threshold) || 60);
+    if (siteSettings.certificate_signatory_1_name)  setS1Name(siteSettings.certificate_signatory_1_name);
+    if (siteSettings.certificate_signatory_1_title) setS1Title(siteSettings.certificate_signatory_1_title);
+    if (siteSettings.certificate_signatory_2_name)  setS2Name(siteSettings.certificate_signatory_2_name);
+    if (siteSettings.certificate_signatory_2_title) setS2Title(siteSettings.certificate_signatory_2_title);
+    if (siteSettings.certificate_intro_text)          setIntroText(siteSettings.certificate_intro_text);
+    if (siteSettings.certificate_achievement_prefix)  setAchievementPrefix(siteSettings.certificate_achievement_prefix);
+    if (siteSettings.certificate_date_label)          setDateLabel(siteSettings.certificate_date_label);
+    if (siteSettings.certificate_footer_note)         setFooterNote(siteSettings.certificate_footer_note);
+    if (siteSettings.certificate_gold_title)          setGoldTitle(siteSettings.certificate_gold_title);
+    if (siteSettings.certificate_silver_title)        setSilverTitle(siteSettings.certificate_silver_title);
+    if (siteSettings.certificate_bronze_title)        setBronzeTitle(siteSettings.certificate_bronze_title);
+    if (siteSettings.certificate_participation_title) setParticipationTitle(siteSettings.certificate_participation_title);
+  }, [siteSettings]);
+
+  // ── Mutations ──
   const distributeMutation = useMutation({
     mutationFn: () =>
       apiRequest("POST", "/api/certificates/distribute", {
@@ -281,11 +331,42 @@ export default function CertificateDesignerTab() {
     },
   });
 
-  const signatories = {
-    s1Name:  siteSettings?.certificate_signatory_1_name  || "Authorized Signatory",
-    s1Title: siteSettings?.certificate_signatory_1_title || "Founder, Samikaran Olympiad",
-    s2Name:  siteSettings?.certificate_signatory_2_name  || "Authorized Signatory",
-    s2Title: siteSettings?.certificate_signatory_2_title || "Controller of Examinations (CoE)",
+  const saveSettingsMutation = useMutation({
+    mutationFn: () =>
+      apiRequest("POST", "/api/sysctrl/settings/bulk", {
+        settings: [
+          { key: "certificate_gold_threshold",       value: String(goldThreshold),    category: "certificate" },
+          { key: "certificate_silver_threshold",      value: String(silverThreshold),  category: "certificate" },
+          { key: "certificate_bronze_threshold",      value: String(bronzeThreshold),  category: "certificate" },
+          { key: "certificate_signatory_1_name",      value: s1Name,                   category: "certificate" },
+          { key: "certificate_signatory_1_title",     value: s1Title,                  category: "certificate" },
+          { key: "certificate_signatory_2_name",      value: s2Name,                   category: "certificate" },
+          { key: "certificate_signatory_2_title",     value: s2Title,                  category: "certificate" },
+          { key: "certificate_intro_text",            value: introText,                category: "certificate" },
+          { key: "certificate_achievement_prefix",    value: achievementPrefix,        category: "certificate" },
+          { key: "certificate_date_label",            value: dateLabel,                category: "certificate" },
+          { key: "certificate_footer_note",           value: footerNote,               category: "certificate" },
+          { key: "certificate_gold_title",            value: goldTitle,                category: "certificate" },
+          { key: "certificate_silver_title",          value: silverTitle,              category: "certificate" },
+          { key: "certificate_bronze_title",          value: bronzeTitle,              category: "certificate" },
+          { key: "certificate_participation_title",   value: participationTitle,       category: "certificate" },
+        ],
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/public/settings"] });
+      toast({ title: "Certificate Settings Saved", description: "All settings have been persisted to the database." });
+    },
+    onError: () => {
+      toast({ title: "Save Failed", description: "Please try again.", variant: "destructive" });
+    },
+  });
+
+  // ── Derived values ──
+  const signatories = { s1Name, s1Title, s2Name, s2Title };
+
+  const certText: CertTextConfig = {
+    introText, achievementPrefix, dateLabel, footerNote,
+    goldTitle, silverTitle, bronzeTitle, participationTitle,
   };
 
   const completedExams = exams.filter((e: any) => publishedExamIds.includes(e.id));
@@ -308,7 +389,7 @@ export default function CertificateDesignerTab() {
             <Award className="w-6 h-6 text-amber-500" /> Certificate Management
           </h2>
           <p className="text-gray-500 text-sm mt-1">
-            Preview all 4 award templates, distribute certificates to students, and generate bulk PDFs for printing
+            Configure certificate settings, preview all 4 award templates, distribute to students, and generate bulk PDFs
           </p>
         </div>
         {selectedOlympiad && issuedCount > 0 && (
@@ -323,14 +404,260 @@ export default function CertificateDesignerTab() {
         )}
       </div>
 
-      {/* ── Section 1: Template Previews ── */}
+      {/* ── Section 1: Certificate Settings ── */}
+      <Card className="shadow-sm border-violet-200">
+        <CardHeader className="bg-gradient-to-r from-violet-50 to-fuchsia-50 border-b rounded-t-lg">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-violet-500 to-fuchsia-500 flex items-center justify-center shadow">
+                <Settings2 className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <CardTitle className="text-lg">Certificate Settings</CardTitle>
+                <CardDescription>Award thresholds, signatories, and text templates — all persisted to the database</CardDescription>
+              </div>
+            </div>
+            <Button
+              onClick={() => saveSettingsMutation.mutate()}
+              disabled={saveSettingsMutation.isPending}
+              className="bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white gap-2"
+              data-testid="button-save-cert-settings"
+            >
+              {saveSettingsMutation.isPending ? (
+                <><Loader2 className="w-4 h-4 animate-spin" /> Saving...</>
+              ) : (
+                <><Save className="w-4 h-4" /> Save Settings</>
+              )}
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent className="p-6 space-y-8">
+
+          {/* 1a: Award Thresholds */}
+          <div>
+            <h4 className="font-semibold text-gray-800 mb-1 flex items-center gap-2 text-sm">
+              <Medal className="w-4 h-4 text-amber-500" />
+              Award Level Thresholds (% score)
+            </h4>
+            <p className="text-xs text-muted-foreground mb-4">
+              Students scoring at or above a threshold receive that award. Below Bronze → Participation certificate.
+            </p>
+            <div className="grid grid-cols-3 gap-4">
+              {[
+                { key: "gold",   label: "Gold ≥",   dot: "bg-yellow-500", dotBorder: "border-yellow-300", val: goldThreshold,   set: setGoldThreshold,   def: 90 },
+                { key: "silver", label: "Silver ≥", dot: "bg-gray-400",   dotBorder: "border-gray-300",   val: silverThreshold, set: setSilverThreshold, def: 75 },
+                { key: "bronze", label: "Bronze ≥", dot: "bg-orange-500", dotBorder: "border-orange-300", val: bronzeThreshold, set: setBronzeThreshold, def: 60 },
+              ].map((t) => (
+                <div key={t.key} className="space-y-2">
+                  <Label className="text-sm flex items-center gap-2">
+                    <div className={`w-3 h-3 rounded-full ${t.dot} flex-shrink-0`} />
+                    {t.label}
+                  </Label>
+                  <div className="relative">
+                    <Input
+                      type="number"
+                      value={t.val}
+                      onChange={(e) => t.set(parseInt(e.target.value) || t.def)}
+                      min={0} max={100}
+                      className="text-center font-bold text-lg h-12 pr-8"
+                      data-testid={`input-${t.key}-threshold`}
+                    />
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm font-medium">%</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <Separator />
+
+          {/* 1b: Signatories */}
+          <div>
+            <h4 className="font-semibold text-gray-800 mb-1 flex items-center gap-2 text-sm">
+              <UserCheck className="w-4 h-4 text-blue-500" />
+              Signatories
+            </h4>
+            <p className="text-xs text-muted-foreground mb-4">
+              Names and titles shown at the bottom of every certificate.
+            </p>
+            <div className="grid grid-cols-2 gap-6">
+              {/* Signatory 1 */}
+              <div className="space-y-3 p-4 rounded-xl bg-gray-50 border">
+                <p className="text-xs font-semibold text-gray-600 uppercase tracking-wide">Signatory 1 (Left)</p>
+                <div className="space-y-1.5">
+                  <Label className="text-xs">Name</Label>
+                  <Input
+                    value={s1Name}
+                    onChange={(e) => setS1Name(e.target.value)}
+                    placeholder="Authorized Signatory"
+                    data-testid="input-signatory-1-name"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label className="text-xs">Title / Designation</Label>
+                  <Input
+                    value={s1Title}
+                    onChange={(e) => setS1Title(e.target.value)}
+                    placeholder="Founder, Samikaran Olympiad"
+                    data-testid="input-signatory-1-title"
+                  />
+                </div>
+              </div>
+              {/* Signatory 2 */}
+              <div className="space-y-3 p-4 rounded-xl bg-gray-50 border">
+                <p className="text-xs font-semibold text-gray-600 uppercase tracking-wide">Signatory 2 (Right)</p>
+                <div className="space-y-1.5">
+                  <Label className="text-xs">Name</Label>
+                  <Input
+                    value={s2Name}
+                    onChange={(e) => setS2Name(e.target.value)}
+                    placeholder="Authorized Signatory"
+                    data-testid="input-signatory-2-name"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label className="text-xs">Title / Designation</Label>
+                  <Input
+                    value={s2Title}
+                    onChange={(e) => setS2Title(e.target.value)}
+                    placeholder="Controller of Examinations (CoE)"
+                    data-testid="input-signatory-2-title"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <Separator />
+
+          {/* 1c: Certificate Text Templates */}
+          <div>
+            <h4 className="font-semibold text-gray-800 mb-1 flex items-center gap-2 text-sm">
+              <Type className="w-4 h-4 text-violet-500" />
+              Certificate Text Templates
+            </h4>
+            <p className="text-xs text-muted-foreground mb-4">
+              Customise all text fields that appear on the printed certificate. Student name, rank, grade, and score are filled in automatically.
+            </p>
+
+            {/* Certificate titles per award */}
+            <div className="mb-5">
+              <p className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-3">Certificate Title (per award type)</p>
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  { label: "Gold Award Title",          dot: "bg-yellow-500",  val: goldTitle,          set: setGoldTitle,          id: "input-cert-title-gold" },
+                  { label: "Silver Award Title",         dot: "bg-gray-400",    val: silverTitle,         set: setSilverTitle,         id: "input-cert-title-silver" },
+                  { label: "Bronze Award Title",         dot: "bg-orange-500",  val: bronzeTitle,         set: setBronzeTitle,         id: "input-cert-title-bronze" },
+                  { label: "Participation Award Title",  dot: "bg-emerald-500", val: participationTitle,  set: setParticipationTitle,  id: "input-cert-title-participation" },
+                ].map((t) => (
+                  <div key={t.label} className="space-y-1.5">
+                    <Label className="text-xs flex items-center gap-1.5">
+                      <div className={`w-2.5 h-2.5 rounded-full ${t.dot}`} />
+                      {t.label}
+                    </Label>
+                    <Input
+                      value={t.val}
+                      onChange={(e) => t.set(e.target.value)}
+                      className="uppercase font-semibold text-sm tracking-wide"
+                      data-testid={t.id}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Body text fields */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-1.5">
+                <Label className="text-xs flex items-center gap-1.5">
+                  <PenLine className="w-3 h-3" />
+                  Intro line
+                </Label>
+                <Input
+                  value={introText}
+                  onChange={(e) => setIntroText(e.target.value)}
+                  placeholder="This is to certify with honour that"
+                  data-testid="input-cert-intro-text"
+                />
+                <p className="text-xs text-muted-foreground">Appears above the student name in italic.</p>
+              </div>
+
+              <div className="space-y-1.5">
+                <Label className="text-xs flex items-center gap-1.5">
+                  <PenLine className="w-3 h-3" />
+                  Achievement prefix
+                </Label>
+                <Input
+                  value={achievementPrefix}
+                  onChange={(e) => setAchievementPrefix(e.target.value)}
+                  placeholder="for outstanding performance in"
+                  data-testid="input-cert-achievement-prefix"
+                />
+                <p className="text-xs text-muted-foreground">Appears before the grade and olympiad name.</p>
+              </div>
+
+              <div className="space-y-1.5">
+                <Label className="text-xs flex items-center gap-1.5">
+                  <PenLine className="w-3 h-3" />
+                  Date label
+                </Label>
+                <Input
+                  value={dateLabel}
+                  onChange={(e) => setDateLabel(e.target.value)}
+                  placeholder="Date of Examination:"
+                  data-testid="input-cert-date-label"
+                />
+                <p className="text-xs text-muted-foreground">Label next to the exam date.</p>
+              </div>
+
+              <div className="space-y-1.5">
+                <Label className="text-xs flex items-center gap-1.5">
+                  <PenLine className="w-3 h-3" />
+                  Footer validity note
+                </Label>
+                <Textarea
+                  value={footerNote}
+                  onChange={(e) => setFooterNote(e.target.value)}
+                  rows={3}
+                  className="resize-none text-xs"
+                  data-testid="input-cert-footer-note"
+                />
+                <p className="text-xs text-muted-foreground">Small italic note at the bottom-right corner.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Live preview strip */}
+          <div className="pt-2">
+            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">Live Preview (Gold template)</p>
+            <div className="w-full" style={{ aspectRatio: "1.414 / 1" }}>
+              <FullCertificatePreview type={previewType} signatories={signatories} certText={certText} />
+            </div>
+            <div className="flex gap-2 mt-3 justify-center">
+              {CERTIFICATE_TYPES.map((c) => (
+                <button
+                  key={c.type}
+                  onClick={() => setPreviewType(c.type)}
+                  className={`text-xs px-3 py-1 rounded-full border transition-colors ${previewType === c.type ? "bg-violet-600 text-white border-violet-600" : "text-muted-foreground hover:bg-violet-50 border-gray-200"}`}
+                  data-testid={`tab-settings-preview-${c.type}`}
+                >
+                  {c.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+        </CardContent>
+      </Card>
+
+      {/* ── Section 2: Template Previews ── */}
       <Card className="shadow-sm">
         <CardHeader className="pb-3">
           <CardTitle className="text-base flex items-center gap-2">
             <Crown className="w-4 h-4 text-amber-500" /> Certificate Templates
           </CardTitle>
           <CardDescription>
-            These are the official hardcoded designs used for every certificate issued
+            Full-size preview of all 4 certificate types using the settings above
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -358,9 +685,9 @@ export default function CertificateDesignerTab() {
                         <p className="text-sm text-muted-foreground">{cert.description}</p>
                       </div>
                     </div>
-                    <Badge variant="outline" className="text-xs">Hardcoded Design</Badge>
+                    <Badge variant="outline" className="text-xs">Settings-Driven</Badge>
                   </div>
-                  <FullCertificatePreview type={cert.type} signatories={signatories} />
+                  <FullCertificatePreview type={cert.type} signatories={signatories} certText={certText} />
                 </div>
               </TabsContent>
             ))}
@@ -368,7 +695,7 @@ export default function CertificateDesignerTab() {
         </CardContent>
       </Card>
 
-      {/* ── Section 2: Distribution Management ── */}
+      {/* ── Section 3: Distribution Management ── */}
       <Card className="shadow-sm border-emerald-200">
         <CardHeader className="bg-gradient-to-r from-emerald-50 to-teal-50 border-b rounded-t-lg">
           <div className="flex items-center gap-3">
@@ -377,7 +704,7 @@ export default function CertificateDesignerTab() {
             </div>
             <div>
               <CardTitle className="text-lg">Distribute & Print Certificates</CardTitle>
-              <CardDescription>Select an olympiad, set thresholds, distribute to students, then generate bulk PDFs</CardDescription>
+              <CardDescription>Select an olympiad, confirm thresholds, distribute to students, then generate bulk PDFs</CardDescription>
             </div>
           </div>
         </CardHeader>
@@ -416,36 +743,28 @@ export default function CertificateDesignerTab() {
                 </Select>
               </div>
 
-              {/* Thresholds */}
+              {/* Thresholds (read-only summary pointing to settings above) */}
               <div className="bg-gray-50 rounded-xl p-4 border">
-                <h4 className="font-semibold text-gray-800 mb-3 flex items-center gap-2 text-sm">
+                <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2 text-sm">
                   <Medal className="w-4 h-4 text-violet-500" />
-                  Award Thresholds (% Score)
+                  Award Thresholds
+                  <Badge variant="secondary" className="text-xs ml-auto">From Settings</Badge>
                 </h4>
                 <div className="grid grid-cols-3 gap-3">
                   {[
-                    { key: "gold",   label: "Gold",   dot: "bg-yellow-500", val: goldThreshold,   set: setGoldThreshold,   def: 90 },
-                    { key: "silver", label: "Silver", dot: "bg-gray-400",   val: silverThreshold, set: setSilverThreshold, def: 75 },
-                    { key: "bronze", label: "Bronze", dot: "bg-orange-500", val: bronzeThreshold, set: setBronzeThreshold, def: 60 },
+                    { key: "gold",   label: "Gold",   dot: "bg-yellow-500", val: goldThreshold   },
+                    { key: "silver", label: "Silver", dot: "bg-gray-400",   val: silverThreshold },
+                    { key: "bronze", label: "Bronze", dot: "bg-orange-500", val: bronzeThreshold },
                   ].map((t) => (
-                    <div key={t.key} className="space-y-1.5">
-                      <Label className="text-xs flex items-center gap-1.5">
-                        <div className={`w-2.5 h-2.5 rounded-full ${t.dot}`} />
-                        {t.label}
-                      </Label>
-                      <Input
-                        type="number"
-                        value={t.val}
-                        onChange={(e) => t.set(parseInt(e.target.value) || t.def)}
-                        min={0} max={100}
-                        className="text-center font-semibold h-9"
-                        data-testid={`input-${t.key}-threshold`}
-                      />
+                    <div key={t.key} className="text-center bg-white rounded-lg p-3 border">
+                      <div className={`w-3 h-3 rounded-full ${t.dot} mx-auto mb-1`} />
+                      <p className="text-lg font-bold">{t.val}%</p>
+                      <p className="text-xs text-muted-foreground">{t.label}</p>
                     </div>
                   ))}
                 </div>
                 <p className="text-xs text-muted-foreground mt-2.5">
-                  Students below Bronze threshold receive a Participation certificate
+                  To adjust thresholds, update them in the <strong>Certificate Settings</strong> panel above and save.
                 </p>
               </div>
 
@@ -522,7 +841,6 @@ export default function CertificateDesignerTab() {
 
             {/* Right: Info panels */}
             <div className="space-y-4">
-
               <Card className="bg-gradient-to-br from-violet-50 to-fuchsia-50 border-violet-200">
                 <CardHeader className="pb-2">
                   <CardTitle className="text-sm text-violet-800 flex items-center gap-2">
@@ -531,11 +849,11 @@ export default function CertificateDesignerTab() {
                 </CardHeader>
                 <CardContent className="space-y-2.5">
                   {[
+                    "Configure thresholds & text in Certificate Settings above",
+                    "Click Save Settings",
                     "Select an olympiad with published results",
-                    "Set percentage thresholds for each award level",
                     'Click "Distribute Certificates"',
-                    'Click "Bulk PDF" to generate printable PDFs',
-                    "Print dialog → Save as PDF / Send to printer",
+                    'Click "Bulk PDF" → Print / Save as PDF',
                   ].map((step, i) => (
                     <div key={i} className="flex items-start gap-2.5">
                       <span className="flex-shrink-0 w-5 h-5 rounded-full bg-violet-500 text-white text-xs flex items-center justify-center font-bold">
@@ -567,18 +885,6 @@ export default function CertificateDesignerTab() {
                   ))}
                 </CardContent>
               </Card>
-
-              <div className="rounded-xl border border-dashed border-gray-300 p-4 text-center">
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  The certificate design is shown in the <strong>Templates</strong> section above — one per award type
-                </p>
-                <button
-                  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                  className="mt-2 text-xs text-violet-600 hover:text-violet-800 flex items-center gap-1 mx-auto transition-colors"
-                >
-                  View templates <ChevronRight className="w-3 h-3" />
-                </button>
-              </div>
             </div>
           </div>
         </CardContent>
@@ -592,6 +898,7 @@ export default function CertificateDesignerTab() {
           examId={selectedOlympiad}
           examTitle={selectedExam?.title || ""}
           signatories={signatories}
+          certText={certText}
         />
       )}
     </div>

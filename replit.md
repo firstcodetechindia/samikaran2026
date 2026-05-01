@@ -23,7 +23,7 @@ Preferred communication style: Simple, everyday language.
 - Use Indian-style example emails (e.g., "ananya@example.com" instead of "john@example.com").
 - Avoid Western placeholder names like John, Jane, etc.
 - **No hardcoded mock data in dashboards**: All dashboard data (students, announcements, results, certificates, payments, analytics, testimonials, certificate signatories, contact info, partner stats) must come from database/API. Use loading skeletons and empty states instead of fake data.
-- **Public settings API**: `GET /api/public/settings` serves configurable values (contact_phone, support_email, certificate signatories, testimonials, partner_stats) from `site_settings` table.
+- **Public settings API**: `GET /api/public/settings` serves configurable values (contact_phone, support_email, certificate signatories, testimonials, partner_stats, certificate thresholds, cert text templates) from `site_settings` table. Admin can write settings via `POST /api/sysctrl/settings/bulk`.
 
 ### Alert Message Styling
 Use consistent CSS classes for all alert messages:
@@ -157,7 +157,7 @@ All modals and popups must have scroll by default, handled centrally by the dial
 - **Coupons & Discounts** (`coupons`): Full coupon management — create/edit/delete discount codes with percentage/flat/free-entry types, usage limits, expiry, and usage tracking. DB: `coupons` table.
 - **WhatsApp** (`whatsapp`): WhatsApp campaign management — create campaigns, send bulk messages, manage opt-outs, view delivery stats. DB: `whatsapp_campaigns`, `whatsapp_messages`, `whatsapp_opt_outs`.
 - **Leaderboards** (`leaderboards`): Exam-specific leaderboard view with rank, score, percentile, performance badges.
-- **Certificates** (`certificates`): Certificate template designer — drag-and-drop layout builder, bulk PDF generation/download, exam-specific issuance. DB: `certificate_templates`.
+- **Certificates** (`certificates`): Certificate template designer with fully settings-driven text/signatories/thresholds, bulk PDF generation/download (window.print), exam-specific issuance. DB: `certificates` + `site_settings` (category: "certificate"). All cert settings persisted via `POST /api/sysctrl/settings/bulk`. Key components: `CertificateDesignerTab.tsx` (admin panel), `CertificatePreviewSection.tsx` (FullCertificatePreview, CertTextConfig, CERT_TEXT_DEFAULTS, certTextFromSettings).
 - **Parents** (`parents`): Parent account management — link/unlink parent-student relationships, view parent profiles. DB: `parent_accounts`, `parent_student_links`.
 - **Notifications** (`notifications`): Admin notification history and dispatch — view all sent notifications with type/priority filters. DB: `admin_notifications`.
 - **Support Tickets** (`support`): Full support ticket system — view/assign/close tickets, thread replies, canned responses. DB: `support_tickets`, `ticket_messages`, `canned_responses`.

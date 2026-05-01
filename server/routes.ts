@@ -8170,7 +8170,19 @@ Generate questions that are educational, challenging, and appropriate for olympi
         "contact_phone", "support_email", "support_phone",
         "certificate_signatory_1_name", "certificate_signatory_1_title",
         "certificate_signatory_2_name", "certificate_signatory_2_title",
-        "testimonials", "partner_stats", "company_name"
+        "testimonials", "partner_stats", "company_name",
+        // Certificate settings
+        "certificate_gold_threshold",
+        "certificate_silver_threshold",
+        "certificate_bronze_threshold",
+        "certificate_intro_text",
+        "certificate_achievement_prefix",
+        "certificate_date_label",
+        "certificate_footer_note",
+        "certificate_gold_title",
+        "certificate_silver_title",
+        "certificate_bronze_title",
+        "certificate_participation_title",
       ];
       const results = await db.execute(
         sql`SELECT key, value FROM site_settings WHERE key = ANY(${keys})`
