@@ -80,152 +80,106 @@ function HeroParticles() {
 }
 
 function OlympiadIllustration() {
+  const subjects = [
+    { name: 'Maths', icon: '∑', sub: 'π²', color: '#f472b6', border: '#ec4899', bg: '#2d0f30' },
+    { name: 'Science', icon: '⚛', sub: '', color: '#a78bfa', border: '#7c3aed', bg: '#1a0d35' },
+    { name: 'English', icon: 'ABC', sub: 'abc', color: '#34d399', border: '#059669', bg: '#0d2420' },
+    { name: 'Reasoning', icon: '🧩', sub: 'IQ', color: '#fbbf24', border: '#d97706', bg: '#2d1a00' },
+    { name: 'Computers', icon: '</', sub: '/>', color: '#38bdf8', border: '#0284c7', bg: '#001a2d' },
+  ];
+  const R = 165;
+  const iconSize = 68;
+  const dur = 22;
   return (
-    <div className="relative w-full flex items-center justify-center py-8 px-4" style={{minHeight: '420px'}}>
-      <svg viewBox="0 0 440 480" className="w-full max-w-[420px]" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#7c3aed" stopOpacity="0.25" />
-            <stop offset="100%" stopColor="#0f0a1e" stopOpacity="0" />
-          </radialGradient>
-          <radialGradient id="trophyGrad" cx="50%" cy="30%" r="70%">
-            <stop offset="0%" stopColor="#fde68a" />
-            <stop offset="50%" stopColor="#f59e0b" />
-            <stop offset="100%" stopColor="#b45309" />
-          </radialGradient>
-          <radialGradient id="goldShine" cx="35%" cy="25%" r="60%">
-            <stop offset="0%" stopColor="#fef3c7" stopOpacity="0.9" />
-            <stop offset="100%" stopColor="#d97706" stopOpacity="0" />
-          </radialGradient>
-          <linearGradient id="starGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#a855f7" />
-            <stop offset="100%" stopColor="#ec4899" />
-          </linearGradient>
-          <linearGradient id="medalGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#c084fc" />
-            <stop offset="100%" stopColor="#7c3aed" />
-          </linearGradient>
-          <filter id="glow">
-            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-            <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-          <filter id="softGlow">
-            <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
-            <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-        </defs>
+    <div className="relative w-full flex items-center justify-center select-none" style={{ height: 'clamp(420px, 55vw, 560px)' }}>
+      {/* Ambient glow */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="rounded-full bg-purple-600/10 blur-[70px]" style={{ width: R * 2.2, height: R * 2.2 }} />
+      </div>
+      {/* Orbit ring */}
+      <div className="absolute rounded-full border border-dashed border-purple-400/20 pointer-events-none"
+        style={{ width: R * 2, height: R * 2 }} />
+      <div className="absolute rounded-full border border-dashed border-pink-400/10 pointer-events-none"
+        style={{ width: R * 1.35, height: R * 1.35 }} />
 
-        {/* Background glow */}
-        <ellipse cx="220" cy="240" rx="200" ry="200" fill="url(#bgGlow)" />
+      {/* Rotating orbit wrapper — icons spin around trophy */}
+      <motion.div
+        className="absolute"
+        style={{ width: R * 2, height: R * 2 }}
+        animate={{ rotate: 360 }}
+        transition={{ duration: dur, repeat: Infinity, ease: 'linear' }}
+      >
+        {subjects.map((s, i) => {
+          const angleDeg = i * (360 / subjects.length) - 90;
+          const angleRad = angleDeg * (Math.PI / 180);
+          const cx = R + R * Math.cos(angleRad) - iconSize / 2;
+          const cy = R + R * Math.sin(angleRad) - iconSize / 2;
+          return (
+            <motion.div
+              key={s.name}
+              className="absolute flex flex-col items-center gap-[3px]"
+              style={{ left: cx, top: cy, width: iconSize }}
+              animate={{ rotate: -360 }}
+              transition={{ duration: dur, repeat: Infinity, ease: 'linear' }}
+            >
+              <div
+                className="flex flex-col items-center justify-center rounded-full shadow-lg"
+                style={{
+                  width: iconSize, height: iconSize,
+                  background: s.bg,
+                  border: `2px solid ${s.border}`,
+                  boxShadow: `0 0 16px ${s.border}55`,
+                }}
+              >
+                <span style={{ color: s.color, fontSize: s.icon === '⚛' ? 22 : 17, fontWeight: 800, lineHeight: 1 }}>{s.icon}</span>
+                {s.sub && <span style={{ color: s.color, fontSize: 10, lineHeight: 1, marginTop: 2 }}>{s.sub}</span>}
+              </div>
+              <span style={{ color: s.color, fontSize: 11, fontWeight: 700, letterSpacing: 0.3, whiteSpace: 'nowrap' }}>{s.name}</span>
+            </motion.div>
+          );
+        })}
+      </motion.div>
 
-        {/* Orbit rings */}
-        <ellipse cx="220" cy="230" rx="155" ry="155" fill="none" stroke="#7c3aed" strokeWidth="0.6" strokeOpacity="0.25" strokeDasharray="4 6" />
-        <ellipse cx="220" cy="230" rx="115" ry="115" fill="none" stroke="#ec4899" strokeWidth="0.6" strokeOpacity="0.2" strokeDasharray="3 8" />
+      {/* Central Trophy SVG */}
+      <div className="absolute z-10 flex items-center justify-center" style={{ marginTop: -20 }}>
+        <svg viewBox="0 0 180 220" width="clamp(150px, 18vw, 210px)" height="clamp(180px, 22vw, 250px)" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="tg2" cx="50%" cy="30%" r="70%">
+              <stop offset="0%" stopColor="#fde68a" />
+              <stop offset="50%" stopColor="#f59e0b" />
+              <stop offset="100%" stopColor="#b45309" />
+            </radialGradient>
+            <radialGradient id="gs2" cx="35%" cy="25%" r="60%">
+              <stop offset="0%" stopColor="#fef3c7" stopOpacity="0.9" />
+              <stop offset="100%" stopColor="#d97706" stopOpacity="0" />
+            </radialGradient>
+            <filter id="tglow">
+              <feGaussianBlur stdDeviation="7" result="coloredBlur"/>
+              <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <ellipse cx="90" cy="195" rx="44" ry="9" fill="#f59e0b" fillOpacity="0.18" />
+          <path d="M48 28 L48 118 Q48 140 90 140 Q132 140 132 118 L132 28 Z" fill="url(#tg2)" filter="url(#tglow)" />
+          <path d="M48 28 L48 118 Q48 140 90 140 Q132 140 132 118 L132 28 Z" fill="url(#gs2)" />
+          <path d="M48 52 Q18 52 18 82 Q18 112 48 112" fill="none" stroke="#f59e0b" strokeWidth="9" strokeLinecap="round"/>
+          <path d="M132 52 Q162 52 162 82 Q162 112 132 112" fill="none" stroke="#f59e0b" strokeWidth="9" strokeLinecap="round"/>
+          <rect x="76" y="140" width="28" height="28" fill="#d97706" rx="2"/>
+          <rect x="58" y="166" width="64" height="12" fill="#b45309" rx="4"/>
+          <rect x="65" y="177" width="50" height="8" fill="#92400e" rx="3"/>
+          <polygon points="90,42 95,58 111,58 98,68 103,84 90,74 77,84 82,68 69,58 85,58" fill="#fef3c7" opacity="0.96"/>
+          <ellipse cx="68" cy="66" rx="6" ry="11" fill="white" fillOpacity="0.15" transform="rotate(-20 68 66)"/>
+        </svg>
+      </div>
 
-        {/* === SUBJECT BUBBLES (floating icons) === */}
-
-        {/* Science / Atom - top right */}
-        <g>
-          <animateTransform attributeName="transform" type="translate" values="0,0; 0,-8; 0,0" dur="4s" repeatCount="indefinite" />
-          <circle cx="340" cy="110" r="32" fill="#1e1040" stroke="#7c3aed" strokeWidth="1.5" strokeOpacity="0.6" filter="url(#glow)" />
-          <circle cx="340" cy="110" r="10" fill="none" stroke="#a78bfa" strokeWidth="1.5" />
-          <ellipse cx="340" cy="110" rx="20" ry="8" fill="none" stroke="#a78bfa" strokeWidth="1.2" transform="rotate(60 340 110)" />
-          <ellipse cx="340" cy="110" rx="20" ry="8" fill="none" stroke="#a78bfa" strokeWidth="1.2" transform="rotate(-60 340 110)" />
-          <circle cx="340" cy="110" r="3" fill="#c4b5fd" />
-          <text x="340" y="155" textAnchor="middle" fill="#a78bfa" fontSize="10" fontWeight="600">Science</text>
-        </g>
-
-        {/* Math - top left */}
-        <g>
-          <animateTransform attributeName="transform" type="translate" values="0,0; 0,-6; 0,0" dur="5s" repeatCount="indefinite" begin="0.5s" />
-          <circle cx="100" cy="130" r="32" fill="#1e1040" stroke="#ec4899" strokeWidth="1.5" strokeOpacity="0.6" filter="url(#glow)" />
-          <text x="100" y="122" textAnchor="middle" fill="#f0abfc" fontSize="18" fontWeight="800">∑</text>
-          <text x="100" y="140" textAnchor="middle" fill="#f0abfc" fontSize="12" fontWeight="700">π²</text>
-          <text x="100" y="175" textAnchor="middle" fill="#ec4899" fontSize="10" fontWeight="600">Maths</text>
-        </g>
-
-        {/* English - left */}
-        <g>
-          <animateTransform attributeName="transform" type="translate" values="0,0; 0,8; 0,0" dur="6s" repeatCount="indefinite" begin="1s" />
-          <circle cx="80" cy="300" r="30" fill="#1e1040" stroke="#34d399" strokeWidth="1.5" strokeOpacity="0.5" filter="url(#glow)" />
-          <text x="80" y="296" textAnchor="middle" fill="#6ee7b7" fontSize="11" fontWeight="700">ABC</text>
-          <text x="80" y="310" textAnchor="middle" fill="#6ee7b7" fontSize="9">abc</text>
-          <text x="80" y="342" textAnchor="middle" fill="#34d399" fontSize="10" fontWeight="600">English</text>
-        </g>
-
-        {/* Reasoning - right */}
-        <g>
-          <animateTransform attributeName="transform" type="translate" values="0,0; 0,6; 0,0" dur="4.5s" repeatCount="indefinite" begin="1.5s" />
-          <circle cx="365" cy="310" r="30" fill="#1e1040" stroke="#f59e0b" strokeWidth="1.5" strokeOpacity="0.5" filter="url(#glow)" />
-          <text x="365" y="304" textAnchor="middle" fill="#fcd34d" fontSize="16" fontWeight="800">🧩</text>
-          <text x="365" y="318" textAnchor="middle" fill="#fbbf24" fontSize="8" fontWeight="600">IQ</text>
-          <text x="365" y="352" textAnchor="middle" fill="#f59e0b" fontSize="10" fontWeight="600">Reasoning</text>
-        </g>
-
-        {/* Computer - bottom */}
-        <g>
-          <animateTransform attributeName="transform" type="translate" values="0,0; 0,-5; 0,0" dur="5.5s" repeatCount="indefinite" begin="2s" />
-          <circle cx="190" cy="400" r="27" fill="#1e1040" stroke="#38bdf8" strokeWidth="1.5" strokeOpacity="0.5" filter="url(#glow)" />
-          <text x="190" y="395" textAnchor="middle" fill="#7dd3fc" fontSize="14" fontWeight="700">&lt;/&gt;</text>
-          <text x="190" y="408" textAnchor="middle" fill="#38bdf8" fontSize="7">CODE</text>
-          <text x="190" y="438" textAnchor="middle" fill="#38bdf8" fontSize="10" fontWeight="600">Computers</text>
-        </g>
-
-        {/* === CENTRAL TROPHY === */}
-        <g filter="url(#softGlow)">
-          {/* Trophy glow base */}
-          <ellipse cx="220" cy="300" rx="45" ry="10" fill="#f59e0b" fillOpacity="0.15" />
-
-          {/* Trophy cup body */}
-          <path d="M185 185 L185 265 Q185 285 220 285 Q255 285 255 265 L255 185 Z" fill="url(#trophyGrad)" />
-          <path d="M185 185 L185 265 Q185 285 220 285 Q255 285 255 265 L255 185 Z" fill="url(#goldShine)" />
-
-          {/* Trophy handles */}
-          <path d="M185 205 Q160 205 160 230 Q160 255 185 255" fill="none" stroke="#f59e0b" strokeWidth="8" strokeLinecap="round" />
-          <path d="M255 205 Q280 205 280 230 Q280 255 255 255" fill="none" stroke="#f59e0b" strokeWidth="8" strokeLinecap="round" />
-
-          {/* Trophy stem */}
-          <rect x="210" y="285" width="20" height="25" fill="#d97706" rx="2" />
-
-          {/* Trophy base */}
-          <rect x="193" y="308" width="54" height="10" fill="#b45309" rx="3" />
-          <rect x="200" y="317" width="40" height="6" fill="#92400e" rx="2" />
-
-          {/* Star on trophy */}
-          <polygon points="220,197 224,210 237,210 226,218 230,231 220,223 210,231 214,218 203,210 216,210" fill="#fef3c7" opacity="0.95" />
-
-          {/* Shine on trophy */}
-          <ellipse cx="205" cy="215" rx="6" ry="10" fill="white" fillOpacity="0.2" transform="rotate(-20 205 215)" />
-        </g>
-
-        {/* === FLOATING STARS / SPARKLES === */}
-        {[
-          { cx: 155, cy: 175, r: 3, dur: "2s", delay: "0s" },
-          { cx: 295, cy: 168, r: 2.5, dur: "2.5s", delay: "0.4s" },
-          { cx: 140, cy: 240, r: 2, dur: "3s", delay: "0.8s" },
-          { cx: 310, cy: 390, r: 3, dur: "2.2s", delay: "0.3s" },
-          { cx: 130, cy: 370, r: 2, dur: "3.5s", delay: "1s" },
-          { cx: 310, cy: 170, r: 2, dur: "2.8s", delay: "0.6s" },
-          { cx: 260, cy: 400, r: 2.5, dur: "3.2s", delay: "1.2s" },
-        ].map((s, i) => (
-          <circle key={i} cx={s.cx} cy={s.cy} r={s.r} fill="url(#starGrad)" opacity="0.8">
-            <animate attributeName="opacity" values="0.3;1;0.3" dur={s.dur} repeatCount="indefinite" begin={s.delay} />
-            <animate attributeName="r" values={`${s.r};${s.r * 1.6};${s.r}`} dur={s.dur} repeatCount="indefinite" begin={s.delay} />
-          </circle>
-        ))}
-
-        {/* Medal ribbon top */}
-        <rect x="213" y="155" width="14" height="24" fill="#7c3aed" rx="2" />
-        <ellipse cx="220" cy="155" rx="12" ry="6" fill="#9333ea" />
-
-        {/* 2026 badge */}
-        <rect x="155" y="325" width="60" height="26" rx="13" fill="#7c3aed" fillOpacity="0.85" />
-        <text x="185" y="342" textAnchor="middle" fill="white" fontSize="11" fontWeight="800" letterSpacing="1">2026</text>
-
-        {/* ₹5 Lakh scholarship tag */}
-        <rect x="232" y="330" width="72" height="22" rx="11" fill="#ec4899" fillOpacity="0.85" />
-        <text x="268" y="345" textAnchor="middle" fill="white" fontSize="9" fontWeight="700">₹5L Scholarship</text>
-      </svg>
+      {/* Badges */}
+      <div className="absolute flex items-center gap-3 z-20" style={{ bottom: 'clamp(12px, 3vw, 24px)' }}>
+        <div className="px-4 py-1.5 rounded-full backdrop-blur-sm" style={{ background: 'rgba(124,58,237,0.85)' }}>
+          <span className="text-white text-sm font-black tracking-widest">2026</span>
+        </div>
+        <div className="px-4 py-1.5 rounded-full backdrop-blur-sm" style={{ background: 'rgba(236,72,153,0.85)' }}>
+          <span className="text-white text-xs font-bold">₹5L Scholarship</span>
+        </div>
+      </div>
     </div>
   );
 }
