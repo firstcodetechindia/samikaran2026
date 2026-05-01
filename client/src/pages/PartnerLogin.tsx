@@ -119,7 +119,7 @@ export default function PartnerLogin() {
                           <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                           <Input 
                             type="email" 
-                            placeholder="partner@example.com" 
+                            placeholder="ananya@gmail.com" 
                             className="pl-10"
                             {...field} 
                             data-testid="input-partner-login-email"

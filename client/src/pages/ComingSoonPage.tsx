@@ -406,7 +406,7 @@ export default function ComingSoonPage() {
                                 <Input 
                                   {...field} 
                                   type="email"
-                                  placeholder="ananya@example.com"
+                                  placeholder="ananya@gmail.com"
                                   className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-violet-300/50"
                                   data-testid="input-email"
                                 />

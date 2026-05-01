@@ -522,7 +522,7 @@ export default function PartnersPage() {
                         <FormItem>
                           <FormLabel>Email *</FormLabel>
                           <FormControl>
-                            <Input type="email" placeholder="ananya@example.com" {...field} data-testid="input-partner-email" />
+                            <Input type="email" placeholder="ananya@gmail.com" {...field} data-testid="input-partner-email" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>

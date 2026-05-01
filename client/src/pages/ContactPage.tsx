@@ -334,8 +334,8 @@ export default function ContactPage() {
                         {/* Row 1: Name | Email | Subject */}
                         <div className="grid sm:grid-cols-3 gap-4">
                           {[
-                            { id: "name",    label: "Your Name", type: "text",  ph: "John Doe",            req: true },
-                            { id: "email",   label: "Email",      type: "email", ph: "you@example.com",     req: true },
+                            { id: "name",    label: "Your Name", type: "text",  ph: "Rahul Sharma",        req: true },
+                            { id: "email",   label: "Email",      type: "email", ph: "rahul@gmail.com",     req: true },
                             { id: "subject", label: "Subject",    type: "text",  ph: "What is this about?", req: false },
                           ].map(f => (
                             <div key={f.id} className="space-y-1.5">
