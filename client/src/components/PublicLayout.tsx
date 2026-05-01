@@ -214,31 +214,41 @@ function MobileBottomNav({ user, moreOpen, setMoreOpen }: {
     <>
       {/* ── Bottom navigation bar ── */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
-        {/* Feathered top edge */}
-        <div className="absolute -top-8 inset-x-0 h-8 bg-gradient-to-t from-[#100c28]/90 to-transparent pointer-events-none" />
-        {/* Thin violet separator */}
-        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-violet-500/30 to-transparent" />
+        {/* Top border — single clean line */}
+        <div className="absolute top-0 inset-x-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(167,139,250,0.45) 40%, rgba(232,121,249,0.35) 60%, transparent)' }} />
 
-        <div className="relative flex items-end h-[66px]" style={{ background: 'rgba(13,9,34,0.97)', backdropFilter: 'blur(20px) saturate(180%)' }}>
+        {/* Bar — purple gradient glass */}
+        <div
+          className="relative flex items-end h-[66px]"
+          style={{
+            background: 'linear-gradient(160deg, rgba(91,33,182,0.72) 0%, rgba(109,40,217,0.65) 35%, rgba(126,34,206,0.70) 65%, rgba(88,28,135,0.72) 100%)',
+            backdropFilter: 'blur(28px) saturate(200%) brightness(0.85)',
+            WebkitBackdropFilter: 'blur(28px) saturate(200%) brightness(0.85)',
+          }}
+        >
+          {/* Subtle inner top highlight */}
+          <div className="absolute top-0 inset-x-0 h-[40px] pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(255,255,255,0.06) 0%, transparent 100%)' }} />
 
           {tabs.map((tab, i) => {
             if (!tab) {
               /* ── Center floating CTA ── */
               return (
-                <div key="cta" className="flex-1 flex justify-center" style={{ marginBottom: 18 }}>
+                <div key="cta" className="flex-1 flex justify-center" style={{ marginBottom: 20 }}>
                   <motion.button
                     onClick={() => { navigate(dashPath); setMoreOpen(false); }}
-                    className="relative w-[52px] h-[52px] rounded-full bg-gradient-to-br from-violet-500 via-fuchsia-500 to-pink-500 flex items-center justify-center"
-                    style={{ boxShadow: '0 0 0 1px rgba(139,92,246,0.3), 0 8px 28px rgba(139,92,246,0.5), 0 2px 8px rgba(0,0,0,0.5)' }}
+                    className="relative w-[52px] h-[52px] rounded-full flex items-center justify-center"
+                    style={{
+                      background: 'linear-gradient(135deg, #a855f7 0%, #ec4899 100%)',
+                      boxShadow: '0 0 0 1.5px rgba(232,121,249,0.4), 0 6px 24px rgba(168,85,247,0.55), 0 2px 8px rgba(0,0,0,0.4)',
+                    }}
                     whileTap={{ scale: 0.9 }}
                     data-testid="mobile-bottom-cta"
                     aria-label={user ? 'Dashboard' : 'Login'}
                   >
-                    {/* Inner shine */}
-                    <span className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+                    <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to bottom, rgba(255,255,255,0.22) 0%, transparent 60%)' }} />
                     {user
-                      ? <LayoutDashboard className="w-[22px] h-[22px] text-white drop-shadow-sm" />
-                      : <LogIn className="w-[22px] h-[22px] text-white drop-shadow-sm" />}
+                      ? <LayoutDashboard className="w-[22px] h-[22px] text-white" />
+                      : <LogIn className="w-[22px] h-[22px] text-white" />}
                   </motion.button>
                 </div>
               );
@@ -255,21 +265,38 @@ function MobileBottomNav({ user, moreOpen, setMoreOpen }: {
                   if (tab.key === 'more') { setMoreOpen(!moreOpen); }
                   else { navigate(tab.href!); setMoreOpen(false); }
                 }}
-                className="flex-1 flex flex-col items-center justify-end gap-[3px] pb-[10px] relative"
+                className="flex-1 flex flex-col items-center justify-end gap-[4px] pb-[10px] relative"
                 data-testid={`mobile-bottom-${tab.key}`}
               >
-                {/* Active indicator bar at top */}
-                {active && (
-                  <motion.span
-                    layoutId="bottomActiveBar"
-                    className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-[2px] rounded-full bg-gradient-to-r from-violet-400 to-fuchsia-400"
-                    style={{ boxShadow: '0 0 8px rgba(139,92,246,0.8)' }}
-                  />
-                )}
-                <tab.icon className={`w-5 h-5 transition-all duration-200 ${active ? 'text-violet-400' : 'text-white/50'}`}
-                  style={active ? { filter: 'drop-shadow(0 0 6px rgba(139,92,246,0.8))' } : undefined}
+                {/* Active pill indicator at top */}
+                <AnimatePresence>
+                  {active && (
+                    <motion.span
+                      layoutId="bottomActiveBar"
+                      initial={{ scaleX: 0, opacity: 0 }}
+                      animate={{ scaleX: 1, opacity: 1 }}
+                      exit={{ scaleX: 0, opacity: 0 }}
+                      className="absolute top-0 left-1/2 -translate-x-1/2 w-6 h-[3px] rounded-full"
+                      style={{ background: 'linear-gradient(90deg, #c084fc, #f472b6)', boxShadow: '0 0 10px rgba(192,132,252,0.9)' }}
+                    />
+                  )}
+                </AnimatePresence>
+
+                {/* Icon */}
+                <tab.icon
+                  className="w-[20px] h-[20px] transition-all duration-200"
+                  style={active
+                    ? { color: '#e9d5ff', filter: 'drop-shadow(0 0 5px rgba(216,180,254,0.85))' }
+                    : { color: 'rgba(255,255,255,0.62)' }
+                  }
                 />
-                <span className={`text-[8px] font-semibold uppercase tracking-[0.12em] transition-colors ${active ? 'text-violet-400' : 'text-white/40'}`}>{tab.label}</span>
+                {/* Label */}
+                <span
+                  className="text-[7.5px] font-bold uppercase tracking-[0.13em] transition-all duration-200"
+                  style={active ? { color: '#e9d5ff' } : { color: 'rgba(255,255,255,0.50)' }}
+                >
+                  {tab.label}
+                </span>
               </button>
             );
           })}
@@ -295,10 +322,10 @@ function MobileBottomNav({ user, moreOpen, setMoreOpen }: {
               className="lg:hidden fixed bottom-0 left-0 right-0 z-[60] rounded-t-[28px] overflow-hidden"
               style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 62px)' }}
             >
-              {/* Sheet background */}
-              <div className="absolute inset-0" style={{ background: 'rgba(13,9,34,0.99)', backdropFilter: 'blur(24px) saturate(160%)' }} />
-              <div className="absolute inset-0 bg-gradient-to-b from-violet-800/10 via-transparent to-transparent" />
-              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-400/40 to-transparent" />
+              {/* Sheet background — purple gradient glass */}
+              <div className="absolute inset-0" style={{ background: 'linear-gradient(175deg, rgba(91,33,182,0.88) 0%, rgba(76,29,149,0.92) 50%, rgba(88,28,135,0.90) 100%)', backdropFilter: 'blur(32px) saturate(200%) brightness(0.80)', WebkitBackdropFilter: 'blur(32px) saturate(200%) brightness(0.80)' }} />
+              <div className="absolute inset-0 bg-gradient-to-b from-white/[0.05] via-transparent to-transparent" />
+              <div className="absolute inset-x-0 top-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(192,132,252,0.5) 40%, rgba(244,114,182,0.4) 60%, transparent)' }} />
 
               <div className="relative z-10 pt-3 px-5 pb-4">
                 {/* Drag handle */}
@@ -306,53 +333,64 @@ function MobileBottomNav({ user, moreOpen, setMoreOpen }: {
 
                 {/* Header */}
                 <div className="flex items-center justify-between mb-5">
-                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-white/30">Navigate</span>
+                  <span className="text-[10px] font-black uppercase tracking-[0.28em] text-white/55">Quick Nav</span>
                   <motion.button
                     whileTap={{ scale: 0.88 }}
                     onClick={() => setMoreOpen(false)}
-                    className="w-7 h-7 rounded-full bg-white/8 border border-white/10 flex items-center justify-center"
+                    className="w-7 h-7 rounded-full flex items-center justify-center"
+                    style={{ background: 'rgba(255,255,255,0.14)', border: '1px solid rgba(255,255,255,0.18)' }}
                   >
-                    <X className="w-3.5 h-3.5 text-white/50" />
+                    <X className="w-3.5 h-3.5 text-white/80" />
                   </motion.button>
                 </div>
 
                 {/* 3×2 grid of nav items */}
-                <div className="grid grid-cols-3 gap-3 mb-5">
+                <div className="grid grid-cols-3 gap-2.5 mb-5">
                   {moreItems.map(({ icon: Icon, label, href }) => {
                     const active = isActive(href);
                     return (
                       <motion.button
                         key={label}
-                        whileTap={{ scale: 0.95 }}
+                        whileTap={{ scale: 0.94 }}
                         onClick={() => { navigate(href); setMoreOpen(false); }}
-                        className={`flex flex-col items-center gap-2 py-4 rounded-2xl border transition-all duration-200 ${active ? 'bg-violet-500/15 border-violet-500/25' : 'bg-white/[0.04] border-white/[0.07] active:bg-white/10'}`}
+                        className="flex flex-col items-center gap-2 py-4 rounded-2xl transition-all duration-200"
+                        style={active
+                          ? { background: 'rgba(255,255,255,0.22)', border: '1px solid rgba(255,255,255,0.30)', boxShadow: '0 2px 12px rgba(168,85,247,0.25)' }
+                          : { background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)' }
+                        }
                         data-testid={`mobile-more-${label.toLowerCase()}`}
                       >
-                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${active ? 'bg-gradient-to-br from-violet-500 to-fuchsia-600 shadow-lg shadow-violet-500/30' : 'bg-white/[0.07]'}`}>
-                          <Icon className={`w-5 h-5 ${active ? 'text-white' : 'text-white/55'}`} />
+                        <div
+                          className="w-10 h-10 rounded-xl flex items-center justify-center"
+                          style={active
+                            ? { background: 'linear-gradient(135deg, #a855f7, #ec4899)', boxShadow: '0 4px 14px rgba(168,85,247,0.4)' }
+                            : { background: 'rgba(255,255,255,0.14)' }
+                          }
+                        >
+                          <Icon className="w-5 h-5 text-white" />
                         </div>
-                        <span className={`text-[10px] font-bold tracking-wide ${active ? 'text-violet-300' : 'text-white/45'}`}>{label}</span>
+                        <span className={`text-[10px] font-bold tracking-wide ${active ? 'text-white' : 'text-white/75'}`}>{label}</span>
                       </motion.button>
                     );
                   })}
                 </div>
 
                 {/* Bottom strip */}
-                <div className="border-t border-white/[0.07] pt-4 flex items-center justify-center gap-5">
+                <div className="pt-3 flex items-center justify-center gap-5" style={{ borderTop: '1px solid rgba(255,255,255,0.14)' }}>
                   <Link href="/faq" onClick={() => setMoreOpen(false)}>
-                    <span className="text-[11px] font-semibold text-white/35 hover:text-white/60 transition-colors">Help / FAQs</span>
+                    <span className="text-[11px] font-semibold text-white/60">Help / FAQs</span>
                   </Link>
-                  <span className="w-px h-3 bg-white/12" />
+                  <span className="w-px h-3" style={{ background: 'rgba(255,255,255,0.20)' }} />
                   {user ? (
                     <button
                       onClick={() => { localStorage.removeItem('samikaran_user'); localStorage.removeItem('samikaran_session_token'); window.location.href = '/'; }}
-                      className="text-[11px] font-bold text-rose-400/70 hover:text-rose-400 transition-colors"
+                      className="text-[11px] font-bold text-rose-300"
                     >
                       Logout
                     </button>
                   ) : (
                     <Link href="/register" onClick={() => setMoreOpen(false)}>
-                      <span className="text-[11px] font-bold text-violet-400">Register Free →</span>
+                      <span className="text-[11px] font-bold text-white">Register Free →</span>
                     </Link>
                   )}
                 </div>
