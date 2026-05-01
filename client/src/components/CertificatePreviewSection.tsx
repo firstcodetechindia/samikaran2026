@@ -31,6 +31,9 @@ interface CertDesign {
   typeLabel: string;
   certTitle: string;
   rankLabel: string;
+  logoColorDark: string;
+  logoColorLight: string;
+  logoGlow: string;
 }
 
 export const designs: Record<string, CertDesign> = {
@@ -52,6 +55,9 @@ export const designs: Record<string, CertDesign> = {
     typeLabel: "GOLD AWARD",
     certTitle: "CERTIFICATE OF EXCELLENCE",
     rankLabel: "GOLD",
+    logoColorDark:  "#92400E",
+    logoColorLight: "#FCD34D",
+    logoGlow:       "rgba(245,158,11,0.18)",
   },
   silver: {
     sidebarGrad: "linear-gradient(180deg, #1F2937 0%, #374151 30%, #4B5563 60%, #6B7280 85%, #374151 100%)",
@@ -71,6 +77,9 @@ export const designs: Record<string, CertDesign> = {
     typeLabel: "SILVER AWARD",
     certTitle: "CERTIFICATE OF EXCELLENCE",
     rankLabel: "SILVER",
+    logoColorDark:  "#374151",
+    logoColorLight: "#D1D5DB",
+    logoGlow:       "rgba(156,163,175,0.2)",
   },
   bronze: {
     sidebarGrad: "linear-gradient(180deg, #431407 0%, #7C2D12 30%, #9A3412 60%, #C2410C 85%, #7C2D12 100%)",
@@ -90,6 +99,9 @@ export const designs: Record<string, CertDesign> = {
     typeLabel: "BRONZE AWARD",
     certTitle: "CERTIFICATE OF ACHIEVEMENT",
     rankLabel: "BRONZE",
+    logoColorDark:  "#9A3412",
+    logoColorLight: "#FB923C",
+    logoGlow:       "rgba(234,88,12,0.18)",
   },
   participation: {
     sidebarGrad: "linear-gradient(180deg, #2E1065 0%, #4C1D95 30%, #6D28D9 60%, #7C3AED 85%, #4C1D95 100%)",
@@ -109,29 +121,43 @@ export const designs: Record<string, CertDesign> = {
     typeLabel: "PARTICIPATION",
     certTitle: "CERTIFICATE OF PARTICIPATION",
     rankLabel: "PARTICIPATION",
+    logoColorDark:  "#5B21B6",
+    logoColorLight: "#A78BFA",
+    logoGlow:       "rgba(139,92,246,0.2)",
   },
 };
 
 function SamikaranLogoMark({
-  color,
-  barColor = "rgba(255,255,255,0.92)",
+  colorDark,
+  colorLight,
+  glowColor = "transparent",
   size = "100%",
 }: {
-  color: string;
-  barColor?: string;
+  colorDark: string;
+  colorLight: string;
+  glowColor?: string;
   size?: string;
 }) {
+  const id = colorDark.replace(/[^a-z0-9]/gi, "");
   return (
-    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width={size} height={size} style={{ display: "block", flexShrink: 0 }}>
-      {/* Upward triangle */}
-      <polygon points="50,8 90,76 10,76" fill={color} opacity="0.95" />
-      <polygon points="50,8 70,42 30,42" fill="rgba(255,255,255,0.18)" />
-      {/* Downward triangle */}
-      <polygon points="50,92 10,24 90,24" fill={color} opacity="0.80" />
-      <polygon points="50,92 30,58 70,58" fill="rgba(255,255,255,0.10)" />
-      {/* Equals bars */}
-      <rect x="30" y="43" width="40" height="6" rx="3" fill={barColor} />
-      <rect x="30" y="52" width="40" height="6" rx="3" fill={barColor} />
+    <svg viewBox="0 0 110 110" xmlns="http://www.w3.org/2000/svg" width={size} height={size} style={{ display: "block", flexShrink: 0 }}>
+      <defs>
+        <radialGradient id={`glow-${id}`} cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stopColor={glowColor} stopOpacity="1" />
+          <stop offset="100%" stopColor={glowColor} stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      {/* Glow ring */}
+      <circle cx="55" cy="55" r="48" fill={`url(#glow-${id})`} />
+      {/* Upward triangle — dark tone */}
+      <polygon points="55,10 95,78 15,78" fill={colorDark} />
+      <polygon points="55,10 73,44 37,44" fill="rgba(255,255,255,0.15)" />
+      {/* Downward triangle — light tone */}
+      <polygon points="55,100 15,32 95,32" fill={colorLight} opacity="0.90" />
+      <polygon points="55,100 37,66 73,66" fill="rgba(255,255,255,0.10)" />
+      {/* Equals bars — white */}
+      <rect x="34" y="47" width="42" height="6.5" rx="3.25" fill="white" opacity="0.95" />
+      <rect x="34" y="56.5" width="42" height="6.5" rx="3.25" fill="white" opacity="0.95" />
     </svg>
   );
 }
@@ -221,9 +247,11 @@ export function FullCertificatePreview({
           boxShadow: "inset -4px 0 16px rgba(0,0,0,0.15)",
         }}
       >
-        {/* Top logo mark */}
-        <div className="w-full flex justify-center mb-1" style={{ padding: "0 18%" }}>
-          <SamikaranLogoMark color={design.iconFill} size="100%" />
+        {/* Top triangle */}
+        <div className="w-full flex justify-center mb-1">
+          <svg viewBox="0 0 40 20" style={{ width: "70%", fill: design.iconFill }}>
+            <polygon points="20,2 38,18 2,18" />
+          </svg>
         </div>
 
         {/* Icon grid */}
@@ -261,9 +289,11 @@ export function FullCertificatePreview({
           SAMIKARAN OLYMPIAD
         </div>
 
-        {/* Bottom logo mark */}
-        <div className="w-full flex justify-center mt-1" style={{ padding: "0 18%" }}>
-          <SamikaranLogoMark color={design.iconFill} size="100%" />
+        {/* Bottom triangle */}
+        <div className="w-full flex justify-center mt-1">
+          <svg viewBox="0 0 40 20" style={{ width: "70%", fill: design.iconFill }}>
+            <polygon points="2,2 38,2 20,18" />
+          </svg>
         </div>
       </div>
 
@@ -341,9 +371,10 @@ export function FullCertificatePreview({
           <div className="flex items-center justify-center" style={{ gap: "clamp(6px, 1.2%, 14px)" }}>
             {/* Logo mark */}
             <SamikaranLogoMark
-              color={design.accentColor}
-              barColor={design.borderColorLight}
-              size="clamp(28px, 5vw, 58px)"
+              colorDark={design.logoColorDark}
+              colorLight={design.logoColorLight}
+              glowColor={design.logoGlow}
+              size="clamp(32px, 5.5vw, 64px)"
             />
             {/* Text */}
             <div className="text-left">
