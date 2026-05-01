@@ -400,8 +400,8 @@ export default function Home() {
           <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
             <div className="w-full lg:w-[55%] text-center lg:text-left">
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.5 }} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 mb-8">
-                <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-purple-300">2026 Registrations Open</span>
+                <div className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-300">2026 Registrations Opening Soon</span>
               </motion.div>
 
               <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.7, ease: "easeOut" }} className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] xl:text-6xl font-black tracking-tight mb-6 leading-[1.12]" style={{ letterSpacing: '-0.01em' }} data-testid="text-hero-heading">
