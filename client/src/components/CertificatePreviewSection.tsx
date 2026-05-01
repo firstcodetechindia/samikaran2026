@@ -127,8 +127,9 @@ export const designs: Record<string, CertDesign> = {
   },
 };
 
-// Uses the exact same SVG geometry as BrandLogo.tsx — viewBox 0 0 100 100,
-// same triangle points, same bar positions — only colors differ per cert type.
+// Exact mirror of BrandLogo.tsx SVG — same geometry, defs, and filter.
+// Only the fill colors differ (solid per cert type instead of gradient).
+let _logoId = 0;
 function SamikaranLogoMark({
   colorDark,
   colorLight,
@@ -138,16 +139,30 @@ function SamikaranLogoMark({
   colorLight: string;
   size?: string;
 }) {
+  const id = `certLogo-${_logoId++}`;
   return (
     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width={size} height={size} style={{ display: "block", flexShrink: 0 }}>
-      {/* Shadow layer */}
+      <defs>
+        <linearGradient id={`${id}-up`} x1="0%" y1="100%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor={colorDark} />
+          <stop offset="100%" stopColor={colorDark} />
+        </linearGradient>
+        <linearGradient id={`${id}-dn`} x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor={colorLight} />
+          <stop offset="100%" stopColor={colorLight} />
+        </linearGradient>
+        <filter id={`${id}-sh`} x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="3" stdDeviation="2" floodColor={colorDark} floodOpacity="0.3" />
+        </filter>
+      </defs>
+      {/* Shadow layer — same as BrandLogo */}
       <polygon points="50,12 85,72 15,72" fill="rgba(0,0,0,0.12)" transform="translate(2, 4)" />
-      <polygon points="50,88 15,28 85,28" fill="rgba(0,0,0,0.10)" transform="translate(2, 4)" />
-      {/* Upward triangle — dark tone */}
-      <polygon points="50,10 88,75 12,75" fill={colorDark} />
+      <polygon points="50,88 15,28 85,28" fill="rgba(0,0,0,0.1)" transform="translate(2, 4)" />
+      {/* Upward triangle */}
+      <polygon points="50,10 88,75 12,75" fill={`url(#${id}-up)`} filter={`url(#${id}-sh)`} />
       <polygon points="50,10 69,42.5 31,42.5" fill="rgba(255,255,255,0.18)" />
-      {/* Downward triangle — light tone */}
-      <polygon points="50,90 12,25 88,25" fill={colorLight} opacity="0.88" />
+      {/* Downward triangle */}
+      <polygon points="50,90 12,25 88,25" fill={`url(#${id}-dn)`} opacity="0.88" />
       <polygon points="50,90 31,57.5 69,57.5" fill="rgba(255,255,255,0.12)" />
       {/* Equals bars */}
       <rect x="32" y="44" width="36" height="5" rx="2.5" fill="white" />
@@ -240,7 +255,7 @@ export function FullCertificatePreview({
   certText,
 }: {
   type: string;
-  signatories?: { s1Name: string; s1Title: string; s2Name: string; s2Title: string };
+  signatories?: { s1Name: string; s1Title: string; s2Name: string; s2Title: string; s1Image?: string; s2Image?: string };
   studentData?: CertStudentData;
   certText?: CertTextConfig;
 }) {
@@ -556,15 +571,22 @@ export function FullCertificatePreview({
             {/* Sig 1 */}
             <div className="text-center flex-1 min-w-0">
               <div
-                className="mx-auto mb-[0.5%] flex items-end justify-center"
+                className="mx-auto mb-[0.5%] flex items-end justify-center overflow-hidden"
                 style={{
                   borderBottom: `1.5px solid ${design.borderColor}`,
                   height: "clamp(20px, 3.5vw, 36px)",
                   width: "60%",
-                  opacity: 0.8,
                 }}
               >
-                <span className="italic" style={{ fontFamily: "cursive", color: design.subtleText, fontSize: "clamp(10px, 1.8vw, 20px)", opacity: 0.6 }}>~</span>
+                {signatories?.s1Image ? (
+                  <img
+                    src={signatories.s1Image}
+                    alt="Signature"
+                    style={{ maxHeight: "100%", maxWidth: "100%", objectFit: "contain" }}
+                  />
+                ) : (
+                  <span className="italic" style={{ fontFamily: "cursive", color: design.subtleText, fontSize: "clamp(10px, 1.8vw, 20px)", opacity: 0.6 }}>~</span>
+                )}
               </div>
               <p className="font-bold" style={{ color: design.nameColor, fontSize: "clamp(6px, 1vw, 12px)" }}>
                 {signatories?.s1Name || "Authorized Signatory"}
@@ -577,15 +599,22 @@ export function FullCertificatePreview({
             {/* Sig 2 */}
             <div className="text-center flex-1 min-w-0">
               <div
-                className="mx-auto mb-[0.5%] flex items-end justify-center"
+                className="mx-auto mb-[0.5%] flex items-end justify-center overflow-hidden"
                 style={{
                   borderBottom: `1.5px solid ${design.borderColor}`,
                   height: "clamp(20px, 3.5vw, 36px)",
                   width: "60%",
-                  opacity: 0.8,
                 }}
               >
-                <span className="italic" style={{ fontFamily: "cursive", color: design.subtleText, fontSize: "clamp(10px, 1.8vw, 20px)", opacity: 0.6 }}>~</span>
+                {signatories?.s2Image ? (
+                  <img
+                    src={signatories.s2Image}
+                    alt="Signature"
+                    style={{ maxHeight: "100%", maxWidth: "100%", objectFit: "contain" }}
+                  />
+                ) : (
+                  <span className="italic" style={{ fontFamily: "cursive", color: design.subtleText, fontSize: "clamp(10px, 1.8vw, 20px)", opacity: 0.6 }}>~</span>
+                )}
               </div>
               <p className="font-bold" style={{ color: design.nameColor, fontSize: "clamp(6px, 1vw, 12px)" }}>
                 {signatories?.s2Name || "Authorized Signatory"}
@@ -615,10 +644,12 @@ export function CertificatePreviewSection() {
   });
 
   const signatories = {
-    s1Name: siteSettings?.certificate_signatory_1_name || "Authorized Signatory",
+    s1Name:  siteSettings?.certificate_signatory_1_name  || "Authorized Signatory",
     s1Title: siteSettings?.certificate_signatory_1_title || "Founder, Samikaran Olympiad",
-    s2Name: siteSettings?.certificate_signatory_2_name || "Authorized Signatory",
+    s1Image: siteSettings?.certificate_signatory_1_image || "",
+    s2Name:  siteSettings?.certificate_signatory_2_name  || "Authorized Signatory",
     s2Title: siteSettings?.certificate_signatory_2_title || "Controller of Examinations (CoE)",
+    s2Image: siteSettings?.certificate_signatory_2_image || "",
   };
 
   const certText = siteSettings ? certTextFromSettings(siteSettings) : CERT_TEXT_DEFAULTS;

@@ -15,7 +15,7 @@ import { Separator } from "@/components/ui/separator";
 import {
   Award, Crown, Medal, Star, Users, CheckCircle, Trophy,
   Loader2, ChevronRight, FileDown, Printer, X, AlertCircle,
-  Save, Settings2, Type, PenLine, UserCheck,
+  Save, Settings2, Type, PenLine, UserCheck, Upload, ImageIcon,
 } from "lucide-react";
 import {
   FullCertificatePreview,
@@ -253,8 +253,12 @@ export default function CertificateDesignerTab() {
   // ── Signatory local state ──
   const [s1Name,  setS1Name]  = useState("Authorized Signatory");
   const [s1Title, setS1Title] = useState("Founder, Samikaran Olympiad");
+  const [s1Image, setS1Image] = useState("");
   const [s2Name,  setS2Name]  = useState("Authorized Signatory");
   const [s2Title, setS2Title] = useState("Controller of Examinations (CoE)");
+  const [s2Image, setS2Image] = useState("");
+  const [s1Uploading, setS1Uploading] = useState(false);
+  const [s2Uploading, setS2Uploading] = useState(false);
 
   // ── Certificate text local state ──
   const [introText,          setIntroText]          = useState(CERT_TEXT_DEFAULTS.introText);
@@ -297,8 +301,10 @@ export default function CertificateDesignerTab() {
     if (siteSettings.certificate_bronze_threshold) setBronzeThreshold(parseInt(siteSettings.certificate_bronze_threshold) || 60);
     if (siteSettings.certificate_signatory_1_name)  setS1Name(siteSettings.certificate_signatory_1_name);
     if (siteSettings.certificate_signatory_1_title) setS1Title(siteSettings.certificate_signatory_1_title);
+    if (siteSettings.certificate_signatory_1_image) setS1Image(siteSettings.certificate_signatory_1_image);
     if (siteSettings.certificate_signatory_2_name)  setS2Name(siteSettings.certificate_signatory_2_name);
     if (siteSettings.certificate_signatory_2_title) setS2Title(siteSettings.certificate_signatory_2_title);
+    if (siteSettings.certificate_signatory_2_image) setS2Image(siteSettings.certificate_signatory_2_image);
     if (siteSettings.certificate_intro_text)          setIntroText(siteSettings.certificate_intro_text);
     if (siteSettings.certificate_achievement_prefix)  setAchievementPrefix(siteSettings.certificate_achievement_prefix);
     if (siteSettings.certificate_date_label)          setDateLabel(siteSettings.certificate_date_label);
@@ -340,8 +346,10 @@ export default function CertificateDesignerTab() {
           { key: "certificate_bronze_threshold",      value: String(bronzeThreshold),  category: "certificate" },
           { key: "certificate_signatory_1_name",      value: s1Name,                   category: "certificate" },
           { key: "certificate_signatory_1_title",     value: s1Title,                  category: "certificate" },
+          { key: "certificate_signatory_1_image",     value: s1Image,                  category: "certificate" },
           { key: "certificate_signatory_2_name",      value: s2Name,                   category: "certificate" },
           { key: "certificate_signatory_2_title",     value: s2Title,                  category: "certificate" },
+          { key: "certificate_signatory_2_image",     value: s2Image,                  category: "certificate" },
           { key: "certificate_intro_text",            value: introText,                category: "certificate" },
           { key: "certificate_achievement_prefix",    value: achievementPrefix,        category: "certificate" },
           { key: "certificate_date_label",            value: dateLabel,                category: "certificate" },
@@ -361,8 +369,40 @@ export default function CertificateDesignerTab() {
     },
   });
 
+  // ── Signature image upload helper ──
+  const uploadSignatureImage = async (
+    file: File,
+    setImage: (url: string) => void,
+    setUploading: (v: boolean) => void,
+  ) => {
+    if (!file.type.startsWith("image/")) {
+      toast({ title: "Please select an image file", variant: "destructive" });
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      toast({ title: "Image must be under 2 MB", variant: "destructive" });
+      return;
+    }
+    setUploading(true);
+    try {
+      const res = await fetch("/api/uploads/request-url", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: file.name, size: file.size, contentType: file.type }),
+      });
+      const { uploadURL, objectPath } = await res.json();
+      await fetch(uploadURL, { method: "PUT", body: file, headers: { "Content-Type": file.type } });
+      setImage(objectPath);
+      toast({ title: "Signature uploaded" });
+    } catch {
+      toast({ title: "Upload failed", variant: "destructive" });
+    } finally {
+      setUploading(false);
+    }
+  };
+
   // ── Derived values ──
-  const signatories = { s1Name, s1Title, s2Name, s2Title };
+  const signatories = { s1Name, s1Title, s1Image, s2Name, s2Title, s2Image };
 
   const certText: CertTextConfig = {
     introText, achievementPrefix, dateLabel, footerNote,
@@ -502,6 +542,34 @@ export default function CertificateDesignerTab() {
                     data-testid="input-signatory-1-title"
                   />
                 </div>
+                <div className="space-y-1.5">
+                  <Label className="text-xs">Signature Image (optional)</Label>
+                  {s1Image ? (
+                    <div className="flex items-center gap-2">
+                      <img src={s1Image} alt="Sig 1" className="h-10 object-contain border rounded bg-white px-2" />
+                      <Button size="sm" variant="ghost" className="text-xs text-red-500 h-8 px-2" onClick={() => setS1Image("")} data-testid="button-remove-sig1-image">Remove</Button>
+                    </div>
+                  ) : (
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        data-testid="input-sig1-image"
+                        onChange={(e) => {
+                          const f = e.target.files?.[0];
+                          if (f) uploadSignatureImage(f, setS1Image, setS1Uploading);
+                          e.target.value = "";
+                        }}
+                      />
+                      <Button size="sm" variant="outline" className="text-xs h-8 gap-1.5 pointer-events-none" disabled={s1Uploading} data-testid="button-upload-sig1">
+                        {s1Uploading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Upload className="w-3 h-3" />}
+                        {s1Uploading ? "Uploading..." : "Upload Signature"}
+                      </Button>
+                    </label>
+                  )}
+                  <p className="text-xs text-muted-foreground">PNG/JPG with transparent background recommended.</p>
+                </div>
               </div>
               {/* Signatory 2 */}
               <div className="space-y-3 p-4 rounded-xl bg-gray-50 border">
@@ -523,6 +591,34 @@ export default function CertificateDesignerTab() {
                     placeholder="Controller of Examinations (CoE)"
                     data-testid="input-signatory-2-title"
                   />
+                </div>
+                <div className="space-y-1.5">
+                  <Label className="text-xs">Signature Image (optional)</Label>
+                  {s2Image ? (
+                    <div className="flex items-center gap-2">
+                      <img src={s2Image} alt="Sig 2" className="h-10 object-contain border rounded bg-white px-2" />
+                      <Button size="sm" variant="ghost" className="text-xs text-red-500 h-8 px-2" onClick={() => setS2Image("")} data-testid="button-remove-sig2-image">Remove</Button>
+                    </div>
+                  ) : (
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        data-testid="input-sig2-image"
+                        onChange={(e) => {
+                          const f = e.target.files?.[0];
+                          if (f) uploadSignatureImage(f, setS2Image, setS2Uploading);
+                          e.target.value = "";
+                        }}
+                      />
+                      <Button size="sm" variant="outline" className="text-xs h-8 gap-1.5 pointer-events-none" disabled={s2Uploading} data-testid="button-upload-sig2">
+                        {s2Uploading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Upload className="w-3 h-3" />}
+                        {s2Uploading ? "Uploading..." : "Upload Signature"}
+                      </Button>
+                    </label>
+                  )}
+                  <p className="text-xs text-muted-foreground">PNG/JPG with transparent background recommended.</p>
                 </div>
               </div>
             </div>
@@ -650,52 +746,7 @@ export default function CertificateDesignerTab() {
         </CardContent>
       </Card>
 
-      {/* ── Section 2: Template Previews ── */}
-      <Card className="shadow-sm">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-base flex items-center gap-2">
-            <Crown className="w-4 h-4 text-amber-500" /> Certificate Templates
-          </CardTitle>
-          <CardDescription>
-            Full-size preview of all 4 certificate types using the settings above
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Tabs value={previewType} onValueChange={setPreviewType}>
-            <TabsList className="grid grid-cols-4 w-full mb-6">
-              {CERTIFICATE_TYPES.map((cert) => {
-                const Icon = cert.icon;
-                return (
-                  <TabsTrigger key={cert.type} value={cert.type} className="text-xs" data-testid={`tab-cert-${cert.type}`}>
-                    <Icon className="w-3 h-3 mr-1" />
-                    {cert.label}
-                  </TabsTrigger>
-                );
-              })}
-            </TabsList>
-
-            {CERTIFICATE_TYPES.map((cert) => (
-              <TabsContent key={cert.type} value={cert.type}>
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <cert.icon className="w-5 h-5" />
-                      <div>
-                        <h3 className="text-base font-semibold">{cert.label}</h3>
-                        <p className="text-sm text-muted-foreground">{cert.description}</p>
-                      </div>
-                    </div>
-                    <Badge variant="outline" className="text-xs">Settings-Driven</Badge>
-                  </div>
-                  <FullCertificatePreview type={cert.type} signatories={signatories} certText={certText} />
-                </div>
-              </TabsContent>
-            ))}
-          </Tabs>
-        </CardContent>
-      </Card>
-
-      {/* ── Section 3: Distribution Management ── */}
+      {/* ── Section 2: Distribution Management ── */}
       <Card className="shadow-sm border-emerald-200">
         <CardHeader className="bg-gradient-to-r from-emerald-50 to-teal-50 border-b rounded-t-lg">
           <div className="flex items-center gap-3">
