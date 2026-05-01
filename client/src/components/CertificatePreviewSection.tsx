@@ -112,18 +112,26 @@ export const designs: Record<string, CertDesign> = {
   },
 };
 
-function SamikaranLogoMark({ color, size = "100%" }: { color: string; size?: string }) {
+function SamikaranLogoMark({
+  color,
+  barColor = "rgba(255,255,255,0.92)",
+  size = "100%",
+}: {
+  color: string;
+  barColor?: string;
+  size?: string;
+}) {
   return (
-    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width={size} height={size} style={{ display: "block" }}>
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width={size} height={size} style={{ display: "block", flexShrink: 0 }}>
       {/* Upward triangle */}
-      <polygon points="50,10 88,75 12,75" fill={color} opacity="0.95" />
-      <polygon points="50,10 69,42.5 31,42.5" fill="rgba(255,255,255,0.2)" />
+      <polygon points="50,8 90,76 10,76" fill={color} opacity="0.95" />
+      <polygon points="50,8 70,42 30,42" fill="rgba(255,255,255,0.18)" />
       {/* Downward triangle */}
-      <polygon points="50,90 12,25 88,25" fill={color} opacity="0.78" />
-      <polygon points="50,90 31,57.5 69,57.5" fill="rgba(255,255,255,0.12)" />
+      <polygon points="50,92 10,24 90,24" fill={color} opacity="0.80" />
+      <polygon points="50,92 30,58 70,58" fill="rgba(255,255,255,0.10)" />
       {/* Equals bars */}
-      <rect x="32" y="44" width="36" height="5" rx="2.5" fill="rgba(255,255,255,0.92)" />
-      <rect x="32" y="53" width="36" height="5" rx="2.5" fill="rgba(255,255,255,0.92)" />
+      <rect x="30" y="43" width="40" height="6" rx="3" fill={barColor} />
+      <rect x="30" y="52" width="40" height="6" rx="3" fill={barColor} />
     </svg>
   );
 }
@@ -329,31 +337,41 @@ export function FullCertificatePreview({
             </div>
           </div>
 
-          {/* Org name */}
-          <div className="text-center">
-            <h2
-              className="font-black uppercase"
-              style={{
-                fontFamily: "Georgia, 'Times New Roman', serif",
-                fontSize: "clamp(12px, 2.2vw, 26px)",
-                color: design.titleColor,
-                letterSpacing: "0.35em",
-              }}
-            >
-              SAMIKARAN
-            </h2>
-            <p
-              className="font-bold"
-              style={{
-                fontFamily: "Georgia, 'Times New Roman', serif",
-                fontSize: "clamp(6px, 1vw, 12px)",
-                color: design.subtleText,
-                letterSpacing: "0.55em",
-                marginTop: "-1px",
-              }}
-            >
-              OLYMPIAD
-            </p>
+          {/* Org name with logo */}
+          <div className="flex items-center justify-center" style={{ gap: "clamp(6px, 1.2%, 14px)" }}>
+            {/* Logo mark */}
+            <SamikaranLogoMark
+              color={design.accentColor}
+              barColor={design.borderColorLight}
+              size="clamp(28px, 5vw, 58px)"
+            />
+            {/* Text */}
+            <div className="text-left">
+              <h2
+                className="font-black uppercase"
+                style={{
+                  fontFamily: "Georgia, 'Times New Roman', serif",
+                  fontSize: "clamp(12px, 2.2vw, 26px)",
+                  color: design.titleColor,
+                  letterSpacing: "0.35em",
+                  lineHeight: 1.1,
+                }}
+              >
+                SAMIKARAN
+              </h2>
+              <p
+                className="font-bold"
+                style={{
+                  fontFamily: "Georgia, 'Times New Roman', serif",
+                  fontSize: "clamp(6px, 1vw, 12px)",
+                  color: design.subtleText,
+                  letterSpacing: "0.55em",
+                  marginTop: "1px",
+                }}
+              >
+                OLYMPIAD
+              </p>
+            </div>
           </div>
 
           <DecorativeDivider color={design.dividerColor} accent={design.accentColor} />
