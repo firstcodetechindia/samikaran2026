@@ -226,9 +226,9 @@ function YearSeal({ year, label, design }: { year: string; label: string; design
         boxShadow: `0 4px 16px rgba(0,0,0,0.3), inset 0 2px 8px rgba(255,255,255,0.25), 0 0 0 6px ${design.sealRing}30`,
       }}
     >
-      <span style={{ color: design.sealText, fontSize: "clamp(5px, 0.75vw, 9px)", letterSpacing: "0.15em", fontWeight: 700 }}>SAMIKARAN</span>
+      <span style={{ color: design.sealText, fontSize: "clamp(5px, 0.75vw, 9px)", letterSpacing: "0.12em", fontWeight: 700 }}>SAMIKARAN</span>
       <span style={{ color: design.sealText, fontSize: "clamp(12px, 1.8vw, 20px)", fontWeight: 900, lineHeight: 1.1 }}>{year}</span>
-      <span style={{ color: design.sealText, fontSize: "clamp(4px, 0.6vw, 8px)", letterSpacing: "0.1em", fontWeight: 600, opacity: 0.9 }}>{label}</span>
+      <span style={{ color: design.sealText, fontSize: label.length > 6 ? "clamp(3px, 0.5vw, 6.5px)" : "clamp(4px, 0.6vw, 8px)", letterSpacing: label.length > 6 ? "0.05em" : "0.1em", fontWeight: 700, opacity: 0.9, textAlign: "center" }}>{label}</span>
     </div>
   );
 }

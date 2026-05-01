@@ -108,7 +108,7 @@ const designs: Record<string, CertDesign> = {
     iconFill: "rgba(220,210,255,0.65)",
     typeLabel: "PARTICIPATION",
     certTitle: "CERTIFICATE OF PARTICIPATION",
-    rankLabel: "PART.",
+    rankLabel: "PARTICIPATION",
   },
 };
 
@@ -281,9 +281,9 @@ function FullCertificatePreview({
             boxShadow: `0 4px 16px rgba(0,0,0,0.3), inset 0 2px 8px rgba(255,255,255,0.25), 0 0 0 5px ${design.sealRing}30`,
           }}
         >
-          <span style={{ color: design.sealText, fontSize: "clamp(4px, 0.6vw, 7px)", letterSpacing: "0.15em", fontWeight: 700 }}>SAMIKARAN</span>
+          <span style={{ color: design.sealText, fontSize: "clamp(4px, 0.6vw, 7px)", letterSpacing: "0.12em", fontWeight: 700 }}>SAMIKARAN</span>
           <span style={{ color: design.sealText, fontSize: "clamp(10px, 1.6vw, 18px)", fontWeight: 900, lineHeight: 1.1 }}>{year}</span>
-          <span style={{ color: design.sealText, fontSize: "clamp(3px, 0.55vw, 7px)", letterSpacing: "0.15em", fontWeight: 800, opacity: 0.95 }}>{design.rankLabel}</span>
+          <span style={{ color: design.sealText, fontSize: design.rankLabel.length > 6 ? "clamp(2.5px, 0.42vw, 5.5px)" : "clamp(3px, 0.55vw, 7px)", letterSpacing: design.rankLabel.length > 6 ? "0.05em" : "0.15em", fontWeight: 800, opacity: 0.95, textAlign: "center", lineHeight: 1.2 }}>{design.rankLabel}</span>
         </div>
 
         {/* Content */}
