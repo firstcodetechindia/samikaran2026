@@ -502,13 +502,13 @@ export function FullCertificatePreview({
             <div className="text-center mt-[1%] mb-[1%]" style={{ width: "100%" }}>
               <h3
                 style={{
-                  fontFamily: "'Cinzel Decorative', serif",
-                  fontWeight: 700,
-                  fontSize: "clamp(10px, 2.4vw, 30px)",
+                  fontFamily: "'Yeseva One', serif",
+                  fontWeight: 400,
+                  fontSize: "clamp(13px, 3vw, 36px)",
                   color: design.nameColor,
                   textShadow: `0 2px 6px rgba(0,0,0,0.12), 0 1px 0 rgba(255,255,255,0.5)`,
-                  lineHeight: 1.3,
-                  letterSpacing: "0.08em",
+                  lineHeight: 1.15,
+                  letterSpacing: "0.02em",
                   margin: 0,
                   padding: 0,
                   overflowWrap: "break-word",
