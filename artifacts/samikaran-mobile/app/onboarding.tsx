@@ -101,7 +101,7 @@ export default function OnboardingScreen() {
   // Available vertical zone for character (below top bar, above card)
   const CHAR_ZONE_H = ILLUS_H - TOP_BAR_H;
   // Character fills full width so all images display large
-  const CHAR_H = Math.min(CHAR_ZONE_H * 1.05, 580);
+  const CHAR_H = Math.min(CHAR_ZONE_H * 1.18, 650);
   const CHAR_W = width * 1.08;
   const slide = SLIDES[current];
 
@@ -256,8 +256,9 @@ export default function OnboardingScreen() {
             style={{
               width,
               alignItems: "center",
-              justifyContent: "center",
+              justifyContent: "flex-end",
               height: ILLUS_H - TOP_BAR_H * 0.45,
+              paddingBottom: 8,
             }}
           >
             <Animated.View style={i === current ? charStyle : undefined}>
