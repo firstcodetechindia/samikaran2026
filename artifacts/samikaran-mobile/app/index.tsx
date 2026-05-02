@@ -13,7 +13,8 @@ export default function Index() {
   useEffect(() => {
     if (isLoading) return;
     (async () => {
-      const onboarded = await AsyncStorage.getItem("samikaran_onboarding_done");
+      await AsyncStorage.removeItem("samikaran_onboarding_done"); // DEV: always show onboarding
+      const onboarded = null;
       if (!onboarded) {
         router.replace("/onboarding");
       } else if (!user) {
