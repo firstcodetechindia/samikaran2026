@@ -24,6 +24,7 @@ import Animated, {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Haptics from "expo-haptics";
+import Svg, { Ellipse } from "react-native-svg";
 
 const { width, height } = Dimensions.get("window");
 
@@ -33,9 +34,9 @@ const SLIDES = [
     tag: "COMPETE",
     title: "Bharat ka #1\nOlympiad Platform",
     sub: "50,000+ students · 500+ schools · 15 subjects",
-    accent: "#7c3aed",
-    bgTop: "#ede9fe",
-    bgMid: "#ddd6fe",
+    accent: "#8A2BE2",
+    bgGrad: ["#2D1065", "#4C1D95", "#6D28D9"] as const,
+    blobColor: "#7c3aed",
     image: require("../assets/images/onboard1.png"),
   },
   {
@@ -44,8 +45,8 @@ const SLIDES = [
     title: "Student. School.\nParent. Partner.",
     sub: "One app, every role — a tailored experience for all.",
     accent: "#c026d3",
-    bgTop: "#fae8ff",
-    bgMid: "#f5d0fe",
+    bgGrad: ["#4a044e", "#7e22ce", "#c026d3"] as const,
+    blobColor: "#a21caf",
     image: require("../assets/images/onboard2.png"),
   },
   {
@@ -54,8 +55,8 @@ const SLIDES = [
     title: "100% Fair.\nProctored in Real-Time.",
     sub: "Face detection · Voice alerts · Auto-submit on violation",
     accent: "#0284c7",
-    bgTop: "#e0f2fe",
-    bgMid: "#bae6fd",
+    bgGrad: ["#0c1445", "#1e3a8a", "#1d4ed8"] as const,
+    blobColor: "#2563eb",
     image: require("../assets/images/onboard3.png"),
   },
   {
@@ -64,39 +65,38 @@ const SLIDES = [
     title: "Rank. Earn.\nMake India Proud.",
     sub: "All India Rank · Scholarships · Certificates",
     accent: "#7c3aed",
-    bgTop: "#fef9c3",
-    bgMid: "#fde68a",
+    bgGrad: ["#1a0533", "#4c1d95", "#8A2BE2"] as const,
+    blobColor: "#6d28d9",
     image: require("../assets/images/onboard4.png"),
   },
 ];
 
-// Illustration takes 63% of screen height
-const ILLUS_AREA = height * 0.63;
-const CARD_H = height * 0.42;
-const ILLUS_SIZE = Math.min(width * 0.78, 310);
+const CARD_H = height * 0.36;
+const CHAR_H = height * 0.72;
+const CHAR_W = CHAR_H * 0.75;
 
 export default function OnboardingScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const [current, setCurrent] = useState(0);
   const scrollRef = useRef<ScrollView>(null);
-  const illustScale = useSharedValue(1);
-  const illustOpacity = useSharedValue(1);
+  const charScale = useSharedValue(1);
+  const charOpacity = useSharedValue(1);
   const cardY = useSharedValue(0);
 
   const topPad = insets.top + (Platform.OS === "web" ? 67 : 0);
   const slide = SLIDES[current];
 
   const animateIn = useCallback(() => {
-    illustOpacity.value = withTiming(0, { duration: 130, easing: Easing.out(Easing.quad) });
-    illustScale.value = withTiming(0.88, { duration: 130 });
-    cardY.value = withTiming(14, { duration: 120 }, () => {
-      cardY.value = withSpring(0, { damping: 15, stiffness: 240 });
+    charOpacity.value = withTiming(0, { duration: 120, easing: Easing.out(Easing.quad) });
+    charScale.value = withTiming(0.9, { duration: 120 });
+    cardY.value = withTiming(16, { duration: 110 }, () => {
+      cardY.value = withSpring(0, { damping: 14, stiffness: 230 });
     });
     setTimeout(() => {
-      illustScale.value = withSpring(1, { damping: 13, stiffness: 190 });
-      illustOpacity.value = withTiming(1, { duration: 200 });
-    }, 140);
+      charScale.value = withSpring(1, { damping: 12, stiffness: 180 });
+      charOpacity.value = withTiming(1, { duration: 220 });
+    }, 130);
   }, []);
 
   const handleScrollEnd = useCallback(
@@ -131,9 +131,9 @@ export default function OnboardingScreen() {
     router.replace("/login");
   };
 
-  const illustStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: illustScale.value }],
-    opacity: illustOpacity.value,
+  const charStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: charScale.value }],
+    opacity: charOpacity.value,
   }));
   const cardStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: cardY.value }],
@@ -141,36 +141,48 @@ export default function OnboardingScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle="light-content" />
 
-      {/* Full-screen background gradient that changes per slide */}
+      {/* Full-screen gradient background */}
       <LinearGradient
-        colors={[slide.bgTop, slide.bgMid, "#f8f5ff"]}
+        colors={slide.bgGrad}
         style={StyleSheet.absoluteFill}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 0.4, y: 1 }}
+        start={{ x: 0.2, y: 0 }}
+        end={{ x: 0.8, y: 1 }}
       />
 
-      {/* Top bar — logo + skip */}
-      <View style={[styles.topBar, { paddingTop: topPad + 12 }]}>
+      {/* Organic blob glow behind character */}
+      <View style={styles.blobWrap} pointerEvents="none">
+        <Svg width={width * 1.1} height={height * 0.65} viewBox={`0 0 ${width * 1.1} ${height * 0.65}`}>
+          <Ellipse
+            cx={(width * 1.1) / 2}
+            cy={(height * 0.65) / 2}
+            rx={width * 0.52}
+            ry={height * 0.28}
+            fill={slide.blobColor}
+            opacity={0.28}
+          />
+        </Svg>
+      </View>
+
+      {/* Top bar */}
+      <View style={[styles.topBar, { paddingTop: topPad + 8 }]}>
         <View style={styles.logoRow}>
           <Image
             source={require("../assets/images/icon.png")}
             style={styles.logoIcon}
             resizeMode="contain"
           />
-          <Text style={[styles.logoTxt, { fontFamily: "Inter_700Bold", color: slide.accent }]}>
-            SAMIKARAN<Text style={{ color: "#111827" }}>.</Text>
+          <Text style={[styles.logoTxt, { fontFamily: "Inter_700Bold" }]}>
+            SAMIKARAN<Text style={{ color: "#FF2FBF" }}>.</Text>
           </Text>
         </View>
         <TouchableOpacity onPress={handleDone} style={styles.skipPill}>
-          <Text style={[styles.skipTxt, { fontFamily: "Inter_500Medium", color: slide.accent }]}>
-            Skip
-          </Text>
+          <Text style={[styles.skipTxt, { fontFamily: "Inter_500Medium" }]}>Skip</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Swipeable 3D illustration area */}
+      {/* Swipeable character area */}
       <ScrollView
         ref={scrollRef}
         horizontal
@@ -179,18 +191,18 @@ export default function OnboardingScreen() {
         bounces={false}
         scrollEventThrottle={32}
         onMomentumScrollEnd={handleScrollEnd}
-        style={{ height: ILLUS_AREA, flexGrow: 0 }}
-        contentContainerStyle={{ alignItems: "center" }}
+        style={styles.charScroll}
+        contentContainerStyle={{ alignItems: "flex-end" }}
       >
         {SLIDES.map((s, i) => (
           <View
             key={s.id}
-            style={{ width, height: ILLUS_AREA, alignItems: "center", justifyContent: "center" }}
+            style={{ width, alignItems: "center", justifyContent: "flex-end", height: CHAR_H }}
           >
-            <Animated.View style={i === current ? illustStyle : undefined}>
+            <Animated.View style={i === current ? charStyle : undefined}>
               <Image
                 source={s.image}
-                style={{ width: ILLUS_SIZE, height: ILLUS_SIZE }}
+                style={{ width: CHAR_W, height: CHAR_H }}
                 resizeMode="contain"
               />
             </Animated.View>
@@ -198,21 +210,26 @@ export default function OnboardingScreen() {
         ))}
       </ScrollView>
 
-      {/* Glassmorphism card — overlapping the illustration slightly */}
-      <Animated.View style={[styles.card, cardStyle]}>
-        {/* Glassmorphism inner */}
-        <View style={styles.glassInner}>
+      {/* Bottom glass card */}
+      <Animated.View style={[styles.card, cardStyle]} pointerEvents="box-none">
+        {/* Frosted glass layer */}
+        <LinearGradient
+          colors={["rgba(255,255,255,0.15)", "rgba(255,255,255,0.08)"]}
+          style={styles.glassLayer}
+          pointerEvents="none"
+        />
+
+        {/* White content card */}
+        <View style={styles.whiteCard}>
           {/* Drag handle */}
-          <View style={[styles.handle, { backgroundColor: slide.accent + "40" }]} />
+          <View style={styles.handle} />
 
           {/* Tag pill */}
-          <View style={[styles.tagRow]}>
-            <View style={[styles.tag, { backgroundColor: slide.accent + "18", borderColor: slide.accent + "30" }]}>
-              <View style={[styles.tagDot, { backgroundColor: slide.accent }]} />
-              <Text style={[styles.tagTxt, { color: slide.accent, fontFamily: "Inter_700Bold" }]}>
-                {slide.tag}
-              </Text>
-            </View>
+          <View style={[styles.tag, { backgroundColor: slide.accent + "18", borderColor: slide.accent + "40" }]}>
+            <View style={[styles.tagDot, { backgroundColor: slide.accent }]} />
+            <Text style={[styles.tagTxt, { color: slide.accent, fontFamily: "Inter_700Bold" }]}>
+              {slide.tag}
+            </Text>
           </View>
 
           {/* Title */}
@@ -225,7 +242,7 @@ export default function OnboardingScreen() {
             {slide.sub}
           </Text>
 
-          {/* Centered progress dots */}
+          {/* Centered dots */}
           <View style={styles.dotsRow}>
             {SLIDES.map((_, i) => (
               <TouchableOpacity
@@ -233,14 +250,12 @@ export default function OnboardingScreen() {
                 onPress={() => goTo(i)}
                 hitSlop={{ top: 12, bottom: 12, left: 8, right: 8 }}
               >
-                <Animated.View
+                <View
                   style={[
                     styles.dot,
                     {
-                      width: i === current ? 28 : 8,
-                      height: 8,
-                      backgroundColor: i === current ? slide.accent : slide.accent + "28",
-                      borderRadius: 4,
+                      width: i === current ? 26 : 8,
+                      backgroundColor: i === current ? slide.accent : slide.accent + "30",
                     },
                   ]}
                 />
@@ -248,11 +263,11 @@ export default function OnboardingScreen() {
             ))}
           </View>
 
-          {/* CTA button */}
+          {/* CTA Button */}
           <TouchableOpacity
             onPress={handleNext}
-            activeOpacity={0.88}
-            style={styles.ctaOuter}
+            activeOpacity={0.87}
+            style={[styles.ctaWrap, { shadowColor: slide.accent }]}
           >
             <LinearGradient
               colors={[slide.accent, "#c026d3", "#FF2FBF"]}
@@ -263,13 +278,13 @@ export default function OnboardingScreen() {
               <Text style={[styles.ctaTxt, { fontFamily: "Inter_800ExtraBold" }]}>
                 {current < SLIDES.length - 1 ? "Continue" : "Get Started"}
               </Text>
-              <View style={styles.ctaArrowBox}>
-                <Text style={styles.ctaArrow}>→</Text>
+              <View style={styles.arrowCircle}>
+                <Text style={styles.arrow}>→</Text>
               </View>
             </LinearGradient>
           </TouchableOpacity>
 
-          {/* Sign-in link — last slide only */}
+          {/* Sign-in link */}
           {current === SLIDES.length - 1 ? (
             <TouchableOpacity onPress={handleDone} style={{ alignItems: "center" }}>
               <Text style={[styles.signinTxt, { fontFamily: "Inter_400Regular" }]}>
@@ -280,20 +295,27 @@ export default function OnboardingScreen() {
               </Text>
             </TouchableOpacity>
           ) : (
-            <View style={{ height: 4 }} />
+            <View style={{ height: 2 }} />
           )}
 
-          <View style={{ height: insets.bottom + (Platform.OS === "web" ? 20 : 8) }} />
+          <View style={{ height: insets.bottom + (Platform.OS === "web" ? 16 : 6) }} />
         </View>
       </Animated.View>
     </View>
   );
 }
 
-const CARD_RADIUS = 34;
+const CARD_RADIUS = 32;
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
+
+  blobWrap: {
+    position: "absolute",
+    top: height * 0.08,
+    left: -width * 0.05,
+    zIndex: 0,
+  },
 
   topBar: {
     position: "absolute",
@@ -305,59 +327,76 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 22,
     paddingBottom: 8,
-    zIndex: 20,
+    zIndex: 30,
   },
   logoRow: { flexDirection: "row", alignItems: "center", gap: 8 },
   logoIcon: { width: 28, height: 28, borderRadius: 7 },
-  logoTxt: { fontSize: 13, letterSpacing: 1.8 },
+  logoTxt: { color: "#fff", fontSize: 13, letterSpacing: 1.8 },
   skipPill: {
     paddingHorizontal: 18,
     paddingVertical: 8,
     borderRadius: 22,
-    backgroundColor: "rgba(255,255,255,0.65)",
+    backgroundColor: "rgba(255,255,255,0.15)",
     borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.9)",
+    borderColor: "rgba(255,255,255,0.25)",
   },
-  skipTxt: { fontSize: 13 },
+  skipTxt: { fontSize: 13, color: "#fff" },
+
+  charScroll: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    height: CHAR_H,
+    zIndex: 10,
+  },
 
   card: {
     position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
+    zIndex: 20,
     borderTopLeftRadius: CARD_RADIUS,
     borderTopRightRadius: CARD_RADIUS,
     overflow: "hidden",
-    // 3D shadow lift effect
-    shadowColor: "#5b21b6",
-    shadowOffset: { width: 0, height: -8 },
-    shadowOpacity: 0.18,
-    shadowRadius: 24,
-    elevation: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -6 },
+    shadowOpacity: 0.25,
+    shadowRadius: 20,
+    elevation: 22,
   },
-  glassInner: {
-    // Glassmorphism: translucent white with blur
-    backgroundColor: "rgba(255,255,255,0.82)",
+  glassLayer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     borderTopLeftRadius: CARD_RADIUS,
     borderTopRightRadius: CARD_RADIUS,
-    borderWidth: 1.5,
-    borderColor: "rgba(255,255,255,0.95)",
+  },
+  whiteCard: {
+    backgroundColor: "#ffffff",
+    borderTopLeftRadius: CARD_RADIUS,
+    borderTopRightRadius: CARD_RADIUS,
     paddingHorizontal: 26,
-    paddingTop: 16,
+    paddingTop: 14,
     gap: 10,
   },
   handle: {
-    width: 40,
+    width: 38,
     height: 4,
     borderRadius: 2,
+    backgroundColor: "#e5e7eb",
     alignSelf: "center",
     marginBottom: 2,
   },
-  tagRow: { flexDirection: "row" },
+
   tag: {
     flexDirection: "row",
     alignItems: "center",
     gap: 6,
+    alignSelf: "flex-start",
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 24,
@@ -367,10 +406,10 @@ const styles = StyleSheet.create({
   tagTxt: { fontSize: 10, letterSpacing: 1.8 },
 
   title: {
-    fontSize: 30,
+    fontSize: 29,
     color: "#111827",
-    lineHeight: 38,
-    letterSpacing: -0.6,
+    lineHeight: 37,
+    letterSpacing: -0.5,
   },
   sub: {
     fontSize: 13.5,
@@ -385,17 +424,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingVertical: 2,
   },
-  dot: {},
+  dot: {
+    height: 8,
+    borderRadius: 4,
+  },
 
-  ctaOuter: {
+  ctaWrap: {
     borderRadius: 18,
     overflow: "hidden",
-    // 3D button effect
-    shadowColor: "#7c3aed",
     shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.4,
+    shadowOpacity: 0.45,
     shadowRadius: 14,
-    elevation: 10,
+    elevation: 12,
   },
   cta: {
     flexDirection: "row",
@@ -405,15 +445,15 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   ctaTxt: { color: "#fff", fontSize: 17, letterSpacing: 0.2 },
-  ctaArrowBox: {
+  arrowCircle: {
     width: 30,
     height: 30,
     borderRadius: 15,
-    backgroundColor: "rgba(255,255,255,0.25)",
+    backgroundColor: "rgba(255,255,255,0.28)",
     alignItems: "center",
     justifyContent: "center",
   },
-  ctaArrow: { color: "#fff", fontSize: 16, fontWeight: "bold" },
+  arrow: { color: "#fff", fontSize: 16 },
 
   signinTxt: { color: "#9ca3af", fontSize: 13, textAlign: "center" },
 });
