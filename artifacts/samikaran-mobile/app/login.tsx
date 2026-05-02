@@ -956,7 +956,7 @@ const styles = StyleSheet.create({
   },
   fieldFocused: { borderColor: "#7c3aed", backgroundColor: "#faf5ff" },
   fieldError: { borderColor: "#dc2626", backgroundColor: "#fff5f5" },
-  fieldInput: { flex: 1, fontSize: 15, color: "#111827" },
+  fieldInput: { flex: 1, fontSize: 15, color: "#111827", minHeight: 24, paddingVertical: 0 },
   fieldErrRow: { flexDirection: "row", alignItems: "center", gap: 4, marginTop: 4, marginLeft: 2 },
   fieldErrTxt: { fontSize: 12, color: "#dc2626" },
 
