@@ -289,25 +289,47 @@ export default function OnboardingScreen() {
           </View>
 
           {/* CTA Button */}
-          <TouchableOpacity
-            onPress={handleNext}
-            activeOpacity={0.87}
-            style={[styles.ctaWrap, { shadowColor: slide.accent }]}
-          >
-            <LinearGradient
-              colors={[slide.accent, "#c026d3", "#FF2FBF"]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              style={styles.cta}
+          {current < SLIDES.length - 1 ? (
+            /* Continue button — gradient pill with text + arrow circle */
+            <TouchableOpacity
+              onPress={handleNext}
+              activeOpacity={0.87}
+              style={[styles.ctaWrap, { shadowColor: slide.accent }]}
             >
-              <Text style={[styles.ctaTxt, { fontFamily: "Inter_800ExtraBold" }]}>
-                {current < SLIDES.length - 1 ? "Continue" : "Get Started"}
-              </Text>
-              <View style={styles.arrowCircle}>
-                <Text style={styles.arrow}>→</Text>
+              <LinearGradient
+                colors={[slide.accent, "#c026d3", "#FF2FBF"]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.cta}
+              >
+                <Text style={[styles.ctaTxt, { fontFamily: "Inter_700Bold" }]}>Continue</Text>
+                <View style={styles.arrowCircle}>
+                  <Text style={styles.arrowTxt}>→</Text>
+                </View>
+              </LinearGradient>
+            </TouchableOpacity>
+          ) : (
+            /* Last slide — dark black pill with pink glow */
+            <TouchableOpacity
+              onPress={handleNext}
+              activeOpacity={0.87}
+              style={styles.lastCtaWrap}
+            >
+              <View style={styles.lastCta}>
+                <Text style={[styles.lastCtaTxt, { fontFamily: "Inter_800ExtraBold" }]}>
+                  Get Started
+                </Text>
+                <LinearGradient
+                  colors={["#8A2BE2", "#FF2FBF"]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  style={styles.lastArrowCircle}
+                >
+                  <Text style={styles.lastArrowTxt}>››</Text>
+                </LinearGradient>
               </View>
-            </LinearGradient>
-          </TouchableOpacity>
+            </TouchableOpacity>
+          )}
 
           {/* Sign-in link */}
           {current === SLIDES.length - 1 ? (
@@ -512,14 +534,47 @@ const styles = StyleSheet.create({
   },
   ctaTxt: { color: "#fff", fontSize: 17, letterSpacing: 0.2 },
   arrowCircle: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    backgroundColor: "rgba(255,255,255,0.28)",
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    backgroundColor: "rgba(255,255,255,0.25)",
     alignItems: "center",
     justifyContent: "center",
   },
-  arrow: { color: "#fff", fontSize: 16 },
+  arrowTxt: { color: "#fff", fontSize: 17, fontWeight: "700" },
+
+  // Last slide — dark pill button
+  lastCtaWrap: {
+    borderRadius: 18,
+    overflow: "hidden",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.3,
+    shadowRadius: 14,
+    elevation: 12,
+  },
+  lastCta: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 16,
+    paddingHorizontal: 28,
+    backgroundColor: "#0D0A1E",
+    borderRadius: 18,
+  },
+  lastCtaTxt: {
+    color: "#fff",
+    fontSize: 18,
+    letterSpacing: 0.2,
+  },
+  lastArrowCircle: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  lastArrowTxt: { color: "#fff", fontSize: 15, fontWeight: "800" },
 
   signinTxt: { color: "#9ca3af", fontSize: 13, textAlign: "center" },
 });
