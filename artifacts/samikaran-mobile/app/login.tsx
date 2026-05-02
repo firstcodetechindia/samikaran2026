@@ -136,6 +136,7 @@ export default function LoginScreen() {
   const { show: toast, El: ToastEl } = useToast();
 
   const [screen, setScreen] = useState<Screen>("login-creds");
+  const [loginMode, setLoginMode] = useState<"password" | "otp">("password");
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
@@ -574,28 +575,38 @@ export default function LoginScreen() {
                   autoCapitalize="none"
                   error={errors.id}
                 />
-                <Field
-                  icon="lock-closed-outline"
-                  label="Password"
-                  value={password}
-                  onChangeText={(v) => { setPassword(v); clrErr("pw"); clrErr("login"); }}
-                  secure={!showPass}
-                  eyeIcon={showPass ? "eye-off-outline" : "eye-outline"}
-                  onEye={() => setShowPass((v) => !v)}
-                  error={errors.pw}
-                />
-                <TouchableOpacity onPress={() => go("forgot-email")} style={styles.forgotRow}>
-                  <Text style={[styles.forgotTxt, { fontFamily: "Roboto_500Medium" }]}>
-                    Forgot Password?
-                  </Text>
-                </TouchableOpacity>
-                <PrimaryBtn label="Sign In" loading={loading} onPress={() => handleLoginPassword(false)} />
+                {loginMode === "password" && (
+                  <>
+                    <Field
+                      icon="lock-closed-outline"
+                      label="Password"
+                      value={password}
+                      onChangeText={(v) => { setPassword(v); clrErr("pw"); clrErr("login"); }}
+                      secure={!showPass}
+                      eyeIcon={showPass ? "eye-off-outline" : "eye-outline"}
+                      onEye={() => setShowPass((v) => !v)}
+                      error={errors.pw}
+                    />
+                    <TouchableOpacity onPress={() => go("forgot-email")} style={styles.forgotRow}>
+                      <Text style={[styles.forgotTxt, { fontFamily: "Roboto_500Medium" }]}>
+                        Forgot Password?
+                      </Text>
+                    </TouchableOpacity>
+                    <PrimaryBtn label="Sign In" loading={loading} onPress={() => handleLoginPassword(false)} />
+                  </>
+                )}
+                {loginMode === "otp" && (
+                  <PrimaryBtn label="Send OTP" loading={loading} onPress={handleSendLoginOtp} />
+                )}
                 <OrDivider />
                 <SecondaryBtn
-                  icon="phone-portrait-outline"
-                  label="Login with OTP"
-                  onPress={handleSendLoginOtp}
-                  loading={loading}
+                  icon={loginMode === "password" ? "phone-portrait-outline" : "lock-closed-outline"}
+                  label={loginMode === "password" ? "Login with OTP" : "Use Password Instead"}
+                  onPress={() => {
+                    setLoginMode((m) => m === "password" ? "otp" : "password");
+                    clrErr("id"); clrErr("pw"); clrErr("login");
+                  }}
+                  loading={false}
                 />
                 <SwitchLink question="Don't have an account?" link="Create one" onPress={() => go("reg-contact")} />
               </>
