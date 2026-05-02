@@ -74,9 +74,9 @@ const SLIDES = [
 // Card occupies bottom ~40% — illustration area is the rest
 const CARD_H_EST = height * 0.40;
 const ILLUS_H = height - CARD_H_EST; // full visible area above card
-// Character image fits snugly inside illustration area
-const CHAR_H = Math.min(ILLUS_H * 0.90, 460);
-const CHAR_W = CHAR_H * 0.78;
+// Character sized conservatively so feet + hands are never clipped
+const CHAR_H = Math.min(ILLUS_H * 0.68, 360);
+const CHAR_W = CHAR_H * 0.88;
 
 export default function OnboardingScreen() {
   const router = useRouter();
@@ -88,6 +88,10 @@ export default function OnboardingScreen() {
   const cardY = useSharedValue(0);
 
   const topPad = insets.top + (Platform.OS === "web" ? 67 : 0);
+  // Height of the top bar row (safe area + logo row ~56px + padding)
+  const TOP_BAR_H = topPad + 72;
+  // Available vertical zone for character (below top bar, above card)
+  const CHAR_ZONE_H = ILLUS_H - TOP_BAR_H;
   const slide = SLIDES[current];
 
   const animateIn = useCallback(() => {
@@ -210,7 +214,7 @@ export default function OnboardingScreen() {
         </TouchableOpacity>
       </View>
 
-      {/* Swipeable character area */}
+      {/* Swipeable character area — starts BELOW top bar, ends at card top */}
       <ScrollView
         ref={scrollRef}
         horizontal
@@ -219,13 +223,19 @@ export default function OnboardingScreen() {
         bounces={false}
         scrollEventThrottle={32}
         onMomentumScrollEnd={handleScrollEnd}
-        style={styles.charScroll}
+        style={[styles.charScroll, { top: TOP_BAR_H, height: CHAR_ZONE_H }]}
         contentContainerStyle={{ alignItems: "center" }}
       >
         {SLIDES.map((s, i) => (
           <View
             key={s.id}
-            style={{ width, alignItems: "center", justifyContent: "flex-end", height: ILLUS_H }}
+            style={{
+              width,
+              alignItems: "center",
+              justifyContent: "flex-end",
+              height: CHAR_ZONE_H,
+              paddingBottom: 12,
+            }}
           >
             <Animated.View style={i === current ? charStyle : undefined}>
               <Image
