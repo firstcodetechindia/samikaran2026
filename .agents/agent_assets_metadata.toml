@@ -12,3 +12,27 @@ id = "Rb73lyaipbPBv0euL9Tss"
 uri = "file://artifacts/samikaran-mobile/assets/images/splash.png"
 type = "image"
 title = "samikaran splash background"
+
+[[generated]]
+id = "c7GBMgJyQWcFq9iCityEb"
+uri = "file://artifacts/samikaran-mobile/assets/images/onboard1.png"
+type = "image"
+title = "onboarding student illustration"
+
+[[generated]]
+id = "jbF05rGXt-BwUtKr2wils"
+uri = "file://artifacts/samikaran-mobile/assets/images/onboard2.png"
+type = "image"
+title = "onboarding roles network illustration"
+
+[[generated]]
+id = "vB-3CgOfOnoVspBBGvxQC"
+uri = "file://artifacts/samikaran-mobile/assets/images/onboard3.png"
+type = "image"
+title = "onboarding AI proctoring illustration"
+
+[[generated]]
+id = "63PdJ2Wn0fvrXKRwS-EQ3"
+uri = "file://artifacts/samikaran-mobile/assets/images/onboard4.png"
+type = "image"
+title = "onboarding achievement illustration"
