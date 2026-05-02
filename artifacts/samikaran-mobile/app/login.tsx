@@ -9,6 +9,7 @@ import {
   Alert,
   ActivityIndicator,
   Platform,
+  Image,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
@@ -109,6 +110,11 @@ export default function LoginScreen() {
         colors={["#0D0A1E", "#1a1033", colors.background]}
         style={[styles.header, { paddingTop: insets.top + (Platform.OS === "web" ? 67 : 16) }]}
       >
+        <Image
+          source={require("../assets/images/icon.png")}
+          style={styles.logoImage}
+          resizeMode="contain"
+        />
         <Text style={[styles.logo, { fontFamily: "Inter_700Bold" }]}>
           SAMIKARAN<Text style={{ color: "#FF2FBF" }}>.</Text>
         </Text>
@@ -257,6 +263,7 @@ export default function LoginScreen() {
 
 const styles = StyleSheet.create({
   header: { alignItems: "center", paddingBottom: 24, gap: 4 },
+  logoImage: { width: 72, height: 72, borderRadius: 16, marginBottom: 4 },
   logo: { fontSize: 28, color: "#fff", letterSpacing: 2 },
   logoSub: { fontSize: 12, letterSpacing: 4 },
   scroll: { flex: 1 },

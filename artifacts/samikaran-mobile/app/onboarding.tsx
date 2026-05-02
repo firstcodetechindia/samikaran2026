@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
   Platform,
+  Image,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -28,7 +29,7 @@ const { width } = Dimensions.get("window");
 const SLIDES = [
   {
     id: "1",
-    icon: "trophy",
+    icon: null,
     title: "Bharat ka #1\nOlympiad Platform",
     subtitle: "50,000+ students · 500+ schools · 15 subjects",
     description: "Compete nationally, earn scholarships, and claim your All India Rank from Class 1 to 12.",
@@ -119,7 +120,15 @@ export default function OnboardingScreen() {
                 { backgroundColor: item.accent + "30", borderColor: item.accent + "60" },
               ]}
             >
-              <Ionicons name={item.icon as any} size={64} color={item.accent} />
+              {item.icon === null ? (
+                <Image
+                  source={require("../assets/images/icon.png")}
+                  style={styles.logoImage}
+                  resizeMode="contain"
+                />
+              ) : (
+                <Ionicons name={item.icon as any} size={64} color={item.accent} />
+              )}
             </View>
             <Text style={[styles.title, { fontFamily: "Inter_700Bold" }]}>{item.title}</Text>
             <Text style={[styles.subtitle, { color: item.accent, fontFamily: "Inter_600SemiBold" }]}>
@@ -206,6 +215,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderWidth: 2,
     marginBottom: 12,
+  },
+  logoImage: {
+    width: 100,
+    height: 100,
   },
   title: {
     fontSize: 36,
