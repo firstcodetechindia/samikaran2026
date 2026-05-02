@@ -48,6 +48,12 @@ export default defineConfig({
     alias: {
       "@": path.resolve(import.meta.dirname, "src"),
       "@assets": path.resolve(import.meta.dirname, "..", "..", "attached_assets"),
+      "@shared/schema": path.resolve(import.meta.dirname, "..", "..", "lib", "db", "src", "schema", "schema.ts"),
+      "@shared/routes": path.resolve(import.meta.dirname, "..", "api-server", "src", "shared-routes.ts"),
+      "@shared/constants": path.resolve(import.meta.dirname, "..", "api-server", "src", "shared-constants.ts"),
+      "@shared/exam-lifecycle": path.resolve(import.meta.dirname, "..", "api-server", "src", "exam-lifecycle.ts"),
+      "@shared/models/auth": path.resolve(import.meta.dirname, "..", "api-server", "src", "models", "auth.ts"),
+      "@shared/models/chat": path.resolve(import.meta.dirname, "..", "api-server", "src", "models", "chat.ts"),
     },
     dedupe: ["react", "react-dom"],
   },

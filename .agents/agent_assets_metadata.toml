@@ -1,0 +1,14 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "DhBSeaRrh0A6xod1xjgjb"
+uri = "file://artifacts/samikaran-mobile/assets/images/icon.png"
+type = "image"
+title = "samikaran olympiad app icon"
+
+[[generated]]
+id = "Rb73lyaipbPBv0euL9Tss"
+uri = "file://artifacts/samikaran-mobile/assets/images/splash.png"
+type = "image"
+title = "samikaran splash background"

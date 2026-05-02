@@ -1,0 +1,27 @@
+kind = "mobile"
+previewPath = "/samikaran-mobile/"
+title = "Samikaran Olympiad"
+version = "1.0.0"
+id = "artifacts/samikaran-mobile"
+router = "expo-domain"
+
+[[integratedSkills]]
+name = "expo"
+version = "1.0.0"
+
+[[services]]
+ensurePreviewReachable = "/status"
+name = "expo"
+paths = [ "/samikaran-mobile/" ]
+localPort = 18359
+
+[services.development]
+run = "pnpm --filter @workspace/samikaran-mobile run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/samikaran-mobile", "run", "build" ]
+run = [ "pnpm", "--filter", "@workspace/samikaran-mobile", "run", "serve" ]
+
+[services.env]
+PORT = "18359"
+BASE_PATH = "/samikaran-mobile/"
