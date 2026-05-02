@@ -652,10 +652,10 @@ export function CertificatePreviewSection() {
   const signatories = {
     s1Name:  siteSettings?.certificate_signatory_1_name  || "Authorized Signatory",
     s1Title: siteSettings?.certificate_signatory_1_title || "Founder, Samikaran Olympiad",
-    s1Image: siteSettings?.certificate_signatory_1_image || "",
+    s1Image: siteSettings?.certificate_signatory_1_image || "/founder-sig-v2.png",
     s2Name:  siteSettings?.certificate_signatory_2_name  || "Authorized Signatory",
     s2Title: siteSettings?.certificate_signatory_2_title || "Controller of Examinations (CoE)",
-    s2Image: siteSettings?.certificate_signatory_2_image || "",
+    s2Image: siteSettings?.certificate_signatory_2_image || "/coe-sig-v2.png",
   };
 
   const certText = siteSettings ? certTextFromSettings(siteSettings) : CERT_TEXT_DEFAULTS;

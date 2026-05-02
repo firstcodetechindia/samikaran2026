@@ -306,12 +306,22 @@ export default function CertificateDesignerTab() {
     if (siteSettings.certificate_signatory_1_image) setS1Image(siteSettings.certificate_signatory_1_image);
     if (siteSettings.certificate_signatory_1_saved_images) {
       try { setS1SavedImages(JSON.parse(siteSettings.certificate_signatory_1_saved_images)); } catch {}
+    } else if (siteSettings.certificate_signatory_1_image) {
+      setS1SavedImages([siteSettings.certificate_signatory_1_image]);
+    } else {
+      setS1SavedImages(["/founder-sig-v2.png"]);
+      setS1Image("/founder-sig-v2.png");
     }
     if (siteSettings.certificate_signatory_2_name)  setS2Name(siteSettings.certificate_signatory_2_name);
     if (siteSettings.certificate_signatory_2_title) setS2Title(siteSettings.certificate_signatory_2_title);
     if (siteSettings.certificate_signatory_2_image) setS2Image(siteSettings.certificate_signatory_2_image);
     if (siteSettings.certificate_signatory_2_saved_images) {
       try { setS2SavedImages(JSON.parse(siteSettings.certificate_signatory_2_saved_images)); } catch {}
+    } else if (siteSettings.certificate_signatory_2_image) {
+      setS2SavedImages([siteSettings.certificate_signatory_2_image]);
+    } else {
+      setS2SavedImages(["/coe-sig-v2.png", "/coe-sig-vrinda.png"]);
+      setS2Image("/coe-sig-v2.png");
     }
     if (siteSettings.certificate_intro_text)          setIntroText(siteSettings.certificate_intro_text);
     if (siteSettings.certificate_achievement_prefix)  setAchievementPrefix(siteSettings.certificate_achievement_prefix);
