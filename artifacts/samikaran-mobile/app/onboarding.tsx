@@ -37,19 +37,17 @@ const SLIDES = [
     tag: "COMPETE",
     title: "Bharat ka #1\nOlympiad Platform",
     sub: "50,000+ students · 500+ schools · 15 subjects",
-    accent: "#a855f7",
-    tagBg: "rgba(168,85,247,0.15)",
-    gradColors: ["#0D0A1E", "#180d33", "#0D0A1E"] as const,
+    accent: "#8A2BE2",
+    lightAccent: "#f3e8ff",
     Illustration: OlympiadIllustration,
   },
   {
     id: "1",
     tag: "FOR EVERYONE",
     title: "Student. School.\nParent. Partner.",
-    sub: "One app, every role — tailored experience for all.",
-    accent: "#FF2FBF",
-    tagBg: "rgba(255,47,191,0.15)",
-    gradColors: ["#0D0A1E", "#1a051a", "#0D0A1E"] as const,
+    sub: "One app, every role — a tailored experience for all.",
+    accent: "#c026d3",
+    lightAccent: "#fce7f3",
     Illustration: RolesIllustration,
   },
   {
@@ -57,70 +55,67 @@ const SLIDES = [
     tag: "AI POWERED",
     title: "100% Fair.\nProctored in Real-Time.",
     sub: "Face detection · Voice alerts · Auto-submit on violation",
-    accent: "#38bdf8",
-    tagBg: "rgba(56,189,248,0.15)",
-    gradColors: ["#0D0A1E", "#051a24", "#0D0A1E"] as const,
+    accent: "#0284c7",
+    lightAccent: "#e0f2fe",
     Illustration: ProctorIllustration,
   },
   {
     id: "3",
     tag: "WIN BIG",
     title: "Rank. Earn.\nMake India Proud.",
-    sub: "All India Rank · Scholarships · Digital Certificates",
-    accent: "#F5C518",
-    tagBg: "rgba(245,197,24,0.15)",
-    gradColors: ["#0D0A1E", "#1a1505", "#0D0A1E"] as const,
+    sub: "All India Rank · Scholarships · Certificates",
+    accent: "#b45309",
+    lightAccent: "#fef9c3",
     Illustration: AchievementIllustration,
   },
 ];
 
-const ILLUS_SIZE = Math.min(width * 0.78, 290);
+const ILLUS_SIZE = Math.min(width * 0.8, 300);
 
 export default function OnboardingScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const [current, setCurrent] = useState(0);
   const scrollRef = useRef<ScrollView>(null);
+  const cardY = useSharedValue(0);
   const illustScale = useSharedValue(1);
   const illustOpacity = useSharedValue(1);
-  const cardY = useSharedValue(0);
 
   const topPad = insets.top + (Platform.OS === "web" ? 67 : 0);
   const slide = SLIDES[current];
 
-  const animateTransition = useCallback(() => {
-    illustOpacity.value = withTiming(0, { duration: 160, easing: Easing.out(Easing.quad) });
-    illustScale.value = withTiming(0.88, { duration: 160 });
-    cardY.value = withTiming(16, { duration: 140 }, () => {
-      cardY.value = withSpring(0, { damping: 15, stiffness: 220 });
+  const animateIn = useCallback(() => {
+    illustOpacity.value = withTiming(0, { duration: 150, easing: Easing.out(Easing.quad) });
+    illustScale.value = withTiming(0.9, { duration: 150 });
+    cardY.value = withTiming(12, { duration: 130 }, () => {
+      cardY.value = withSpring(0, { damping: 16, stiffness: 220 });
     });
     setTimeout(() => {
-      illustScale.value = withSpring(1, { damping: 13, stiffness: 170 });
-      illustOpacity.value = withTiming(1, { duration: 240 });
-    }, 170);
+      illustScale.value = withSpring(1, { damping: 14, stiffness: 180 });
+      illustOpacity.value = withTiming(1, { duration: 220 });
+    }, 160);
   }, []);
 
-  // Called when user finishes a swipe
   const handleScrollEnd = useCallback(
     (e: NativeSyntheticEvent<NativeScrollEvent>) => {
       const idx = Math.round(e.nativeEvent.contentOffset.x / width);
       if (idx !== current) {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-        animateTransition();
+        animateIn();
         setCurrent(idx);
       }
     },
-    [current, animateTransition]
+    [current, animateIn]
   );
 
   const goTo = useCallback(
     (idx: number) => {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
       scrollRef.current?.scrollTo({ x: idx * width, animated: true });
-      animateTransition();
+      animateIn();
       setTimeout(() => setCurrent(idx), 50);
     },
-    [animateTransition]
+    [animateIn]
   );
 
   const handleNext = () => {
@@ -137,27 +132,15 @@ export default function OnboardingScreen() {
     transform: [{ scale: illustScale.value }],
     opacity: illustOpacity.value,
   }));
-
   const cardStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: cardY.value }],
   }));
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
+      <StatusBar barStyle="dark-content" backgroundColor="#F7F5FF" />
 
-      {/* Animated background gradient */}
-      <LinearGradient
-        colors={slide.gradColors}
-        style={StyleSheet.absoluteFill}
-        start={{ x: 0.2, y: 0 }}
-        end={{ x: 0.8, y: 1 }}
-      />
-
-      {/* Accent glow orb */}
-      <View style={[styles.glow, { backgroundColor: slide.accent }]} />
-
-      {/* Top bar: logo + skip */}
+      {/* Top bar */}
       <View style={[styles.topBar, { paddingTop: topPad + 10 }]}>
         <View style={styles.logoRow}>
           <Image
@@ -170,11 +153,13 @@ export default function OnboardingScreen() {
           </Text>
         </View>
         <TouchableOpacity onPress={handleDone} style={styles.skipPill}>
-          <Text style={[styles.skipTxt, { fontFamily: "Inter_500Medium" }]}>Skip</Text>
+          <Text style={[styles.skipTxt, { fontFamily: "Inter_500Medium", color: "#6b7280" }]}>
+            Skip
+          </Text>
         </TouchableOpacity>
       </View>
 
-      {/* Swipeable illustrations row */}
+      {/* Swipeable illustration area — full width, paginated */}
       <ScrollView
         ref={scrollRef}
         horizontal
@@ -190,6 +175,8 @@ export default function OnboardingScreen() {
           const Illus = s.Illustration;
           return (
             <View key={s.id} style={styles.slide}>
+              {/* Soft circle backdrop */}
+              <View style={[styles.illustBg, { backgroundColor: s.lightAccent }]} />
               <Animated.View style={i === current ? illustStyle : undefined}>
                 <Illus size={ILLUS_SIZE} />
               </Animated.View>
@@ -198,13 +185,13 @@ export default function OnboardingScreen() {
         })}
       </ScrollView>
 
-      {/* Fixed bottom card */}
+      {/* Bottom card — white, elevated */}
       <Animated.View style={[styles.card, cardStyle]}>
-        {/* Notch */}
-        <View style={[styles.notch, { backgroundColor: slide.accent }]} />
+        {/* Drag handle */}
+        <View style={[styles.handle, { backgroundColor: "#e5e7eb" }]} />
 
-        {/* Tag pill */}
-        <View style={[styles.tag, { backgroundColor: slide.tagBg, borderColor: slide.accent + "55" }]}>
+        {/* Tag */}
+        <View style={[styles.tag, { backgroundColor: slide.lightAccent }]}>
           <View style={[styles.tagDot, { backgroundColor: slide.accent }]} />
           <Text style={[styles.tagTxt, { color: slide.accent, fontFamily: "Inter_600SemiBold" }]}>
             {slide.tag}
@@ -212,16 +199,16 @@ export default function OnboardingScreen() {
         </View>
 
         {/* Title */}
-        <Text style={[styles.title, { fontFamily: "Inter_700Bold" }]} numberOfLines={3}>
+        <Text style={[styles.title, { fontFamily: "Inter_700Bold", color: "#111827" }]}>
           {slide.title}
         </Text>
 
         {/* Subtitle */}
-        <Text style={[styles.sub, { fontFamily: "Inter_400Regular" }]} numberOfLines={2}>
+        <Text style={[styles.sub, { fontFamily: "Inter_400Regular", color: "#6b7280" }]}>
           {slide.sub}
         </Text>
 
-        {/* Dots + swipe hint */}
+        {/* Progress dots + hint */}
         <View style={styles.dotsRow}>
           {SLIDES.map((_, i) => (
             <TouchableOpacity
@@ -233,9 +220,8 @@ export default function OnboardingScreen() {
                 style={[
                   styles.dot,
                   {
-                    width: i === current ? 26 : 7,
-                    backgroundColor:
-                      i === current ? slide.accent : "rgba(255,255,255,0.2)",
+                    width: i === current ? 24 : 7,
+                    backgroundColor: i === current ? slide.accent : "#d1d5db",
                   },
                 ]}
               />
@@ -260,9 +246,9 @@ export default function OnboardingScreen() {
           </LinearGradient>
         </TouchableOpacity>
 
-        {/* Sign-in link on last slide */}
+        {/* Sign-in link — last slide only */}
         {current === SLIDES.length - 1 && (
-          <TouchableOpacity onPress={handleDone} style={{ alignItems: "center", marginTop: 4 }}>
+          <TouchableOpacity onPress={handleDone} style={{ alignItems: "center", marginTop: 2 }}>
             <Text style={[styles.signinTxt, { fontFamily: "Inter_400Regular" }]}>
               Already registered?{" "}
               <Text style={{ color: slide.accent, fontFamily: "Inter_600SemiBold" }}>
@@ -278,96 +264,90 @@ export default function OnboardingScreen() {
   );
 }
 
+const CARD_TOP_RADIUS = 28;
+
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: "#0D0A1E" },
-  glow: {
-    position: "absolute",
-    width: 300,
-    height: 300,
-    borderRadius: 150,
-    top: height * 0.06,
-    alignSelf: "center",
-    opacity: 0.08,
-  },
+  root: { flex: 1, backgroundColor: "#F7F5FF" },
   topBar: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 22,
-    paddingBottom: 6,
+    paddingBottom: 4,
+    backgroundColor: "#F7F5FF",
     zIndex: 10,
   },
   logoRow: { flexDirection: "row", alignItems: "center", gap: 8 },
   logoIcon: { width: 28, height: 28, borderRadius: 7 },
-  logoTxt: { color: "#fff", fontSize: 13, letterSpacing: 1.8 },
+  logoTxt: { color: "#111827", fontSize: 13, letterSpacing: 1.8 },
   skipPill: {
     paddingHorizontal: 16,
     paddingVertical: 7,
     borderRadius: 20,
-    backgroundColor: "rgba(255,255,255,0.07)",
+    backgroundColor: "#fff",
     borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.1)",
+    borderColor: "#e5e7eb",
   },
-  skipTxt: { color: "rgba(255,255,255,0.65)", fontSize: 13 },
-  scrollView: { flex: 1 },
+  skipTxt: { fontSize: 13 },
+  scrollView: { flex: 1, backgroundColor: "#F7F5FF" },
   scrollContent: { alignItems: "center" },
   slide: {
     width,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "#F7F5FF",
+  },
+  illustBg: {
+    position: "absolute",
+    width: width * 0.75,
+    height: width * 0.75,
+    borderRadius: width * 0.375,
+    opacity: 0.55,
   },
   card: {
-    backgroundColor: "rgba(18,11,42,0.96)",
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.08)",
+    backgroundColor: "#ffffff",
+    borderTopLeftRadius: CARD_TOP_RADIUS,
+    borderTopRightRadius: CARD_TOP_RADIUS,
     paddingHorizontal: 26,
-    paddingTop: 18,
+    paddingTop: 16,
     paddingBottom: 0,
     gap: 10,
-    shadowColor: "#8A2BE2",
-    shadowOffset: { width: 0, height: -6 },
-    shadowOpacity: 0.3,
-    shadowRadius: 20,
-    elevation: 14,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -3 },
+    shadowOpacity: 0.06,
+    shadowRadius: 12,
+    elevation: 10,
   },
-  notch: {
-    width: 40,
-    height: 3,
+  handle: {
+    width: 36,
+    height: 4,
     borderRadius: 2,
     alignSelf: "center",
-    marginBottom: 2,
-    opacity: 0.7,
+    marginBottom: 4,
   },
   tag: {
     flexDirection: "row",
     alignItems: "center",
     gap: 6,
     alignSelf: "flex-start",
-    paddingHorizontal: 11,
+    paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 20,
-    borderWidth: 1,
   },
   tagDot: { width: 5, height: 5, borderRadius: 2.5 },
   tagTxt: { fontSize: 10, letterSpacing: 1.5 },
-  title: { fontSize: 27, color: "#fff", lineHeight: 35, letterSpacing: -0.3 },
-  sub: { fontSize: 13, color: "rgba(255,255,255,0.5)", lineHeight: 19 },
+  title: { fontSize: 28, lineHeight: 36, letterSpacing: -0.5 },
+  sub: { fontSize: 13, lineHeight: 19 },
   dotsRow: { flexDirection: "row", gap: 5, alignItems: "center" },
   dot: { height: 6, borderRadius: 3 },
   swipeHint: {
     marginLeft: 8,
     fontSize: 11,
-    color: "rgba(255,255,255,0.25)",
+    color: "#9ca3af",
     letterSpacing: 0.3,
   },
   ctaWrap: { borderRadius: 16, overflow: "hidden" },
   cta: { paddingVertical: 17, alignItems: "center", justifyContent: "center" },
   ctaTxt: { color: "#fff", fontSize: 16, letterSpacing: 0.4 },
-  signinTxt: {
-    color: "rgba(255,255,255,0.45)",
-    fontSize: 13,
-    textAlign: "center",
-  },
+  signinTxt: { color: "#9ca3af", fontSize: 13, textAlign: "center" },
 });

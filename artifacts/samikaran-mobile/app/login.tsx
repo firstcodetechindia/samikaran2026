@@ -16,35 +16,72 @@ import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import * as Haptics from "expo-haptics";
-import { useColors } from "@/hooks/useColors";
-import { RoleCard } from "@/components/RoleCard";
 import { useAuth, type UserRole } from "@/context/AuthContext";
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? "";
 
-const ROLES: { role: NonNullable<UserRole>; label: string; subtitle: string; icon: string }[] = [
-  { role: "student", label: "Student", subtitle: "Take exams & track your progress", icon: "school" },
-  { role: "school",  label: "School",  subtitle: "Manage students & registrations", icon: "business" },
-  { role: "parent",  label: "Parent",  subtitle: "Monitor your child's performance", icon: "people" },
-  { role: "partner", label: "Partner", subtitle: "Referrals & commission earnings", icon: "handshake" },
+type RoleKey = NonNullable<UserRole>;
+
+const ROLES: {
+  role: RoleKey;
+  label: string;
+  subtitle: string;
+  icon: keyof typeof Ionicons.glyphMap;
+  color: string;
+  bg: string;
+}[] = [
+  {
+    role: "student",
+    label: "Student",
+    subtitle: "Take exams & track your progress",
+    icon: "school-outline",
+    color: "#8A2BE2",
+    bg: "#f3e8ff",
+  },
+  {
+    role: "school",
+    label: "School",
+    subtitle: "Manage students & registrations",
+    icon: "business-outline",
+    color: "#0284c7",
+    bg: "#e0f2fe",
+  },
+  {
+    role: "parent",
+    label: "Parent",
+    subtitle: "Monitor your child's performance",
+    icon: "people-outline",
+    color: "#059669",
+    bg: "#d1fae5",
+  },
+  {
+    role: "partner",
+    label: "Partner",
+    subtitle: "Referrals & commission earnings",
+    icon: "briefcase-outline",
+    color: "#b45309",
+    bg: "#fef9c3",
+  },
 ];
 
 export default function LoginScreen() {
-  const colors = useColors();
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const { login } = useAuth();
 
-  const [selectedRole, setSelectedRole] = useState<NonNullable<UserRole>>("student");
+  const [selectedRole, setSelectedRole] = useState<RoleKey>("student");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<"login" | "register">("login");
 
+  const topPad = insets.top + (Platform.OS === "web" ? 67 : 0);
+  const activeRole = ROLES.find((r) => r.role === selectedRole)!;
+
   const handleLogin = async () => {
     if (!username.trim() || !password.trim()) {
-      Alert.alert("Error", "Please enter your credentials");
+      Alert.alert("Missing Fields", "Please enter your credentials to continue.");
       return;
     }
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -78,183 +115,223 @@ export default function LoginScreen() {
         case "partner": router.replace("/(partner)/home"); break;
       }
     } catch (err: any) {
-      Alert.alert("Login Failed", err.message || "Please check your credentials");
+      Alert.alert("Login Failed", err.message || "Please check your credentials and try again.");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleDemoLogin = async (role: NonNullable<UserRole>) => {
-    setSelectedRole(role);
-    await login({
-      id: 1,
-      username: `demo_${role}`,
-      fullName: role === "student" ? "Arjun Sharma" : role === "school" ? "DPS Admin" : role === "parent" ? "Rajesh Kumar" : "Partner",
-      role,
-      xp: 2450,
-      level: 12,
-      streak: 14,
-      grade: 8,
-    });
-    switch (role) {
-      case "student": router.replace("/(student)/home"); break;
-      case "school":  router.replace("/(school)/home");  break;
-      case "parent":  router.replace("/(parent)/home");  break;
-      case "partner": router.replace("/(partner)/home"); break;
-    }
-  };
-
   return (
-    <View style={{ flex: 1, backgroundColor: colors.background }}>
+    <View style={styles.root}>
+      {/* Dark header */}
       <LinearGradient
-        colors={["#0D0A1E", "#1a1033", colors.background]}
-        style={[styles.header, { paddingTop: insets.top + (Platform.OS === "web" ? 67 : 16) }]}
+        colors={["#100820", "#1e0f3a", "#2d1060"]}
+        style={[styles.header, { paddingTop: topPad + 20 }]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
       >
-        <Image
-          source={require("../assets/images/icon.png")}
-          style={styles.logoImage}
-          resizeMode="contain"
-        />
-        <Text style={[styles.logo, { fontFamily: "Inter_700Bold" }]}>
+        {/* Decorative glow */}
+        <View style={styles.headerGlow} />
+
+        <View style={styles.logoBox}>
+          <Image
+            source={require("../assets/images/icon.png")}
+            style={styles.logoImg}
+            resizeMode="contain"
+          />
+        </View>
+        <Text style={[styles.appName, { fontFamily: "Inter_700Bold" }]}>
           SAMIKARAN<Text style={{ color: "#FF2FBF" }}>.</Text>
         </Text>
-        <Text style={[styles.logoSub, { color: "rgba(255,255,255,0.6)", fontFamily: "Inter_400Regular" }]}>
-          OLYMPIAD
+        <Text style={[styles.appTagline, { fontFamily: "Inter_400Regular" }]}>
+          OLYMPIAD PLATFORM
         </Text>
       </LinearGradient>
 
+      {/* White body */}
       <ScrollView
         style={styles.scroll}
-        contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + (Platform.OS === "web" ? 34 : 16) }]}
+        contentContainerStyle={[
+          styles.scrollContent,
+          { paddingBottom: insets.bottom + (Platform.OS === "web" ? 40 : 24) },
+        ]}
         keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
       >
-        <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
-          <View style={[styles.tabs, { backgroundColor: colors.muted }]}>
-            {(["login", "register"] as const).map((tab) => (
-              <TouchableOpacity
-                key={tab}
-                style={[styles.tab, activeTab === tab && { backgroundColor: colors.card }]}
-                onPress={() => setActiveTab(tab)}
+        {/* Login / Register tabs */}
+        <View style={styles.tabRow}>
+          {(["login", "register"] as const).map((tab) => (
+            <TouchableOpacity
+              key={tab}
+              style={[styles.tabItem, activeTab === tab && styles.tabItemActive]}
+              onPress={() => setActiveTab(tab)}
+            >
+              <Text
+                style={[
+                  styles.tabLabel,
+                  {
+                    fontFamily: activeTab === tab ? "Inter_600SemiBold" : "Inter_400Regular",
+                    color: activeTab === tab ? "#8A2BE2" : "#9ca3af",
+                  },
+                ]}
               >
-                <Text
+                {tab === "login" ? "Login" : "Register"}
+              </Text>
+              {activeTab === tab && <View style={styles.tabUnderline} />}
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        {/* Role selector */}
+        <Text style={[styles.sectionLabel, { fontFamily: "Inter_500Medium" }]}>
+          I AM A...
+        </Text>
+
+        <View style={styles.rolesGrid}>
+          {ROLES.map((r) => {
+            const sel = selectedRole === r.role;
+            return (
+              <TouchableOpacity
+                key={r.role}
+                style={[
+                  styles.roleCard,
+                  {
+                    backgroundColor: sel ? r.bg : "#fafafa",
+                    borderColor: sel ? r.color : "#e5e7eb",
+                    borderWidth: sel ? 1.5 : 1,
+                  },
+                ]}
+                onPress={() => {
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                  setSelectedRole(r.role);
+                }}
+                activeOpacity={0.75}
+              >
+                <View
                   style={[
-                    styles.tabText,
-                    {
-                      color: activeTab === tab ? colors.primary : colors.mutedForeground,
-                      fontFamily: activeTab === tab ? "Inter_600SemiBold" : "Inter_400Regular",
-                    },
+                    styles.roleIconBox,
+                    { backgroundColor: sel ? r.color : "#f3f4f6" },
                   ]}
                 >
-                  {tab === "login" ? "Login" : "Register"}
-                </Text>
+                  <Ionicons
+                    name={r.icon}
+                    size={20}
+                    color={sel ? "#fff" : "#9ca3af"}
+                  />
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text
+                    style={[
+                      styles.roleLabel,
+                      {
+                        fontFamily: "Inter_600SemiBold",
+                        color: sel ? r.color : "#111827",
+                      },
+                    ]}
+                  >
+                    {r.label}
+                  </Text>
+                  <Text
+                    style={[styles.roleSub, { fontFamily: "Inter_400Regular" }]}
+                    numberOfLines={1}
+                  >
+                    {r.subtitle}
+                  </Text>
+                </View>
+                {sel && (
+                  <Ionicons name="checkmark-circle" size={18} color={r.color} />
+                )}
               </TouchableOpacity>
-            ))}
-          </View>
+            );
+          })}
+        </View>
 
-          <Text style={[styles.sectionLabel, { color: colors.mutedForeground, fontFamily: "Inter_500Medium" }]}>
-            I am a...
-          </Text>
-          {ROLES.map((r) => (
-            <RoleCard
-              key={r.role}
-              {...r}
-              selected={selectedRole === r.role}
-              onPress={() => setSelectedRole(r.role)}
+        {/* Input fields */}
+        <View style={styles.inputGroup}>
+          <View style={styles.inputWrap}>
+            <Ionicons name="person-outline" size={17} color="#9ca3af" style={styles.inputIcon} />
+            <TextInput
+              style={[styles.inputField, { fontFamily: "Inter_400Regular" }]}
+              placeholder={
+                selectedRole === "student" ? "Roll Number / Username" : "Email / Username"
+              }
+              placeholderTextColor="#9ca3af"
+              value={username}
+              onChangeText={setUsername}
+              autoCapitalize="none"
+              autoCorrect={false}
             />
-          ))}
-
-          <View style={styles.inputs}>
-            <View style={[styles.inputWrap, { backgroundColor: colors.muted, borderColor: colors.border }]}>
-              <Ionicons name="person-outline" size={18} color={colors.mutedForeground} />
-              <TextInput
-                style={[styles.input, { color: colors.foreground, fontFamily: "Inter_400Regular" }]}
-                placeholder={selectedRole === "student" ? "Roll Number / Username" : "Email / Username"}
-                placeholderTextColor={colors.mutedForeground}
-                value={username}
-                onChangeText={setUsername}
-                autoCapitalize="none"
-                autoCorrect={false}
-              />
-            </View>
-
-            <View style={[styles.inputWrap, { backgroundColor: colors.muted, borderColor: colors.border }]}>
-              <Ionicons name="lock-closed-outline" size={18} color={colors.mutedForeground} />
-              <TextInput
-                style={[styles.input, { color: colors.foreground, fontFamily: "Inter_400Regular" }]}
-                placeholder="Password"
-                placeholderTextColor={colors.mutedForeground}
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry={!showPassword}
-              />
-              <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                <Ionicons
-                  name={showPassword ? "eye-off-outline" : "eye-outline"}
-                  size={18}
-                  color={colors.mutedForeground}
-                />
-              </TouchableOpacity>
-            </View>
           </View>
 
-          <TouchableOpacity
-            style={[styles.loginBtn, { opacity: loading ? 0.7 : 1 }]}
-            onPress={handleLogin}
-            disabled={loading}
-            activeOpacity={0.85}
-          >
-            <LinearGradient
-              colors={["#8A2BE2", "#FF2FBF"]}
-              style={styles.loginGradient}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
+          <View style={styles.inputWrap}>
+            <Ionicons name="lock-closed-outline" size={17} color="#9ca3af" style={styles.inputIcon} />
+            <TextInput
+              style={[styles.inputField, { fontFamily: "Inter_400Regular" }]}
+              placeholder="Password"
+              placeholderTextColor="#9ca3af"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry={!showPassword}
+            />
+            <TouchableOpacity
+              onPress={() => setShowPassword((v) => !v)}
+              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
             >
-              {loading ? (
-                <ActivityIndicator color="#fff" />
-              ) : (
-                <Text style={[styles.loginText, { fontFamily: "Inter_700Bold" }]}>
-                  {activeTab === "login" ? "Login" : "Register"}
-                </Text>
-              )}
-            </LinearGradient>
-          </TouchableOpacity>
+              <Ionicons
+                name={showPassword ? "eye-off-outline" : "eye-outline"}
+                size={17}
+                color="#9ca3af"
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
 
-          <View style={styles.divider}>
-            <View style={[styles.dividerLine, { backgroundColor: colors.border }]} />
-            <Text style={[styles.dividerText, { color: colors.mutedForeground, fontFamily: "Inter_400Regular" }]}>
-              or try demo
+        {/* Forgot password */}
+        <TouchableOpacity style={styles.forgotRow}>
+          <Text style={[styles.forgotTxt, { fontFamily: "Inter_500Medium", color: activeRole.color }]}>
+            Forgot Password?
+          </Text>
+        </TouchableOpacity>
+
+        {/* CTA */}
+        <TouchableOpacity
+          style={[styles.ctaWrap, { opacity: loading ? 0.75 : 1 }]}
+          onPress={handleLogin}
+          disabled={loading}
+          activeOpacity={0.88}
+        >
+          <LinearGradient
+            colors={["#8A2BE2", "#c026d3", "#FF2FBF"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.cta}
+          >
+            {loading ? (
+              <ActivityIndicator color="#fff" />
+            ) : (
+              <Text style={[styles.ctaTxt, { fontFamily: "Inter_700Bold" }]}>
+                {activeTab === "login" ? "Login" : "Create Account"}
+              </Text>
+            )}
+          </LinearGradient>
+        </TouchableOpacity>
+
+        {/* Sign up / Sign in toggle */}
+        <View style={styles.switchRow}>
+          <Text style={[styles.switchTxt, { fontFamily: "Inter_400Regular" }]}>
+            {activeTab === "login"
+              ? "Don't have an account? "
+              : "Already have an account? "}
+          </Text>
+          <TouchableOpacity
+            onPress={() => setActiveTab(activeTab === "login" ? "register" : "login")}
+          >
+            <Text
+              style={[styles.switchLink, { color: activeRole.color, fontFamily: "Inter_600SemiBold" }]}
+            >
+              {activeTab === "login" ? "Register" : "Sign In"}
             </Text>
-            <View style={[styles.dividerLine, { backgroundColor: colors.border }]} />
-          </View>
-
-          <View style={styles.demoRow}>
-            {ROLES.slice(0, 2).map((r) => (
-              <TouchableOpacity
-                key={r.role}
-                style={[styles.demoBtn, { backgroundColor: colors.muted, borderColor: colors.border }]}
-                onPress={() => handleDemoLogin(r.role)}
-              >
-                <Ionicons name={r.icon as any} size={16} color={colors.primary} />
-                <Text style={[styles.demoBtnText, { color: colors.foreground, fontFamily: "Inter_500Medium" }]}>
-                  {r.label}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-          <View style={styles.demoRow}>
-            {ROLES.slice(2).map((r) => (
-              <TouchableOpacity
-                key={r.role}
-                style={[styles.demoBtn, { backgroundColor: colors.muted, borderColor: colors.border }]}
-                onPress={() => handleDemoLogin(r.role)}
-              >
-                <Ionicons name={r.icon as any} size={16} color={colors.primary} />
-                <Text style={[styles.demoBtnText, { color: colors.foreground, fontFamily: "Inter_500Medium" }]}>
-                  {r.label}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>
@@ -262,58 +339,125 @@ export default function LoginScreen() {
 }
 
 const styles = StyleSheet.create({
-  header: { alignItems: "center", paddingBottom: 24, gap: 4 },
-  logoImage: { width: 72, height: 72, borderRadius: 16, marginBottom: 4 },
-  logo: { fontSize: 28, color: "#fff", letterSpacing: 2 },
-  logoSub: { fontSize: 12, letterSpacing: 4 },
-  scroll: { flex: 1 },
-  content: { padding: 16, gap: 16 },
-  card: {
+  root: { flex: 1, backgroundColor: "#fff" },
+
+  // Header
+  header: {
+    alignItems: "center",
+    paddingBottom: 32,
+    gap: 6,
+    overflow: "hidden",
+  },
+  headerGlow: {
+    position: "absolute",
+    width: 280,
+    height: 280,
+    borderRadius: 140,
+    backgroundColor: "#8A2BE2",
+    opacity: 0.12,
+    top: -60,
+    alignSelf: "center",
+  },
+  logoBox: {
+    width: 76,
+    height: 76,
     borderRadius: 20,
+    backgroundColor: "rgba(255,255,255,0.1)",
+    alignItems: "center",
+    justifyContent: "center",
     borderWidth: 1,
-    padding: 20,
-    gap: 16,
+    borderColor: "rgba(255,255,255,0.15)",
+    marginBottom: 4,
   },
-  tabs: {
+  logoImg: { width: 52, height: 52 },
+  appName: { fontSize: 26, color: "#fff", letterSpacing: 2.5 },
+  appTagline: { fontSize: 11, color: "rgba(255,255,255,0.5)", letterSpacing: 4 },
+
+  // Scroll
+  scroll: { flex: 1, backgroundColor: "#fff" },
+  scrollContent: { paddingHorizontal: 22, paddingTop: 24, gap: 0 },
+
+  // Tabs
+  tabRow: {
     flexDirection: "row",
-    borderRadius: 10,
-    padding: 4,
+    borderBottomWidth: 1,
+    borderBottomColor: "#f3f4f6",
+    marginBottom: 22,
   },
-  tab: {
+  tabItem: {
     flex: 1,
     alignItems: "center",
-    paddingVertical: 10,
-    borderRadius: 8,
+    paddingBottom: 12,
+    position: "relative",
   },
-  tabText: { fontSize: 14 },
-  sectionLabel: { fontSize: 12, letterSpacing: 1, textTransform: "uppercase" },
-  inputs: { gap: 12 },
+  tabItemActive: {},
+  tabLabel: { fontSize: 15 },
+  tabUnderline: {
+    position: "absolute",
+    bottom: 0,
+    left: "20%",
+    right: "20%",
+    height: 2,
+    backgroundColor: "#8A2BE2",
+    borderRadius: 1,
+  },
+
+  // Role selector
+  sectionLabel: {
+    fontSize: 11,
+    color: "#9ca3af",
+    letterSpacing: 1.5,
+    marginBottom: 10,
+  },
+  rolesGrid: { gap: 8, marginBottom: 20 },
+  roleCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 13,
+    borderRadius: 14,
+    gap: 12,
+  },
+  roleIconBox: {
+    width: 42,
+    height: 42,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  roleLabel: { fontSize: 14, marginBottom: 1 },
+  roleSub: { fontSize: 11, color: "#9ca3af" },
+
+  // Inputs
+  inputGroup: { gap: 10, marginBottom: 8 },
   inputWrap: {
     flexDirection: "row",
     alignItems: "center",
-    borderRadius: 12,
+    backgroundColor: "#f9fafb",
     borderWidth: 1,
+    borderColor: "#e5e7eb",
+    borderRadius: 14,
     paddingHorizontal: 14,
-    paddingVertical: 12,
+    paddingVertical: 13,
     gap: 10,
   },
-  input: { flex: 1, fontSize: 15 },
-  loginBtn: { borderRadius: 14, overflow: "hidden" },
-  loginGradient: { alignItems: "center", paddingVertical: 16 },
-  loginText: { color: "#fff", fontSize: 16 },
-  divider: { flexDirection: "row", alignItems: "center", gap: 12 },
-  dividerLine: { flex: 1, height: 1 },
-  dividerText: { fontSize: 12 },
-  demoRow: { flexDirection: "row", gap: 10 },
-  demoBtn: {
-    flex: 1,
+  inputIcon: {},
+  inputField: { flex: 1, fontSize: 14, color: "#111827" },
+
+  // Forgot
+  forgotRow: { alignSelf: "flex-end", marginBottom: 18 },
+  forgotTxt: { fontSize: 13 },
+
+  // CTA
+  ctaWrap: { borderRadius: 16, overflow: "hidden", marginBottom: 18 },
+  cta: { paddingVertical: 16, alignItems: "center" },
+  ctaTxt: { color: "#fff", fontSize: 16, letterSpacing: 0.3 },
+
+  // Switch row
+  switchRow: {
     flexDirection: "row",
-    alignItems: "center",
     justifyContent: "center",
-    gap: 6,
-    paddingVertical: 10,
-    borderRadius: 10,
-    borderWidth: 1,
+    alignItems: "center",
   },
-  demoBtnText: { fontSize: 13 },
+  switchTxt: { fontSize: 13, color: "#6b7280" },
+  switchLink: { fontSize: 13 },
 });
