@@ -451,7 +451,7 @@ const styles = StyleSheet.create({
     width: 54,
     height: 54,
     borderRadius: 14,
-    backgroundColor: "rgba(255,255,255,0.18)",
+    backgroundColor: "rgba(255,255,255,0.28)",
     borderWidth: 1.5,
     borderColor: "rgba(255,47,191,0.7)",
     alignItems: "center",
@@ -462,7 +462,7 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 6,
   },
-  logoIcon: { width: 50, height: 50 },
+  logoIcon: { width: 52, height: 52 },
   logoTxt: { color: "#fff", fontSize: 14, letterSpacing: 1.5, lineHeight: 17 },
   logoSub: { color: "rgba(255,255,255,0.65)", fontSize: 9, letterSpacing: 2.5, lineHeight: 12 },
   skipPill: {
