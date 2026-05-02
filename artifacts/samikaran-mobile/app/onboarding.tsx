@@ -267,8 +267,8 @@ export default function OnboardingScreen() {
               <Image
                 source={s.image}
                 style={{
-                  width: i === 2 ? CHAR_W * 0.82 : CHAR_W,
-                  height: i === 2 ? CHAR_H * 0.82 : CHAR_H,
+                  width: i === 2 ? CHAR_W * 0.90 : CHAR_W,
+                  height: i === 2 ? CHAR_H * 0.90 : CHAR_H,
                 }}
                 resizeMode="contain"
               />
