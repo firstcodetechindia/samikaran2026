@@ -100,9 +100,9 @@ export default function OnboardingScreen() {
   const TOP_BAR_H = topPad + 72;
   // Available vertical zone for character (below top bar, above card)
   const CHAR_ZONE_H = ILLUS_H - TOP_BAR_H;
-  // Character dimensions — dynamic, fills ~82% of the available zone
-  const CHAR_H = Math.min(CHAR_ZONE_H * 0.82, 440);
-  const CHAR_W = CHAR_H * 0.90;
+  // Character fills ~96% of the zone so head reaches top of outer glow circle
+  const CHAR_H = Math.min(CHAR_ZONE_H * 0.96, 500);
+  const CHAR_W = CHAR_H * 0.92;
   const slide = SLIDES[current];
 
   const animateIn = useCallback(() => {
