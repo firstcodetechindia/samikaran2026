@@ -79,12 +79,12 @@ const SLIDES = [
   },
 ];
 
-// Card occupies bottom ~40% — illustration area is the rest
-const CARD_H_EST = height * 0.40;
-const ILLUS_H = height - CARD_H_EST; // full visible area above card
-// Character sized conservatively so feet + hands are never clipped
-const CHAR_H = Math.min(ILLUS_H * 0.68, 360);
-const CHAR_W = CHAR_H * 0.88;
+// Card occupies bottom ~38% — illustration area is the rest
+const CARD_H_EST = height * 0.38;
+const ILLUS_H = height - CARD_H_EST;
+// Character size — set inside component using CHAR_ZONE_H; module values used only for stageWrap halos fallback
+const CHAR_H_FALLBACK = Math.min(ILLUS_H * 0.80, 430);
+const CHAR_W_FALLBACK = CHAR_H_FALLBACK * 0.88;
 
 export default function OnboardingScreen() {
   const router = useRouter();
@@ -100,6 +100,9 @@ export default function OnboardingScreen() {
   const TOP_BAR_H = topPad + 72;
   // Available vertical zone for character (below top bar, above card)
   const CHAR_ZONE_H = ILLUS_H - TOP_BAR_H;
+  // Character dimensions — dynamic, fills ~82% of the available zone
+  const CHAR_H = Math.min(CHAR_ZONE_H * 0.82, 440);
+  const CHAR_W = CHAR_H * 0.90;
   const slide = SLIDES[current];
 
   const animateIn = useCallback(() => {
@@ -166,19 +169,29 @@ export default function OnboardingScreen() {
         end={{ x: 0.8, y: 1 }}
       />
 
-      {/* Background stage — layered radial glow */}
-      <View style={styles.stageWrap} pointerEvents="none">
-        {/* Outermost soft halo */}
-        <View style={[styles.halo3, { backgroundColor: slide.blobColor + "18" }]} />
-        {/* Mid glow ring */}
-        <View style={[styles.halo2, { backgroundColor: slide.blobColor + "30" }]} />
-        {/* Inner bright stage */}
-        <View style={[styles.halo1, { backgroundColor: slide.blobColor + "55" }]} />
+      {/* Background stage — glow centered in character zone (below top bar) */}
+      <View
+        style={[styles.stageWrap, { top: TOP_BAR_H, height: CHAR_ZONE_H }]}
+        pointerEvents="none"
+      >
+        {/* Outermost soft halo — centered in CHAR_ZONE_H */}
+        <View style={[styles.halo3, {
+          backgroundColor: slide.blobColor + "18",
+          top: CHAR_ZONE_H * 0.5 - width * 0.5,
+        }]} />
+        <View style={[styles.halo2, {
+          backgroundColor: slide.blobColor + "30",
+          top: CHAR_ZONE_H * 0.5 - width * 0.41,
+        }]} />
+        <View style={[styles.halo1, {
+          backgroundColor: slide.blobColor + "55",
+          top: CHAR_ZONE_H * 0.5 - width * 0.32,
+        }]} />
         {/* SVG radial gradient core */}
         <Svg
           width={width * 0.9}
           height={width * 0.9}
-          style={styles.svgGlow}
+          style={[styles.svgGlow, { top: CHAR_ZONE_H * 0.5 - (width * 0.9) / 2 }]}
         >
           <Defs>
             <RadialGradient id="rg" cx="50%" cy="50%" rx="50%" ry="50%">
@@ -373,19 +386,19 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    height: CHAR_H,
+    height: CHAR_H_FALLBACK,
     alignItems: "center",
     justifyContent: "center",
     zIndex: 1,
   },
-  // Layered halos — circles centered behind character
+  // Layered halos — top overridden inline with dynamic CHAR_ZONE_H
   halo3: {
     position: "absolute",
     width: width * 1.0,
     height: width * 1.0,
     borderRadius: width * 0.5,
     alignSelf: "center",
-    top: CHAR_H * 0.5 - width * 0.5,
+    top: CHAR_H_FALLBACK * 0.5 - width * 0.5,
   },
   halo2: {
     position: "absolute",
@@ -393,7 +406,7 @@ const styles = StyleSheet.create({
     height: width * 0.82,
     borderRadius: width * 0.41,
     alignSelf: "center",
-    top: CHAR_H * 0.5 - width * 0.41,
+    top: CHAR_H_FALLBACK * 0.5 - width * 0.41,
   },
   halo1: {
     position: "absolute",
@@ -401,12 +414,12 @@ const styles = StyleSheet.create({
     height: width * 0.64,
     borderRadius: width * 0.32,
     alignSelf: "center",
-    top: CHAR_H * 0.5 - width * 0.32,
+    top: CHAR_H_FALLBACK * 0.5 - width * 0.32,
   },
   svgGlow: {
     position: "absolute",
     alignSelf: "center",
-    top: CHAR_H * 0.5 - (width * 0.9) / 2,
+    top: CHAR_H_FALLBACK * 0.5 - (width * 0.9) / 2,
   },
   // Scattered decorative dots
   dot1: { position: "absolute", width: 14, height: 14, borderRadius: 7, top: "18%", left: "10%" },
