@@ -1050,7 +1050,7 @@ const styles = StyleSheet.create({
   },
   fieldFocused: { borderColor: "#7c3aed", backgroundColor: "#faf5ff" },
   fieldError: { borderColor: "#dc2626", backgroundColor: "#fff5f5" },
-  fieldInput: { flex: 1, fontSize: 15, color: "#111827", minHeight: 22, paddingVertical: 0 },
+  fieldInput: { flex: 1, fontSize: 15, color: "#111827", minHeight: 22, paddingVertical: 0, outlineWidth: 0 } as object,
   fieldErrRow: { flexDirection: "row", alignItems: "center", gap: 4, marginTop: 4, marginLeft: 2 },
   fieldErrTxt: { fontSize: 12, color: "#dc2626" },
 
@@ -1072,7 +1072,7 @@ const styles = StyleSheet.create({
   orTxt: { fontSize: 12, color: "#d1d5db" },
 
   otpRow: { flexDirection: "row", gap: 8, justifyContent: "center" },
-  otpBox: { width: Math.floor((width - 48 - 40) / 6), height: 56, borderRadius: 14, borderWidth: 1.5, borderColor: "#e5e7eb", fontSize: 22, color: "#111827", backgroundColor: "#f9fafb", textAlign: "center" },
+  otpBox: { width: Math.floor((width - 48 - 40) / 6), height: 56, borderRadius: 14, borderWidth: 1.5, borderColor: "#e5e7eb", fontSize: 22, color: "#111827", backgroundColor: "#f9fafb", textAlign: "center", outlineWidth: 0 } as object,
   otpBoxFilled: { borderColor: "#7c3aed", backgroundColor: "#faf5ff" },
 
   switchRow: { flexDirection: "row", justifyContent: "center", alignItems: "center" },
