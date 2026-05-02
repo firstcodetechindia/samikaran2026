@@ -221,11 +221,13 @@ export default function OnboardingScreen() {
       {/* Top bar */}
       <View style={[styles.topBar, { paddingTop: topPad + 8 }]}>
         <View style={styles.logoRow}>
-          <Image
-            source={require("../assets/images/icon_nobg.png")}
-            style={styles.logoIcon}
-            resizeMode="contain"
-          />
+          <View style={styles.logoIconWrap}>
+            <Image
+              source={require("../assets/images/icon_nobg.png")}
+              style={styles.logoIcon}
+              resizeMode="contain"
+            />
+          </View>
           <View style={{ flexDirection: "column", justifyContent: "center" }}>
             <Text style={[styles.logoTxt, { fontFamily: "Roboto_700Bold" }]}>
               SAMIKARAN<Text style={{ color: "#FF2FBF" }}>.</Text>
@@ -445,7 +447,18 @@ const styles = StyleSheet.create({
     zIndex: 30,
   },
   logoRow: { flexDirection: "row", alignItems: "center", gap: 10 },
-  logoIcon: { width: 40, height: 40 },
+  logoIconWrap: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    backgroundColor: "#fff",
+    borderWidth: 2,
+    borderColor: "#FF2FBF",
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
+  },
+  logoIcon: { width: 34, height: 34 },
   logoTxt: { color: "#fff", fontSize: 14, letterSpacing: 1.5, lineHeight: 17 },
   logoSub: { color: "rgba(255,255,255,0.65)", fontSize: 9, letterSpacing: 2.5, lineHeight: 12 },
   skipPill: {
