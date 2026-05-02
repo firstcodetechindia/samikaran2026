@@ -257,6 +257,7 @@ export default function CertificateDesignerTab() {
   const [s2Name,  setS2Name]  = useState("Authorized Signatory");
   const [s2Title, setS2Title] = useState("Controller of Examinations (CoE)");
   const [s2Image, setS2Image] = useState("");
+  const [s2SavedImages, setS2SavedImages] = useState<string[]>([]);
   const [s1Uploading, setS1Uploading] = useState(false);
   const [s2Uploading, setS2Uploading] = useState(false);
 
@@ -305,6 +306,9 @@ export default function CertificateDesignerTab() {
     if (siteSettings.certificate_signatory_2_name)  setS2Name(siteSettings.certificate_signatory_2_name);
     if (siteSettings.certificate_signatory_2_title) setS2Title(siteSettings.certificate_signatory_2_title);
     if (siteSettings.certificate_signatory_2_image) setS2Image(siteSettings.certificate_signatory_2_image);
+    if (siteSettings.certificate_signatory_2_saved_images) {
+      try { setS2SavedImages(JSON.parse(siteSettings.certificate_signatory_2_saved_images)); } catch {}
+    }
     if (siteSettings.certificate_intro_text)          setIntroText(siteSettings.certificate_intro_text);
     if (siteSettings.certificate_achievement_prefix)  setAchievementPrefix(siteSettings.certificate_achievement_prefix);
     if (siteSettings.certificate_date_label)          setDateLabel(siteSettings.certificate_date_label);
@@ -350,6 +354,7 @@ export default function CertificateDesignerTab() {
           { key: "certificate_signatory_2_name",      value: s2Name,                   category: "certificate" },
           { key: "certificate_signatory_2_title",     value: s2Title,                  category: "certificate" },
           { key: "certificate_signatory_2_image",     value: s2Image,                  category: "certificate" },
+          { key: "certificate_signatory_2_saved_images", value: JSON.stringify(s2SavedImages), category: "certificate" },
           { key: "certificate_intro_text",            value: introText,                category: "certificate" },
           { key: "certificate_achievement_prefix",    value: achievementPrefix,        category: "certificate" },
           { key: "certificate_date_label",            value: dateLabel,                category: "certificate" },
@@ -591,12 +596,30 @@ export default function CertificateDesignerTab() {
                     data-testid="input-signatory-2-title"
                   />
                 </div>
-                <div className="space-y-1.5">
-                  <Label className="text-xs">Signature Image (optional)</Label>
-                  {s2Image && (
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <img src={s2Image} alt="Sig 2" className="h-10 object-contain border rounded bg-white px-2" />
-                      <Button size="sm" variant="ghost" className="text-xs text-red-500 h-8 px-2" onClick={() => setS2Image("")} data-testid="button-remove-sig2-image">Remove</Button>
+                <div className="space-y-2">
+                  <Label className="text-xs">Signature Image</Label>
+                  {s2SavedImages.length > 0 && (
+                    <div className="space-y-1.5">
+                      <p className="text-xs text-muted-foreground">Click to select active signature:</p>
+                      <div className="flex flex-wrap gap-2">
+                        {s2SavedImages.map((imgUrl, idx) => (
+                          <div
+                            key={idx}
+                            onClick={() => setS2Image(imgUrl)}
+                            data-testid={`button-select-sig2-${idx}`}
+                            className={`relative cursor-pointer rounded-lg border-2 p-2 bg-white transition-all ${
+                              s2Image === imgUrl
+                                ? "border-blue-500 ring-2 ring-blue-200"
+                                : "border-gray-200 hover:border-gray-400"
+                            }`}
+                          >
+                            <img src={imgUrl} alt={`COE Sig ${idx + 1}`} className="h-10 w-28 object-contain" />
+                            {s2Image === imgUrl && (
+                              <span className="absolute -top-1.5 -right-1.5 bg-blue-500 text-white text-[9px] rounded-full px-1 py-0.5 font-bold">Active</span>
+                            )}
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   )}
                   <label className="flex items-center gap-2 cursor-pointer">
@@ -607,16 +630,19 @@ export default function CertificateDesignerTab() {
                       data-testid="input-sig2-image"
                       onChange={(e) => {
                         const f = e.target.files?.[0];
-                        if (f) uploadSignatureImage(f, setS2Image, setS2Uploading);
+                        if (f) uploadSignatureImage(f, (url) => {
+                          setS2Image(url);
+                          setS2SavedImages(prev => prev.includes(url) ? prev : [...prev, url]);
+                        }, setS2Uploading);
                         e.target.value = "";
                       }}
                     />
                     <Button size="sm" variant="outline" className="text-xs h-8 gap-1.5 pointer-events-none" disabled={s2Uploading} data-testid="button-upload-sig2">
                       {s2Uploading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Upload className="w-3 h-3" />}
-                      {s2Uploading ? "Uploading..." : s2Image ? "Replace Signature" : "Upload Signature"}
+                      {s2Uploading ? "Uploading..." : "Upload New Signature"}
                     </Button>
                   </label>
-                  <p className="text-xs text-muted-foreground">PNG/JPG with transparent background recommended.</p>
+                  <p className="text-xs text-muted-foreground">Upload new signature — it gets added to the library above.</p>
                 </div>
               </div>
             </div>
