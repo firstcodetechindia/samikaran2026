@@ -1,5 +1,4 @@
 uploads = []
-outputs = []
 
 [[generated]]
 id = "DhBSeaRrh0A6xod1xjgjb"
@@ -36,3 +35,27 @@ id = "63PdJ2Wn0fvrXKRwS-EQ3"
 uri = "file://artifacts/samikaran-mobile/assets/images/onboard4.png"
 type = "image"
 title = "3D student victory celebration"
+
+[[generated]]
+id = "m1FgomwQlhzU1f8q1Ouz8"
+uri = "file://attached_assets/gen_family.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "fCL2ATWg4FfaITbN5jCJm"
+uri = "file://attached_assets/gen_laptop.png"
+type = "image"
+title = "generated_image"
+
+[[outputs]]
+id = "JFVjQAFG6Sx4lgmPpHHgl"
+uri = "file://attached_assets/gen_family.png"
+type = "image"
+title = "New Family Character (Slide 2)"
+
+[[outputs]]
+id = "gHmgR_5C--8VTL-7jrhqO"
+uri = "file://attached_assets/gen_laptop.png"
+type = "image"
+title = "New Laptop Boy Character (Slide 3)"
