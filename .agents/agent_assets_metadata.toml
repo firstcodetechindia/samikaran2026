@@ -59,3 +59,9 @@ id = "gHmgR_5C--8VTL-7jrhqO"
 uri = "file://attached_assets/gen_laptop.png"
 type = "image"
 title = "New Laptop Boy Character (Slide 3)"
+
+[[outputs]]
+id = "3DJ2xut_RYG2V-I2yhXT2"
+uri = "file://attached_assets/family_v2_nobg.png"
+type = "image"
+title = "Family — background removed, full size"
