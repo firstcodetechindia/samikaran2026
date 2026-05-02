@@ -45,10 +45,10 @@ export default function StudentHome() {
       >
         <View style={styles.headerRow}>
           <View>
-            <Text style={[styles.greeting, { color: "rgba(255,255,255,0.7)", fontFamily: "Inter_400Regular" }]}>
+            <Text style={[styles.greeting, { color: "rgba(255,255,255,0.7)", fontFamily: "Roboto_400Regular" }]}>
               {getGreeting()}
             </Text>
-            <Text style={[styles.name, { color: "#fff", fontFamily: "Inter_700Bold" }]}>
+            <Text style={[styles.name, { color: "#fff", fontFamily: "Roboto_700Bold" }]}>
               {user?.fullName?.split(" ")[0] ?? "Student"} 👋
             </Text>
           </View>
@@ -62,16 +62,16 @@ export default function StudentHome() {
 
         <View style={styles.xpRow}>
           <View style={styles.xpInfo}>
-            <Text style={[styles.levelText, { color: "#FF2FBF", fontFamily: "Inter_700Bold" }]}>
+            <Text style={[styles.levelText, { color: "#FF2FBF", fontFamily: "Roboto_700Bold" }]}>
               Level {user?.level ?? 1}
             </Text>
-            <Text style={[styles.xpText, { color: "rgba(255,255,255,0.6)", fontFamily: "Inter_400Regular" }]}>
+            <Text style={[styles.xpText, { color: "rgba(255,255,255,0.6)", fontFamily: "Roboto_400Regular" }]}>
               {user?.xp?.toLocaleString() ?? 0} XP
             </Text>
           </View>
           <View style={[styles.streakBadge, { backgroundColor: "#FF2FBF20", borderColor: "#FF2FBF50" }]}>
             <Ionicons name="flame" size={14} color="#FF2FBF" />
-            <Text style={[styles.streakText, { color: "#FF2FBF", fontFamily: "Inter_600SemiBold" }]}>
+            <Text style={[styles.streakText, { color: "#FF2FBF", fontFamily: "Roboto_700Bold" }]}>
               {user?.streak ?? 0} day streak
             </Text>
           </View>
@@ -103,11 +103,11 @@ export default function StudentHome() {
 
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <Text style={[styles.sectionTitle, { color: colors.foreground, fontFamily: "Inter_700Bold" }]}>
+            <Text style={[styles.sectionTitle, { color: colors.foreground, fontFamily: "Roboto_700Bold" }]}>
               Upcoming Exams
             </Text>
             <TouchableOpacity onPress={() => router.push("/(student)/exams")}>
-              <Text style={[styles.seeAll, { color: colors.primary, fontFamily: "Inter_500Medium" }]}>See all</Text>
+              <Text style={[styles.seeAll, { color: colors.primary, fontFamily: "Roboto_500Medium" }]}>See all</Text>
             </TouchableOpacity>
           </View>
 
@@ -130,7 +130,7 @@ export default function StudentHome() {
         </View>
 
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: colors.foreground, fontFamily: "Inter_700Bold" }]}>
+          <Text style={[styles.sectionTitle, { color: colors.foreground, fontFamily: "Roboto_700Bold" }]}>
             Recent Results
           </Text>
           <View style={{ marginTop: 12 }}>
@@ -146,7 +146,7 @@ export default function StudentHome() {
         </View>
 
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: colors.foreground, fontFamily: "Inter_700Bold" }]}>
+          <Text style={[styles.sectionTitle, { color: colors.foreground, fontFamily: "Roboto_700Bold" }]}>
             Your Badges
           </Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginTop: 12 }}>
@@ -156,7 +156,7 @@ export default function StudentHome() {
                   <View style={[styles.badgeIcon, { backgroundColor: b.color + "20" }]}>
                     <Ionicons name={b.icon as any} size={24} color={b.color} />
                   </View>
-                  <Text style={[styles.badgeLabel, { color: colors.foreground, fontFamily: "Inter_500Medium" }]}>
+                  <Text style={[styles.badgeLabel, { color: colors.foreground, fontFamily: "Roboto_500Medium" }]}>
                     {b.label}
                   </Text>
                 </View>
@@ -165,7 +165,7 @@ export default function StudentHome() {
                 <View style={[styles.badgeIcon, { backgroundColor: colors.border }]}>
                   <Ionicons name="lock-closed" size={24} color={colors.mutedForeground} />
                 </View>
-                <Text style={[styles.badgeLabel, { color: colors.mutedForeground, fontFamily: "Inter_500Medium" }]}>
+                <Text style={[styles.badgeLabel, { color: colors.mutedForeground, fontFamily: "Roboto_500Medium" }]}>
                   Locked
                 </Text>
               </View>

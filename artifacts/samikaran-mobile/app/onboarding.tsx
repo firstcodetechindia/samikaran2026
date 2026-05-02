@@ -201,12 +201,12 @@ export default function OnboardingScreen() {
             style={styles.logoIcon}
             resizeMode="contain"
           />
-          <Text style={[styles.logoTxt, { fontFamily: "Inter_700Bold" }]}>
+          <Text style={[styles.logoTxt, { fontFamily: "Roboto_700Bold" }]}>
             SAMIKARAN<Text style={{ color: "#FF2FBF" }}>.</Text>
           </Text>
         </View>
         <TouchableOpacity onPress={handleDone} style={styles.skipPill}>
-          <Text style={[styles.skipTxt, { fontFamily: "Inter_500Medium" }]}>Skip</Text>
+          <Text style={[styles.skipTxt, { fontFamily: "Roboto_500Medium" }]}>Skip</Text>
         </TouchableOpacity>
       </View>
 
@@ -255,18 +255,18 @@ export default function OnboardingScreen() {
           {/* Tag pill */}
           <View style={[styles.tag, { backgroundColor: slide.accent + "18", borderColor: slide.accent + "40" }]}>
             <View style={[styles.tagDot, { backgroundColor: slide.accent }]} />
-            <Text style={[styles.tagTxt, { color: slide.accent, fontFamily: "Inter_700Bold" }]}>
+            <Text style={[styles.tagTxt, { color: slide.accent, fontFamily: "Roboto_700Bold" }]}>
               {slide.tag}
             </Text>
           </View>
 
           {/* Title */}
-          <Text style={[styles.title, { fontFamily: "Inter_700Bold" }]}>
+          <Text style={[styles.title, { fontFamily: "Roboto_700Bold" }]}>
             {slide.title}
           </Text>
 
           {/* Subtitle */}
-          <Text style={[styles.sub, { fontFamily: "Inter_400Regular" }]}>
+          <Text style={[styles.sub, { fontFamily: "Roboto_400Regular" }]}>
             {slide.sub}
           </Text>
 
@@ -311,34 +311,36 @@ export default function OnboardingScreen() {
               </TouchableOpacity>
             </View>
           ) : (
-            /* Last slide — full width dark pill with gradient arrow */
-            <TouchableOpacity
-              onPress={handleNext}
-              activeOpacity={0.87}
-              style={styles.lastCtaWrap}
-            >
-              <View style={styles.lastCta}>
-                <Text style={[styles.lastCtaTxt, { fontFamily: "Inter_800ExtraBold" }]}>
-                  Get Started
-                </Text>
+            /* Last slide — right-aligned gradient pill, reduced width */
+            <View style={styles.lastCtaRow}>
+              <TouchableOpacity
+                onPress={handleNext}
+                activeOpacity={0.87}
+                style={[styles.lastCtaWrap, { shadowColor: slide.accent }]}
+              >
                 <LinearGradient
-                  colors={["#8A2BE2", "#FF2FBF"]}
+                  colors={[slide.accent, "#c026d3", "#FF2FBF"]}
                   start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 1 }}
-                  style={styles.lastArrowCircle}
+                  end={{ x: 1, y: 0 }}
+                  style={styles.lastCta}
                 >
-                  <Text style={styles.lastArrowTxt}>→</Text>
+                  <Text style={[styles.lastCtaTxt, { fontFamily: "Roboto_700Bold" }]}>
+                    Get Started
+                  </Text>
+                  <View style={styles.lastIconCircle}>
+                    <Text style={styles.lastIconTxt}>✦</Text>
+                  </View>
                 </LinearGradient>
-              </View>
-            </TouchableOpacity>
+              </TouchableOpacity>
+            </View>
           )}
 
           {/* Sign-in link */}
           {current === SLIDES.length - 1 ? (
             <TouchableOpacity onPress={handleDone} style={{ alignItems: "center" }}>
-              <Text style={[styles.signinTxt, { fontFamily: "Inter_400Regular" }]}>
+              <Text style={[styles.signinTxt, { fontFamily: "Roboto_400Regular" }]}>
                 Already registered?{" "}
-                <Text style={{ color: slide.accent, fontFamily: "Inter_600SemiBold" }}>
+                <Text style={{ color: slide.accent, fontFamily: "Roboto_700Bold" }}>
                   Sign In
                 </Text>
               </Text>
@@ -540,38 +542,42 @@ const styles = StyleSheet.create({
   },
   arrowBtnTxt: { color: "#fff", fontSize: 24, fontWeight: "800" },
 
-  // Last slide — dark pill button
+  // Last slide — right-aligned gradient pill
+  lastCtaRow: {
+    alignItems: "flex-end",
+  },
   lastCtaWrap: {
     borderRadius: 18,
     overflow: "hidden",
-    shadowColor: "#000",
     shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.45,
     shadowRadius: 14,
     elevation: 12,
   },
   lastCta: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
     paddingVertical: 16,
-    paddingHorizontal: 28,
-    backgroundColor: "#0D0A1E",
+    paddingHorizontal: 24,
+    gap: 10,
     borderRadius: 18,
+    minWidth: width * 0.58,
   },
   lastCtaTxt: {
     color: "#fff",
-    fontSize: 18,
-    letterSpacing: 0.2,
+    fontSize: 17,
+    letterSpacing: 0.3,
   },
-  lastArrowCircle: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+  lastIconCircle: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: "rgba(255,255,255,0.25)",
     alignItems: "center",
     justifyContent: "center",
   },
-  lastArrowTxt: { color: "#fff", fontSize: 15, fontWeight: "800" },
+  lastIconTxt: { color: "#fff", fontSize: 14 },
 
   signinTxt: { color: "#9ca3af", fontSize: 13, textAlign: "center" },
 });

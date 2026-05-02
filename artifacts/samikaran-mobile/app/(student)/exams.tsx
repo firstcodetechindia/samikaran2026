@@ -75,7 +75,7 @@ export default function ExamsScreen() {
           { paddingTop: topPad + 16, backgroundColor: colors.card, borderBottomColor: colors.border },
         ]}
       >
-        <Text style={[styles.headerTitle, { color: colors.foreground, fontFamily: "Inter_700Bold" }]}>My Exams</Text>
+        <Text style={[styles.headerTitle, { color: colors.foreground, fontFamily: "Roboto_700Bold" }]}>My Exams</Text>
 
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.tabsScroll}>
           <View style={styles.tabs}>
@@ -93,7 +93,7 @@ export default function ExamsScreen() {
                     styles.tabText,
                     {
                       color: activeTab === tab ? "#fff" : colors.mutedForeground,
-                      fontFamily: activeTab === tab ? "Inter_600SemiBold" : "Inter_400Regular",
+                      fontFamily: activeTab === tab ? "Roboto_700Bold" : "Roboto_400Regular",
                     },
                   ]}
                 >
@@ -121,7 +121,7 @@ export default function ExamsScreen() {
             end={{ x: 1, y: 0 }}
           >
             <Ionicons name="radio" size={20} color="#fff" />
-            <Text style={[styles.liveBannerText, { fontFamily: "Inter_700Bold" }]}>
+            <Text style={[styles.liveBannerText, { fontFamily: "Roboto_700Bold" }]}>
               {filtered.length} exam{filtered.length > 1 ? "s" : ""} happening right now!
             </Text>
           </LinearGradient>
@@ -130,7 +130,7 @@ export default function ExamsScreen() {
         {filtered.length === 0 ? (
           <View style={styles.empty}>
             <Ionicons name="document-text-outline" size={48} color={colors.mutedForeground} />
-            <Text style={[styles.emptyText, { color: colors.mutedForeground, fontFamily: "Inter_400Regular" }]}>
+            <Text style={[styles.emptyText, { color: colors.mutedForeground, fontFamily: "Roboto_400Regular" }]}>
               No {activeTab.toLowerCase()} exams
             </Text>
           </View>

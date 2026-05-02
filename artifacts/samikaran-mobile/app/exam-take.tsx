@@ -500,12 +500,12 @@ export default function ExamTakeScreen() {
         <View style={styles.headerRow}>
           <View style={styles.headerLeft}>
             <Text
-              style={[styles.examTitle, { color: "#fff", fontFamily: "Inter_700Bold" }]}
+              style={[styles.examTitle, { color: "#fff", fontFamily: "Roboto_700Bold" }]}
               numberOfLines={1}
             >
               {examTitle}
             </Text>
-            <Text style={[styles.examSub, { color: "rgba(255,255,255,0.55)", fontFamily: "Inter_400Regular" }]}>
+            <Text style={[styles.examSub, { color: "rgba(255,255,255,0.55)", fontFamily: "Roboto_400Regular" }]}>
               Q {currentIndex + 1} / {MOCK_QUESTIONS.length} · {answeredCount} answered
             </Text>
           </View>
@@ -513,14 +513,14 @@ export default function ExamTakeScreen() {
           <View style={styles.headerRight}>
             <View style={[styles.timerBadge, { backgroundColor: timerDanger ? "#ef444430" : "#ffffff18", borderColor: timerDanger ? "#ef4444" : "#ffffff30" }]}>
               <Ionicons name="time" size={14} color={timerDanger ? "#ef4444" : "#fff"} />
-              <Text style={[styles.timerText, { color: timerDanger ? "#ef4444" : "#fff", fontFamily: "Inter_700Bold" }]}>
+              <Text style={[styles.timerText, { color: timerDanger ? "#ef4444" : "#fff", fontFamily: "Roboto_700Bold" }]}>
                 {formatTime(timeLeft)}
               </Text>
             </View>
 
             <View style={[styles.violationBadge, { backgroundColor: violationColor + "25", borderColor: violationColor }]}>
               <Ionicons name="warning" size={13} color={violationColor} />
-              <Text style={[styles.violationText, { color: violationColor, fontFamily: "Inter_700Bold" }]}>
+              <Text style={[styles.violationText, { color: violationColor, fontFamily: "Roboto_700Bold" }]}>
                 {violations}/{VIOLATION_THRESHOLD}
               </Text>
             </View>
@@ -549,18 +549,18 @@ export default function ExamTakeScreen() {
           <View style={[styles.questionCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
             <View style={styles.questionMeta}>
               <View style={[styles.qTypeBadge, { backgroundColor: colors.primary + "18" }]}>
-                <Text style={[styles.qTypeText, { color: colors.primary, fontFamily: "Inter_600SemiBold" }]}>
+                <Text style={[styles.qTypeText, { color: colors.primary, fontFamily: "Roboto_700Bold" }]}>
                   {currentQuestion.type === "mcq" ? "MCQ" :
                     currentQuestion.type === "truefalse" ? "True / False" :
                     currentQuestion.type === "image" ? "Image Based" : "Voice Answer"}
                 </Text>
               </View>
-              <Text style={[styles.marksText, { color: colors.mutedForeground, fontFamily: "Inter_400Regular" }]}>
+              <Text style={[styles.marksText, { color: colors.mutedForeground, fontFamily: "Roboto_400Regular" }]}>
                 {currentQuestion.marks} {currentQuestion.marks === 1 ? "mark" : "marks"}
               </Text>
             </View>
 
-            <Text style={[styles.questionText, { color: colors.foreground, fontFamily: "Inter_500Medium" }]}>
+            <Text style={[styles.questionText, { color: colors.foreground, fontFamily: "Roboto_500Medium" }]}>
               {currentQuestion.text}
             </Text>
 
@@ -595,7 +595,7 @@ export default function ExamTakeScreen() {
                         styles.optionText,
                         {
                           color: isSelected ? colors.primary : colors.foreground,
-                          fontFamily: isSelected ? "Inter_600SemiBold" : "Inter_400Regular",
+                          fontFamily: isSelected ? "Roboto_700Bold" : "Roboto_400Regular",
                         },
                       ]}
                     >
@@ -618,7 +618,7 @@ export default function ExamTakeScreen() {
                   <View style={[styles.voiceRecorded, { backgroundColor: colors.success + "15", borderColor: colors.success }]}>
                     <Ionicons name="checkmark-circle" size={22} color={colors.success} />
                     <View style={{ flex: 1 }}>
-                      <Text style={[styles.voiceRecordedTitle, { color: colors.success, fontFamily: "Inter_600SemiBold" }]}>
+                      <Text style={[styles.voiceRecordedTitle, { color: colors.success, fontFamily: "Roboto_700Bold" }]}>
                         Answer Recorded
                       </Text>
                       <Text style={[styles.voiceRecordedSub, { color: colors.mutedForeground }]}>
@@ -656,7 +656,7 @@ export default function ExamTakeScreen() {
                     </View>
 
                     {isRecording && (
-                      <Text style={[styles.recordingTime, { color: colors.primary, fontFamily: "Inter_700Bold" }]}>
+                      <Text style={[styles.recordingTime, { color: colors.primary, fontFamily: "Roboto_700Bold" }]}>
                         {formatTime(recordingSeconds)}
                       </Text>
                     )}
@@ -671,12 +671,12 @@ export default function ExamTakeScreen() {
                         size={22}
                         color="#fff"
                       />
-                      <Text style={[styles.recordBtnText, { fontFamily: "Inter_700Bold" }]}>
+                      <Text style={[styles.recordBtnText, { fontFamily: "Roboto_700Bold" }]}>
                         {isRecording ? "Stop Recording" : "Tap to Record Answer"}
                       </Text>
                     </TouchableOpacity>
 
-                    <Text style={[styles.voiceHint, { color: colors.mutedForeground, fontFamily: "Inter_400Regular" }]}>
+                    <Text style={[styles.voiceHint, { color: colors.mutedForeground, fontFamily: "Roboto_400Regular" }]}>
                       Max 60 seconds
                     </Text>
                   </View>
@@ -710,7 +710,7 @@ export default function ExamTakeScreen() {
           disabled={currentIndex === 0}
         >
           <Ionicons name="chevron-back" size={20} color={currentIndex === 0 ? colors.mutedForeground : colors.foreground} />
-          <Text style={[styles.navBtnText, { color: currentIndex === 0 ? colors.mutedForeground : colors.foreground, fontFamily: "Inter_500Medium" }]}>Prev</Text>
+          <Text style={[styles.navBtnText, { color: currentIndex === 0 ? colors.mutedForeground : colors.foreground, fontFamily: "Roboto_500Medium" }]}>Prev</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -718,7 +718,7 @@ export default function ExamTakeScreen() {
           onPress={openPalette}
         >
           <Ionicons name="grid" size={17} color={colors.primary} />
-          <Text style={[styles.paletteBtnText, { color: colors.primary, fontFamily: "Inter_600SemiBold" }]}>
+          <Text style={[styles.paletteBtnText, { color: colors.primary, fontFamily: "Roboto_700Bold" }]}>
             {answeredCount}/{MOCK_QUESTIONS.length}
           </Text>
         </TouchableOpacity>
@@ -728,7 +728,7 @@ export default function ExamTakeScreen() {
             style={[styles.navBtn, { borderColor: colors.primary, backgroundColor: colors.primary + "12" }]}
             onPress={handleNext}
           >
-            <Text style={[styles.navBtnText, { color: colors.primary, fontFamily: "Inter_600SemiBold" }]}>Next</Text>
+            <Text style={[styles.navBtnText, { color: colors.primary, fontFamily: "Roboto_700Bold" }]}>Next</Text>
             <Ionicons name="chevron-forward" size={20} color={colors.primary} />
           </TouchableOpacity>
         ) : (
@@ -745,7 +745,7 @@ export default function ExamTakeScreen() {
               );
             }}
           >
-            <Text style={[styles.navBtnText, { color: colors.success, fontFamily: "Inter_700Bold" }]}>Submit</Text>
+            <Text style={[styles.navBtnText, { color: colors.success, fontFamily: "Roboto_700Bold" }]}>Submit</Text>
             <Ionicons name="checkmark-circle" size={20} color={colors.success} />
           </TouchableOpacity>
         )}
@@ -769,7 +769,7 @@ export default function ExamTakeScreen() {
               <Pressable>
                 <View style={styles.paletteHandle} />
                 <View style={styles.paletteHeader}>
-                  <Text style={[styles.paletteTitle, { color: colors.foreground, fontFamily: "Inter_700Bold" }]}>
+                  <Text style={[styles.paletteTitle, { color: colors.foreground, fontFamily: "Roboto_700Bold" }]}>
                     Question Palette
                   </Text>
                   <TouchableOpacity onPress={closePalette} hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}>
@@ -793,7 +793,7 @@ export default function ExamTakeScreen() {
                           borderWidth: item.outline ? 2 : 0,
                         }
                       ]} />
-                      <Text style={[styles.legendText, { color: colors.mutedForeground, fontFamily: "Inter_400Regular" }]}>
+                      <Text style={[styles.legendText, { color: colors.mutedForeground, fontFamily: "Roboto_400Regular" }]}>
                         {item.label}
                       </Text>
                     </View>
@@ -833,7 +833,7 @@ export default function ExamTakeScreen() {
                             styles.paletteNum,
                             {
                               color: answered ? "#fff" : skipped ? "#fff" : isCurrent ? colors.primary : colors.mutedForeground,
-                              fontFamily: answered || isCurrent ? "Inter_700Bold" : "Inter_400Regular",
+                              fontFamily: answered || isCurrent ? "Roboto_700Bold" : "Roboto_400Regular",
                             }
                           ]}>
                             {idx + 1}
@@ -867,7 +867,7 @@ export default function ExamTakeScreen() {
                     }}
                   >
                     <Ionicons name="checkmark-circle" size={20} color="#fff" />
-                    <Text style={[styles.submitFromPaletteText, { fontFamily: "Inter_700Bold" }]}>
+                    <Text style={[styles.submitFromPaletteText, { fontFamily: "Roboto_700Bold" }]}>
                       Submit Exam
                     </Text>
                   </TouchableOpacity>
@@ -896,13 +896,13 @@ export default function ExamTakeScreen() {
                 </View>
               </View>
 
-              <Text style={[styles.warningTitle, { fontFamily: "Inter_700Bold" }]}>
+              <Text style={[styles.warningTitle, { fontFamily: "Roboto_700Bold" }]}>
                 {warningType === "tab" ? "Tab Switch Detected!" :
                  warningType === "face" ? "Face Not Detected!" :
                  "Multiple Faces Detected!"}
               </Text>
 
-              <Text style={[styles.warningMsg, { fontFamily: "Inter_400Regular" }]}>
+              <Text style={[styles.warningMsg, { fontFamily: "Roboto_400Regular" }]}>
                 {warningMessage}
               </Text>
 
@@ -918,7 +918,7 @@ export default function ExamTakeScreen() {
                 ))}
               </View>
 
-              <Text style={[styles.violationCount, { fontFamily: "Inter_700Bold" }]}>
+              <Text style={[styles.violationCount, { fontFamily: "Roboto_700Bold" }]}>
                 Violation {violations} of {VIOLATION_THRESHOLD}
               </Text>
 
@@ -928,14 +928,14 @@ export default function ExamTakeScreen() {
                   onPress={dismissWarning}
                   activeOpacity={0.85}
                 >
-                  <Text style={[styles.warningDismissText, { fontFamily: "Inter_700Bold" }]}>
+                  <Text style={[styles.warningDismissText, { fontFamily: "Roboto_700Bold" }]}>
                     I Understand — Continue Exam
                   </Text>
                 </TouchableOpacity>
               ) : (
                 <View style={styles.autoSubmitNote}>
                   <ActivityIndicatorSmall />
-                  <Text style={[styles.autoSubmitText, { fontFamily: "Inter_600SemiBold" }]}>
+                  <Text style={[styles.autoSubmitText, { fontFamily: "Roboto_700Bold" }]}>
                     Auto-submitting exam...
                   </Text>
                 </View>

@@ -140,10 +140,10 @@ export default function LoginScreen() {
             resizeMode="contain"
           />
         </View>
-        <Text style={[styles.appName, { fontFamily: "Inter_700Bold" }]}>
+        <Text style={[styles.appName, { fontFamily: "Roboto_700Bold" }]}>
           SAMIKARAN<Text style={{ color: "#FF2FBF" }}>.</Text>
         </Text>
-        <Text style={[styles.appTagline, { fontFamily: "Inter_400Regular" }]}>
+        <Text style={[styles.appTagline, { fontFamily: "Roboto_400Regular" }]}>
           OLYMPIAD PLATFORM
         </Text>
       </LinearGradient>
@@ -170,7 +170,7 @@ export default function LoginScreen() {
                 style={[
                   styles.tabLabel,
                   {
-                    fontFamily: activeTab === tab ? "Inter_600SemiBold" : "Inter_400Regular",
+                    fontFamily: activeTab === tab ? "Roboto_700Bold" : "Roboto_400Regular",
                     color: activeTab === tab ? "#8A2BE2" : "#9ca3af",
                   },
                 ]}
@@ -183,7 +183,7 @@ export default function LoginScreen() {
         </View>
 
         {/* Role selector */}
-        <Text style={[styles.sectionLabel, { fontFamily: "Inter_500Medium" }]}>
+        <Text style={[styles.sectionLabel, { fontFamily: "Roboto_500Medium" }]}>
           I AM A...
         </Text>
 
@@ -224,7 +224,7 @@ export default function LoginScreen() {
                     style={[
                       styles.roleLabel,
                       {
-                        fontFamily: "Inter_600SemiBold",
+                        fontFamily: "Roboto_700Bold",
                         color: sel ? r.color : "#111827",
                       },
                     ]}
@@ -232,7 +232,7 @@ export default function LoginScreen() {
                     {r.label}
                   </Text>
                   <Text
-                    style={[styles.roleSub, { fontFamily: "Inter_400Regular" }]}
+                    style={[styles.roleSub, { fontFamily: "Roboto_400Regular" }]}
                     numberOfLines={1}
                   >
                     {r.subtitle}
@@ -251,7 +251,7 @@ export default function LoginScreen() {
           <View style={styles.inputWrap}>
             <Ionicons name="person-outline" size={17} color="#9ca3af" style={styles.inputIcon} />
             <TextInput
-              style={[styles.inputField, { fontFamily: "Inter_400Regular" }]}
+              style={[styles.inputField, { fontFamily: "Roboto_400Regular" }]}
               placeholder={
                 selectedRole === "student" ? "Roll Number / Username" : "Email / Username"
               }
@@ -266,7 +266,7 @@ export default function LoginScreen() {
           <View style={styles.inputWrap}>
             <Ionicons name="lock-closed-outline" size={17} color="#9ca3af" style={styles.inputIcon} />
             <TextInput
-              style={[styles.inputField, { fontFamily: "Inter_400Regular" }]}
+              style={[styles.inputField, { fontFamily: "Roboto_400Regular" }]}
               placeholder="Password"
               placeholderTextColor="#9ca3af"
               value={password}
@@ -288,7 +288,7 @@ export default function LoginScreen() {
 
         {/* Forgot password */}
         <TouchableOpacity style={styles.forgotRow}>
-          <Text style={[styles.forgotTxt, { fontFamily: "Inter_500Medium", color: activeRole.color }]}>
+          <Text style={[styles.forgotTxt, { fontFamily: "Roboto_500Medium", color: activeRole.color }]}>
             Forgot Password?
           </Text>
         </TouchableOpacity>
@@ -309,7 +309,7 @@ export default function LoginScreen() {
             {loading ? (
               <ActivityIndicator color="#fff" />
             ) : (
-              <Text style={[styles.ctaTxt, { fontFamily: "Inter_700Bold" }]}>
+              <Text style={[styles.ctaTxt, { fontFamily: "Roboto_700Bold" }]}>
                 {activeTab === "login" ? "Login" : "Create Account"}
               </Text>
             )}
@@ -318,7 +318,7 @@ export default function LoginScreen() {
 
         {/* Sign up / Sign in toggle */}
         <View style={styles.switchRow}>
-          <Text style={[styles.switchTxt, { fontFamily: "Inter_400Regular" }]}>
+          <Text style={[styles.switchTxt, { fontFamily: "Roboto_400Regular" }]}>
             {activeTab === "login"
               ? "Don't have an account? "
               : "Already have an account? "}
@@ -327,7 +327,7 @@ export default function LoginScreen() {
             onPress={() => setActiveTab(activeTab === "login" ? "register" : "login")}
           >
             <Text
-              style={[styles.switchLink, { color: activeRole.color, fontFamily: "Inter_600SemiBold" }]}
+              style={[styles.switchLink, { color: activeRole.color, fontFamily: "Roboto_700Bold" }]}
             >
               {activeTab === "login" ? "Register" : "Sign In"}
             </Text>

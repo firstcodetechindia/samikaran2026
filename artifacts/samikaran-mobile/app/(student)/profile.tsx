@@ -47,14 +47,14 @@ export default function ProfileScreen() {
         style={[styles.headerGrad, { paddingTop: topPad + 16 }]}
       >
         <View style={[styles.avatar, { backgroundColor: colors.primary + "30", borderColor: colors.primary }]}>
-          <Text style={[styles.avatarText, { color: colors.primary, fontFamily: "Inter_700Bold" }]}>
+          <Text style={[styles.avatarText, { color: colors.primary, fontFamily: "Roboto_700Bold" }]}>
             {(user?.fullName ?? "S").charAt(0).toUpperCase()}
           </Text>
         </View>
-        <Text style={[styles.name, { color: "#fff", fontFamily: "Inter_700Bold" }]}>
+        <Text style={[styles.name, { color: "#fff", fontFamily: "Roboto_700Bold" }]}>
           {user?.fullName ?? "Student"}
         </Text>
-        <Text style={[styles.username, { color: "rgba(255,255,255,0.6)", fontFamily: "Inter_400Regular" }]}>
+        <Text style={[styles.username, { color: "rgba(255,255,255,0.6)", fontFamily: "Roboto_400Regular" }]}>
           @{user?.username ?? "student"} · Class {user?.grade ?? "—"}
         </Text>
         <View style={styles.statsRow}>
@@ -64,8 +64,8 @@ export default function ProfileScreen() {
             { label: "Streak", value: `${user?.streak ?? 0}d` },
           ].map((s) => (
             <View key={s.label} style={styles.statItem}>
-              <Text style={[styles.statValue, { color: "#fff", fontFamily: "Inter_700Bold" }]}>{s.value}</Text>
-              <Text style={[styles.statLabel, { color: "rgba(255,255,255,0.6)", fontFamily: "Inter_400Regular" }]}>{s.label}</Text>
+              <Text style={[styles.statValue, { color: "#fff", fontFamily: "Roboto_700Bold" }]}>{s.value}</Text>
+              <Text style={[styles.statLabel, { color: "rgba(255,255,255,0.6)", fontFamily: "Roboto_400Regular" }]}>{s.label}</Text>
             </View>
           ))}
         </View>
@@ -90,7 +90,7 @@ export default function ProfileScreen() {
               <View style={[styles.menuIcon, { backgroundColor: colors.muted }]}>
                 <Ionicons name={item.icon as any} size={18} color={colors.primary} />
               </View>
-              <Text style={[styles.menuLabel, { color: colors.foreground, fontFamily: "Inter_500Medium" }]}>
+              <Text style={[styles.menuLabel, { color: colors.foreground, fontFamily: "Roboto_500Medium" }]}>
                 {item.label}
               </Text>
               <Ionicons name="chevron-forward" size={16} color={colors.mutedForeground} />
@@ -103,7 +103,7 @@ export default function ProfileScreen() {
           onPress={handleLogout}
         >
           <Ionicons name="log-out-outline" size={18} color={colors.destructive} />
-          <Text style={[styles.logoutText, { color: colors.destructive, fontFamily: "Inter_600SemiBold" }]}>
+          <Text style={[styles.logoutText, { color: colors.destructive, fontFamily: "Roboto_700Bold" }]}>
             Logout
           </Text>
         </TouchableOpacity>

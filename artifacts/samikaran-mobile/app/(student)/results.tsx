@@ -29,7 +29,7 @@ export default function ResultsScreen() {
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <View style={[styles.header, { paddingTop: topPad + 16, backgroundColor: colors.card, borderBottomColor: colors.border }]}>
-        <Text style={[styles.headerTitle, { color: colors.foreground, fontFamily: "Inter_700Bold" }]}>My Results</Text>
+        <Text style={[styles.headerTitle, { color: colors.foreground, fontFamily: "Roboto_700Bold" }]}>My Results</Text>
       </View>
 
       <ScrollView
@@ -45,8 +45,8 @@ export default function ResultsScreen() {
           ].map((s) => (
             <View key={s.label} style={[styles.summaryCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
               <Ionicons name={s.icon as any} size={20} color={s.color} />
-              <Text style={[styles.summaryValue, { color: colors.foreground, fontFamily: "Inter_700Bold" }]}>{s.value}</Text>
-              <Text style={[styles.summaryLabel, { color: colors.mutedForeground, fontFamily: "Inter_400Regular" }]}>{s.label}</Text>
+              <Text style={[styles.summaryValue, { color: colors.foreground, fontFamily: "Roboto_700Bold" }]}>{s.value}</Text>
+              <Text style={[styles.summaryLabel, { color: colors.mutedForeground, fontFamily: "Roboto_400Regular" }]}>{s.label}</Text>
             </View>
           ))}
         </View>
@@ -54,7 +54,7 @@ export default function ResultsScreen() {
         {selected && (
           <View style={[styles.detailCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
             <View style={styles.detailHeader}>
-              <Text style={[styles.detailTitle, { color: colors.foreground, fontFamily: "Inter_700Bold" }]}>
+              <Text style={[styles.detailTitle, { color: colors.foreground, fontFamily: "Roboto_700Bold" }]}>
                 {selected.title}
               </Text>
               <TouchableOpacity onPress={() => setSelected(null)}>
@@ -63,8 +63,8 @@ export default function ResultsScreen() {
             </View>
             <View style={styles.scoreCircleRow}>
               <View style={[styles.scoreCircle, { borderColor: colors.primary }]}>
-                <Text style={[styles.scoreNum, { color: colors.primary, fontFamily: "Inter_700Bold" }]}>{selected.score}%</Text>
-                <Text style={[styles.scoreLabel, { color: colors.mutedForeground, fontFamily: "Inter_400Regular" }]}>Score</Text>
+                <Text style={[styles.scoreNum, { color: colors.primary, fontFamily: "Roboto_700Bold" }]}>{selected.score}%</Text>
+                <Text style={[styles.scoreLabel, { color: colors.mutedForeground, fontFamily: "Roboto_400Regular" }]}>Score</Text>
               </View>
               <View style={styles.detailStats}>
                 {[
@@ -74,8 +74,8 @@ export default function ResultsScreen() {
                   { label: "AI Rank", value: `#${selected.rank}`, color: colors.primary },
                 ].map((s) => (
                   <View key={s.label} style={styles.detailStat}>
-                    <Text style={[styles.detailStatVal, { color: s.color, fontFamily: "Inter_700Bold" }]}>{s.value}</Text>
-                    <Text style={[styles.detailStatLabel, { color: colors.mutedForeground, fontFamily: "Inter_400Regular" }]}>{s.label}</Text>
+                    <Text style={[styles.detailStatVal, { color: s.color, fontFamily: "Roboto_700Bold" }]}>{s.value}</Text>
+                    <Text style={[styles.detailStatLabel, { color: colors.mutedForeground, fontFamily: "Roboto_400Regular" }]}>{s.label}</Text>
                   </View>
                 ))}
               </View>
@@ -84,14 +84,14 @@ export default function ResultsScreen() {
               style={[styles.certBtn, { backgroundColor: colors.primary + "15", borderColor: colors.primary }]}
             >
               <Ionicons name="ribbon" size={16} color={colors.primary} />
-              <Text style={[styles.certBtnText, { color: colors.primary, fontFamily: "Inter_600SemiBold" }]}>
+              <Text style={[styles.certBtnText, { color: colors.primary, fontFamily: "Roboto_700Bold" }]}>
                 Download Certificate
               </Text>
             </TouchableOpacity>
           </View>
         )}
 
-        <Text style={[styles.sectionTitle, { color: colors.foreground, fontFamily: "Inter_700Bold" }]}>
+        <Text style={[styles.sectionTitle, { color: colors.foreground, fontFamily: "Roboto_700Bold" }]}>
           All Results
         </Text>
         {RESULTS.map((r) => (

@@ -26,15 +26,15 @@ export default function ParentHome() {
       <LinearGradient colors={["#0D0A1E", "#1a1033", colors.background]} style={[styles.headerGrad, { paddingTop: topPad + 16 }]}>
         <View style={styles.headerRow}>
           <View>
-            <Text style={[styles.greeting, { color: "rgba(255,255,255,0.7)", fontFamily: "Inter_400Regular" }]}>Parent Dashboard</Text>
-            <Text style={[styles.name, { color: "#fff", fontFamily: "Inter_700Bold" }]}>{user?.fullName ?? "Parent"}</Text>
+            <Text style={[styles.greeting, { color: "rgba(255,255,255,0.7)", fontFamily: "Roboto_400Regular" }]}>Parent Dashboard</Text>
+            <Text style={[styles.name, { color: "#fff", fontFamily: "Roboto_700Bold" }]}>{user?.fullName ?? "Parent"}</Text>
           </View>
           <TouchableOpacity style={[styles.iconBtn]} onPress={async () => { await logout(); router.replace("/login"); }}>
             <Ionicons name="log-out-outline" size={20} color="#fff" />
           </TouchableOpacity>
         </View>
 
-        <Text style={[styles.childLabel, { color: "rgba(255,255,255,0.6)", fontFamily: "Inter_500Medium" }]}>Select Child</Text>
+        <Text style={[styles.childLabel, { color: "rgba(255,255,255,0.6)", fontFamily: "Roboto_500Medium" }]}>Select Child</Text>
         <View style={styles.childRow}>
           {CHILDREN.map((child) => (
             <TouchableOpacity
@@ -42,7 +42,7 @@ export default function ParentHome() {
               style={[styles.childBtn, { backgroundColor: selectedChild.id === child.id ? colors.primary : "rgba(255,255,255,0.1)", borderColor: selectedChild.id === child.id ? colors.primary : "rgba(255,255,255,0.2)" }]}
               onPress={() => setSelectedChild(child)}
             >
-              <Text style={[styles.childBtnText, { color: "#fff", fontFamily: selectedChild.id === child.id ? "Inter_600SemiBold" : "Inter_400Regular" }]}>
+              <Text style={[styles.childBtnText, { color: "#fff", fontFamily: selectedChild.id === child.id ? "Roboto_700Bold" : "Roboto_400Regular" }]}>
                 {child.name.split(" ")[0]}
               </Text>
             </TouchableOpacity>
@@ -53,37 +53,37 @@ export default function ParentHome() {
       <ScrollView style={styles.scroll} contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + (Platform.OS === "web" ? 34 : 84) }]}>
         <View style={[styles.childCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
           <View style={[styles.childAvatar, { backgroundColor: colors.primary + "20" }]}>
-            <Text style={[styles.childAvatarText, { color: colors.primary, fontFamily: "Inter_700Bold" }]}>
+            <Text style={[styles.childAvatarText, { color: colors.primary, fontFamily: "Roboto_700Bold" }]}>
               {selectedChild.name.charAt(0)}
             </Text>
           </View>
           <View style={styles.childInfo}>
-            <Text style={[styles.childName, { color: colors.foreground, fontFamily: "Inter_700Bold" }]}>{selectedChild.name}</Text>
-            <Text style={[styles.childClass, { color: colors.mutedForeground, fontFamily: "Inter_400Regular" }]}>Class {selectedChild.class}</Text>
+            <Text style={[styles.childName, { color: colors.foreground, fontFamily: "Roboto_700Bold" }]}>{selectedChild.name}</Text>
+            <Text style={[styles.childClass, { color: colors.mutedForeground, fontFamily: "Roboto_400Regular" }]}>Class {selectedChild.class}</Text>
           </View>
           <View style={styles.childStats}>
             <View style={styles.childStat}>
-              <Text style={[styles.childStatVal, { color: colors.primary, fontFamily: "Inter_700Bold" }]}>#{selectedChild.rank}</Text>
-              <Text style={[styles.childStatLabel, { color: colors.mutedForeground, fontFamily: "Inter_400Regular" }]}>AI Rank</Text>
+              <Text style={[styles.childStatVal, { color: colors.primary, fontFamily: "Roboto_700Bold" }]}>#{selectedChild.rank}</Text>
+              <Text style={[styles.childStatLabel, { color: colors.mutedForeground, fontFamily: "Roboto_400Regular" }]}>AI Rank</Text>
             </View>
             <View style={styles.childStat}>
-              <Text style={[styles.childStatVal, { color: "#F5C518", fontFamily: "Inter_700Bold" }]}>{selectedChild.score}%</Text>
-              <Text style={[styles.childStatLabel, { color: colors.mutedForeground, fontFamily: "Inter_400Regular" }]}>Avg</Text>
+              <Text style={[styles.childStatVal, { color: "#F5C518", fontFamily: "Roboto_700Bold" }]}>{selectedChild.score}%</Text>
+              <Text style={[styles.childStatLabel, { color: colors.mutedForeground, fontFamily: "Roboto_400Regular" }]}>Avg</Text>
             </View>
             <View style={styles.childStat}>
-              <Text style={[styles.childStatVal, { color: "#FF2FBF", fontFamily: "Inter_700Bold" }]}>{selectedChild.streak}d</Text>
-              <Text style={[styles.childStatLabel, { color: colors.mutedForeground, fontFamily: "Inter_400Regular" }]}>Streak</Text>
+              <Text style={[styles.childStatVal, { color: "#FF2FBF", fontFamily: "Roboto_700Bold" }]}>{selectedChild.streak}d</Text>
+              <Text style={[styles.childStatLabel, { color: colors.mutedForeground, fontFamily: "Roboto_400Regular" }]}>Streak</Text>
             </View>
           </View>
         </View>
 
-        <Text style={[styles.sectionTitle, { color: colors.foreground, fontFamily: "Inter_700Bold" }]}>Upcoming Exams</Text>
+        <Text style={[styles.sectionTitle, { color: colors.foreground, fontFamily: "Roboto_700Bold" }]}>Upcoming Exams</Text>
         <ExamCard title="Science Olympiad 2026" subject="Class 8 · Physics, Chemistry" date="Tomorrow" duration={90} status="upcoming" />
         <ExamCard title="Computer Science Olympiad" subject="Class 8" status="completed" score={92} rank={18} />
 
         <TouchableOpacity style={[styles.certBtn, { backgroundColor: colors.primary + "15", borderColor: colors.primary }]}>
           <Ionicons name="ribbon-outline" size={18} color={colors.primary} />
-          <Text style={[styles.certBtnText, { color: colors.primary, fontFamily: "Inter_600SemiBold" }]}>Download Certificates</Text>
+          <Text style={[styles.certBtnText, { color: colors.primary, fontFamily: "Roboto_700Bold" }]}>Download Certificates</Text>
         </TouchableOpacity>
       </ScrollView>
     </View>

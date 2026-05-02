@@ -20,7 +20,7 @@ export default function AnalyticsScreen() {
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <View style={[styles.header, { paddingTop: topPad + 16, backgroundColor: colors.card, borderBottomColor: colors.border }]}>
-        <Text style={[styles.title, { color: colors.foreground, fontFamily: "Inter_700Bold" }]}>Analytics</Text>
+        <Text style={[styles.title, { color: colors.foreground, fontFamily: "Roboto_700Bold" }]}>Analytics</Text>
       </View>
 
       <ScrollView
@@ -34,18 +34,18 @@ export default function AnalyticsScreen() {
         </View>
 
         <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
-          <Text style={[styles.cardTitle, { color: colors.foreground, fontFamily: "Inter_700Bold" }]}>
+          <Text style={[styles.cardTitle, { color: colors.foreground, fontFamily: "Roboto_700Bold" }]}>
             Subject-wise Performance
           </Text>
           {SUBJECT_DATA.map((s) => (
             <View key={s.subject} style={styles.subjectRow}>
-              <Text style={[styles.subjectName, { color: colors.foreground, fontFamily: "Inter_500Medium", width: 80 }]}>
+              <Text style={[styles.subjectName, { color: colors.foreground, fontFamily: "Roboto_500Medium", width: 80 }]}>
                 {s.subject}
               </Text>
               <View style={[styles.barTrack, { backgroundColor: colors.muted }]}>
                 <View style={[styles.barFill, { width: `${s.avg}%`, backgroundColor: s.color }]} />
               </View>
-              <Text style={[styles.barValue, { color: colors.foreground, fontFamily: "Inter_600SemiBold" }]}>
+              <Text style={[styles.barValue, { color: colors.foreground, fontFamily: "Roboto_700Bold" }]}>
                 {s.avg}%
               </Text>
             </View>

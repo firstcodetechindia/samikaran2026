@@ -31,8 +31,8 @@ export default function PartnerHome() {
       <LinearGradient colors={["#0D0A1E", "#1a1033", colors.background]} style={[styles.headerGrad, { paddingTop: topPad + 16 }]}>
         <View style={styles.headerRow}>
           <View>
-            <Text style={[styles.greeting, { color: "rgba(255,255,255,0.7)", fontFamily: "Inter_400Regular" }]}>Partner Dashboard</Text>
-            <Text style={[styles.name, { color: "#fff", fontFamily: "Inter_700Bold" }]}>{user?.fullName ?? "Partner"}</Text>
+            <Text style={[styles.greeting, { color: "rgba(255,255,255,0.7)", fontFamily: "Roboto_400Regular" }]}>Partner Dashboard</Text>
+            <Text style={[styles.name, { color: "#fff", fontFamily: "Roboto_700Bold" }]}>{user?.fullName ?? "Partner"}</Text>
           </View>
           <TouchableOpacity onPress={async () => { await logout(); router.replace("/login"); }}>
             <Ionicons name="log-out-outline" size={22} color="#fff" />
@@ -43,9 +43,9 @@ export default function PartnerHome() {
       <ScrollView style={styles.scroll} contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + (Platform.OS === "web" ? 34 : 84) }]} showsVerticalScrollIndicator={false}>
         <View style={[styles.earningsCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
           <LinearGradient colors={["#8A2BE220", "#FF2FBF10"]} style={styles.earningsGrad} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
-            <Text style={[styles.earningsLabel, { color: colors.mutedForeground, fontFamily: "Inter_400Regular" }]}>Lifetime Earnings</Text>
-            <Text style={[styles.earningsAmount, { color: colors.foreground, fontFamily: "Inter_700Bold" }]}>₹12,450</Text>
-            <Text style={[styles.earningsMonth, { color: colors.success, fontFamily: "Inter_500Medium" }]}>+₹2,100 this month</Text>
+            <Text style={[styles.earningsLabel, { color: colors.mutedForeground, fontFamily: "Roboto_400Regular" }]}>Lifetime Earnings</Text>
+            <Text style={[styles.earningsAmount, { color: colors.foreground, fontFamily: "Roboto_700Bold" }]}>₹12,450</Text>
+            <Text style={[styles.earningsMonth, { color: colors.success, fontFamily: "Roboto_500Medium" }]}>+₹2,100 this month</Text>
           </LinearGradient>
         </View>
 
@@ -57,16 +57,16 @@ export default function PartnerHome() {
           ].map((s) => (
             <View key={s.label} style={[styles.statMini, { backgroundColor: colors.card, borderColor: colors.border }]}>
               <Ionicons name={s.icon as any} size={18} color={s.color} />
-              <Text style={[styles.statMiniVal, { color: colors.foreground, fontFamily: "Inter_700Bold" }]}>{s.value}</Text>
-              <Text style={[styles.statMiniLabel, { color: colors.mutedForeground, fontFamily: "Inter_400Regular" }]}>{s.label}</Text>
+              <Text style={[styles.statMiniVal, { color: colors.foreground, fontFamily: "Roboto_700Bold" }]}>{s.value}</Text>
+              <Text style={[styles.statMiniLabel, { color: colors.mutedForeground, fontFamily: "Roboto_400Regular" }]}>{s.label}</Text>
             </View>
           ))}
         </View>
 
         <View style={[styles.referralCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
-          <Text style={[styles.referralTitle, { color: colors.foreground, fontFamily: "Inter_700Bold" }]}>Your Referral Code</Text>
+          <Text style={[styles.referralTitle, { color: colors.foreground, fontFamily: "Roboto_700Bold" }]}>Your Referral Code</Text>
           <View style={[styles.codeBox, { backgroundColor: colors.muted, borderColor: colors.border }]}>
-            <Text style={[styles.code, { color: colors.primary, fontFamily: "Inter_700Bold" }]}>{referralCode}</Text>
+            <Text style={[styles.code, { color: colors.primary, fontFamily: "Roboto_700Bold" }]}>{referralCode}</Text>
           </View>
           <TouchableOpacity
             style={[styles.shareBtn]}
@@ -75,7 +75,7 @@ export default function PartnerHome() {
           >
             <LinearGradient colors={["#8A2BE2", "#FF2FBF"]} style={styles.shareBtnGrad} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}>
               <Ionicons name="share-social" size={18} color="#fff" />
-              <Text style={[styles.shareBtnText, { fontFamily: "Inter_700Bold" }]}>Share Referral Link</Text>
+              <Text style={[styles.shareBtnText, { fontFamily: "Roboto_700Bold" }]}>Share Referral Link</Text>
             </LinearGradient>
           </TouchableOpacity>
         </View>
@@ -85,7 +85,7 @@ export default function PartnerHome() {
           onPress={() => Alert.alert("Payout Request", "Your payout request for ₹3,200 has been submitted. It will be processed in 3-5 business days.")}
         >
           <Ionicons name="wallet-outline" size={18} color={colors.success} />
-          <Text style={[styles.payoutBtnText, { color: colors.success, fontFamily: "Inter_600SemiBold" }]}>Request Payout</Text>
+          <Text style={[styles.payoutBtnText, { color: colors.success, fontFamily: "Roboto_700Bold" }]}>Request Payout</Text>
         </TouchableOpacity>
       </ScrollView>
     </View>

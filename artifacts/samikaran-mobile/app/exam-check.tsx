@@ -202,10 +202,10 @@ export default function ExamCheckScreen() {
           <View style={[styles.shieldBadge, { backgroundColor: "#8A2BE220" }]}>
             <Ionicons name="shield-checkmark" size={22} color="#a855f7" />
           </View>
-          <Text style={[styles.headerTitle, { color: "#fff", fontFamily: "Inter_700Bold" }]}>
+          <Text style={[styles.headerTitle, { color: "#fff", fontFamily: "Roboto_700Bold" }]}>
             Pre-Exam Check
           </Text>
-          <Text style={[styles.headerSub, { color: "rgba(255,255,255,0.55)", fontFamily: "Inter_400Regular" }]}>
+          <Text style={[styles.headerSub, { color: "rgba(255,255,255,0.55)", fontFamily: "Roboto_400Regular" }]}>
             {params.examTitle ?? "Live Exam"} · {params.duration ?? "45"} min
           </Text>
         </View>
@@ -249,14 +249,14 @@ export default function ExamCheckScreen() {
         {!cameraReady && !checksRunning && (
           <View style={[styles.noCameraCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
             <Ionicons name="camera-outline" size={36} color={colors.mutedForeground} />
-            <Text style={[styles.noCameraText, { color: colors.mutedForeground, fontFamily: "Inter_400Regular" }]}>
+            <Text style={[styles.noCameraText, { color: colors.mutedForeground, fontFamily: "Roboto_400Regular" }]}>
               Camera not available in this environment
             </Text>
           </View>
         )}
 
         <View style={[styles.checksCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
-          <Text style={[styles.sectionTitle, { color: colors.foreground, fontFamily: "Inter_700Bold" }]}>
+          <Text style={[styles.sectionTitle, { color: colors.foreground, fontFamily: "Roboto_700Bold" }]}>
             System Checks
           </Text>
           {checks.map((check) => (
@@ -273,10 +273,10 @@ export default function ExamCheckScreen() {
                 )}
               </View>
               <View style={styles.checkInfo}>
-                <Text style={[styles.checkLabel, { color: colors.foreground, fontFamily: "Inter_600SemiBold" }]}>
+                <Text style={[styles.checkLabel, { color: colors.foreground, fontFamily: "Roboto_700Bold" }]}>
                   {check.label}
                 </Text>
-                <Text style={[styles.checkDesc, { color: colors.mutedForeground, fontFamily: "Inter_400Regular" }]}>
+                <Text style={[styles.checkDesc, { color: colors.mutedForeground, fontFamily: "Roboto_400Regular" }]}>
                   {check.status === "checking"
                     ? "Checking..."
                     : check.status === "passed"
@@ -301,18 +301,18 @@ export default function ExamCheckScreen() {
 
         {allChecksPassed && (
           <View style={[styles.rulesCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
-            <Text style={[styles.sectionTitle, { color: colors.foreground, fontFamily: "Inter_700Bold" }]}>
+            <Text style={[styles.sectionTitle, { color: colors.foreground, fontFamily: "Roboto_700Bold" }]}>
               Exam Rules
             </Text>
-            <Text style={[styles.rulesIntro, { color: colors.mutedForeground, fontFamily: "Inter_400Regular" }]}>
+            <Text style={[styles.rulesIntro, { color: colors.mutedForeground, fontFamily: "Roboto_400Regular" }]}>
               Please read carefully before starting:
             </Text>
             {RULES.map((rule, i) => (
               <View key={i} style={styles.ruleRow}>
                 <View style={[styles.ruleNum, { backgroundColor: colors.primary + "18" }]}>
-                  <Text style={[styles.ruleNumText, { color: colors.primary, fontFamily: "Inter_700Bold" }]}>{i + 1}</Text>
+                  <Text style={[styles.ruleNumText, { color: colors.primary, fontFamily: "Roboto_700Bold" }]}>{i + 1}</Text>
                 </View>
-                <Text style={[styles.ruleText, { color: colors.foreground, fontFamily: "Inter_400Regular" }]}>
+                <Text style={[styles.ruleText, { color: colors.foreground, fontFamily: "Roboto_400Regular" }]}>
                   {rule}
                 </Text>
               </View>
@@ -332,7 +332,7 @@ export default function ExamCheckScreen() {
               }]}>
                 {rulesChecked && <Ionicons name="checkmark" size={14} color="#fff" />}
               </View>
-              <Text style={[styles.acceptText, { color: colors.foreground, fontFamily: "Inter_500Medium" }]}>
+              <Text style={[styles.acceptText, { color: colors.foreground, fontFamily: "Roboto_500Medium" }]}>
                 I have read and agree to all the exam rules
               </Text>
             </TouchableOpacity>
@@ -348,7 +348,7 @@ export default function ExamCheckScreen() {
               end={{ x: 1, y: 0 }}
             >
               <Ionicons name="play-circle" size={22} color="#fff" />
-              <Text style={[styles.beginBtnText, { fontFamily: "Inter_700Bold" }]}>
+              <Text style={[styles.beginBtnText, { fontFamily: "Roboto_700Bold" }]}>
                 Begin Exam Now
               </Text>
               <Ionicons name="arrow-forward" size={18} color="#fff" />
@@ -359,7 +359,7 @@ export default function ExamCheckScreen() {
         {!allChecksPassed && !checksRunning && (
           <View style={[styles.waitCard, { backgroundColor: colors.muted, borderColor: colors.border }]}>
             <Ionicons name="information-circle-outline" size={20} color={colors.mutedForeground} />
-            <Text style={[styles.waitText, { color: colors.mutedForeground, fontFamily: "Inter_400Regular" }]}>
+            <Text style={[styles.waitText, { color: colors.mutedForeground, fontFamily: "Roboto_400Regular" }]}>
               {cameraReady
                 ? "Position your face clearly in the camera frame to continue."
                 : "Please grant camera and microphone permissions to proceed."}
@@ -422,7 +422,7 @@ const styles = StyleSheet.create({
   faceOkText: {
     color: "#fff",
     fontSize: 11,
-    fontFamily: "Inter_600SemiBold",
+    fontFamily: "Roboto_700Bold",
   },
   noCameraCard: {
     height: 140,

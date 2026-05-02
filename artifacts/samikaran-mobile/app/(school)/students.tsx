@@ -26,7 +26,7 @@ export default function StudentsScreen() {
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <View style={[styles.header, { paddingTop: topPad + 16, backgroundColor: colors.card, borderBottomColor: colors.border }]}>
         <View style={styles.headerRow}>
-          <Text style={[styles.title, { color: colors.foreground, fontFamily: "Inter_700Bold" }]}>Students</Text>
+          <Text style={[styles.title, { color: colors.foreground, fontFamily: "Roboto_700Bold" }]}>Students</Text>
           <TouchableOpacity style={[styles.addBtn, { backgroundColor: colors.primary }]}>
             <Ionicons name="add" size={22} color="#fff" />
           </TouchableOpacity>
@@ -34,7 +34,7 @@ export default function StudentsScreen() {
         <View style={[styles.searchBar, { backgroundColor: colors.muted, borderColor: colors.border }]}>
           <Ionicons name="search-outline" size={18} color={colors.mutedForeground} />
           <TextInput
-            style={[styles.searchInput, { color: colors.foreground, fontFamily: "Inter_400Regular" }]}
+            style={[styles.searchInput, { color: colors.foreground, fontFamily: "Roboto_400Regular" }]}
             placeholder="Search by name or roll number"
             placeholderTextColor={colors.mutedForeground}
             value={search}
@@ -55,18 +55,18 @@ export default function StudentsScreen() {
             activeOpacity={0.8}
           >
             <View style={[styles.avatar, { backgroundColor: colors.primary + "20" }]}>
-              <Text style={[styles.avatarText, { color: colors.primary, fontFamily: "Inter_700Bold" }]}>
+              <Text style={[styles.avatarText, { color: colors.primary, fontFamily: "Roboto_700Bold" }]}>
                 {student.name.charAt(0)}
               </Text>
             </View>
             <View style={styles.studentInfo}>
-              <Text style={[styles.studentName, { color: colors.foreground, fontFamily: "Inter_600SemiBold" }]}>{student.name}</Text>
-              <Text style={[styles.studentMeta, { color: colors.mutedForeground, fontFamily: "Inter_400Regular" }]}>
+              <Text style={[styles.studentName, { color: colors.foreground, fontFamily: "Roboto_700Bold" }]}>{student.name}</Text>
+              <Text style={[styles.studentMeta, { color: colors.mutedForeground, fontFamily: "Roboto_400Regular" }]}>
                 Class {student.class} · {student.roll}
               </Text>
             </View>
             <View style={[styles.scoreBadge, { backgroundColor: student.score >= 85 ? colors.success + "20" : colors.muted }]}>
-              <Text style={[styles.scoreText, { color: student.score >= 85 ? colors.success : colors.mutedForeground, fontFamily: "Inter_700Bold" }]}>
+              <Text style={[styles.scoreText, { color: student.score >= 85 ? colors.success : colors.mutedForeground, fontFamily: "Roboto_700Bold" }]}>
                 {student.score}%
               </Text>
             </View>

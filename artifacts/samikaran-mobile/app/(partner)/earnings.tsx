@@ -19,22 +19,22 @@ export default function EarningsScreen() {
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <View style={[styles.header, { paddingTop: topPad + 16, backgroundColor: colors.card, borderBottomColor: colors.border }]}>
-        <Text style={[styles.title, { color: colors.foreground, fontFamily: "Inter_700Bold" }]}>Earnings</Text>
+        <Text style={[styles.title, { color: colors.foreground, fontFamily: "Roboto_700Bold" }]}>Earnings</Text>
       </View>
       <ScrollView style={styles.scroll} contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + (Platform.OS === "web" ? 34 : 84) }]} showsVerticalScrollIndicator={false}>
         {TRANSACTIONS.map((t) => (
           <View key={t.id} style={[styles.txCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
             <View style={[styles.txAvatar, { backgroundColor: colors.primary + "20" }]}>
-              <Text style={[styles.txAvatarText, { color: colors.primary, fontFamily: "Inter_700Bold" }]}>{t.student.charAt(0)}</Text>
+              <Text style={[styles.txAvatarText, { color: colors.primary, fontFamily: "Roboto_700Bold" }]}>{t.student.charAt(0)}</Text>
             </View>
             <View style={styles.txInfo}>
-              <Text style={[styles.txName, { color: colors.foreground, fontFamily: "Inter_600SemiBold" }]}>{t.student}</Text>
-              <Text style={[styles.txDate, { color: colors.mutedForeground, fontFamily: "Inter_400Regular" }]}>{t.date}</Text>
+              <Text style={[styles.txName, { color: colors.foreground, fontFamily: "Roboto_700Bold" }]}>{t.student}</Text>
+              <Text style={[styles.txDate, { color: colors.mutedForeground, fontFamily: "Roboto_400Regular" }]}>{t.date}</Text>
             </View>
             <View style={styles.txRight}>
-              <Text style={[styles.txAmount, { color: colors.foreground, fontFamily: "Inter_700Bold" }]}>₹{t.amount}</Text>
+              <Text style={[styles.txAmount, { color: colors.foreground, fontFamily: "Roboto_700Bold" }]}>₹{t.amount}</Text>
               <View style={[styles.txStatus, { backgroundColor: t.status === "paid" ? colors.success + "20" : colors.muted }]}>
-                <Text style={[styles.txStatusText, { color: t.status === "paid" ? colors.success : colors.mutedForeground, fontFamily: "Inter_500Medium" }]}>
+                <Text style={[styles.txStatusText, { color: t.status === "paid" ? colors.success : colors.mutedForeground, fontFamily: "Roboto_500Medium" }]}>
                   {t.status}
                 </Text>
               </View>

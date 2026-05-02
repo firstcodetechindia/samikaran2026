@@ -20,8 +20,8 @@ export default function SchoolProfile() {
         <View style={[styles.avatar, { backgroundColor: colors.primary + "30", borderColor: colors.primary }]}>
           <Ionicons name="business" size={36} color={colors.primary} />
         </View>
-        <Text style={[styles.name, { color: "#fff", fontFamily: "Inter_700Bold" }]}>{user?.fullName ?? "School"}</Text>
-        <Text style={[styles.sub, { color: "rgba(255,255,255,0.6)", fontFamily: "Inter_400Regular" }]}>School Admin</Text>
+        <Text style={[styles.name, { color: "#fff", fontFamily: "Roboto_700Bold" }]}>{user?.fullName ?? "School"}</Text>
+        <Text style={[styles.sub, { color: "rgba(255,255,255,0.6)", fontFamily: "Roboto_400Regular" }]}>School Admin</Text>
       </LinearGradient>
       <ScrollView style={styles.scroll} contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + (Platform.OS === "web" ? 34 : 84) }]}>
         <TouchableOpacity
@@ -29,7 +29,7 @@ export default function SchoolProfile() {
           onPress={() => Alert.alert("Logout", "Sure?", [{ text: "Cancel", style: "cancel" }, { text: "Logout", style: "destructive", onPress: async () => { await logout(); router.replace("/login"); } }])}
         >
           <Ionicons name="log-out-outline" size={18} color={colors.destructive} />
-          <Text style={[styles.logoutText, { color: colors.destructive, fontFamily: "Inter_600SemiBold" }]}>Logout</Text>
+          <Text style={[styles.logoutText, { color: colors.destructive, fontFamily: "Roboto_700Bold" }]}>Logout</Text>
         </TouchableOpacity>
       </ScrollView>
     </View>

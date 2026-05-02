@@ -20,8 +20,8 @@ export default function ParentProfile() {
         <View style={[styles.avatar, { backgroundColor: colors.primary + "30", borderColor: colors.primary }]}>
           <Ionicons name="people" size={36} color={colors.primary} />
         </View>
-        <Text style={[styles.name, { color: "#fff", fontFamily: "Inter_700Bold" }]}>{user?.fullName ?? "Parent"}</Text>
-        <Text style={[styles.sub, { color: "rgba(255,255,255,0.6)", fontFamily: "Inter_400Regular" }]}>Parent Account</Text>
+        <Text style={[styles.name, { color: "#fff", fontFamily: "Roboto_700Bold" }]}>{user?.fullName ?? "Parent"}</Text>
+        <Text style={[styles.sub, { color: "rgba(255,255,255,0.6)", fontFamily: "Roboto_400Regular" }]}>Parent Account</Text>
       </LinearGradient>
       <View style={[styles.content, { paddingBottom: insets.bottom + (Platform.OS === "web" ? 34 : 16) }]}>
         <TouchableOpacity
@@ -29,7 +29,7 @@ export default function ParentProfile() {
           onPress={() => Alert.alert("Logout", "Sure?", [{ text: "Cancel", style: "cancel" }, { text: "Logout", style: "destructive", onPress: async () => { await logout(); router.replace("/login"); } }])}
         >
           <Ionicons name="log-out-outline" size={18} color={colors.destructive} />
-          <Text style={[styles.logoutText, { color: colors.destructive, fontFamily: "Inter_600SemiBold" }]}>Logout</Text>
+          <Text style={[styles.logoutText, { color: colors.destructive, fontFamily: "Roboto_700Bold" }]}>Logout</Text>
         </TouchableOpacity>
       </View>
     </View>

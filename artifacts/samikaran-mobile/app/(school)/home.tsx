@@ -30,10 +30,10 @@ export default function SchoolHome() {
       >
         <View style={styles.headerRow}>
           <View>
-            <Text style={[styles.greeting, { color: "rgba(255,255,255,0.7)", fontFamily: "Inter_400Regular" }]}>
+            <Text style={[styles.greeting, { color: "rgba(255,255,255,0.7)", fontFamily: "Roboto_400Regular" }]}>
               School Dashboard
             </Text>
-            <Text style={[styles.name, { color: "#fff", fontFamily: "Inter_700Bold" }]}>
+            <Text style={[styles.name, { color: "#fff", fontFamily: "Roboto_700Bold" }]}>
               {user?.fullName ?? "School Admin"}
             </Text>
           </View>
@@ -55,7 +55,7 @@ export default function SchoolHome() {
         </View>
 
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: colors.foreground, fontFamily: "Inter_700Bold" }]}>
+          <Text style={[styles.sectionTitle, { color: colors.foreground, fontFamily: "Roboto_700Bold" }]}>
             Quick Actions
           </Text>
           <View style={styles.actionsGrid}>
@@ -68,7 +68,7 @@ export default function SchoolHome() {
                 <View style={[styles.actionIcon, { backgroundColor: action.color + "20" }]}>
                   <Ionicons name={action.icon as any} size={24} color={action.color} />
                 </View>
-                <Text style={[styles.actionLabel, { color: colors.foreground, fontFamily: "Inter_500Medium" }]}>
+                <Text style={[styles.actionLabel, { color: colors.foreground, fontFamily: "Roboto_500Medium" }]}>
                   {action.label}
                 </Text>
               </TouchableOpacity>
@@ -77,7 +77,7 @@ export default function SchoolHome() {
         </View>
 
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: colors.foreground, fontFamily: "Inter_700Bold" }]}>
+          <Text style={[styles.sectionTitle, { color: colors.foreground, fontFamily: "Roboto_700Bold" }]}>
             Upcoming Olympiads
           </Text>
           {[
@@ -87,14 +87,14 @@ export default function SchoolHome() {
             <View key={o.name} style={[styles.olympiadCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
               <View style={[styles.olympiadDot, { backgroundColor: colors.primary }]} />
               <View style={styles.olympiadInfo}>
-                <Text style={[styles.olympiadName, { color: colors.foreground, fontFamily: "Inter_600SemiBold" }]}>{o.name}</Text>
-                <Text style={[styles.olympiadDate, { color: colors.mutedForeground, fontFamily: "Inter_400Regular" }]}>{o.date}</Text>
+                <Text style={[styles.olympiadName, { color: colors.foreground, fontFamily: "Roboto_700Bold" }]}>{o.name}</Text>
+                <Text style={[styles.olympiadDate, { color: colors.mutedForeground, fontFamily: "Roboto_400Regular" }]}>{o.date}</Text>
               </View>
               <View style={[styles.olympiadCount, { backgroundColor: colors.primary + "20" }]}>
-                <Text style={[styles.olympiadCountText, { color: colors.primary, fontFamily: "Inter_600SemiBold" }]}>
+                <Text style={[styles.olympiadCountText, { color: colors.primary, fontFamily: "Roboto_700Bold" }]}>
                   {o.registered}
                 </Text>
-                <Text style={[styles.olympiadCountLabel, { color: colors.mutedForeground, fontFamily: "Inter_400Regular" }]}>
+                <Text style={[styles.olympiadCountLabel, { color: colors.mutedForeground, fontFamily: "Roboto_400Regular" }]}>
                   registered
                 </Text>
               </View>
