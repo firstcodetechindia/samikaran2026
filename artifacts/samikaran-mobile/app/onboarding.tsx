@@ -467,7 +467,7 @@ const styles = StyleSheet.create({
   },
   logoIcon: { width: 52, height: 52 },
   logoTxt: { color: "#fff", fontSize: 17, letterSpacing: 1.5, lineHeight: 20 },
-  logoSub: { color: "rgba(255,255,255,0.65)", fontSize: 11, letterSpacing: 2.5, lineHeight: 14 },
+  logoSub: { color: "rgba(255,255,255,0.65)", fontSize: 11, letterSpacing: 7.5, lineHeight: 14 },
   skipPill: {
     paddingHorizontal: 18,
     paddingVertical: 8,
