@@ -221,13 +221,16 @@ export default function OnboardingScreen() {
       {/* Top bar */}
       <View style={[styles.topBar, { paddingTop: topPad + 8 }]}>
         <View style={styles.logoRow}>
-          <Image
-            source={require("../assets/images/icon.png")}
-            style={styles.logoIcon}
-            resizeMode="contain"
-          />
+          <View style={styles.logoIconWrap}>
+            <Image
+              source={require("../assets/images/icon.png")}
+              style={styles.logoIcon}
+              resizeMode="contain"
+            />
+          </View>
           <Text style={[styles.logoTxt, { fontFamily: "Roboto_700Bold" }]}>
-            SAMIKARAN<Text style={{ color: "#FF2FBF" }}>.</Text>
+            SAMIKARAN{" "}
+            <Text style={{ color: "#FF2FBF", fontFamily: "Roboto_700Bold" }}>OLYMPIAD</Text>
           </Text>
         </View>
         <TouchableOpacity onPress={handleDone} style={styles.skipPill}>
@@ -244,7 +247,7 @@ export default function OnboardingScreen() {
         bounces={false}
         scrollEventThrottle={32}
         onMomentumScrollEnd={handleScrollEnd}
-        style={[styles.charScroll, { top: TOP_BAR_H, height: CHAR_ZONE_H }]}
+        style={[styles.charScroll, { top: TOP_BAR_H * 0.45, height: ILLUS_H - TOP_BAR_H * 0.45 }]}
         contentContainerStyle={{ alignItems: "center" }}
       >
         {SLIDES.map((s, i) => (
@@ -253,9 +256,8 @@ export default function OnboardingScreen() {
             style={{
               width,
               alignItems: "center",
-              justifyContent: "flex-end",
-              height: CHAR_ZONE_H,
-              paddingBottom: 12,
+              justifyContent: "center",
+              height: ILLUS_H - TOP_BAR_H * 0.45,
             }}
           >
             <Animated.View style={i === current ? charStyle : undefined}>
@@ -442,8 +444,14 @@ const styles = StyleSheet.create({
     zIndex: 30,
   },
   logoRow: { flexDirection: "row", alignItems: "center", gap: 8 },
-  logoIcon: { width: 28, height: 28, borderRadius: 7 },
-  logoTxt: { color: "#fff", fontSize: 13, letterSpacing: 1.8 },
+  logoIconWrap: {
+    width: 38, height: 38, borderRadius: 10,
+    backgroundColor: "#7C3AED",
+    alignItems: "center", justifyContent: "center",
+    overflow: "hidden",
+  },
+  logoIcon: { width: 34, height: 34, borderRadius: 8 },
+  logoTxt: { color: "#fff", fontSize: 12, letterSpacing: 1.2 },
   skipPill: {
     paddingHorizontal: 18,
     paddingVertical: 8,
