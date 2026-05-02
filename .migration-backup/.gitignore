@@ -1,0 +1,9 @@
+node_modules
+dist
+.DS_Store
+server/public
+vite.config.ts.*
+*.tar.gz
+uploads/
+CREDENTIALS.txt
+attached_assets/image_1777*.png
