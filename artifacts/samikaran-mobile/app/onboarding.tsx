@@ -448,9 +448,9 @@ const styles = StyleSheet.create({
   },
   logoRow: { flexDirection: "row", alignItems: "center", gap: 10 },
   logoIconWrap: {
-    width: 54,
-    height: 54,
-    borderRadius: 14,
+    width: 64,
+    height: 64,
+    borderRadius: 16,
     backgroundColor: "#fff",
     borderWidth: 2.5,
     borderColor: "#FF2FBF",
@@ -458,7 +458,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     overflow: "hidden",
   },
-  logoIcon: { width: 44, height: 44 },
+  logoIcon: { width: 52, height: 52 },
   logoTxt: { color: "#fff", fontSize: 14, letterSpacing: 1.5, lineHeight: 17 },
   logoSub: { color: "rgba(255,255,255,0.65)", fontSize: 9, letterSpacing: 2.5, lineHeight: 12 },
   skipPill: {
