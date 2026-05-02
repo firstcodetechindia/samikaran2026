@@ -31,10 +31,10 @@ const { width, height } = Dimensions.get("window");
 
 // Pre-resolve all images at module load — Metro bundles & decodes them
 // immediately so there's no stall when characters first render
-const IMG1 = require("../assets/images/onboard1.png");
-const IMG2 = require("../assets/images/onboard2.png");
-const IMG3 = require("../assets/images/onboard3.png");
-const IMG4 = require("../assets/images/onboard4.png");
+const IMG1 = require("../assets/images/onboard1.webp");
+const IMG2 = require("../assets/images/onboard2.webp");
+const IMG3 = require("../assets/images/onboard3.webp");
+const IMG4 = require("../assets/images/onboard4.webp");
 
 const SLIDES = [
   {
