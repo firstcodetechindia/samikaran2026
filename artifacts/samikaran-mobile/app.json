@@ -35,7 +35,20 @@
         }
       ],
       "expo-font",
-      "expo-web-browser"
+      "expo-web-browser",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera for exam proctoring.",
+          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone for voice questions."
+        }
+      ],
+      [
+        "expo-av",
+        {
+          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone for voice answer recording."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

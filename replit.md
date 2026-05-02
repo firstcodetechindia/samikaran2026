@@ -17,6 +17,16 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 
 ## Artifacts
 
+### Samikaran Mobile (`artifacts/samikaran-mobile`)
+- Expo React Native app (TypeScript, expo-router v6, TanStack Query)
+- Preview path: `/samikaran-mobile/`
+- Key packages: expo-camera, expo-face-detector, expo-av, expo-haptics, expo-linear-gradient
+- Exam proctoring screens:
+  - `app/exam-check.tsx` — pre-exam check (camera/mic permissions, face detection, rules)
+  - `app/exam-take.tsx` — full proctored exam (MCQ/True-False/Image/Voice questions, camera overlay, AppState tab-switch detection, expo-av siren, auto-submit at 3 violations, question palette bottom sheet)
+- Face detection: snapshot-based via `CameraView.takePictureAsync` + `FaceDetector.detectFacesAsync` every 2s
+- Student flow: `(student)/exams.tsx` → `exam-check.tsx` → `exam-take.tsx`
+
 ### Samikaran Olympiad (`artifacts/samikaran-olympiad`)
 - Frontend React + Vite app (TypeScript, Tailwind CSS v3, wouter, TanStack Query)
 - Preview path: `/` (root)

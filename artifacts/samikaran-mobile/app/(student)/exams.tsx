@@ -46,10 +46,22 @@ export default function ExamsScreen() {
     if (exam.status === "live") {
       Alert.alert(
         "Start Exam",
-        `Ready to start "${exam.title}"?\n\nMake sure you have:\n• Stable internet\n• Camera enabled\n• Quiet environment`,
+        `Ready to start "${exam.title}"?\n\nMake sure you have:\n• Stable internet connection\n• Camera enabled and face visible\n• Quiet environment\n• Mic access for voice questions`,
         [
           { text: "Cancel", style: "cancel" },
-          { text: "Start", style: "default", onPress: () => Alert.alert("Exam Interface", "Full proctored exam interface would open here with camera verification, face detection, and secure exam environment.") },
+          {
+            text: "Continue to Check",
+            style: "default",
+            onPress: () =>
+              router.push({
+                pathname: "/exam-check",
+                params: {
+                  examId: String(exam.id),
+                  examTitle: exam.title,
+                  duration: String(exam.duration ?? 45),
+                },
+              }),
+          },
         ]
       );
     }

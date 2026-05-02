@@ -30,6 +30,14 @@ function RootLayoutNav() {
       <Stack.Screen name="(school)" />
       <Stack.Screen name="(parent)" />
       <Stack.Screen name="(partner)" />
+      <Stack.Screen
+        name="exam-check"
+        options={{ presentation: "card", animation: "slide_from_right" }}
+      />
+      <Stack.Screen
+        name="exam-take"
+        options={{ presentation: "fullScreenModal", animation: "slide_from_bottom", gestureEnabled: false }}
+      />
     </Stack>
   );
 }
