@@ -101,8 +101,8 @@ export default function OnboardingScreen() {
   // Available vertical zone for character (below top bar, above card)
   const CHAR_ZONE_H = ILLUS_H - TOP_BAR_H;
   // Character fills full width so all images display large
-  const CHAR_H = Math.min(CHAR_ZONE_H * 0.96, 540);
-  const CHAR_W = width * 1.0;
+  const CHAR_H = Math.min(CHAR_ZONE_H * 1.04, 570);
+  const CHAR_W = width * 1.02;
   const slide = SLIDES[current];
 
   const animateIn = useCallback(() => {
