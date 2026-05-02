@@ -24,10 +24,6 @@ import Animated, {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Haptics from "expo-haptics";
-import { OlympiadIllustration } from "@/components/illustrations/OlympiadIllustration";
-import { RolesIllustration } from "@/components/illustrations/RolesIllustration";
-import { ProctorIllustration } from "@/components/illustrations/ProctorIllustration";
-import { AchievementIllustration } from "@/components/illustrations/AchievementIllustration";
 
 const { width, height } = Dimensions.get("window");
 
@@ -38,8 +34,8 @@ const SLIDES = [
     title: "Bharat ka #1\nOlympiad Platform",
     sub: "50,000+ students · 500+ schools · 15 subjects",
     accent: "#8A2BE2",
-    lightAccent: "#f3e8ff",
-    Illustration: OlympiadIllustration,
+    lightAccent: "#ede9fe",
+    image: require("../assets/images/onboard1.png"),
   },
   {
     id: "1",
@@ -47,8 +43,8 @@ const SLIDES = [
     title: "Student. School.\nParent. Partner.",
     sub: "One app, every role — a tailored experience for all.",
     accent: "#c026d3",
-    lightAccent: "#fce7f3",
-    Illustration: RolesIllustration,
+    lightAccent: "#fae8ff",
+    image: require("../assets/images/onboard2.png"),
   },
   {
     id: "2",
@@ -57,20 +53,20 @@ const SLIDES = [
     sub: "Face detection · Voice alerts · Auto-submit on violation",
     accent: "#0284c7",
     lightAccent: "#e0f2fe",
-    Illustration: ProctorIllustration,
+    image: require("../assets/images/onboard3.png"),
   },
   {
     id: "3",
     tag: "WIN BIG",
     title: "Rank. Earn.\nMake India Proud.",
     sub: "All India Rank · Scholarships · Certificates",
-    accent: "#b45309",
-    lightAccent: "#fef9c3",
-    Illustration: AchievementIllustration,
+    accent: "#7c3aed",
+    lightAccent: "#ede9fe",
+    image: require("../assets/images/onboard4.png"),
   },
 ];
 
-const ILLUS_SIZE = Math.min(width * 0.8, 300);
+const ILLUS_SIZE = Math.min(width * 0.72, 280);
 
 export default function OnboardingScreen() {
   const router = useRouter();
@@ -85,15 +81,15 @@ export default function OnboardingScreen() {
   const slide = SLIDES[current];
 
   const animateIn = useCallback(() => {
-    illustOpacity.value = withTiming(0, { duration: 150, easing: Easing.out(Easing.quad) });
-    illustScale.value = withTiming(0.9, { duration: 150 });
-    cardY.value = withTiming(12, { duration: 130 }, () => {
+    illustOpacity.value = withTiming(0, { duration: 140, easing: Easing.out(Easing.quad) });
+    illustScale.value = withTiming(0.92, { duration: 140 });
+    cardY.value = withTiming(10, { duration: 120 }, () => {
       cardY.value = withSpring(0, { damping: 16, stiffness: 220 });
     });
     setTimeout(() => {
       illustScale.value = withSpring(1, { damping: 14, stiffness: 180 });
-      illustOpacity.value = withTiming(1, { duration: 220 });
-    }, 160);
+      illustOpacity.value = withTiming(1, { duration: 200 });
+    }, 150);
   }, []);
 
   const handleScrollEnd = useCallback(
@@ -153,13 +149,11 @@ export default function OnboardingScreen() {
           </Text>
         </View>
         <TouchableOpacity onPress={handleDone} style={styles.skipPill}>
-          <Text style={[styles.skipTxt, { fontFamily: "Inter_500Medium", color: "#6b7280" }]}>
-            Skip
-          </Text>
+          <Text style={[styles.skipTxt, { fontFamily: "Inter_500Medium" }]}>Skip</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Swipeable illustration area — full width, paginated */}
+      {/* Swipeable illustration area */}
       <ScrollView
         ref={scrollRef}
         horizontal
@@ -171,26 +165,26 @@ export default function OnboardingScreen() {
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
       >
-        {SLIDES.map((s, i) => {
-          const Illus = s.Illustration;
-          return (
-            <View key={s.id} style={styles.slide}>
-              {/* Soft circle backdrop */}
-              <View style={[styles.illustBg, { backgroundColor: s.lightAccent }]} />
-              <Animated.View style={i === current ? illustStyle : undefined}>
-                <Illus size={ILLUS_SIZE} />
-              </Animated.View>
-            </View>
-          );
-        })}
+        {SLIDES.map((s, i) => (
+          <View key={s.id} style={styles.slide}>
+            {/* Soft colour circle behind illustration */}
+            <View style={[styles.illustBg, { backgroundColor: s.lightAccent }]} />
+            <Animated.View style={i === current ? illustStyle : undefined}>
+              <Image
+                source={s.image}
+                style={{ width: ILLUS_SIZE, height: ILLUS_SIZE }}
+                resizeMode="contain"
+              />
+            </Animated.View>
+          </View>
+        ))}
       </ScrollView>
 
-      {/* Bottom card — white, elevated */}
+      {/* Bottom white card */}
       <Animated.View style={[styles.card, cardStyle]}>
-        {/* Drag handle */}
         <View style={[styles.handle, { backgroundColor: "#e5e7eb" }]} />
 
-        {/* Tag */}
+        {/* Tag pill */}
         <View style={[styles.tag, { backgroundColor: slide.lightAccent }]}>
           <View style={[styles.tagDot, { backgroundColor: slide.accent }]} />
           <Text style={[styles.tagTxt, { color: slide.accent, fontFamily: "Inter_600SemiBold" }]}>
@@ -199,16 +193,16 @@ export default function OnboardingScreen() {
         </View>
 
         {/* Title */}
-        <Text style={[styles.title, { fontFamily: "Inter_700Bold", color: "#111827" }]}>
+        <Text style={[styles.title, { fontFamily: "Inter_700Bold" }]}>
           {slide.title}
         </Text>
 
         {/* Subtitle */}
-        <Text style={[styles.sub, { fontFamily: "Inter_400Regular", color: "#6b7280" }]}>
+        <Text style={[styles.sub, { fontFamily: "Inter_400Regular" }]}>
           {slide.sub}
         </Text>
 
-        {/* Progress dots + hint */}
+        {/* Progress dots */}
         <View style={styles.dotsRow}>
           {SLIDES.map((_, i) => (
             <TouchableOpacity
@@ -228,11 +222,11 @@ export default function OnboardingScreen() {
             </TouchableOpacity>
           ))}
           <Text style={[styles.swipeHint, { fontFamily: "Inter_400Regular" }]}>
-            swipe to explore
+            swipe
           </Text>
         </View>
 
-        {/* CTA */}
+        {/* CTA button */}
         <TouchableOpacity onPress={handleNext} activeOpacity={0.88} style={styles.ctaWrap}>
           <LinearGradient
             colors={["#8A2BE2", "#c026d3", "#FF2FBF"]}
@@ -246,7 +240,7 @@ export default function OnboardingScreen() {
           </LinearGradient>
         </TouchableOpacity>
 
-        {/* Sign-in link — last slide only */}
+        {/* Sign-in link on last slide */}
         {current === SLIDES.length - 1 && (
           <TouchableOpacity onPress={handleDone} style={{ alignItems: "center", marginTop: 2 }}>
             <Text style={[styles.signinTxt, { fontFamily: "Inter_400Regular" }]}>
@@ -263,8 +257,6 @@ export default function OnboardingScreen() {
     </View>
   );
 }
-
-const CARD_TOP_RADIUS = 28;
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: "#F7F5FF" },
@@ -288,7 +280,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#e5e7eb",
   },
-  skipTxt: { fontSize: 13 },
+  skipTxt: { fontSize: 13, color: "#6b7280" },
   scrollView: { flex: 1, backgroundColor: "#F7F5FF" },
   scrollContent: { alignItems: "center" },
   slide: {
@@ -299,23 +291,23 @@ const styles = StyleSheet.create({
   },
   illustBg: {
     position: "absolute",
-    width: width * 0.75,
-    height: width * 0.75,
-    borderRadius: width * 0.375,
-    opacity: 0.55,
+    width: width * 0.72,
+    height: width * 0.72,
+    borderRadius: width * 0.36,
+    opacity: 0.6,
   },
   card: {
     backgroundColor: "#ffffff",
-    borderTopLeftRadius: CARD_TOP_RADIUS,
-    borderTopRightRadius: CARD_TOP_RADIUS,
+    borderTopLeftRadius: 28,
+    borderTopRightRadius: 28,
     paddingHorizontal: 26,
     paddingTop: 16,
     paddingBottom: 0,
     gap: 10,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: -3 },
-    shadowOpacity: 0.06,
-    shadowRadius: 12,
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
     elevation: 10,
   },
   handle: {
@@ -336,16 +328,11 @@ const styles = StyleSheet.create({
   },
   tagDot: { width: 5, height: 5, borderRadius: 2.5 },
   tagTxt: { fontSize: 10, letterSpacing: 1.5 },
-  title: { fontSize: 28, lineHeight: 36, letterSpacing: -0.5 },
-  sub: { fontSize: 13, lineHeight: 19 },
+  title: { fontSize: 28, color: "#111827", lineHeight: 36, letterSpacing: -0.5 },
+  sub: { fontSize: 13, color: "#6b7280", lineHeight: 19 },
   dotsRow: { flexDirection: "row", gap: 5, alignItems: "center" },
   dot: { height: 6, borderRadius: 3 },
-  swipeHint: {
-    marginLeft: 8,
-    fontSize: 11,
-    color: "#9ca3af",
-    letterSpacing: 0.3,
-  },
+  swipeHint: { marginLeft: 8, fontSize: 11, color: "#9ca3af", letterSpacing: 0.3 },
   ctaWrap: { borderRadius: 16, overflow: "hidden" },
   cta: { paddingVertical: 17, alignItems: "center", justifyContent: "center" },
   ctaTxt: { color: "#fff", fontSize: 16, letterSpacing: 0.4 },
