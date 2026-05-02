@@ -264,7 +264,6 @@ export default function LoginScreen() {
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Login failed.";
       setErr("login", msg);
-      toast(msg, "error");
     } finally { setLoading(false); }
   };
 
@@ -285,7 +284,7 @@ export default function LoginScreen() {
       toast("OTP sent to your registered contact!", "success");
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Failed to send OTP.";
-      setErr("id", msg); toast(msg, "error");
+      setErr("id", msg);
     }
     finally { setLoading(false); }
   };
@@ -312,7 +311,7 @@ export default function LoginScreen() {
       await doLogin(data);
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Invalid OTP.";
-      setErr("otp", msg); toast(msg, "error");
+      setErr("otp", msg);
     }
     finally { setLoading(false); }
   };
@@ -335,7 +334,7 @@ export default function LoginScreen() {
       toast("Verification code sent!", "success");
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Failed to send code.";
-      setErr("rc", msg); toast(msg, "error");
+      setErr("rc", msg);
     }
     finally { setLoading(false); }
   };
@@ -356,7 +355,7 @@ export default function LoginScreen() {
       toast("Contact verified!", "success");
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Invalid OTP.";
-      setErr("otp", msg); toast(msg, "error");
+      setErr("otp", msg);
     }
     finally { setLoading(false); }
   };
@@ -380,7 +379,7 @@ export default function LoginScreen() {
       setTimeout(() => { go("login-creds"); setIdentifier(regContact); setPassword(""); }, 1200);
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Registration failed.";
-      setErr("rn", msg); toast(msg, "error");
+      setErr("rn", msg);
     }
     finally { setLoading(false); }
   };
@@ -403,7 +402,7 @@ export default function LoginScreen() {
       toast("Reset code sent to your email!", "success");
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Email not found.";
-      setErr("fe", msg); toast(msg, "error");
+      setErr("fe", msg);
     }
     finally { setLoading(false); }
   };
@@ -423,7 +422,7 @@ export default function LoginScreen() {
       go("forgot-reset");
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Invalid code.";
-      setErr("otp", msg); toast(msg, "error");
+      setErr("otp", msg);
     }
     finally { setLoading(false); }
   };
@@ -445,7 +444,7 @@ export default function LoginScreen() {
       toast("Password updated successfully!", "success");
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Failed to reset password.";
-      setErr("np", msg); toast(msg, "error");
+      setErr("np", msg);
     }
     finally { setLoading(false); }
   };
@@ -491,8 +490,8 @@ export default function LoginScreen() {
       <View style={styles.blob2} />
       <View style={styles.blob3} />
 
-      {/* Toast */}
-      <View style={[styles.toastZone, { top: insets.top + 10 }]} pointerEvents="none">
+      {/* Toast — sits just above the card, not in the status bar */}
+      <View style={[styles.toastZone, { top: height * 0.30 - 60 }]} pointerEvents="none">
         {ToastEl}
       </View>
 
