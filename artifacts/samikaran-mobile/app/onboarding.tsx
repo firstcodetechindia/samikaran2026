@@ -71,9 +71,11 @@ const SLIDES = [
   },
 ];
 
-const CARD_H = height * 0.38;
-// Character fits top 58% of screen, capped for large devices
-const CHAR_H = Math.min(height * 0.58, 480);
+// Card occupies bottom ~40% — illustration area is the rest
+const CARD_H_EST = height * 0.40;
+const ILLUS_H = height - CARD_H_EST; // full visible area above card
+// Character image fits snugly inside illustration area
+const CHAR_H = Math.min(ILLUS_H * 0.90, 460);
 const CHAR_W = CHAR_H * 0.78;
 
 export default function OnboardingScreen() {
@@ -218,12 +220,12 @@ export default function OnboardingScreen() {
         scrollEventThrottle={32}
         onMomentumScrollEnd={handleScrollEnd}
         style={styles.charScroll}
-        contentContainerStyle={{ alignItems: "flex-end" }}
+        contentContainerStyle={{ alignItems: "center" }}
       >
         {SLIDES.map((s, i) => (
           <View
             key={s.id}
-            style={{ width, alignItems: "center", justifyContent: "flex-end", height: CHAR_H }}
+            style={{ width, alignItems: "center", justifyContent: "flex-end", height: ILLUS_H }}
           >
             <Animated.View style={i === current ? charStyle : undefined}>
               <Image
@@ -435,7 +437,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    height: CHAR_H,
+    height: ILLUS_H,
     zIndex: 10,
   },
 
