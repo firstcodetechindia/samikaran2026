@@ -1,0 +1,216 @@
+IMPORTANT UI & ARCHITECTURE RULES (DO NOT VIOLATE):
+
+I already have an existing "Exam Control" screen inside my admin panel.
+You MUST NOT add:
+- New sidebar items
+- New routes
+- New pages
+- New layouts
+- New standalone screens
+- Any navigation changes
+
+ALL new functionality MUST live INSIDE the EXISTING Exam Control screen.
+Treat "Exam Control" as the SINGLE parent container.
+
+You are allowed to use ONLY:
+- Buttons
+- Tabs
+- Inline sections
+- Drawers
+- Modals
+- Stepper flows
+- Toggles
+- Accordions
+
+Reuse existing styles, components, state management, and API patterns.
+DO NOT refactor unrelated code.
+DO NOT break existing Exam Control behavior.
+
+---
+
+TASK OVERVIEW:
+
+Extend the EXISTING Exam Control screen to support
+VOICE-BASED QUESTIONS & ANSWERS
+for ANY SUBJECT Olympiad (Science, Maths, English, GK, Reasoning, etc.).
+
+This feature must be SUBJECT-AGNOSTIC and CONFIGURABLE PER QUESTION.
+It is an EXTENSION, not a replacement of existing functionality.
+
+---
+
+1) VOICE MODE TOGGLE (INSIDE QUESTION CREATION ONLY)
+
+Inside the EXISTING "Question Creation" area (Manual + AI tabs),
+add a per-question toggle called:
+
+"Enable Voice Answer"
+
+Rules:
+- Appears PER QUESTION
+- Default = OFF
+- When OFF → existing text / MCQ behavior remains unchanged
+- When ON → voice configuration becomes visible
+
+DO NOT create a new question type.
+Voice mode is a PROPERTY of a question.
+
+---
+
+2) MANUAL QUESTION MODE – VOICE SUPPORT (SUBJECT-AGNOSTIC)
+
+When "Enable Voice Answer" is ON:
+
+Show inline configuration fields:
+
+- Spoken Answer Format:
+  - One-word / Numeric
+  - Short Explanation
+  - Formula / Term Explanation (spoken)
+- Evaluation Method:
+  - Exact Match (numbers, units, terms)
+  - Keyword Match
+  - Semantic / Concept Match (AI-assisted)
+
+Admin must configure:
+- Reference Answer (text)
+- Acceptable Variations (optional)
+- Key Concepts / Keywords
+- Confidence Threshold (0–100%)
+
+Rules:
+- Voice mode cannot be enabled for MCQ questions
+- Image-based and theory questions CAN support voice answers
+- Numeric answers must support normalization (e.g. "ten", "10")
+
+Validation is mandatory before save.
+
+---
+
+3) AI QUESTION MODE – VOICE SUPPORT (ANY SUBJECT)
+
+Inside "AI Generate Questions":
+
+Add an optional toggle:
+"Include Voice-Answer Questions"
+
+If enabled:
+- AI generates:
+  - Question text
+  - Reference answer
+  - Expected spoken answer type
+  - Suggested evaluation method
+  - Keywords / concepts
+- All AI-generated content must be:
+  - Subject-appropriate
+  - Student-safe
+  - Editable before save
+
+Admin must REVIEW and APPROVE every question
+inside the SAME Exam Control UI.
+
+NO new screens.
+
+---
+
+4) STUDENT EXAM-TIME FLOW (NO UI BREAKAGE)
+
+For questions with Voice Answer enabled:
+
+Student sees:
+- "Record Answer" button
+- Mic permission request
+- Visual recording indicator
+- Countdown timer
+
+Behavior:
+- Single recording attempt (default)
+- Auto-stop on silence or max duration
+- Playback allowed (no re-record unless allowed)
+
+Fallback:
+- If mic fails → allow text input ONLY if admin enabled fallback
+
+---
+
+5) VOICE PROCESSING & EVALUATION LOGIC
+
+Backend processing steps:
+
+- Save raw audio file
+- Convert speech → text
+- Normalize transcript (numbers, units, terms)
+- Evaluate answer based on selected method:
+  - Exact match
+  - Keyword score
+  - Semantic similarity
+
+Evaluation must be:
+- Asynchronous
+- Non-blocking for exam flow
+
+Marks assigned after evaluation completes.
+
+---
+
+6) PROCTORING & INTEGRITY RULES
+
+If Olympiad proctoring is ON:
+
+Enforce:
+- One-time recording
+- No pause / resume
+- Mic permission mandatory
+
+Flag:
+- Long silence
+- Abnormal noise
+- Repeated mic errors
+- Tab switch during recording
+
+Store all flags for admin review.
+
+---
+
+7) DATA MODEL EXTENSION (NON-BREAKING)
+
+Extend existing schemas ONLY by ADDING fields:
+
+Question:
+- isVoiceEnabled
+- spokenAnswerFormat
+- voiceEvaluationMethod
+- referenceAnswer
+- acceptedVariations
+- keywords
+- confidenceThreshold
+- maxRecordingDuration
+
+Answer:
+- audioUrl
+- transcript
+- normalizedTranscript
+- evaluationScore
+- evaluationMethod
+- aiConfidence
+- evaluationStatus
+
+DO NOT rename or remove existing fields.
+
+---
+
+8) STRICT GENERAL RULES
+
+- Everything stays INSIDE Exam Control
+- No new routes, pages, or navigation
+- Reuse existing UI patterns
+- No design experiments
+- Follow current validation and API patterns
+
+FIRST:
+Analyze existing Exam Control code and question flow.
+
+THEN:
+Extend it carefully to support voice-based answers
+for ANY SUBJECT Olympiad
+without breaking existing exams or results.

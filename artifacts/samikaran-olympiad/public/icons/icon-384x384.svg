@@ -1,0 +1,21 @@
+<svg width="384" height="384" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gradUp" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#9333EA"/>
+      <stop offset="50%" stop-color="#C026D3"/>
+      <stop offset="100%" stop-color="#EC4899"/>
+    </linearGradient>
+    <linearGradient id="gradDown" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#A855F7"/>
+      <stop offset="100%" stop-color="#F472B6"/>
+    </linearGradient>
+  </defs>
+  <polygon points="50,12 85,72 15,72" fill="rgba(0,0,0,0.15)" transform="translate(2,4)"/>
+  <polygon points="50,88 15,28 85,28" fill="rgba(0,0,0,0.1)" transform="translate(2,4)"/>
+  <polygon points="50,10 88,75 12,75" fill="url(#gradUp)"/>
+  <polygon points="50,10 69,42.5 31,42.5" fill="rgba(255,255,255,0.18)"/>
+  <polygon points="50,90 12,25 88,25" fill="url(#gradDown)" opacity="0.88"/>
+  <polygon points="50,90 31,57.5 69,57.5" fill="rgba(255,255,255,0.12)"/>
+  <rect x="32" y="44" width="36" height="5" rx="2.5" fill="white"/>
+  <rect x="32" y="53" width="36" height="5" rx="2.5" fill="white"/>
+</svg>

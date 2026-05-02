@@ -1,0 +1,49 @@
+.school-theme-blue_academic {
+  --school-primary: 217 91% 60%;
+  --school-primary-dark: 221 83% 53%;
+  --school-accent: 199 89% 48%;
+  --school-bg: 210 40% 98%;
+  --school-sidebar: 217 91% 22%;
+  --school-sidebar-text: 0 0% 100%;
+  --school-header: 217 91% 97%;
+}
+
+.school-theme-green_modern {
+  --school-primary: 160 84% 39%;
+  --school-primary-dark: 162 63% 35%;
+  --school-accent: 174 72% 46%;
+  --school-bg: 152 40% 98%;
+  --school-sidebar: 160 84% 15%;
+  --school-sidebar-text: 0 0% 100%;
+  --school-header: 160 40% 97%;
+}
+
+.school-theme-purple_smart {
+  --school-primary: 270 72% 60%;
+  --school-primary-dark: 272 67% 47%;
+  --school-accent: 280 68% 60%;
+  --school-bg: 270 40% 98%;
+  --school-sidebar: 270 72% 20%;
+  --school-sidebar-text: 0 0% 100%;
+  --school-header: 270 40% 97%;
+}
+
+.school-theme-red_premium {
+  --school-primary: 0 84% 60%;
+  --school-primary-dark: 348 83% 47%;
+  --school-accent: 350 80% 55%;
+  --school-bg: 0 40% 98%;
+  --school-sidebar: 348 83% 18%;
+  --school-sidebar-text: 0 0% 100%;
+  --school-header: 0 40% 97%;
+}
+
+.school-theme-dark_professional {
+  --school-primary: 215 20% 45%;
+  --school-primary-dark: 215 28% 28%;
+  --school-accent: 215 14% 55%;
+  --school-bg: 220 14% 96%;
+  --school-sidebar: 220 26% 14%;
+  --school-sidebar-text: 0 0% 100%;
+  --school-header: 220 14% 96%;
+}

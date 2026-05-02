@@ -1,0 +1,57 @@
+REDESIGN CERTIFICATE SYSTEM - CREATE ELEGANT, PROFESSIONAL CERTIFICATES
+
+Current Issue: The certificate design is too basic with just a simple gradient background. Need a sophisticated, unique design.
+
+REQUIREMENTS:
+
+1. CREATE 4 CERTIFICATE TYPES:
+   - GOLD Certificate (Top performers - Rank 1-10)
+   - SILVER Certificate (Excellent - Rank 11-50)
+   - BRONZE/COPPER Certificate (Good performance - Rank 51-200)
+   - PARTICIPATION Certificate (All participants)
+
+2. DESIGN SPECIFICATIONS (Inspired by reference style):
+   - A4 size ratio (210mm x 297mm / 595px x 842px for print quality)
+   - Landscape orientation
+   - Decorative border pattern with elegant geometric icons on left side (like reference)
+   - Professional color scheme for each type:
+     * Gold: Rich gold/yellow (#FFD700, #FFA500) with cream background
+     * Silver: Silver/gray (#C0C0C0, #808080) with light gray background
+     * Bronze: Copper/bronze (#CD7F32, #B87333) with warm background
+     * Participation: Blue/purple brand colors with light background
+   - Elegant typography with serif fonts for headings
+   - Proper hierarchy: Title → Student Name → Achievement details → Signatures
+
+3. LAYOUT ELEMENTS:
+   - Left sidebar: Decorative pattern with educational icons (books, awards, students, etc.)
+   - Center area: Main certificate content
+   - Top: Organization name/logo and certificate type
+   - Middle: Student achievement details
+   - Bottom: Signature sections (Examiner & Director) with date
+   - Year badge/seal in corner
+   - Proper spacing and alignment
+
+4. CONTENT STRUCTURE:
+   - "Certificate of Achievement" / "Certificate of Excellence" title
+   - Student name (prominent, larger font)
+   - Achievement description (olympiad name, rank, score)
+   - Date of exam/achievement
+   - Signature lines with names and titles
+   - Organization branding (Samikaran Olympiad)
+
+5. TECHNICAL REQUIREMENTS:
+   - Use Tailwind CSS for styling
+   - Make it print-friendly (@media print optimizations)
+   - Ensure all text is editable/dynamic
+   - High-quality, professional appearance
+   - Proper PDF generation support
+   - Responsive for preview but optimized for print
+
+6. IMPLEMENTATION:
+   - Update the certificate generation component
+   - Create proper color schemes for each type
+   - Add decorative elements (borders, patterns, icons)
+   - Ensure proper spacing for printability
+   - Add conditional rendering based on certificate type
+
+Please redesign the entire certificate system to create elegant, professional certificates that students and teachers will be proud to receive and display. The design should be unique (not copied from reference) but similarly sophisticated and premium-looking.

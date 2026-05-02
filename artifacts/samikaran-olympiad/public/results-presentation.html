@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samikaran Olympiad - Results Preparation & Ranking System</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+        
+        .print-controls {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 12px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+        }
+        
+        .print-btn {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #8A2BE2 0%, #FF2FBF 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+        }
+        
+        .print-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(138, 43, 226, 0.4);
+        }
+        
+        .back-btn {
+            padding: 12px 20px;
+            background: white;
+            color: #8A2BE2;
+            border: 2px solid #8A2BE2;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        
+        .back-btn:hover {
+            background: #8A2BE2;
+            color: white;
+        }
+        
+        .version-badge {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+        }
+        
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            max-width: 900px;
+            margin: 0 auto 20px;
+            padding: 15mm 20mm;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            color: white;
+            min-height: 297mm;
+        }
+        
+        .logo {
+            font-size: 48px;
+            font-weight: 800;
+            letter-spacing: 4px;
+            margin-bottom: 8px;
+        }
+        
+        .logo-sub {
+            font-size: 28px;
+            font-weight: 300;
+            letter-spacing: 8px;
+            margin-bottom: 60px;
+        }
+        
+        .cover h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .cover p {
+            font-size: 20px;
+            opacity: 0.9;
+            max-width: 600px;
+        }
+        
+        .cover-footer {
+            position: absolute;
+            bottom: 40px;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+        
+        .section-header {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #059669;
+        }
+        
+        .section-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-size: 20px;
+            font-weight: 700;
+            margin-right: 12px;
+            -webkit-text-fill-color: white;
+        }
+        
+        .feature-card {
+            background: #f0fdf4;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 14px;
+            border-left: 4px solid #059669;
+        }
+        
+        .feature-card h3 {
+            color: #059669;
+            font-size: 15px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .feature-card p {
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+        
+        .feature-card ul {
+            margin-top: 8px;
+            padding-left: 18px;
+        }
+        
+        .feature-card li {
+            color: #64748b;
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 13px;
+        }
+        
+        .comparison-table th {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            color: white;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .comparison-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f8fafc;
+        }
+        
+        .ranking-box {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        
+        .ranking-box .title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .ranking-box .pattern {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 4px;
+        }
+        
+        .ranking-box .description {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-top: 8px;
+        }
+        
+        .example-box {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        .example-box h4 {
+            color: #059669;
+            font-size: 14px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        
+        .rank-display {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: white;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+        
+        .rank-badge {
+            background: #059669;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 12px;
+        }
+        
+        .formula-box {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 16px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            margin: 12px 0;
+        }
+        
+        .formula-box .formula {
+            color: #4ade80;
+            font-weight: 600;
+        }
+        
+        .step-list {
+            counter-reset: step-counter;
+            list-style: none;
+            padding: 0;
+        }
+        
+        .step-list li {
+            counter-increment: step-counter;
+            padding: 12px 12px 12px 50px;
+            position: relative;
+            background: #f0fdf4;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+        
+        .step-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 12px;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 2px solid #f59e0b;
+            border-radius: 10px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        .highlight-box h4 {
+            color: #b45309;
+            font-size: 14px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .highlight-box p {
+            color: #78350f;
+            font-size: 13px;
+        }
+        
+        .footer {
+            position: absolute;
+            bottom: 15mm;
+            left: 20mm;
+            right: 20mm;
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: #94a3b8;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 10px;
+        }
+        
+        /* Print styles - Landscape PPT */
+        @media print {
+            @page { size: A4 landscape; margin: 8mm; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            .print-controls { display: none !important; }
+            html, body { background: white !important; margin: 0 !important; }
+            .page {
+                width: 100% !important;
+                height: 190mm !important;
+                min-height: 190mm !important;
+                max-height: 190mm !important;
+                padding: 12mm 15mm !important;
+                margin: 0 !important;
+                box-shadow: none !important;
+                page-break-after: always !important;
+                page-break-inside: avoid !important;
+                break-after: page !important;
+                overflow: hidden !important;
+                box-sizing: border-box !important;
+                background: linear-gradient(135deg, #fdfbfb 0%, #fff5f5 50%, #fef0f5 100%) !important;
+            }
+            .page:last-child { page-break-after: auto !important; }
+            .cover {
+                height: 190mm !important;
+                min-height: 190mm !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: center !important;
+                align-items: center !important;
+                background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+            }
+            h1 { font-size: 28pt !important; }
+            h2 { font-size: 18pt !important; margin-bottom: 12px !important; }
+            h3 { font-size: 12pt !important; }
+            p, li { font-size: 10pt !important; }
+            .logo-watermark { opacity: 0.3 !important; font-size: 7pt !important; bottom: 3mm !important; }
+            .logo-watermark svg { width: 10px !important; height: 10px !important; opacity: 0.3 !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="print-controls">
+        <span id="version-badge" class="version-badge">v1.0</span>
+        <a href="/sysctrl/console#docs" class="back-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Dashboard
+        </a>
+        <button class="print-btn" onclick="window.print()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+                <rect x="6" y="14" width="12" height="8"/>
+            </svg>
+            Print / Save as PDF
+        </button>
+    </div>
+    
+    <script>
+        (async function loadVersion() {
+            try {
+                const res = await fetch('/docs-versions.json?t=' + Date.now());
+                const data = await res.json();
+                const doc = data.documents['results-presentation'];
+                if (doc) {
+                    document.getElementById('version-badge').textContent = 'v' + doc.version;
+                }
+            } catch(e) { console.log('Version load failed:', e); }
+        })();
+    </script>
+
+    <!-- Cover Page -->
+    <div class="page cover">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 20px;">
+            <svg viewBox="0 0 100 100" width="70" height="70" style="filter: drop-shadow(0 4px 12px rgba(147,51,234,0.4));">
+                <defs>
+                    <linearGradient id="rLogoUp" x1="0%" y1="100%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#9333EA"/>
+                        <stop offset="50%" stop-color="#C026D3"/>
+                        <stop offset="100%" stop-color="#EC4899"/>
+                    </linearGradient>
+                    <linearGradient id="rLogoDown" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#A855F7"/>
+                        <stop offset="100%" stop-color="#F472B6"/>
+                    </linearGradient>
+                </defs>
+                <polygon points="50,12 85,72 15,72" fill="rgba(0,0,0,0.12)" transform="translate(2,4)"/>
+                <polygon points="50,88 15,28 85,28" fill="rgba(0,0,0,0.1)" transform="translate(2,4)"/>
+                <polygon points="50,10 88,75 12,75" fill="url(#rLogoUp)"/>
+                <polygon points="50,10 69,42.5 31,42.5" fill="rgba(255,255,255,0.18)"/>
+                <polygon points="50,90 12,25 88,25" fill="url(#rLogoDown)" opacity="0.88"/>
+                <polygon points="50,90 31,57.5 69,57.5" fill="rgba(255,255,255,0.12)"/>
+                <rect x="32" y="44" width="36" height="5" rx="2.5" fill="white"/>
+                <rect x="32" y="53" width="36" height="5" rx="2.5" fill="white"/>
+                <rect x="32" y="44" width="36" height="2" rx="1" fill="rgba(255,255,255,0.5)"/>
+                <rect x="32" y="53" width="36" height="2" rx="1" fill="rgba(255,255,255,0.5)"/>
+            </svg>
+            <div style="text-align: left;">
+                <div style="font-size: 2rem; font-weight: 800; letter-spacing: 2px; color: white;">SAMIKARAN<span style="color: #EC4899;">.</span></div>
+                <div style="font-size: 0.9rem; letter-spacing: 6px; opacity: 0.95; text-transform: uppercase; color: white;">OLYMPIAD</div>
+            </div>
+        </div>
+        <h1>Results Preparation &<br>Ranking System</h1>
+        <p><span style="color: white;">AI-Powered</span> <span style="background: linear-gradient(135deg, #A855F7 0%, #EC4899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700;">Olympiad Platform</span> - Results & Ranking System</p>
+        <div class="cover-footer">Confidential Document | For Administrative Use Only</div>
+    </div>
+
+    <!-- Page 2: Overview -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">1</span>Results System Overview</h2>
+        
+        <div class="feature-card">
+            <h3>Automated Results Calculation</h3>
+            <p>The platform automatically calculates results when exam attempts are completed, ensuring accuracy and consistency across all participants.</p>
+            <ul>
+                <li>Real-time score calculation as answers are submitted</li>
+                <li>Support for multiple question types with different scoring rules</li>
+                <li>Automatic negative marking for incorrect answers (configurable)</li>
+                <li>Time-based calculations for exam duration</li>
+            </ul>
+        </div>
+        
+        <div class="grid-2">
+            <div class="feature-card">
+                <h3>Score Components</h3>
+                <ul>
+                    <li><strong>Total Score:</strong> Sum of marks obtained</li>
+                    <li><strong>Max Score:</strong> Maximum possible marks</li>
+                    <li><strong>Percentage:</strong> (Score / Max) x 100</li>
+                    <li><strong>Correct Answers:</strong> Count of right answers</li>
+                    <li><strong>Wrong Answers:</strong> Count of incorrect answers</li>
+                    <li><strong>Unattempted:</strong> Questions not answered</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <h3>Negative Marking (Optional)</h3>
+                <p><strong>Not all olympiads use negative marking.</strong> When enabled:</p>
+                <ul>
+                    <li>Enable/disable per olympiad setting</li>
+                    <li>Configurable deduction percentage</li>
+                    <li>Applied only to wrong answers</li>
+                    <li>Unattempted questions: No penalty</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="formula-box">
+            <p><strong>Score Calculation Formulas:</strong></p>
+            <p class="formula">
+                Without Negative Marking: Final Score = Correct x Marks Per Question
+            </p>
+            <p class="formula" style="margin-top: 8px;">
+                With Negative Marking: Final Score = (Correct x Marks) - (Wrong x Negative %)
+            </p>
+            <p style="margin-top: 10px; font-size: 12px;">
+                Example without negative: 40 correct (2 marks each) = 80 marks<br>
+                Example with negative: 40 correct - 10 wrong (25% of 2 = 0.5 each) = 80 - 5 = 75 marks
+            </p>
+        </div>
+        
+        <div class="footer">
+            <span>Samikaran Olympiad - Results Preparation Guide</span>
+            <span>Page 2</span>
+        </div>
+    </div>
+
+    <!-- Page 3: Dual Ranking System -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">2</span>Dual Ranking System</h2>
+        
+        <p style="margin-bottom: 20px; color: #64748b; font-size: 14px;">
+            The platform supports two internationally recognized ranking mechanisms. Administrators can choose which ranking system to use when publishing results.
+        </p>
+        
+        <div class="grid-2">
+            <div class="ranking-box">
+                <div class="title">Standard Competition Ranking</div>
+                <div class="pattern">1-2-2-4</div>
+                <div class="description">Gaps appear after ties (Olympic style)</div>
+            </div>
+            <div class="ranking-box" style="background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);">
+                <div class="title">Dense Ranking</div>
+                <div class="pattern">1-2-2-3</div>
+                <div class="description">No gaps in ranking sequence</div>
+            </div>
+        </div>
+        
+        <div class="example-box">
+            <h4>Example: 5 Students with Scores</h4>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Score</th>
+                        <th>Standard (1224)</th>
+                        <th>Dense (1223)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Ananya Singh</td>
+                        <td>95/100</td>
+                        <td><span class="rank-badge">1</span></td>
+                        <td><span class="rank-badge">1</span></td>
+                    </tr>
+                    <tr>
+                        <td>Rohan Sharma</td>
+                        <td>90/100</td>
+                        <td><span class="rank-badge">2</span></td>
+                        <td><span class="rank-badge">2</span></td>
+                    </tr>
+                    <tr>
+                        <td>Priya Patel</td>
+                        <td>90/100</td>
+                        <td><span class="rank-badge">2</span></td>
+                        <td><span class="rank-badge">2</span></td>
+                    </tr>
+                    <tr>
+                        <td>Arjun Kumar</td>
+                        <td>85/100</td>
+                        <td><span class="rank-badge">4</span></td>
+                        <td><span class="rank-badge">3</span></td>
+                    </tr>
+                    <tr>
+                        <td>Meera Reddy</td>
+                        <td>80/100</td>
+                        <td><span class="rank-badge">5</span></td>
+                        <td><span class="rank-badge">4</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="highlight-box">
+            <h4>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 16v-4M12 8h.01"/>
+                </svg>
+                Key Difference
+            </h4>
+            <p>In Standard Competition Ranking, if two students tie at Rank 2, the next rank is 4 (not 3). In Dense Ranking, the next rank is always consecutive (3), regardless of ties.</p>
+        </div>
+        
+        <div class="footer">
+            <span>Samikaran Olympiad - Results Preparation Guide</span>
+            <span>Page 3</span>
+        </div>
+    </div>
+
+    <!-- Page 4: Standard Competition Ranking Details -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">3</span>Standard Competition Ranking (1-2-2-4)</h2>
+        
+        <div class="feature-card">
+            <h3>How It Works</h3>
+            <p>Standard Competition Ranking assigns the same rank to tied participants and then skips subsequent ranks equal to the number of tied positions.</p>
+        </div>
+        
+        <div class="formula-box">
+            <p><strong>Algorithm:</strong></p>
+            <p class="formula">
+                Next Rank = Current Position + Count of Ties at Current Rank
+            </p>
+            <p style="margin-top: 10px; font-size: 12px;">
+                If 3 students tie at rank 2, the next rank is 5 (skipping ranks 3 and 4)
+            </p>
+        </div>
+        
+        <div class="example-box">
+            <h4>Detailed Example: 10 Students</h4>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Position</th>
+                        <th>Student</th>
+                        <th>Score</th>
+                        <th>Standard Rank</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Student A</td><td>98</td><td>1</td></tr>
+                    <tr><td>2</td><td>Student B</td><td>95</td><td>2</td></tr>
+                    <tr><td>3</td><td>Student C</td><td>95</td><td>2</td></tr>
+                    <tr><td>4</td><td>Student D</td><td>95</td><td>2</td></tr>
+                    <tr><td>5</td><td>Student E</td><td>90</td><td>5</td></tr>
+                    <tr><td>6</td><td>Student F</td><td>85</td><td>6</td></tr>
+                    <tr><td>7</td><td>Student G</td><td>85</td><td>6</td></tr>
+                    <tr><td>8</td><td>Student H</td><td>80</td><td>8</td></tr>
+                    <tr><td>9</td><td>Student I</td><td>75</td><td>9</td></tr>
+                    <tr><td>10</td><td>Student J</td><td>75</td><td>9</td></tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="grid-2">
+            <div class="feature-card">
+                <h3>When to Use</h3>
+                <ul>
+                    <li>Olympic Games and sports competitions</li>
+                    <li>Academic rankings where position matters</li>
+                    <li>When total participant count should be preserved</li>
+                    <li>Prize distribution based on exact standings</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <h3>Advantages</h3>
+                <ul>
+                    <li>Reflects true competitive position</li>
+                    <li>Last rank equals total participants</li>
+                    <li>Industry standard for competitions</li>
+                    <li>Clear distinction between groups</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <span>Samikaran Olympiad - Results Preparation Guide</span>
+            <span>Page 4</span>
+        </div>
+    </div>
+
+    <!-- Page 5: Dense Ranking Details -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">4</span>Dense Ranking (1-2-2-3)</h2>
+        
+        <div class="feature-card">
+            <h3>How It Works</h3>
+            <p>Dense Ranking assigns the same rank to tied participants but always uses consecutive integers, without gaps, for subsequent ranks.</p>
+        </div>
+        
+        <div class="formula-box">
+            <p><strong>Algorithm:</strong></p>
+            <p class="formula">
+                Next Rank = Current Rank + 1 (regardless of ties)
+            </p>
+            <p style="margin-top: 10px; font-size: 12px;">
+                If 3 students tie at rank 2, the next rank is still 3
+            </p>
+        </div>
+        
+        <div class="example-box">
+            <h4>Detailed Example: Same 10 Students</h4>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Position</th>
+                        <th>Student</th>
+                        <th>Score</th>
+                        <th>Dense Rank</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Student A</td><td>98</td><td>1</td></tr>
+                    <tr><td>2</td><td>Student B</td><td>95</td><td>2</td></tr>
+                    <tr><td>3</td><td>Student C</td><td>95</td><td>2</td></tr>
+                    <tr><td>4</td><td>Student D</td><td>95</td><td>2</td></tr>
+                    <tr><td>5</td><td>Student E</td><td>90</td><td>3</td></tr>
+                    <tr><td>6</td><td>Student F</td><td>85</td><td>4</td></tr>
+                    <tr><td>7</td><td>Student G</td><td>85</td><td>4</td></tr>
+                    <tr><td>8</td><td>Student H</td><td>80</td><td>5</td></tr>
+                    <tr><td>9</td><td>Student I</td><td>75</td><td>6</td></tr>
+                    <tr><td>10</td><td>Student J</td><td>75</td><td>6</td></tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="grid-2">
+            <div class="feature-card">
+                <h3>When to Use</h3>
+                <ul>
+                    <li>Educational assessments and grading</li>
+                    <li>When "levels" of achievement matter more</li>
+                    <li>Scholarship tiers based on performance bands</li>
+                    <li>Award categories (Gold, Silver, Bronze)</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <h3>Advantages</h3>
+                <ul>
+                    <li>Simpler to understand for students</li>
+                    <li>No gaps in ranking numbers</li>
+                    <li>Better for tier-based recognition</li>
+                    <li>Maximum rank = number of unique scores</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <span>Samikaran Olympiad - Results Preparation Guide</span>
+            <span>Page 5</span>
+        </div>
+    </div>
+
+    <!-- Page 6: Result Preparation Workflow -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">5</span>Result Preparation Workflow</h2>
+        
+        <ol class="step-list">
+            <li><strong>Exam Completion:</strong> Wait for all participants to complete the exam or for the exam window to close.</li>
+            <li><strong>Auto-Calculation:</strong> System automatically calculates scores for all completed attempts.</li>
+            <li><strong>Review Period:</strong> Administrators can review calculated results and verify accuracy.</li>
+            <li><strong>Select Ranking Method:</strong> Choose between Standard Competition (1-2-2-4) or Dense (1-2-2-3) ranking.</li>
+            <li><strong>Apply Ranking:</strong> System applies selected ranking algorithm to all results.</li>
+            <li><strong>Quality Check:</strong> Verify top performers and edge cases (ties, zero scores).</li>
+            <li><strong>Approve Results:</strong> Authorize results for publication.</li>
+            <li><strong>Publish:</strong> Results become visible to students based on declaration date.</li>
+        </ol>
+        
+        <div class="highlight-box">
+            <h4>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                </svg>
+                Important Notes
+            </h4>
+            <p>Once results are published, they cannot be modified without admin override. Always double-check rankings before final publication. The ranking method selection is irreversible after publication.</p>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Tie-Breaking Rules (When Enabled)</h3>
+            <ul>
+                <li><strong>Primary:</strong> Total score comparison</li>
+                <li><strong>Secondary:</strong> Fewer wrong answers preferred</li>
+                <li><strong>Tertiary:</strong> Time taken (faster completion wins)</li>
+                <li><strong>Final:</strong> If still tied, same rank is assigned</li>
+            </ul>
+        </div>
+        
+        <div class="footer">
+            <span>Samikaran Olympiad - Results Preparation Guide</span>
+            <span>Page 6</span>
+        </div>
+    </div>
+
+    <!-- Page 7: Technical Implementation -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">6</span>Technical Implementation</h2>
+        
+        <div class="feature-card">
+            <h3>Database Schema</h3>
+            <p>Results are stored in the <code>olympiad_results</code> table with the following key fields:</p>
+            <ul>
+                <li><strong>student_id:</strong> Reference to student registration</li>
+                <li><strong>olympiad_id:</strong> Reference to the exam</li>
+                <li><strong>total_score:</strong> Calculated score with negative marking</li>
+                <li><strong>max_score:</strong> Maximum possible score</li>
+                <li><strong>rank:</strong> Final assigned rank (Standard or Dense)</li>
+                <li><strong>dense_rank:</strong> Dense rank for comparison</li>
+                <li><strong>percentile:</strong> Calculated percentile position</li>
+            </ul>
+        </div>
+        
+        <div class="formula-box">
+            <p><strong>Percentile Calculation:</strong></p>
+            <p class="formula">
+                Percentile = ((Total - Rank) / Total) x 100
+            </p>
+            <p style="margin-top: 10px; font-size: 12px;">
+                Where Total = total number of participants, Rank = student's rank
+            </p>
+        </div>
+        
+        <div class="grid-2">
+            <div class="feature-card">
+                <h3>API Endpoints</h3>
+                <ul>
+                    <li><code>GET /api/olympiads/:id/results</code></li>
+                    <li><code>POST /api/olympiads/:id/calculate-results</code></li>
+                    <li><code>POST /api/olympiads/:id/approve-results</code></li>
+                    <li><code>GET /api/students/:id/results</code></li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <h3>Security Measures</h3>
+                <ul>
+                    <li>Role-based access control (RBAC)</li>
+                    <li>Audit logging for all changes</li>
+                    <li>Result tampering detection</li>
+                    <li>Encrypted data transmission</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Performance Optimization</h3>
+            <p>For large-scale olympiads with thousands of participants:</p>
+            <ul>
+                <li>Batch processing for result calculation</li>
+                <li>Indexed queries for rank computation</li>
+                <li>Cached result sets for repeated access</li>
+                <li>Asynchronous PDF certificate generation</li>
+            </ul>
+        </div>
+        
+        <div class="footer">
+            <span>Samikaran Olympiad - Results Preparation Guide</span>
+            <span>Page 7</span>
+        </div>
+    </div>
+
+    <!-- Page 8: Summary -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">7</span>Quick Reference Summary</h2>
+        
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Standard Competition (1-2-2-4)</th>
+                    <th>Dense Ranking (1-2-2-3)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Pattern</strong></td>
+                    <td>Gaps after ties</td>
+                    <td>Consecutive numbers</td>
+                </tr>
+                <tr>
+                    <td><strong>Max Rank</strong></td>
+                    <td>Equals total participants</td>
+                    <td>Equals unique score count</td>
+                </tr>
+                <tr>
+                    <td><strong>Best For</strong></td>
+                    <td>Competitive rankings</td>
+                    <td>Achievement levels</td>
+                </tr>
+                <tr>
+                    <td><strong>Industry Use</strong></td>
+                    <td>Olympics, Sports, Competitions</td>
+                    <td>Academic, Scholarship tiers</td>
+                </tr>
+                <tr>
+                    <td><strong>3 tied at #2, next rank</strong></td>
+                    <td>Rank 5</td>
+                    <td>Rank 3</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="grid-2" style="margin-top: 20px;">
+            <div class="ranking-box">
+                <div class="title">When to Choose Standard</div>
+                <div class="description" style="text-align: left; padding: 10px 0;">
+                    - Prize money distribution<br>
+                    - Scholarship with limited slots<br>
+                    - Certificate with actual position<br>
+                    - Competitive exam rankings
+                </div>
+            </div>
+            <div class="ranking-box" style="background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);">
+                <div class="title">When to Choose Dense</div>
+                <div class="description" style="text-align: left; padding: 10px 0;">
+                    - Grade-based assessments<br>
+                    - Merit categories (Top 10%)<br>
+                    - Participation certificates<br>
+                    - Internal school rankings
+                </div>
+            </div>
+        </div>
+        
+        <div class="highlight-box" style="margin-top: 20px;">
+            <h4>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22,4 12,14.01 9,11.01"/>
+                </svg>
+                Final Checklist Before Publishing
+            </h4>
+            <p>1. All exam attempts are processed  2. Scores verified for accuracy  3. Ranking method selected  4. Top performers reviewed  5. Edge cases checked  6. Audit log reviewed  7. Publication date confirmed</p>
+        </div>
+        
+        <div class="footer">
+            <span>Samikaran Olympiad - Results Preparation Guide</span>
+            <span>Page 8</span>
+        </div>
+    </div>
+
+</body>
+</html>

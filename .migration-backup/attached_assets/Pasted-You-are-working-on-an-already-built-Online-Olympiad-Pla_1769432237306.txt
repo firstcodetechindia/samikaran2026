@@ -1,0 +1,115 @@
+You are working on an already built Online Olympiad Platform.
+All database tables, relations, APIs, authentication, exam engine, result engine, and dashboards are ALREADY IMPLEMENTED.
+DO NOT explain schema.
+DO NOT modify table structures.
+JUST EXECUTE logic using the existing system.
+
+OBJECTIVE:
+Build a fully automated INTERNAL TEST-RUN EXECUTION FLOW for demo and QA purposes.
+
+–––––––––––––––––––––––––––––
+STEP 1: TEST-RUN RESET
+–––––––––––––––––––––––––––––
+• When admin clicks “RUN TEST DATA”:
+  - Delete ONLY previous test-run data
+  - Do NOT touch production data
+  - Clear old test participations, attempts, results
+  - Reset test-run state safely
+• This action must be repeatable unlimited times
+
+–––––––––––––––––––––––––––––
+STEP 2: STUDENT DATA CREATION
+–––––––––––––––––––––––––––––
+• Create EXACTLY 200 students
+• All students must be Indian
+• Cover all Indian States & UTs
+• Use major cities of each state
+• Generate realistic Indian names, schools, classes
+• Ensure all students are ACTIVE and VERIFIED
+• ALL 200 students must be visible and eligible for Olympiads
+
+IMPORTANT:
+• DO NOT limit students to 5
+• All 200 students must exist and participate
+
+–––––––––––––––––––––––––––––
+STEP 3: DEMO LOGIN CREDENTIALS
+–––––––––––––––––––––––––––––
+• From the SAME 200 students:
+  - Select ONLY 5 students
+  - Generate working username + password
+• These 5 credentials are ONLY for login testing
+• Display these credentials clearly for admin testing
+• Remaining 195 students must exist WITHOUT exposed credentials
+
+–––––––––––––––––––––––––––––
+STEP 4: OLYMPIAD CREATION
+–––––––––––––––––––––––––––––
+• Create EXACTLY 5 Olympiads
+• Each Olympiad must:
+  - Have mixed categories
+  - Have valid registration, exam, and result dates
+  - Be visible to ALL students
+  - Be open for participation
+
+–––––––––––––––––––––––––––––
+STEP 5: QUESTION INSERTION
+–––––––––––––––––––––––––––––
+• Add EXACTLY 30 questions per Olympiad
+• Mix categories inside each Olympiad
+• Ensure correct answers are set
+• Randomize questions
+
+–––––––––––––––––––––––––––––
+STEP 6: AUTO PARTICIPATION
+–––––––––––––––––––––––––––––
+• Register ALL 200 students
+• Enroll them into ALL 5 Olympiads
+• Mark participation as successful
+
+–––––––––––––––––––––––––––––
+STEP 7: EXAM SIMULATION
+–––––––––––––––––––––––––––––
+• Simulate that ALL students have attempted exams
+• Randomize answers realistically
+• Create:
+  - High scorers
+  - Average scorers
+  - Low scorers
+• Store realistic time taken, marks, percentage
+• Mark exams as SUBMITTED
+
+–––––––––––––––––––––––––––––
+STEP 8: RESULT & MEDAL GENERATION
+–––––––––––––––––––––––––––––
+• Calculate ranks per Olympiad
+• Resolve ties logically
+• Assign:
+  - Rank 1 → Gold
+  - Rank 2 → Silver
+  - Rank 3 → Bronze
+  - Others → Participant
+• Results must reflect everywhere in system
+
+–––––––––––––––––––––––––––––
+STEP 9: TEST-RUN MANAGEMENT
+–––––––––––––––––––––––––––––
+• Create / use Admin action:
+  “RUN TEST DATA”
+• Every execution must:
+  - Remove old test data
+  - Insert fresh test data
+  - Keep production data untouched
+• Ensure no duplication or leakage
+
+–––––––––––––––––––––––––––––
+EXECUTION RULES (STRICT)
+–––––––––––––––––––––––––––––
+• NO schema explanation
+• NO table creation
+• NO tutorials
+• NO assumptions beyond existing system
+• Use logs at every step
+• Rollback on failure
+
+Deliver a clean, repeatable, one-click Test-Run system exactly like an industry-grade QA environment.

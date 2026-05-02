@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Admin Guide - Samikaran Olympiad</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+            color: #1e293b;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            margin-bottom: 5px;
+        }
+        
+        .logo-sub {
+            font-size: 14px;
+            letter-spacing: 8px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            padding: 12px 20px;
+            background: white;
+            color: #2563EB;
+            border: none;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .welcome-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        
+        .welcome-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 50px;
+        }
+        
+        .welcome-card h2 {
+            font-size: 28px;
+            color: #1e293b;
+            margin-bottom: 15px;
+        }
+        
+        .welcome-card p {
+            font-size: 16px;
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .role-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .role-card {
+            background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .role-card h4 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2563EB;
+            margin-bottom: 10px;
+        }
+        
+        .role-card p {
+            font-size: 14px;
+            color: #64748b;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+        
+        .section-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+        
+        .section-icon.blue { background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%); }
+        .section-icon.purple { background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%); }
+        .section-icon.green { background: linear-gradient(135deg, #10B981 0%, #34D399 100%); }
+        .section-icon.orange { background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%); }
+        .section-icon.pink { background: linear-gradient(135deg, #EC4899 0%, #F472B6 100%); }
+        
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .step {
+            display: flex;
+            gap: 20px;
+            padding: 25px;
+            background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .step:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        
+        .step-number {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%);
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        .step-content h4 {
+            font-size: 17px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+        
+        .step-content p {
+            font-size: 15px;
+            color: #64748b;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .feature-card {
+            padding: 25px;
+            background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+        
+        .feature-card .icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+        
+        .feature-card p {
+            font-size: 14px;
+            color: #64748b;
+        }
+        
+        .tip-box {
+            background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+            border-left: 4px solid #F59E0B;
+            padding: 20px 25px;
+            border-radius: 0 15px 15px 0;
+            margin-top: 25px;
+        }
+        
+        .tip-box h4 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #92400E;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tip-box p {
+            font-size: 14px;
+            color: #78350F;
+        }
+        
+        .hierarchy-diagram {
+            background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 25px 0;
+        }
+        
+        .hierarchy-level {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .hierarchy-level::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 15px;
+            background: #3B82F6;
+        }
+        
+        .hierarchy-level:last-child::after {
+            display: none;
+        }
+        
+        .hierarchy-box {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-weight: 600;
+            color: #2563EB;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .faq-item {
+            padding: 20px;
+            background: #EFF6FF;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .faq-item h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2563EB;
+            margin-bottom: 10px;
+        }
+        
+        .faq-item p {
+            font-size: 14px;
+            color: #64748b;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        .help-banner {
+            background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .help-banner h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        
+        .help-banner p {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .help-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 30px;
+            background: white;
+            color: #2563EB;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .help-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 28px; }
+            .welcome-card { padding: 25px; }
+            .section { padding: 25px; }
+            .step { flex-direction: column; gap: 15px; }
+            .back-btn { top: 10px; left: 10px; padding: 10px 15px; font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <a href="javascript:history.back()" class="back-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Back to Dashboard
+    </a>
+
+    <header class="header">
+        <div class="header-content">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 15px;">
+                <svg viewBox="0 0 100 100" width="55" height="55" style="filter: drop-shadow(0 4px 12px rgba(147,51,234,0.4));">
+                    <defs>
+                        <linearGradient id="grpLogoUp" x1="0%" y1="100%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#9333EA"/>
+                            <stop offset="50%" stop-color="#C026D3"/>
+                            <stop offset="100%" stop-color="#EC4899"/>
+                        </linearGradient>
+                        <linearGradient id="grpLogoDown" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#A855F7"/>
+                            <stop offset="100%" stop-color="#F472B6"/>
+                        </linearGradient>
+                    </defs>
+                    <polygon points="50,12 85,72 15,72" fill="rgba(0,0,0,0.12)" transform="translate(2,4)"/>
+                    <polygon points="50,88 15,28 85,28" fill="rgba(0,0,0,0.1)" transform="translate(2,4)"/>
+                    <polygon points="50,10 88,75 12,75" fill="url(#grpLogoUp)"/>
+                    <polygon points="50,10 69,42.5 31,42.5" fill="rgba(255,255,255,0.18)"/>
+                    <polygon points="50,90 12,25 88,25" fill="url(#grpLogoDown)" opacity="0.88"/>
+                    <polygon points="50,90 31,57.5 69,57.5" fill="rgba(255,255,255,0.12)"/>
+                    <rect x="32" y="44" width="36" height="5" rx="2.5" fill="white"/>
+                    <rect x="32" y="53" width="36" height="5" rx="2.5" fill="white"/>
+                    <rect x="32" y="44" width="36" height="2" rx="1" fill="rgba(255,255,255,0.5)"/>
+                    <rect x="32" y="53" width="36" height="2" rx="1" fill="rgba(255,255,255,0.5)"/>
+                </svg>
+                <div style="text-align: left;">
+                    <div style="font-size: 1.6rem; font-weight: 800; letter-spacing: 2px; color: white;">SAMIKARAN<span style="color: #EC4899;">.</span></div>
+                    <div style="font-size: 0.8rem; letter-spacing: 6px; opacity: 0.95; text-transform: uppercase; color: white;">OLYMPIAD</div>
+                </div>
+            </div>
+            <h1>Group Admin Guide</h1>
+            <p><span style="color: white;">AI-Powered</span> <span style="background: linear-gradient(135deg, #A855F7 0%, #EC4899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700;">Olympiad Platform</span> - Group Admin Guide</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="welcome-card">
+            <div class="welcome-icon">
+                <span style="color: white;">&#127970;</span>
+            </div>
+            <h2>Welcome, Group Administrator!</h2>
+            <p>As a Group Admin, you manage multiple schools, coaching centers, or educational organizations. This guide helps you understand how to effectively manage your entire network from one central dashboard.</p>
+            
+            <div class="role-cards">
+                <div class="role-card">
+                    <h4>Educational Trust</h4>
+                    <p>Manage all schools under your trust with unified reporting</p>
+                </div>
+                <div class="role-card">
+                    <h4>Coaching Chain</h4>
+                    <p>Oversee all branches and track performance centrally</p>
+                </div>
+                <div class="role-card">
+                    <h4>District Coordinator</h4>
+                    <p>Coordinate olympiad participation across your region</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon blue">
+                    <span style="color: white;">&#127970;</span>
+                </div>
+                <h3 class="section-title">Understanding the Hierarchy</h3>
+            </div>
+            
+            <div class="hierarchy-diagram">
+                <div class="hierarchy-level">
+                    <div class="hierarchy-box">&#127970; Group (You)</div>
+                </div>
+                <div class="hierarchy-level">
+                    <div class="hierarchy-box">&#127979; School 1</div>
+                    <div class="hierarchy-box">&#127979; School 2</div>
+                    <div class="hierarchy-box">&#127979; School 3</div>
+                </div>
+                <div class="hierarchy-level">
+                    <div class="hierarchy-box">&#128101; Students</div>
+                </div>
+            </div>
+            
+            <p style="text-align: center; color: #64748b; margin-top: 20px;">
+                You have complete visibility over all schools and students in your group. Each school admin manages their own students, and you see everything!
+            </p>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon green">
+                    <span style="color: white;">&#128203;</span>
+                </div>
+                <h3 class="section-title">Managing Schools</h3>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Add New Schools</h4>
+                        <p>Go to "Schools" tab and click "Add School". Enter school details, assign an admin, and they'll receive login credentials automatically.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Set School Quotas</h4>
+                        <p>Define how many students each school can register. This helps manage your group's overall participation and budget.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Monitor Registrations</h4>
+                        <p>Track registration progress across all schools. See which schools have completed registrations and which need follow-up.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Consolidated Payments</h4>
+                        <p>Pay for all schools at once or let individual schools pay. Get group discounts on bulk payments!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="tip-box">
+                <h4><span>&#128161;</span> Group Benefits</h4>
+                <p>Groups with 500+ students get special pricing and dedicated support. Contact our Group Partnership team to unlock exclusive benefits!</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon purple">
+                    <span style="color: white;">&#128202;</span>
+                </div>
+                <h3 class="section-title">Dashboard Features</h3>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="icon">&#127979;</div>
+                    <h4>School Management</h4>
+                    <p>Add, edit, and manage all schools in your group from one place.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">&#128202;</div>
+                    <h4>Group Analytics</h4>
+                    <p>Compare performance across schools with comprehensive analytics.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">&#128200;</div>
+                    <h4>Leaderboards</h4>
+                    <p>See how your group ranks against others. Track your top-performing schools.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">&#128176;</div>
+                    <h4>Billing Center</h4>
+                    <p>Manage payments, view invoices, and track expenses across all schools.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">&#127942;</div>
+                    <h4>Results Hub</h4>
+                    <p>Access results for all schools in one dashboard. Export group-wide reports.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">&#128100;</div>
+                    <h4>Admin Management</h4>
+                    <p>Assign school admins, reset passwords, and manage access permissions.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon pink">
+                    <span style="color: white;">&#128290;</span>
+                </div>
+                <h3 class="section-title">Group-Wide Reports</h3>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Comparative Analysis</h4>
+                        <p>Compare performance between schools. Identify which schools need more support and which are excelling.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Subject Breakdown</h4>
+                        <p>See how your entire group performs in each subject. Identify common weak areas for targeted improvement.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Trend Analysis</h4>
+                        <p>Track performance over multiple olympiads. See if your group is improving over time.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Export & Share</h4>
+                        <p>Download reports in Excel or PDF. Share with board members, trustees, or stakeholders.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon orange">
+                    <span style="color: white;">&#10067;</span>
+                </div>
+                <h3 class="section-title">Frequently Asked Questions</h3>
+            </div>
+            <div class="faq-item">
+                <h4>Can school admins see data from other schools?</h4>
+                <p>No, school admins can only see their own school's data. Only you as Group Admin can see all schools.</p>
+            </div>
+            <div class="faq-item">
+                <h4>How do I transfer students between schools?</h4>
+                <p>Go to the student's profile, click "Transfer", and select the destination school. Their records move with them.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Can I limit which olympiads schools can register for?</h4>
+                <p>Yes! Use the "Allowed Olympiads" setting for each school to control which competitions they can participate in.</p>
+            </div>
+            <div class="faq-item">
+                <h4>How do group discounts work?</h4>
+                <p>Discounts are calculated based on total registrations across all schools. More schools = higher discount tier!</p>
+            </div>
+        </div>
+
+        <div class="help-banner">
+            <h3>Group Success Team</h3>
+            <p>Dedicated support for educational groups and trusts</p>
+            <a href="/group" class="help-btn" onclick="window.close(); return false;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+                Contact Group Support
+            </a>
+            <p style="margin-top: 12px; font-size: 14px; opacity: 0.9;">Click to close this guide and use the chat widget on your dashboard</p>
+        </div>
+
+        <div class="footer">
+            <p>Samikaran Olympiad - Empowering Educational Networks</p>
+            <p style="margin-top: 8px; opacity: 0.7;">Version 1.0 | Last Updated: January 2026</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,130 @@
+We are redesigning the ENTIRE student panel experience for Class 6–12 students.
+
+CRITICAL:
+- Do NOT modify backend logic.
+- Do NOT change database schema.
+- Do NOT edit XP, ranking, exam or MIRA logic.
+- UI transformation only.
+- All data dynamic.
+
+---------------------------------------
+
+OBJECTIVE:
+When a Class 6–12 student logs in, the portal must feel like a Competitive Academic Arena.
+
+It must NOT feel childish.
+It must NOT feel cartoonish.
+It must feel sharp, structured, ambitious and competitive.
+
+---------------------------------------
+
+GLOBAL DESIGN SYSTEM (APPLY EVERYWHERE):
+
+1. Background:
+   - Clean white or very subtle gradient.
+   - No decorative shapes.
+   - Minimal distractions.
+
+2. Border Radius:
+   - 10–14px only.
+   - Professional rounded edges.
+
+3. Shadows:
+   - Clean layered depth.
+   - No playful floating effect.
+
+4. Typography:
+   - Strong bold headings.
+   - Clean modern font.
+   - Tight spacing.
+   - Clear hierarchy.
+
+5. Icons:
+   - Minimal.
+   - Professional.
+   - Simple line or filled style.
+
+---------------------------------------
+
+SIDEBAR TRANSFORMATION:
+
+Rename items to competitive tone:
+
+Arena
+Events
+Missions
+AI Coach
+Training
+Wallet
+Performance
+Achievements
+Leaderboard
+Profile
+
+Active item highlight must be clean and subtle.
+No cartoon colors.
+
+---------------------------------------
+
+PROFILE AREA:
+
+- Circular avatar with subtle border.
+- Show:
+   League Badge (Bronze / Silver / Gold)
+   Level number
+   XP progress
+   Rank position
+
+No emoji.
+No playful labels.
+
+---------------------------------------
+
+CARD DESIGN:
+
+- White clean cards.
+- Clear structured layout.
+- Bold title.
+- Data-first presentation.
+- Strong primary CTA button.
+
+Language should be competitive:
+   "Launch Mission"
+   "View Performance"
+   "Enter Battle"
+   "See Rankings"
+
+---------------------------------------
+
+ANIMATION LAYER:
+
+- Smooth transitions.
+- XP increment animation.
+- Rank change arrow.
+- Subtle hover elevation.
+
+No bounce.
+No confetti.
+
+---------------------------------------
+
+MIRA UI:
+
+- Rename to "AI Coach"
+- Clean structured chat interface.
+- Professional tone.
+- Minimal design.
+
+---------------------------------------
+
+FINAL RESULT:
+
+Entire portal must feel:
+Competitive.
+Focused.
+Serious.
+Premium.
+Future-oriented.
+
+When a teen logs in, it must feel like a performance dashboard, not a kids game.
+Production ready.

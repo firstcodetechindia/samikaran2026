@@ -1,0 +1,154 @@
+I want a FULL END-TO-END SYSTEM AUDIT AND RECONNECTION of the entire EXAM MANAGEMENT SYSTEM.
+
+This is NOT a small bug fix. This is a COMPLETE LOGICAL FLOW VALIDATION from:
+
+• Student Registration
+• Exam Creation (Admin)
+• Exam Scheduling
+• Exam Attempt
+• Audio Question Handling
+• Answer Recording
+• Auto Transcription
+• Submission
+• Attempt Logs
+• Evaluation
+• Result Calculation
+• Result Publishing
+• Student Notification
+• Performance Report Generation
+• Proctoring Events
+• Analytics Storage
+
+====================================================
+CORE REQUIREMENTS (MANDATORY)
+====================================================
+
+1. NOTHING should be hardcoded anywhere.
+   All data MUST come dynamically from the database.
+
+2. Every module must be connected through relational DB integrity.
+   Verify foreign keys and references between:
+   - students
+   - exams
+   - exam_sets
+   - questions
+   - attempts
+   - answers
+   - attempt_logs
+   - proctoring_logs
+   - results
+   - performance_reports
+   - notifications
+
+3. Fix Result Flow:
+   If admin marks result as "published":
+      - students must NOT see "Result Awaited"
+      - result data must load dynamically
+      - performance report must generate from DB
+      - notification entry must be created
+      - dashboard should reflect correct status
+
+4. Attempt Tracking Logic:
+   During exam:
+      - Track visited questions
+      - Track answered questions
+      - Track skipped questions
+      - Track total time spent
+      - Track re-attempts per question
+   After submission:
+      - Save full summary in DB
+      - Generate exam summary screen dynamically
+      - Store analytics logs
+
+5. Audio Question Logic:
+   When question.type == "audio":
+      - System must auto-play voice question
+      - UI must show recording interface
+      - Student recorded answer must:
+            -> save audio file
+            -> auto convert to text (speech-to-text)
+            -> display transcript immediately
+      - Save both audio file path and transcript in DB
+
+6. Proctoring Logic:
+   - Detect face tilt
+   - If tilt duration > threshold:
+        -> show warning popup
+        -> log event in proctoring_logs
+   - If excessive violations:
+        -> flag attempt
+   - Screen tilt or tab switch should be logged
+   - Do NOT break UI layout on tilt
+
+7. Result Calculation Integrity:
+   When admin clicks "Calculate Result":
+      - Fetch all attempts
+      - Compute marks
+      - Store computed results
+      - Update exam status
+   When admin clicks "Publish":
+      - Update status = published
+      - Trigger notification
+      - Enable student panel result view
+      - Generate performance analytics
+
+8. Performance Report:
+   Must include:
+      - total questions
+      - attempted
+      - unattempted
+      - correct
+      - incorrect
+      - accuracy %
+      - time spent
+      - rank (if applicable)
+   Everything must load from DB dynamically.
+   No static values.
+
+9. Notifications:
+   On result publish:
+      - create notification row
+      - show unread badge in student panel
+      - clicking notification loads result
+
+10. System-wide Logging:
+   Every major action must create logs:
+      - exam_start
+      - question_visit
+      - answer_submit
+      - exam_submit
+      - result_calculated
+      - result_published
+      - proctoring_violation
+
+====================================================
+WHAT I WANT YOU TO DO
+====================================================
+
+• Scan entire codebase
+• Identify broken data flow
+• Identify hardcoded placeholders
+• Identify missing DB queries
+• Identify incorrect status conditions
+• Identify async issues
+• Fix API routes
+• Fix frontend state logic
+• Fix DB relations
+• Ensure all modules communicate properly
+
+Then:
+
+• Simulate full exam lifecycle in code
+• Validate data consistency
+• Print logs of flow verification
+• Confirm system is fully dynamic and connected
+
+No assumptions.
+No mock data.
+No fallback dummy values.
+Everything must come from database.
+
+If any module is disconnected,
+Reconnect it properly.
+
+Make the system robust and production-ready.

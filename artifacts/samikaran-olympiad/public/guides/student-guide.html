@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Guide - Samikaran Olympiad</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #1e293b;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            margin-bottom: 5px;
+        }
+        
+        .logo-sub {
+            font-size: 14px;
+            letter-spacing: 8px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            padding: 12px 20px;
+            background: white;
+            color: #8B5CF6;
+            border: none;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .welcome-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        
+        .welcome-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 50px;
+        }
+        
+        .welcome-card h2 {
+            font-size: 28px;
+            color: #1e293b;
+            margin-bottom: 15px;
+        }
+        
+        .welcome-card p {
+            font-size: 16px;
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+        
+        .section-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+        
+        .section-icon.purple { background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%); }
+        .section-icon.blue { background: linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%); }
+        .section-icon.green { background: linear-gradient(135deg, #10B981 0%, #34D399 100%); }
+        .section-icon.orange { background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%); }
+        .section-icon.pink { background: linear-gradient(135deg, #EC4899 0%, #F472B6 100%); }
+        .section-icon.cyan { background: linear-gradient(135deg, #06B6D4 0%, #22D3EE 100%); }
+        
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .step {
+            display: flex;
+            gap: 20px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .step:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        
+        .step-number {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        .step-content h4 {
+            font-size: 17px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+        
+        .step-content p {
+            font-size: 15px;
+            color: #64748b;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .feature-card {
+            padding: 25px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+        
+        .feature-card .icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+        
+        .feature-card p {
+            font-size: 14px;
+            color: #64748b;
+        }
+        
+        .tip-box {
+            background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+            border-left: 4px solid #F59E0B;
+            padding: 20px 25px;
+            border-radius: 0 15px 15px 0;
+            margin-top: 25px;
+        }
+        
+        .tip-box h4 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #92400E;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tip-box p {
+            font-size: 14px;
+            color: #78350F;
+        }
+        
+        .faq-item {
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .faq-item h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #8B5CF6;
+            margin-bottom: 10px;
+        }
+        
+        .faq-item p {
+            font-size: 14px;
+            color: #64748b;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        .help-banner {
+            background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .help-banner h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        
+        .help-banner p {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .help-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 30px;
+            background: white;
+            color: #8B5CF6;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .help-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 28px; }
+            .welcome-card { padding: 25px; }
+            .section { padding: 25px; }
+            .step { flex-direction: column; gap: 15px; }
+            .back-btn { top: 10px; left: 10px; padding: 10px 15px; font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <a href="javascript:history.back()" class="back-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Back to Dashboard
+    </a>
+
+    <header class="header">
+        <div class="header-content">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 15px;">
+                <svg viewBox="0 0 100 100" width="55" height="55" style="filter: drop-shadow(0 4px 12px rgba(147,51,234,0.4));">
+                    <defs>
+                        <linearGradient id="sgLogoUp" x1="0%" y1="100%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#9333EA"/>
+                            <stop offset="50%" stop-color="#C026D3"/>
+                            <stop offset="100%" stop-color="#EC4899"/>
+                        </linearGradient>
+                        <linearGradient id="sgLogoDown" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#A855F7"/>
+                            <stop offset="100%" stop-color="#F472B6"/>
+                        </linearGradient>
+                    </defs>
+                    <polygon points="50,12 85,72 15,72" fill="rgba(0,0,0,0.12)" transform="translate(2,4)"/>
+                    <polygon points="50,88 15,28 85,28" fill="rgba(0,0,0,0.1)" transform="translate(2,4)"/>
+                    <polygon points="50,10 88,75 12,75" fill="url(#sgLogoUp)"/>
+                    <polygon points="50,10 69,42.5 31,42.5" fill="rgba(255,255,255,0.18)"/>
+                    <polygon points="50,90 12,25 88,25" fill="url(#sgLogoDown)" opacity="0.88"/>
+                    <polygon points="50,90 31,57.5 69,57.5" fill="rgba(255,255,255,0.12)"/>
+                    <rect x="32" y="44" width="36" height="5" rx="2.5" fill="white"/>
+                    <rect x="32" y="53" width="36" height="5" rx="2.5" fill="white"/>
+                    <rect x="32" y="44" width="36" height="2" rx="1" fill="rgba(255,255,255,0.5)"/>
+                    <rect x="32" y="53" width="36" height="2" rx="1" fill="rgba(255,255,255,0.5)"/>
+                </svg>
+                <div style="text-align: left;">
+                    <div style="font-size: 1.6rem; font-weight: 800; letter-spacing: 2px; color: white;">SAMIKARAN<span style="color: #EC4899;">.</span></div>
+                    <div style="font-size: 0.8rem; letter-spacing: 6px; opacity: 0.95; text-transform: uppercase; color: white;">OLYMPIAD</div>
+                </div>
+            </div>
+            <h1>Student Guide</h1>
+            <p><span style="color: white;">AI-Powered</span> <span style="color: #FFD700; font-weight: 700; text-shadow: 0 2px 10px rgba(0,0,0,0.3);">Olympiad Platform</span> - Student Guide</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="welcome-card">
+            <div class="welcome-icon">
+                <span style="color: white;">&#127891;</span>
+            </div>
+            <h2>Welcome, Future Champion!</h2>
+            <p>This guide will help you understand how to use the Samikaran Olympiad platform. Whether you're registering for your first olympiad or checking your results, we've got you covered with simple step-by-step instructions.</p>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon purple">
+                    <span style="color: white;">&#128221;</span>
+                </div>
+                <h3 class="section-title">How to Register for an Olympiad</h3>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Go to "Available Olympiads"</h4>
+                        <p>Click on the "Olympiads" tab in your dashboard. You'll see a list of all upcoming olympiads that you can participate in.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Choose Your Olympiad</h4>
+                        <p>Browse through subjects like Mathematics, Science, English, or Computer Science. Click on the olympiad you want to join.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Check Eligibility</h4>
+                        <p>Make sure the olympiad matches your class/grade level. Each olympiad shows minimum and maximum class requirements.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Complete Registration</h4>
+                        <p>Click "Register Now" and complete the payment (if required). You'll receive a confirmation message once registered.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="tip-box">
+                <h4><span>&#128161;</span> Pro Tip</h4>
+                <p>Register early! Some olympiads have limited seats and early bird discounts. Check the registration deadline before the last date.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon blue">
+                    <span style="color: white;">&#128187;</span>
+                </div>
+                <h3 class="section-title">How to Take an Exam</h3>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Check Your Exam Schedule</h4>
+                        <p>Go to "My Olympiads" to see when your exam starts. The exam window shows the dates during which you can attempt the exam.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Prepare Your Setup</h4>
+                        <p>Use a laptop or computer with a stable internet connection. Make sure your webcam works (required for proctored exams).</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Start Your Exam</h4>
+                        <p>Click "Start Exam" when you're ready. Read all instructions carefully. The timer starts automatically once you begin.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Answer Questions</h4>
+                        <p>Read each question carefully. You can skip questions and come back later. Use the question navigator to track your progress.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h4>Submit Your Exam</h4>
+                        <p>Click "Submit Exam" when finished. Review your answers before submitting. Once submitted, you cannot make changes.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="tip-box">
+                <h4><span>&#9888;&#65039;</span> Important</h4>
+                <p>During proctored exams, stay focused on the screen. Don't switch tabs, look away, or talk to anyone. The system monitors for any suspicious activity.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon green">
+                    <span style="color: white;">&#128200;</span>
+                </div>
+                <h3 class="section-title">Dashboard Features</h3>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="icon">&#127942;</div>
+                    <h4>My Olympiads</h4>
+                    <p>View all olympiads you've registered for, including upcoming and completed ones.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">&#128202;</div>
+                    <h4>Results</h4>
+                    <p>Check your scores, rankings, and detailed performance analysis after exams.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">&#128176;</div>
+                    <h4>Transactions</h4>
+                    <p>View your payment history and download receipts for all registrations.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">&#128100;</div>
+                    <h4>Profile</h4>
+                    <p>Update your personal information, school details, and contact information.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">&#128290;</div>
+                    <h4>Performance Analytics</h4>
+                    <p>See detailed charts showing your strengths and areas for improvement.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">&#128172;</div>
+                    <h4>Help & Support</h4>
+                    <p>Get help from our AI chatbot or contact support for any questions.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TARA AI Voice Assistant Section -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon pink">
+                    <span style="color: white;">&#127908;</span>
+                </div>
+                <h3 class="section-title">TARA - Your AI Study Companion</h3>
+            </div>
+            <div style="background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%); border-radius: 15px; padding: 25px; margin-bottom: 20px; border-left: 4px solid #EC4899;">
+                <h4 style="color: #BE185D; margin-bottom: 10px; font-size: 16px;">Meet TARA (Talent Assessment & Research Assistant)</h4>
+                <p style="color: #9D174D; font-size: 14px;">Your personal AI-powered voice assistant that helps you prepare for olympiads. Just talk naturally and get instant help!</p>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="icon">&#128483;</div>
+                    <h4>Voice Chat</h4>
+                    <p>Speak naturally to TARA and get voice responses. Practice speaking while learning!</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">&#129504;</div>
+                    <h4>Doubt Solving</h4>
+                    <p>Ask any olympiad-related question. TARA explains concepts in simple words.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">&#128214;</div>
+                    <h4>Topic Explanations</h4>
+                    <p>Get detailed explanations for Math, Science, English, and all olympiad subjects.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">&#127919;</div>
+                    <h4>Practice Suggestions</h4>
+                    <p>TARA suggests related topics and practice questions based on your conversation.</p>
+                </div>
+            </div>
+            <div class="tip-box">
+                <h4><span>&#128161;</span> How to Use TARA</h4>
+                <p>Look for the TARA button on your dashboard. Click to open the chat, then click the microphone icon to speak. You can also type your questions!</p>
+            </div>
+        </div>
+
+        <!-- Performance Analytics Section -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon cyan">
+                    <span style="color: white;">&#128202;</span>
+                </div>
+                <h3 class="section-title">Performance Analytics</h3>
+            </div>
+            <div style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border-radius: 15px; padding: 25px; margin-bottom: 20px; border-left: 4px solid #10B981;">
+                <h4 style="color: #047857; margin-bottom: 10px; font-size: 16px;">World-Class Analytics Dashboard</h4>
+                <p style="color: #065F46; font-size: 14px;">Track your progress with beautiful charts and AI-powered insights. Understand your strengths and work on your weak areas!</p>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="icon">&#128200;</div>
+                    <h4>Subject Analysis</h4>
+                    <p>See your performance across all subjects with visual charts and scores.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">&#128201;</div>
+                    <h4>Trend Visualization</h4>
+                    <p>Track how your scores improve over time with interactive graphs.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">&#129302;</div>
+                    <h4>AI Insights</h4>
+                    <p>Get personalized tips and recommendations based on your performance patterns.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">&#127775;</div>
+                    <h4>Achievements</h4>
+                    <p>View your badges, ranks, and certificates earned from olympiads.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login & Security Section -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon purple">
+                    <span style="color: white;">&#128274;</span>
+                </div>
+                <h3 class="section-title">Your Account & Security</h3>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">&#128179;</div>
+                    <div class="step-content">
+                        <h4>Unique Student ID</h4>
+                        <p>Your Student ID (starting with SAM) is your unique identity. Use it to login from any device. Example: SAM2512345</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">&#128272;</div>
+                    <div class="step-content">
+                        <h4>Multiple Login Options</h4>
+                        <p>Login using your Student ID, Email, or Phone Number with password or OTP. Choose what's convenient for you!</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">&#128241;</div>
+                    <div class="step-content">
+                        <h4>One Device at a Time</h4>
+                        <p>For your security, you can only be logged in on one device. If you login elsewhere, your previous session ends automatically.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="tip-box">
+                <h4><span>&#128274;</span> Security Tip</h4>
+                <p>Never share your password or OTP with anyone. Our team will never ask for your password!</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon orange">
+                    <span style="color: white;">&#10067;</span>
+                </div>
+                <h3 class="section-title">Frequently Asked Questions</h3>
+            </div>
+            <div class="faq-item">
+                <h4>What if I lose internet during an exam?</h4>
+                <p>Don't worry! Your answers are automatically saved. Just reconnect and continue from where you left off. The timer will show the remaining time.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Can I use a calculator during exams?</h4>
+                <p>It depends on the exam. Some exams provide an on-screen calculator. Check the exam rules before starting.</p>
+            </div>
+            <div class="faq-item">
+                <h4>When will I get my results?</h4>
+                <p>Results are usually published within 7-14 days after the exam window closes. You'll receive a notification when results are ready.</p>
+            </div>
+            <div class="faq-item">
+                <h4>How is negative marking calculated?</h4>
+                <p>Some exams have negative marking where wrong answers reduce your score. Check the exam details to see if negative marking applies and how much.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Can I cancel my registration?</h4>
+                <p>Yes, you can cancel before the registration deadline. Refund policies vary by olympiad. Check the terms before registering.</p>
+            </div>
+            <div class="faq-item">
+                <h4>How do I use TARA AI assistant?</h4>
+                <p>Click the TARA button on your dashboard. You can type questions or click the microphone to speak. TARA understands Hindi and English!</p>
+            </div>
+            <div class="faq-item">
+                <h4>What is my Student ID?</h4>
+                <p>Your Student ID (like SAM2512345) is shown on your dashboard and profile. Use it to login from any device instead of email.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Why was I logged out suddenly?</h4>
+                <p>For security, you can only be logged in on one device. If you or someone logged into your account elsewhere, the previous session ends.</p>
+            </div>
+        </div>
+
+        <div class="help-banner">
+            <h3>Need More Help?</h3>
+            <p>Our support team is here to help you 24/7</p>
+            <a href="/dashboard" class="help-btn" onclick="window.close(); return false;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+                Chat with Support
+            </a>
+            <p style="margin-top: 12px; font-size: 14px; opacity: 0.9;">Click to close this guide and use the chat widget on your dashboard</p>
+        </div>
+
+        <div class="footer">
+            <p>Samikaran Olympiad - Empowering Students to Achieve Excellence</p>
+            <p style="margin-top: 8px; opacity: 0.7;">Version 2.0 | Last Updated: February 2026</p>
+        </div>
+    </div>
+</body>
+</html>

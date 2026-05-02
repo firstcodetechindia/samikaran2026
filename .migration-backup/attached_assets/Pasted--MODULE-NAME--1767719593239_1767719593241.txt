@@ -1,0 +1,138 @@
+
+====================================================
+MODULE NAME
+====================================================
+Secure Exam Module with Live Proctoring
+
+====================================================
+STUDENT EXAM EXPERIENCE
+====================================================
+
+1. PRE-EXAM SYSTEM CHECK
+- Browser compatibility validation
+- Camera access check
+- Microphone access check
+- Network stability test
+- Single face presence validation
+- Lighting and environment readiness check
+- Mandatory exam rules acknowledgment
+- Exam starts only after all checks pass
+
+----------------------------------------------------
+
+2. EXAM INTERFACE
+- Clean, distraction-free exam screen
+- Responsive layout for desktop, tablet, and mobile
+- Full-screen enforced during exam
+- Exit from full-screen triggers warning
+
+UI Elements:
+- Live countdown timer
+- Exam title and section indicator
+- Question display area (supports MCQ, numeric, text answers)
+- Navigation controls (Next, Previous, Mark for Review)
+- Submit exam with confirmation
+- Small live camera preview visible to student
+- Proctoring status indicators (camera, audio, system)
+
+----------------------------------------------------
+
+3. TIME MANAGEMENT
+- Centralized exam timer
+- Auto-submit when time expires
+- Protection against system clock manipulation
+- Timer continues accurately after refresh or reconnect
+
+====================================================
+PROCTORING FEATURES
+====================================================
+
+VISUAL PROCTORING:
+- Continuous webcam monitoring
+- Detect multiple faces
+- Detect absence of face
+- Detect face mismatch
+- Detect abnormal head movements
+- Detect camera obstruction or disablement
+- Capture periodic snapshots
+- Capture snapshots on suspicious events
+- Watermark snapshots with candidate identity and timestamp
+
+AUDIO PROCTORING:
+- Continuous microphone monitoring
+- Detect human speech
+- Detect multiple voices
+- Detect abnormal background noise
+- Flag sudden loud sounds
+
+SYSTEM & BEHAVIOR MONITORING:
+- Detect tab switching
+- Detect window focus loss
+- Detect exiting full-screen mode
+- Block copy, paste, and right-click
+- Monitor suspicious keyboard shortcuts
+- Detect network disconnection
+- Detect device or browser change
+
+====================================================
+REAL-TIME PROCTORING CONTROL
+====================================================
+
+Live control panel for administrators:
+- Enable or disable proctoring during the exam
+- Enable or disable individual proctoring types (camera, audio, snapshots)
+- Apply controls globally to an exam
+- Apply controls to individual candidates
+- Send live warning messages to candidates
+- Force submit an exam in real time
+
+Changes must reflect instantly during an ongoing exam.
+
+====================================================
+VIOLATION MANAGEMENT
+====================================================
+- Log every suspicious activity as a violation
+- Assign severity levels (low, medium, high)
+- Maintain a cumulative violation score per candidate
+- Trigger automated actions based on thresholds:
+  - Warning message
+  - Flag for review
+  - Auto-submission
+  - Result hold
+
+====================================================
+ADMIN & REVIEW FEATURES
+====================================================
+- Live monitoring of all candidates
+- Real-time status indicators per candidate
+- Live violation feed
+- Ability to intervene manually
+- Post-exam proctoring summary report
+- Evidence viewer with snapshots and event logs
+
+====================================================
+ADVANCED & DIFFERENTIATING FEATURES
+====================================================
+- Adaptive strictness: proctoring becomes stricter after violations
+- Offline tolerance for brief network drops
+- Seamless exam resume after refresh
+- Device fingerprinting to prevent re-attempts
+- Multi-language ready interface
+- Accessibility-friendly UI
+- Lightweight animations only
+
+====================================================
+QUALITY & EXPERIENCE GOALS
+====================================================
+- Smooth performance on low-end devices
+- No distraction during exam
+- Fair, transparent, and auditable proctoring
+- Scalable for large-scale Olympiad exams
+- Future-ready for AI enhancement
+
+====================================================
+FINAL GOAL
+====================================================
+This module should feel more secure, fair, and intelligent than existing online exam systems and act as the foundation for a world-class Olympiad platform.
+
+Design and build this module now.

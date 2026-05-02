@@ -1,0 +1,161 @@
+You are a senior SaaS architect and full-stack engineer. 
+You must design and implement a FUTURISTIC, AI-POWERED EMAIL MARKETING & AUTOMATION SYSTEM inside the SUPER ADMIN PANEL of an Online Olympiad multi-tenant SaaS platform. 
+This system must be production-grade, scalable, event-driven, AI-assisted, analytics-rich, and tightly integrated with the entire Olympiad lifecycle.
+
+STRICT RULES:
+- Do NOT change existing UI layout or sidebar structure
+- Add this as a dedicated module under Super Admin
+- Follow existing tech stack (React / Next.js frontend, Node.js backend, PostgreSQL or MySQL, Redis/Queue)
+- Everything must be extensible and future-proof
+- System emails must be reliable and bypass marketing throttles
+
+CORE OBJECTIVE:
+Build an advanced Email Marketing Cloud similar to Mailchimp + HubSpot + AI Copilot, but custom-built for an Online Olympiad platform.
+
+--------------------------------------------------
+USER TYPES & AUDIENCES:
+- Students
+- Parents
+- Schools (Admins, Teachers)
+- Partners
+- Investors
+- Internal Admin Team
+- Custom uploaded audiences
+
+SEGMENTATION ENGINE:
+- Dynamic segments with real-time updates
+- Filters by class, subject interest, olympiad participation, attempt status, result status, geography, school, board, engagement score, last activity, tags
+- Manual + AI-generated tagging
+- Saved reusable segments
+
+--------------------------------------------------
+EMAIL TYPES:
+SYSTEM (Transactional):
+- Registration confirmation
+- OTP / Login alerts
+- Password reset
+- Olympiad enrollment confirmation
+- Exam reminder (T-24h, T-1h)
+- Exam start notification
+- Exam submission confirmation
+- Result announcement
+- Certificate issued
+- Payment receipt
+- Failure / refund alerts
+
+MARKETING / ENGAGEMENT:
+- Upcoming Olympiad announcements
+- Subject launches
+- Practice & mock test reminders
+- AI-based performance tips
+- Blog & news updates
+- Scholarship announcements
+- Referral & re-engagement campaigns
+- Partner onboarding
+- Investor updates
+- Festival / seasonal campaigns
+
+--------------------------------------------------
+EMAIL TEMPLATE SYSTEM:
+- Central template library
+- Categories: System, Marketing, Events, Results, Announcements, Partner, Investor
+- Drag & drop editor with blocks (text, image, button, divider, dynamic fields)
+- Global header & footer management
+- Dynamic variables (name, class, subject, score, rank, school, date)
+- Conditional blocks by user type
+- Live preview (desktop, mobile, dark mode, user type)
+- Versioning & rollback
+
+--------------------------------------------------
+CAMPAIGN MANAGEMENT:
+- One-time campaigns
+- Scheduled campaigns
+- Recurring campaigns
+- Trigger-based campaigns
+- Drip campaigns
+- AI-adaptive campaigns
+- Audience selection: system users, segments, uploaded CSV, manual
+- Send modes: instant, scheduled, timezone-based, AI best-time
+- Throttling, warm-up, retry logic
+- A/B testing (subject, content, CTA, timing)
+
+--------------------------------------------------
+AI COPILOT FEATURES:
+- Auto-generate email subject & body
+- Predict open & click rates
+- Rewrite tone (student, parent, school, investor)
+- Multi-language translation
+- Personalized content using user data
+- AI-selected A/B test winners
+- Engagement scoring per user
+- Campaign improvement suggestions
+
+--------------------------------------------------
+AUTOMATION & WORKFLOW BUILDER:
+- Visual flow builder
+- Triggers: registration, OTP, olympiad creation, enrollment, exam scheduled, exam attempted, exam missed, result published, certificate issued, blog published, partner onboarding
+- Actions: send email, delay, condition check, branch logic, tag user, move segment, notify admin
+- Fully configurable without code
+
+--------------------------------------------------
+BULK & DIRECT EMAIL:
+- Upload CSV/Excel
+- Import system users
+- Manual entry
+- One-to-one emails
+- Test emails
+- Batch sending
+
+--------------------------------------------------
+TRACKING & ANALYTICS:
+- Campaign-level metrics: sent, delivered, opened, clicked, bounced (soft/hard), spam, unsubscribed, conversions
+- User-level tracking: open time, open count, clicks, device
+- Heatmaps
+- Campaign comparison reports
+- Monthly performance reports
+- Best subject lines & send times
+- AI insights dashboard
+
+--------------------------------------------------
+COMPLIANCE & CONTROLS:
+- Consent management
+- Unsubscribe & preference center
+- Suppression lists
+- Domain authentication
+- Sender reputation monitoring
+- GDPR-ready structure
+
+--------------------------------------------------
+SYSTEM ARCHITECTURE:
+- Email queue with Redis/BullMQ
+- Event listener engine
+- Automation engine
+- AI service layer
+- Analytics processor
+- Pluggable email providers (AWS SES, SendGrid, Mailgun)
+- Failover provider support
+
+--------------------------------------------------
+SUPER ADMIN UI MODULES:
+- Email Dashboard
+- Audience & Segments
+- Templates
+- Campaigns
+- Automations
+- AI Copilot
+- Reports & Analytics
+- Settings & Providers
+
+--------------------------------------------------
+FUTURE-READY EXTENSIONS:
+- WhatsApp & SMS integration
+- Push notifications
+- Voice email previews
+- Predictive churn campaigns
+- AI-generated newsletters
+- White-label school branding
+
+FINAL INSTRUCTION:
+Implement database schema, APIs, services, background jobs, UI screens, permissions, and integrations exactly as described above.
+Do NOT skip any section.
+Deliver clean, scalable, production-ready code.

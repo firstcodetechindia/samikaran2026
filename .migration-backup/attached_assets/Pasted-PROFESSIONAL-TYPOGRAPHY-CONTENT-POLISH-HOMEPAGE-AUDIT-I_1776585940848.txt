@@ -1,0 +1,81 @@
+PROFESSIONAL TYPOGRAPHY & CONTENT POLISH - HOMEPAGE AUDIT:
+
+I need you to do a complete professional typography audit and fixes for the entire homepage. The design is good but text readability and professional appearance needs improvement.
+
+## CRITICAL TYPOGRAPHY FIXES:
+
+### 1. PARAGRAPH TEXT (ALL <p> tags):
+- Add: `text-justify` class for justified alignment
+- Line height: `leading-relaxed` (1.625) for body paragraphs
+- Letter spacing: `tracking-normal` (0) - remove any tight spacing
+- Color: Ensure proper contrast - use `text-gray-600` on light backgrounds, `text-gray-300` on dark backgrounds
+- Font size: Ensure consistent `text-base` (16px) or `text-lg` (18px) for main content
+
+### 2. HEADINGS TYPOGRAPHY:
+- H2 main headings: `leading-tight` (1.25), `tracking-tight` (-0.025em)
+- H3 subheadings: `leading-snug` (1.375), `tracking-normal`
+- Ensure proper font weights: H2 = `font-bold` (700), H3 = `font-semibold` (600)
+
+### 3. CONTENT DUPLICATION CHECK:
+Scan the entire homepage and identify:
+- Any repeated sections/content blocks
+- Duplicate headings or paragraphs
+- Similar-looking cards that say the same thing
+- Remove ALL duplicates - each piece of content should appear only ONCE
+
+### 4. SECTION-SPECIFIC FIXES:
+
+**Section 1 - "What is Samikaran Olympiad?":**
+- Main paragraph: Add `text-justify leading-relaxed text-gray-300 text-lg`
+- Subheading "Why Choose Online Olympiad Exams?": Ensure proper spacing below (mb-4)
+- Second paragraph: Same typography as first
+
+**Section 2 - "Olympiad Subjects":**
+- Description text in each card: `text-gray-600 leading-relaxed text-sm`
+- Ensure all 5 subject card descriptions have consistent length (3-4 lines max)
+- Tag badges: consistent styling across all cards
+
+**Section 3 - "Benefits":**
+- Bullet point text: `leading-relaxed text-gray-200 text-sm`
+- Ensure proper spacing between list items (space-y-2)
+- Checkmark icons: consistent green color (#10b981)
+
+**Section 4 - "How It Works":**
+- Step description paragraphs: `text-justify leading-relaxed text-gray-300`
+- Step numbers: Ensure they're consistently sized and positioned
+- Timeline line: Ensure it connects all steps properly
+
+**Section 5 - "FAQs":**
+- Question text: `font-semibold leading-normal`
+- Answer text: `text-justify leading-relaxed text-gray-600 text-base`
+- Proper spacing between Q&A pairs
+
+### 5. EXISTING SECTIONS (Don't break these):
+- Hero section
+- Impact stats section  
+- How It Works (existing 3-step section)
+- Why Samikaran features grid
+- Olympiad cards carousel
+- Ready to Compete CTA
+- News & Updates
+- Footer
+
+Don't modify these - only touch the 5 NEW SEO content sections we added.
+
+### 6. SPACING & RHYTHM:
+- Section padding: Ensure consistent `py-16` or `py-20` for all sections
+- Container: All content should be in `max-w-7xl mx-auto px-4 sm:px-6 lg:px-8`
+- Card spacing: Consistent gaps in grids (`gap-6` or `gap-8`)
+- Heading bottom margin: `mb-4` for H2, `mb-3` for H3
+
+### 7. RESPONSIVE TEXT:
+- Ensure all text scales properly: `text-sm md:text-base lg:text-lg` where appropriate
+- Line height should increase on mobile for better readability
+
+### 8. PROFESSIONAL POLISH:
+- Remove any Lorem Ipsum or placeholder text
+- Fix typos if any
+- Ensure proper sentence case (not ALL CAPS except for badges/labels)
+- Add proper punctuation at end of sentences
+
+Implement all fixes systematically. Start by reading the current Home.tsx file completely, identify all issues, then apply fixes section by section.

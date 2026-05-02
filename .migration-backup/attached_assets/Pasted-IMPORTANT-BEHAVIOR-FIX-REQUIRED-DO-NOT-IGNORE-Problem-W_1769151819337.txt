@@ -1,0 +1,65 @@
+IMPORTANT BEHAVIOR FIX REQUIRED (DO NOT IGNORE):
+
+Problem:
+When the user refreshes the browser, the React + Node.js app always redirects to the Dashboard/home page.
+This is incorrect behavior.
+The app must reopen the LAST VISITED PAGE after refresh.
+
+Goal:
+Persist the user's last opened route and restore it on page refresh, without adding new routes, layouts, or pages.
+
+Scope:
+- Existing React frontend
+- Existing Node.js backend
+- Existing authentication & dashboard logic
+- Do NOT change sidebar/menu structure
+- Do NOT force redirect to dashboard on refresh
+
+Required Implementation:
+
+FRONTEND (React):
+1. Track route changes using React Router (useLocation).
+2. On every route change, store the current pathname in:
+   - localStorage (key: "lastVisitedRoute")
+3. On app load:
+   - If user is authenticated
+   - Read "lastVisitedRoute" from localStorage
+   - If it exists and is a valid route, navigate to it
+   - Otherwise fallback to default dashboard
+
+4. Ensure:
+   - Browser refresh does NOT reset navigation
+   - Back/forward browser buttons still work
+   - Page reload restores last route correctly
+
+AUTH HANDLING:
+- Modify auth guard logic so it:
+  - Redirects to login ONLY if user is unauthenticated
+  - Does NOT force dashboard redirect if user is already logged in
+- Preserve lastVisitedRoute during login redirect
+- After successful login, redirect user back to lastVisitedRoute
+
+BACKEND (Node.js):
+- No route should hard-force dashboard redirect on refresh
+- API auth middleware should ONLY validate session/token
+- No UI redirect logic should exist in backend responses
+
+EDGE CASES TO HANDLE:
+- If stored route is invalid or removed → fallback to dashboard
+- If user logs out → clear lastVisitedRoute
+- If user opens app first time → open dashboard
+
+TECH STACK ASSUMPTIONS:
+- React with React Router
+- Node.js + Express
+- Session or JWT-based auth
+
+FINAL EXPECTATION:
+After implementation:
+- User refreshes page → stays on same page
+- App behaves like a proper SPA
+- No forced dashboard reset
+- Works across reloads, browser restarts, and sessions
+
+DO NOT PROVIDE EXPLANATION ONLY.
+APPLY THE FIX IN CODE.

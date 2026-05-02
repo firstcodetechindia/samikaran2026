@@ -1,0 +1,98 @@
+CRITICAL FIX NEEDED: ALL HEADINGS (H1, H2, H3, H4) across ENTIRE WEBSITE have INSUFFICIENT LINE-HEIGHT making them UNREADABLE and CRAMPED.
+
+PROBLEM:
+Look at the screenshot - "What is Samikaran Olympiad?" heading text lines are TOUCHING each other. This is happening on ALL pages, ALL headings throughout the website.
+
+REQUIREMENT:
+Fix line-height for ALL heading elements (h1, h2, h3, h4, h5, h6) GLOBALLY across the ENTIRE website.
+
+═══════════════════════════════════════════════
+GLOBAL HEADING LINE-HEIGHT FIX
+═══════════════════════════════════════════════
+
+APPLY THESE EXACT LINE-HEIGHTS GLOBALLY IN globals.css or tailwind base layer:
+
+1. ALL H1 HEADINGS:
+   line-height: 1.3 !important;
+   letter-spacing: -0.02em !important;
+   margin-bottom: 1rem !important;
+
+2. ALL H2 HEADINGS:
+   line-height: 1.4 !important;
+   letter-spacing: -0.015em !important;
+   margin-bottom: 0.875rem !important;
+
+3. ALL H3 HEADINGS:
+   line-height: 1.5 !important;
+   letter-spacing: 0em !important;
+   margin-bottom: 0.75rem !important;
+
+4. ALL H4, H5, H6 HEADINGS:
+   line-height: 1.6 !important;
+   letter-spacing: 0.01em !important;
+   margin-bottom: 0.5rem !important;
+
+5. MULTI-LINE HEADINGS (critical):
+   For headings that wrap to multiple lines, ensure MINIMUM line-height of 1.5
+
+═══════════════════════════════════════════════
+IMPLEMENTATION INSTRUCTIONS:
+═══════════════════════════════════════════════
+
+1. OPEN globals.css file
+
+2. ADD these global styles in @layer base:
+
+@layer base {
+  h1 {
+    line-height: 1.3 !important;
+    letter-spacing: -0.02em !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  h2 {
+    line-height: 1.4 !important;
+    letter-spacing: -0.015em !important;
+    margin-bottom: 0.875rem !important;
+  }
+  
+  h3 {
+    line-height: 1.5 !important;
+    letter-spacing: 0em !important;
+    margin-bottom: 0.75rem !important;
+  }
+  
+  h4, h5, h6 {
+    line-height: 1.6 !important;
+    letter-spacing: 0.01em !important;
+    margin-bottom: 0.5rem !important;
+  }
+}
+
+3. VERIFY on ALL pages:
+   - Homepage
+   - About page
+   - Olympiads listing
+   - FAQ page
+   - Contact page
+   - All other public pages
+
+4. CHECK specifically:
+   - "What is Samikaran Olympiad?" heading (currently VERY cramped)
+   - All section headings
+   - All card headings
+   - All multi-line headings
+
+═══════════════════════════════════════════════
+CRITICAL SUCCESS CRITERIA:
+═══════════════════════════════════════════════
+
+✓ ALL headings must have comfortable breathing space
+✓ Multi-line headings must NOT have lines touching
+✓ Changes must apply to ENTIRE website, not just one page
+✓ Must work on homepage, about, FAQ, all pages
+✓ Line-height must be READABLE and PROFESSIONAL
+
+IMPLEMENT THIS NOW. Apply globally using CSS base layer, NOT individual component changes. Make it work across ENTIRE WEBSITE.
+
+Start immediately and show me the globals.css changes.

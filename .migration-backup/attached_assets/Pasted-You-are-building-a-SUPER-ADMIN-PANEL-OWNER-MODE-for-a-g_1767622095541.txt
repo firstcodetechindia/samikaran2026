@@ -1,0 +1,235 @@
+You are building a SUPER ADMIN PANEL (OWNER MODE) for a global, AI-powered, multi-tenant Olympiad Examination SaaS platform.
+
+This panel is accessible ONLY to the platform owner (root level) and provides full global control over users, exams, analytics, AI, finance, security, SaaS tenants, and infrastructure.
+
+The system must support real-time analytics using WebSockets (Socket.IO).
+
+--------------------------------------------------
+1️⃣ GLOBAL PLATFORM CONTROL (ROOT LEVEL)
+--------------------------------------------------
+- Global platform ON/OFF (maintenance mode)
+- Region-wise enable/disable (Country, State, Board, District)
+- Language enable/disable per region
+- Exam season control (Open / Lock / Archive)
+- Emergency lockdown (security, cheating, legal, government notice)
+- Global configuration overrides (time limits, rules, scoring)
+- Feature flags (enable/disable features without redeploy)
+
+--------------------------------------------------
+2️⃣ REAL-TIME DASHBOARD (SOCKET-BASED)
+--------------------------------------------------
+Implement real-time analytics using Socket.IO:
+
+Live metrics (auto-updating every 1–2 seconds):
+- Active students online
+- Ongoing exams count
+- Live exam submissions
+- Time remaining distribution
+- Live cheating alerts
+- Live payment transactions
+- Server health (CPU, RAM, latency)
+- Region-wise live participation
+
+Socket Events:
+- student_joined_exam
+- student_left_exam
+- exam_started
+- exam_submitted
+- suspicious_activity_detected
+- payment_success
+- payment_failed
+- force_logout_triggered
+
+--------------------------------------------------
+3️⃣ OLYMPIAD & EXAM CONTROL CENTER
+--------------------------------------------------
+- Create / edit / clone Olympiads (AI-assisted)
+- Lock syllabus or questions mid-exam
+- Configure rolling entry vs hard cut-off
+- Difficulty control (global / region-wise)
+- Enable or disable adaptive exams
+- Emergency pause / resume exams
+- Force submit exam for any student
+- Extend exam time for specific users
+- Cancel exam by region, school, or tenant
+- Trigger re-evaluation of answers
+
+--------------------------------------------------
+4️⃣ ADVANCED ANALYTICS & INTELLIGENCE
+--------------------------------------------------
+Student Analytics:
+- Accuracy vs time graphs
+- Topic-wise performance heatmaps
+- Guessing detection
+- Drop-off and abandonment analysis
+- Learning curve across multiple attempts
+
+Exam Analytics:
+- Question difficulty index
+- Wrong-answer clustering
+- Time-per-question anomaly detection
+- Cheating probability score
+
+Regional & Global Analytics:
+- Country → State → District → School rankings
+- Participation growth trends
+- Performance vs revenue correlation
+- Olympiad-wise and subject-wise insights
+
+--------------------------------------------------
+5️⃣ PROCTORING & CHEATING COMMAND CENTER
+--------------------------------------------------
+- Live cheating alerts dashboard
+- Tab switch detection
+- Multiple face detection
+- Device/browser fingerprinting
+- IP & geo-location mismatch
+- Pattern-based cheating detection
+
+Admin Actions:
+- Auto-warn student (real-time popup via socket)
+- Force submit exam
+- Flag result for review
+- Block device or IP
+- Blacklist user globally
+
+--------------------------------------------------
+6️⃣ AI ENGINE CONTROL PANEL
+--------------------------------------------------
+- Enable/disable AI question generation
+- Control AI difficulty bias
+- Lock AI from modifying syllabus
+- Require human approval before AI-generated content goes live
+- Track AI vs manual questions
+- Monitor AI error rate and bias
+- Language accuracy tracking
+- AI activity logs and audit trail
+
+--------------------------------------------------
+7️⃣ MULTI-TENANT SAAS CONTROL
+--------------------------------------------------
+- One-click tenant creation
+- Assign tenant:
+  - Custom domain
+  - Server / IP
+  - Database
+  - Branding & theme
+- Clone tenant configurations
+- Suspend / archive tenant
+- Tenant-wise usage monitoring
+- Tenant isolation enforcement
+
+--------------------------------------------------
+8️⃣ FINANCIAL & PAYMENT INTELLIGENCE
+--------------------------------------------------
+- Real-time revenue dashboard
+- Olympiad-wise income
+- Region-wise income
+- Payment gateway analytics
+- Coupon & referral impact analysis
+- Fraud detection in discounts
+- Refund management
+- Payout and settlement reports
+
+--------------------------------------------------
+9️⃣ RESULT, RANK & CERTIFICATE CONTROL
+--------------------------------------------------
+- Manual result override (audit-logged)
+- Re-rank entire Olympiad
+- Freeze / unfreeze results
+- Publish / unpublish results
+- Certificate generation control
+- QR-based certificate verification logs
+- Bulk revoke certificates
+- Certificate design versioning
+
+--------------------------------------------------
+🔟 AUDIT, LOGS & COMPLIANCE
+--------------------------------------------------
+- Immutable audit logs (WORM style)
+- Track every admin action with:
+  - Admin ID
+  - Role
+  - Timestamp
+  - IP address
+- Logs cannot be deleted or edited
+- GDPR / India DPDP compliance tools
+- Student data export
+- Legal hold mode
+- Data retention policies
+
+--------------------------------------------------
+1️⃣1️⃣ INFRASTRUCTURE & DEVOPS CONTROL
+--------------------------------------------------
+- Live server health monitoring
+- Auto-scaling status
+- Crash recovery logs
+- Queue and job monitoring
+- Deployment control per tenant
+- Rollback system
+- Feature-based deployment
+- A/B testing controls
+
+--------------------------------------------------
+1️⃣2️⃣ SUPER ADMIN UI STRUCTURE
+--------------------------------------------------
+UI Sections:
+- Live Dashboard
+- Olympiads
+- Exams
+- Students
+- Proctoring
+- AI Control
+- Analytics
+- Finance
+- Referrals
+- Tenants (SaaS)
+- Certificates
+- Admins & Roles
+- Audit Logs
+- System Health
+- Global Settings
+
+--------------------------------------------------
+TECH STACK RECOMMENDATION
+--------------------------------------------------
+Frontend:
+- React (PWA)
+- WebSockets (Socket.IO Client)
+- Charting (Recharts / Chart.js)
+
+Backend:
+- Node.js
+- Express
+- Socket.IO
+- REST + WebSocket hybrid APIs
+
+Database:
+- PostgreSQL (primary relational DB)
+- Redis (real-time state, sockets, queues)
+- ClickHouse or TimescaleDB (analytics & metrics)
+
+Queue & Jobs:
+- BullMQ / Redis
+
+Authentication & Security:
+- JWT / Session-based auth
+- RBAC (Role-Based Access Control)
+- Audit logging
+- Rate limiting
+
+Infrastructure:
+- AWS EC2 / ECS
+- AWS RDS (PostgreSQL)
+- NGINX
+- Load balancer
+- Object storage (S3-compatible)
+
+Architecture Requirements:
+- Modular
+- Scalable
+- Multi-tenant safe
+- High availability
+- Secure by design
+
+Build this system as a production-grade, investor-ready, government-ready global examination platform.

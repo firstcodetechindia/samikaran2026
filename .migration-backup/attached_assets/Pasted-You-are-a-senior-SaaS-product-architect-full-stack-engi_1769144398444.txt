@@ -1,0 +1,331 @@
+You are a senior SaaS product architect, full-stack engineer,
+UI/UX designer, growth strategist, and business analyst.
+
+You are building a GLOBAL ONLINE OLYMPIAD SAAS PLATFORM
+that grows primarily via PARTNERS.
+
+This Partner System must be:
+- End-to-end (from public page to payouts)
+- Production-ready
+- Commission + SaaS ready
+- Admin-controlled
+- Investor-grade
+- Scalable globally
+
+I am working in REPLIT.
+DO NOT break existing UI or navigation.
+Extend the system modularly.
+Everything must be controlled from Admin.
+
+---------------------------------------------------
+FINAL GOAL
+---------------------------------------------------
+
+Build a COMPLETE PARTNER ECOSYSTEM where:
+
+• Anyone can discover us → apply → get approved  
+• Partners can onboard students & schools  
+• Revenue is tracked automatically  
+• Commissions / SaaS fees are calculated  
+• Payouts are managed  
+• Admin has full control  
+• System is ready for investors  
+
+---------------------------------------------------
+1️⃣ PUBLIC PARTNER PAGE (ENTRY POINT)
+---------------------------------------------------
+
+Route:
+ /partners  or  /become-a-partner
+
+Purpose:
+- Attract serious partners
+- Explain business opportunity
+- Drive applications
+
+PAGE CONTENT (ACTUAL COPY):
+
+Hero:
+"Partner With Us. Build a Scalable Education Business."
+
+Subtext:
+"Join our global Olympiad platform and earn recurring revenue
+by onboarding students, schools, and regions using our
+enterprise-grade technology."
+
+CTA:
+[ Apply to Become a Partner ]
+
+---------------------------------------------------
+
+Why Partner With Us:
+• Global Olympiad platform
+• Transparent commissions
+• Real-time dashboards
+• Automated payouts
+• Zero tech overhead
+
+---------------------------------------------------
+
+Partner Models:
+• Commission Partner – earn per student
+• School / Institute Partner – onboard your students
+• Regional Partner – manage a territory
+• SaaS / White-Label Partner – run your own Olympiad business
+
+---------------------------------------------------
+
+Who Can Apply:
+• Teachers & educators
+• Coaching institutes
+• School groups
+• Education entrepreneurs
+• EdTech startups
+• NGOs
+
+---------------------------------------------------
+2️⃣ PARTNER APPLICATION FORM (ONBOARDING)
+---------------------------------------------------
+
+Form Sections & Fields:
+
+Basic Details:
+- Full Name
+- Email
+- Phone (with country code)
+- Country
+- City
+
+Organization Details:
+- Organization Name
+- Organization Type
+  (Individual / School / Institute / Company)
+- Website (optional)
+- Years of experience
+
+Partnership Type:
+- Commission
+- School / Institute
+- Regional
+- SaaS / White-Label
+
+Business Capacity:
+- Expected students per month
+- Target geography
+- Marketing channels
+- Team size
+
+Additional Info:
+- Why do you want to partner with us?
+- Prior EdTech experience (optional)
+
+Consent:
+- Accept Terms & Privacy Policy
+
+Submit Action:
+- Save application
+- Status = PENDING
+- Notify Admin
+
+---------------------------------------------------
+3️⃣ ADMIN – PARTNER MANAGEMENT
+---------------------------------------------------
+
+Admin Sidebar:
+ PARTNERS
+
+Sub-menus:
+- Partner Applications
+- Approved Partners
+- Partner Payouts
+- Partner Analytics
+- Partner Page CMS
+- Partner Settings
+
+Admin Actions:
+- Approve / Reject / Suspend partners
+- Assign partner type
+- Set commission % OR SaaS plan
+- Restrict region (optional)
+- Add internal notes
+- Impersonate partner (view only)
+
+---------------------------------------------------
+4️⃣ PARTNER AGREEMENT (LEGAL)
+---------------------------------------------------
+
+System-stored digital agreement with:
+- Non-exclusive partnership
+- Commission / SaaS fee structure
+- Payout timelines
+- No income guarantee
+- Branding usage rules
+- Confidentiality
+- Termination rights
+- Governing law: India
+
+Rules:
+- Partner MUST accept agreement before dashboard access
+- Agreement version & timestamp stored
+
+---------------------------------------------------
+5️⃣ PARTNER DASHBOARD (CORE OPERATION)
+---------------------------------------------------
+
+Route:
+ /partner/dashboard
+
+Layout:
+- Left Sidebar
+- Top Header
+- Main Content Area
+
+Sidebar Menu:
+- Dashboard
+- Students
+- Earnings
+- Transactions
+- Payouts
+- Marketing Tools
+- Analytics
+- Profile
+- Support
+
+---------------------------------------------------
+6️⃣ PARTNER DASHBOARD – UI & CONTENT
+---------------------------------------------------
+
+Dashboard Overview:
+Cards:
+- Total Students
+- Exams Sold
+- Gross Revenue
+- Partner Earnings
+- Pending Payout
+
+Charts:
+- Monthly Earnings (Line)
+- Student Growth (Bar)
+
+---------------------------------------------------
+
+Students Page:
+- Student Name
+- Exam
+- Registration Date
+- Payment Status
+
+---------------------------------------------------
+
+Earnings Page:
+- Commission Rate
+- Lifetime Earnings
+- Monthly Earnings
+- Earnings Breakdown Table
+
+---------------------------------------------------
+
+Transactions Page:
+- Date
+- Student
+- Exam
+- Payment Amount
+- Commission
+- Status
+
+---------------------------------------------------
+
+Payouts Page:
+- Available Balance
+- Minimum Payout Threshold
+- Request Payout button
+- Payout History
+
+---------------------------------------------------
+
+Marketing Tools:
+- Unique Referral Link
+- Referral Code
+- Promotional Text
+- QR Code (future)
+
+---------------------------------------------------
+7️⃣ REFERRAL TRACKING LOGIC
+---------------------------------------------------
+
+Referral Methods:
+- /register?ref=PARTNER_ID
+- Referral code
+
+Rules:
+- partner_id stored at signup
+- partner_id locked permanently
+- All payments linked to partner_id
+- One payment → one partner
+
+---------------------------------------------------
+8️⃣ COMMISSION & PAYOUT SYSTEM
+---------------------------------------------------
+
+Commission Calculation:
+ commission = payment_amount × commission_rate
+
+Triggered:
+- Only after successful payment webhook
+
+Payout Flow:
+1. Partner requests payout
+2. System validates balance
+3. Admin approves
+4. Payout marked PAID
+
+Payout Modes:
+- India: Bank Transfer (manual / API-ready)
+- International: Stripe / PayPal (future)
+
+---------------------------------------------------
+9️⃣ PARTNER ANALYTICS & KPIs
+---------------------------------------------------
+
+KPIs:
+- Total Students
+- Paid Conversions
+- Conversion Rate
+- Gross Revenue
+- Partner Earnings
+- Average Revenue per Student
+- Monthly Growth Rate
+
+All metrics calculated server-side.
+
+---------------------------------------------------
+🔟 INVESTOR-READY PARTNER MODEL
+---------------------------------------------------
+
+System must clearly demonstrate:
+- Zero / low CAC via partners
+- High LTV via repeat exams
+- Regional scalability
+- White-label expansion
+- Predictable revenue
+
+Admin can export:
+- Partner metrics
+- Revenue via partners
+- Growth trends
+
+---------------------------------------------------
+FINAL OUTCOME
+---------------------------------------------------
+
+Deliver a COMPLETE,
+END-TO-END PARTNER ECOSYSTEM where:
+
+• Partners can discover, apply, onboard, earn, and scale  
+• Admin has full control  
+• Revenue is automated  
+• Legal & payouts are covered  
+• System is investor-ready  
+
+BUILD THIS AS A REAL-WORLD,
+LONG-TERM SAAS GROWTH ENGINE.

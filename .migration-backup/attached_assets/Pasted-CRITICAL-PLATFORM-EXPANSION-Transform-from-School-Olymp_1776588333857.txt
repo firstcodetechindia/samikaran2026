@@ -1,0 +1,130 @@
+CRITICAL PLATFORM EXPANSION: Transform from "School Olympiad Only" to "Dual-Track Examination Platform" (School Olympiads + Government Job Competitive Exams)
+
+⚠️ SAFETY-FIRST APPROACH: This is existing production system - implement changes INCREMENTALLY without breaking current functionality.
+
+═══════════════════════════════════════
+PHASE 1: DATABASE SCHEMA EXPANSION (Non-Breaking)
+═══════════════════════════════════════
+
+1. ADD NEW TABLES (don't modify existing):
+
+CREATE TABLE exam_categories (
+  id INT PRIMARY KEY,
+  name VARCHAR(100), -- UPSC, SSC, BANKING, RAILWAY, STATE_PSC, DEFENSE, SCHOOL_OLYMPIAD
+  description TEXT,
+  icon VARCHAR(50),
+  active BOOLEAN DEFAULT true
+);
+
+CREATE TABLE competitive_exams (
+  id INT PRIMARY KEY,
+  category_id INT REFERENCES exam_categories(id),
+  name VARCHAR(200), -- e.g., "UPSC Civil Services Preliminary 2026"
+  exam_type VARCHAR(50), -- IAS, SSC_CGL, IBPS_PO, etc.
+  target_audience VARCHAR(50), -- GRADUATION, POST_GRADUATION
+  syllabus JSON, -- Sections: Reasoning, Quant, English, GK, Computer
+  exam_date DATE,
+  registration_fee DECIMAL,
+  total_marks INT,
+  duration_minutes INT,
+  negative_marking BOOLEAN,
+  exam_mode VARCHAR(20) -- ONLINE, OFFLINE, HYBRID
+);
+
+2. EXTEND existing olympiads table:
+ALTER TABLE olympiads ADD COLUMN exam_category VARCHAR(50) DEFAULT 'SCHOOL_OLYMPIAD';
+ALTER TABLE olympiads ADD COLUMN target_level VARCHAR(50); -- Class 1-12, GRADUATION, POST_GRADUATION
+
+3. EXTEND users table:
+ALTER TABLE users ADD COLUMN user_type VARCHAR(20) DEFAULT 'STUDENT'; -- STUDENT, ASPIRANT
+ALTER TABLE users ADD COLUMN education_level VARCHAR(50); -- For aspirants: GRADUATION, POST_GRADUATION
+ALTER TABLE users ADD COLUMN target_exam_category VARCHAR(50); -- UPSC, SSC, BANKING, etc.
+
+═══════════════════════════════════════
+PHASE 2: HOMEPAGE TRANSFORMATION
+═══════════════════════════════════════
+
+1. UPDATE HERO SECTION:
+   - Change "India's Trusted Olympiad Platform" to:
+     "India's Trusted Examination Platform"
+   - Subtitle: "Secure online exams for School Students & Government Job Aspirants"
+   - Two prominent CTAs:
+     * "School Olympiads (Class 1-12)"
+     * "Competitive Exams (UPSC, SSC, Banking & More)"
+
+2. ADD DUAL-TRACK SELECTOR:
+   - Tabs/Buttons: [School Olympiads] [Government Job Exams]
+   - Filter exam listings based on selection
+
+3. UPDATE STATS:
+   - Keep existing stats but make category-agnostic
+   - "50,000+ Participants" instead of "Students"
+   - "100+ Exams Conducted"
+
+═══════════════════════════════════════
+PHASE 3: SEO & META UPDATES
+═══════════════════════════════════════
+
+1. UPDATE metadata.ts:
+   title: "Samikaran | India's #1 Online Examination Platform - Olympiads, UPSC, SSC, Banking Exams"
+   description: "Secure AI-proctored online exams for school olympiads (Class 1-12) and competitive government job exams (UPSC, SSC, Banking, Railway). Instant results & certificates."
+   keywords: "online examination platform, school olympiad, UPSC preparation, SSC exam, banking exam, competitive exam, AI proctored exam, government job exam"
+
+2. UPDATE sitemap to include new exam categories
+
+3. ADD structured data for both exam types
+
+═══════════════════════════════════════
+PHASE 4: REGISTRATION FLOW UPDATE
+═══════════════════════════════════════
+
+1. STEP 1: User Type Selection
+   "I am registering as:"
+   [📚 School Student (Class 1-12)] [🎓 Competitive Exam Aspirant]
+
+2. CONDITIONAL FORM FIELDS:
+   If STUDENT:
+     - Name, Email, Phone
+     - Class (1-12)
+     - School Name
+     - Board (CBSE/ICSE/State)
+   
+   If ASPIRANT:
+     - Name, Email, Phone
+     - Education Level (Graduation/Post-Graduation)
+     - Target Exam Category (UPSC/SSC/Banking/Railway/State PSC/Defense)
+     - Current Preparation Stage (Just Started/Intermediate/Advanced)
+
+3. BACKWARD COMPATIBILITY:
+   - Existing users default to 'STUDENT' type
+   - No breaking changes to existing registrations
+
+═══════════════════════════════════════
+PHASE 5: EXAM BROWSING & FILTERING
+═══════════════════════════════════════
+
+1. UPDATE /olympiads page:
+   - Rename to /exams
+   - Add category filters
+   - Keep existing olympiad data intact
+
+2. NEW ROUTES:
+   - /competitive-exams (listing page)
+   - /upsc-exams
+   - /ssc-exams
+   - /banking-exams
+   - /railway-exams
+
+═══════════════════════════════════════
+IMPLEMENTATION ORDER (EXECUTE STEP-BY-STEP):
+═══════════════════════════════════════
+
+1. Database schema additions (new tables + extend existing)
+2. Homepage hero section update
+3. SEO metadata update
+4. Registration form dual-track
+5. Admin panel: Add exam category management
+6. Create sample competitive exam entries
+7. Test E2E for both user types
+
+START with Step 1 (Database). Proceed incrementally and verify each step before moving forward.

@@ -1,0 +1,55 @@
+# Robots.txt for Samikaran Olympiad
+# https://www.samikaranolympiad.com
+
+User-agent: *
+Allow: /
+Allow: /about
+Allow: /olympiads
+Allow: /olympiad/
+Allow: /blog
+Allow: /partners
+Allow: /become-a-partner
+Allow: /awards
+Allow: /brand
+Allow: /register
+Allow: /contact
+Allow: /results
+Allow: /faq
+Allow: /syllabus
+Allow: /verify
+Allow: /certificate
+
+# Disallow admin, dashboard, and internal pages
+Disallow: /admin
+Disallow: /sysctrl/
+Disallow: /super-admin
+Disallow: /dashboard
+Disallow: /student-dashboard
+Disallow: /supervisor
+Disallow: /school-dashboard
+Disallow: /school
+Disallow: /group
+Disallow: /partner-dashboard
+Disallow: /partner/
+Disallow: /partner-login
+Disallow: /exam/
+Disallow: /secure-exam/
+Disallow: /api/
+Disallow: /qa-login
+Disallow: /qalogin
+Disallow: /qa-dashboard
+Disallow: /employee/
+Disallow: /employee-login
+Disallow: /employee-dashboard
+Disallow: /admin-login
+Disallow: /admin-setup
+Disallow: /login
+Disallow: /forgot-password
+Disallow: /maintenance
+Disallow: /audio-olympiad-demo
+
+# Sitemap location
+Sitemap: https://www.samikaranolympiad.com/sitemap.xml
+
+# Crawl-delay (optional, for politeness)
+Crawl-delay: 1

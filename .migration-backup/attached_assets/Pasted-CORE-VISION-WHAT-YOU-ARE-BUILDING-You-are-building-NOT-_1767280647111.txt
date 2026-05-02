@@ -1,0 +1,469 @@
+CORE VISION (WHAT YOU ARE BUILDING)
+
+You are building NOT just an exam website, but a:
+
+Global Olympiad Operating System
+
+AI-powered assessment platform
+
+Secure, proctored online examination engine
+
+Multi-tenant SaaS product
+
+Data-driven education intelligence platform
+
+Key Vision Points
+
+Fully online, worldwide olympiad exams
+
+AI-generated syllabus and questions
+
+Secure proctoring with admin control
+
+Real-time analytics at every level
+
+Automated rewards, certificates, marketing
+
+One-click SaaS replica for clients (future phase)
+
+Built fast, solo-friendly, scalable
+
+2️⃣ WHO WILL USE THE PLATFORM (ACTORS)
+Primary Roles
+
+Super Admin (you / platform owner)
+
+Exam Admin
+
+School Admin
+
+Group / Coaching Admin
+
+Teacher
+
+Student
+
+AI Engine
+
+Proctoring Engine
+
+Each role has strict, controlled access to data and actions.
+
+3️⃣ EXAM CREATION & AI SYLLABUS ENGINE
+When Super Admin Creates an Exam
+
+System asks for:
+
+Subject
+
+Class / Age group
+
+Difficulty level
+
+Regions (district / state / country / global)
+
+Languages
+
+Exam duration (minutes)
+
+Join start time
+
+Join cut-off time
+
+Negative marking (ON/OFF)
+
+Proctoring (ON/OFF, runtime changeable)
+
+Reward structure
+
+Participation fee
+
+Mock test configuration
+
+AI Syllabus Generation
+
+AI generates wide-level syllabus
+
+Topics → subtopics → micro-concepts
+
+Weightage per topic
+
+Shown to students before exam
+
+Used as single source of truth
+
+4️⃣ QUESTION GENERATION SYSTEM (DUAL MODE)
+Mode 1: AI-Based
+
+AI generates:
+
+Questions
+
+Options
+
+Correct answers
+
+Explanations
+
+Difficulty tags
+
+Used for:
+
+Mock tests
+
+Rapid exam creation
+
+Scale
+
+Mode 2: Manual Upload
+
+Super Admin uploads questions (CSV / Excel / JSON)
+
+System asks:
+
+Questions per set
+
+Auto-distribution:
+
+Example: 500 questions ÷ 50 per set → 10 sets
+
+Anti-Cheating Logic
+
+Questions randomized per student
+
+Options shuffled per student
+
+Same question ≠ same option order
+
+5️⃣ QUESTION TYPES SUPPORTED (FULL FLEXIBILITY)
+
+MCQs
+
+One-line answers
+
+Paragraph-based questions
+
+One passage → multiple questions
+
+Image-based questions
+
+Mixed pattern papers
+
+6️⃣ SET-WISE & TIME-BASED EXAM LOGIC
+Set Rotation
+
+Exam runs for multiple hours
+
+Every hour → new question set
+
+Same syllabus, different questions
+
+Prevents mass cheating
+
+Rolling Entry with Hard Cut-Off
+
+Exam has:
+
+Start time
+
+Join cut-off time
+
+Duration (e.g. 60 minutes)
+
+Rules:
+
+❌ No entry before start
+
+❌ No entry after cut-off
+
+✅ Any student joining before cut-off gets full duration
+
+⏱ Timer controlled by server
+
+🔒 Auto submit when time ends
+
+7️⃣ MOCK TEST SYSTEM (ADMIN CONTROLLED)
+
+Number of attempts configurable (1 / 2 / unlimited)
+
+Mock start & close dates
+
+Multiple mock phases allowed
+
+Mock questions:
+
+Totally different from main exam
+
+Same pattern
+
+Instant result for mock tests
+
+Used for practice & analytics
+
+8️⃣ ADAPTIVE DIFFICULTY (OPTIONAL)
+
+If student answers very fast with high accuracy:
+
+System switches to harder questions
+
+Feature is:
+
+Fully optional
+
+Enabled/disabled by Super Admin per exam
+
+9️⃣ HIGH-LEVEL PROCTORING SYSTEM
+Proctoring Capabilities
+
+No face detection
+
+Multiple face detection
+
+Face mismatch
+
+Camera OFF
+
+Mic OFF / multiple voices
+
+Tab switching
+
+Screen minimize / focus loss
+
+Risk Levels
+
+Green → Normal
+
+Yellow → Warning
+
+Red → Auto submit / disqualify
+
+Runtime Control
+
+Super Admin can:
+
+Enable proctoring mid-exam
+
+Disable proctoring mid-exam
+
+Apply per exam / per region
+
+🔟 RESULT, RANKING & REWARD SYSTEM
+Auto Result Calculation
+
+Correct × marks − wrong × negative marks
+
+Auto evaluation
+
+No manual checking
+
+Ranking Levels
+
+Global rank
+
+Country rank
+
+State rank
+
+District rank
+
+School rank
+
+Group rank
+
+Reward Engine (Exam-Wise)
+
+System asks:
+
+Total participants
+
+Number of rewards
+
+Reward for Rank 1 / 2 / 3 / others
+
+Example:
+
+Rank 1 → Cash + Gold medal
+
+Rank 2 → Cash + Silver
+
+Rank 3 → Cash + Bronze
+
+Top % → Merit certificates
+
+All → Participation certificate
+
+Certificate System
+
+Auto-generated
+
+Exam-specific template
+
+QR-verified
+
+Download anytime after result live
+
+1️⃣1️⃣ MULTI-REGION & MULTI-LANGUAGE
+
+Exams can be:
+
+District-level
+
+State-level
+
+National
+
+International
+
+UI, questions, certificates, notifications in multiple languages
+
+Region-specific analytics & marketing
+
+1️⃣2️⃣ DATA ANALYTICS & STATISTICS (VERY STRONG)
+Live Analytics (Super Admin)
+
+Total registered
+
+Live students
+
+Not started
+
+In progress
+
+Partially submitted
+
+Auto submitted
+
+Disqualified
+
+Live region heatmaps
+
+Post-Exam Analytics
+
+Topic-wise performance
+
+Question difficulty analysis
+
+Time vs accuracy
+
+Rank distributions
+
+Cheating heatmaps
+
+School / Group Dashboards
+
+Who attempted
+
+Who didn’t
+
+Average scores
+
+Top performers
+
+Weak topics
+
+❌ Results visible only after Super Admin publishes
+
+1️⃣3️⃣ NOTIFICATION SYSTEM
+
+Triggers:
+
+New olympiad launch
+
+Registration open / close
+
+Exam reminders
+
+Result live
+
+Certificate available
+
+Channels:
+
+Email
+
+SMS
+
+WhatsApp
+
+In-app notifications
+
+Only paid users can attempt exam.
+
+1️⃣4️⃣ BLOG & CONTENT SYSTEM
+
+AI-assisted daily content
+
+Education news, olympiad updates
+
+SEO-optimized blogs
+
+Auto publishing
+
+Auto social sharing
+
+1️⃣5️⃣ MARKETING & GROWTH ENGINE
+
+Region-based campaigns
+
+Language-based targeting
+
+Referral programs
+
+School & group partnerships
+
+Sponsored olympiads
+
+Media & sponsor integration (future)
+
+1️⃣6️⃣ SAAS & FUTURE SCALE (NEXT PHASE)
+
+Platform designed for multi-tenant SaaS
+
+One codebase
+
+Tenant isolation by tenant_id
+
+One-click creation of new exam portals (future)
+
+Custom domain support
+
+Feature-based pricing
+
+Enterprise clients can later get dedicated infra
+
+1️⃣7️⃣ TECHNOLOGY STACK (FAST & SOLO-FRIENDLY)
+
+Frontend: React (PWA-ready)
+
+Backend: Node.js
+
+Database: PostgreSQL
+
+AI: OpenAI / LLM APIs
+
+Hosting: Replit → AWS
+
+SSL & routing: Nginx / Load Balancer
+
+1️⃣8️⃣ BUILD STRATEGY (MY STRONG RECOMMENDATION)
+Build FAST by:
+
+Core engine first
+
+Modular design
+
+Delay over-engineering
+
+Start with:
+
+Exam engine
+
+Question system
+
+Timing logic
+
+Results
+
+Certificates
+
+Basic analytics

@@ -1,0 +1,214 @@
+You are acting as a SENIOR PRINCIPAL SOFTWARE ARCHITECT + SECURITY AUDITOR + DEVOPS ENGINEER + QA LEAD.
+
+Your task is to perform a COMPLETE END-TO-END SYSTEM AUDIT and AUTO-REMEDIATION for this entire application.
+
+This is NOT a demo.
+This is a production-grade global SaaS platform.
+
+========================
+OBJECTIVE
+========================
+
+1. Check the FULL SYSTEM one by one:
+   - Frontend
+   - Backend
+   - Database
+   - APIs
+   - Admin Panels
+   - Super Admin / Platform Control
+   - Student / User Panels
+   - Proctoring / Exam Engine
+   - Result Engine
+   - Payment / Token / Wallet (if exists)
+   - WebSocket / Realtime Systems
+   - Cron Jobs / Schedulers
+   - Notifications
+   - Logs & Monitoring
+
+2. Verify END-TO-END CONNECTIVITY:
+   - Every panel must be connected centrally
+   - Every action must reflect correctly across all modules
+   - No orphan tables, APIs, or UI components
+   - No broken flows
+   - No dead logic
+   - No unused schemas
+   - No partial integrations
+
+If ANY connection is missing:
+→ Auto-implement it correctly
+→ Follow existing architecture
+→ Do NOT break backward compatibility
+
+========================
+FUNCTIONALITY AUDIT
+========================
+
+For EACH module:
+- Validate all CRUD operations
+- Validate permissions & role access
+- Validate server-side validation
+- Validate API contracts
+- Validate state consistency
+- Validate error handling
+
+Mark each test as:
+- ✅ PASSED
+- ⚠️ WARNING
+- ❌ FAILED
+
+========================
+SECURITY AUDIT (CRITICAL)
+========================
+
+Perform deep security analysis:
+- SQL Injection
+- XSS
+- CSRF
+- IDOR
+- Auth bypass
+- Role escalation
+- Token/session hijack
+- WebSocket abuse
+- Rate limiting
+- Brute force protection
+- File upload attacks
+- API abuse
+- Sensitive data exposure
+
+Rules:
+- EVERYTHING must be validated SERVER-SIDE
+- NEVER trust frontend
+- Secure cookies
+- Secure headers
+- Proper CORS
+- JWT / session hardening
+- Secrets never exposed
+
+If ANY vulnerability is found:
+→ Fix it immediately
+→ Explain what was fixed
+→ Add regression protection
+
+System goal:
+“Nobody can break this system.”
+
+========================
+DATABASE & PERFORMANCE
+========================
+
+- Analyze all tables
+- Detect missing indexes
+- Detect slow queries
+- Optimize joins
+- Normalize where needed
+- Add composite indexes
+- Validate foreign keys
+- Ensure transactional integrity
+
+Load Testing:
+- Simulate concurrent users
+- Exams running at scale
+- Result generation peak load
+- Admin dashboard heavy queries
+- WebSocket concurrency
+
+Optimize:
+- API response times
+- DB queries
+- Memory usage
+- CPU usage
+- Event loops
+- Background jobs
+
+========================
+CONTINUOUS SYSTEM TEST ENGINE
+========================
+
+Build a SYSTEM HEALTH CHECK ENGINE that:
+
+1. Can be run multiple times manually
+2. Stores each test run result
+3. Compares current run vs previous runs
+4. Highlights:
+   - What improved
+   - What degraded
+   - What changed
+   - What remained same
+
+========================
+PLATFORM CONTROL UI (MANDATORY)
+========================
+
+Create a new section in **Platform Control / Super Admin Side Menu**:
+
+📊 **System Audit & Health Report**
+
+UI must include:
+- Last run timestamp
+- Overall system score (%)
+- Module-wise status table:
+  - Module Name
+  - Status (Pass / Warning / Fail)
+  - Issues count
+- Security score
+- Performance score
+- Database health score
+
+Comparison View:
+- Previous Run vs Current Run
+- Color-coded diff
+- Regression alerts
+
+Detailed Views:
+- Failed tests list
+- Warning list
+- Security findings
+- Performance bottlenecks
+- Optimization suggestions
+- Auto-implemented fixes log
+
+========================
+REPORTING
+========================
+
+Generate:
+- Structured JSON report (for storage)
+- Rendered UI report (human readable)
+- Logs for audit history
+
+Each issue must include:
+- Severity (Low / Medium / High / Critical)
+- Impact
+- Module affected
+- Fix applied (or suggestion if manual)
+
+========================
+RULES
+========================
+
+- Do NOT skip any module
+- Do NOT assume anything works
+- Verify everything by logic and data flow
+- Follow existing tech stack
+- Follow existing coding style
+- Be production-safe
+- Be repeatable
+- Be scalable
+
+========================
+FINAL OUTPUT
+========================
+
+1. Fully audited & optimized system
+2. Zero critical vulnerabilities
+3. Indexed & optimized database
+4. Load-tested application
+5. Centralized system audit engine
+6. Platform Control UI with comparison reports
+7. Clear PASS / WARNING / FAIL visibility
+8. Suggestions + auto-fixes implemented
+
+This system should feel like:
+“Enterprise-grade internal audit & health monitor”
+
+Start now. Execute step by step. Do not stop until completed.

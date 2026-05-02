@@ -1,0 +1,177 @@
+You are acting as a PRINCIPAL QA ARCHITECT + RELEASE GOVERNANCE ENGINEER + AI SYSTEM DESIGNER.
+
+Your task is to DESIGN and IMPLEMENT a COMPLETE, FUTURE-PROOF QUALITY ASSURANCE & RELEASE CONTROL SYSTEM
+fully INSIDE this platform.
+
+This system must replace external QA tools and become the SINGLE SOURCE OF TRUTH
+for testing, release readiness, and deployment decisions.
+
+==================================================
+CORE VISION
+==================================================
+
+Build an INTERNAL QA + RELEASE GOVERNANCE ENGINE that:
+- Supports MANUAL testing today
+- Is AUTOMATION-READY for tomorrow
+- Prevents unsafe releases
+- Uses DATA to decide Go / No-Go
+- Suggests test coverage gaps using AI
+
+==================================================
+MODULES TO BUILD
+==================================================
+
+1. In-App Manual Testing System (Tester Role)
+2. Automation-Ready Test Architecture
+3. Release Go / No-Go Decision Engine
+4. Critical Bug Deployment Blocker
+5. AI-Based Test Coverage Advisor
+
+All modules must be integrated into:
+Platform Control → QA & Testing
+Platform Control → Platform Presentations
+
+==================================================
+1️⃣ AUTOMATION-READY EXTENSION (🧩)
+==================================================
+
+Design test cases so they can be:
+- Executed manually today
+- Executed automatically in future
+
+Test Case must include:
+- Unique stable Test Case ID
+- Clear, deterministic steps
+- Expected results in machine-readable format
+- API mapping (optional)
+- UI selector reference (optional)
+
+Add fields:
+- automationEligible (true / false)
+- automationStatus (Not Started / In Progress / Automated)
+- automationNotes
+
+Architecture rule:
+Manual and Automated tests must share SAME test case definition.
+
+==================================================
+2️⃣ RELEASE GO / NO-GO SCORING ENGINE (📊)
+==================================================
+
+Create a RELEASE READINESS SCORE (0–100)
+
+Scoring logic must include:
+- % Test Cases Passed
+- Number of Critical Bugs
+- Number of High Bugs
+- Module Risk Weight
+- Regression Coverage
+- Open Blocked Tests
+
+Example logic:
+- Any Critical Bug = Immediate NO-GO
+- Pass rate < 95% = NO-GO
+- High bugs > threshold = NO-GO
+- Otherwise = GO
+
+Display:
+- Final Release Status: GO / NO-GO
+- Confidence Score
+- Risk Summary
+- Blocking Reasons (if NO-GO)
+
+==================================================
+3️⃣ CRITICAL BUG AUTO-BLOCK DEPLOYMENT (🚨)
+==================================================
+
+Implement RELEASE GUARD RULES:
+
+If ANY of the following exists:
+- Critical severity bug
+- Security-related failure
+- Failed core exam flow
+- Broken payment flow
+
+Then:
+- Block production deployment
+- Show warning banner to Super Admin
+- Require explicit override (logged)
+
+This must integrate with:
+- CI/CD pipeline (future-ready)
+- Manual deployment checks (current)
+
+==================================================
+4️⃣ AI-BASED TEST COVERAGE SUGGESTIONS (🧠)
+==================================================
+
+Design an AI ANALYSIS ENGINE that:
+
+Analyzes:
+- Feature list
+- Existing test cases
+- Past bugs
+- High-risk modules
+- Recent code changes (logical level)
+
+AI must:
+- Identify untested areas
+- Suggest missing test cases
+- Highlight weak regression coverage
+- Flag risky releases
+
+Output examples:
+- “Exam submission retry scenario not tested”
+- “Payment failure recovery missing test coverage”
+- “High bug density in Result Calculation module”
+
+AI suggestions must be:
+- Read-only
+- Reviewable by Super Admin
+- Convertible into new test cases
+
+==================================================
+DATA & AUDITABILITY
+==================================================
+
+Everything must be:
+- Role-based
+- Logged
+- Time-stamped
+- Immutable after submission
+
+Maintain:
+- Test history
+- Release history
+- Override history
+- Regression trends
+
+==================================================
+SUPER ADMIN MASTER DASHBOARD
+==================================================
+
+Include:
+- Test coverage %
+- Automation readiness %
+- Release readiness score
+- Blocking issues
+- AI suggestions
+- Tester performance summary
+
+==================================================
+FINAL PRINCIPLES
+==================================================
+
+- No Excel
+- No external QA tools required
+- No unsafe release allowed
+- Decisions backed by data
+- System must scale with product growth
+
+This system should feel like:
+“Enterprise-grade QA + Release Governance Engine
+built into the product itself.”
+
+Design architecture → data models → UI → workflows.
+Implement cleanly, securely, and logically.
+Do not skip any part.

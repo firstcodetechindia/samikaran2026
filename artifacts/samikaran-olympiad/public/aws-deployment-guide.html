@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS Deployment Guide - Samikaran Olympiad</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0d1117; color: #c9d1d9; line-height: 1.8; }
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        
+        .header { text-align: center; padding: 40px; margin-bottom: 40px; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); border-radius: 16px; }
+        .header h1 { font-size: 2rem; color: white; margin-bottom: 10px; }
+        .header p { color: rgba(255,255,255,0.9); font-size: 1.1rem; }
+        
+        .step-card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; margin-bottom: 30px; overflow: hidden; }
+        .step-header { background: linear-gradient(135deg, #238636, #2ea043); padding: 20px 25px; }
+        .step-number { background: white; color: #238636; width: 40px; height: 40px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem; margin-right: 15px; }
+        .step-title { color: white; font-size: 1.3rem; font-weight: 600; display: inline; vertical-align: middle; }
+        
+        .step-body { padding: 25px; }
+        .step-desc { color: #8b949e; margin-bottom: 20px; font-size: 1rem; line-height: 1.8; }
+        .step-desc strong { color: #58a6ff; }
+        
+        .substep { background: #21262d; border-radius: 8px; padding: 20px; margin-bottom: 15px; border-left: 4px solid #f0883e; }
+        .substep-title { color: #f0883e; font-weight: 600; margin-bottom: 10px; font-size: 1rem; }
+        .substep-desc { color: #8b949e; font-size: 0.95rem; margin-bottom: 15px; }
+        
+        .cmd-block { background: #0d1117; border: 1px solid #30363d; border-radius: 6px; margin: 10px 0; overflow: hidden; }
+        .cmd-header { background: #21262d; padding: 8px 15px; font-size: 0.8rem; color: #8b949e; font-family: monospace; }
+        .cmd-content { padding: 15px; overflow-x: auto; font-family: 'SF Mono', 'Consolas', monospace; font-size: 0.9rem; }
+        .cmd-content pre { margin: 0; white-space: pre-wrap; word-break: break-all; }
+        
+        .var { color: #7ee787; }
+        .comment { color: #8b949e; }
+        
+        .note { background: #1f2d23; border-left: 4px solid #238636; padding: 15px 20px; margin: 15px 0; border-radius: 0 8px 8px 0; }
+        .note-title { color: #238636; font-weight: 600; margin-bottom: 5px; }
+        .note p { color: #8b949e; font-size: 0.9rem; }
+        
+        .warning { background: #2d1f1f; border-left: 4px solid #f85149; padding: 15px 20px; margin: 15px 0; border-radius: 0 8px 8px 0; }
+        .warning-title { color: #f85149; font-weight: 600; margin-bottom: 5px; }
+        .warning p { color: #8b949e; font-size: 0.9rem; }
+        
+        .info-box { background: #1a2332; border: 1px solid #1f6feb; border-radius: 8px; padding: 15px 20px; margin: 15px 0; }
+        .info-box-title { color: #58a6ff; font-weight: 600; margin-bottom: 5px; }
+        .info-box p { color: #8b949e; font-size: 0.9rem; }
+        
+        .env-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        .env-table th, .env-table td { padding: 12px 15px; border: 1px solid #30363d; text-align: left; }
+        .env-table th { background: #21262d; color: #f0883e; }
+        .env-table td:first-child { color: #7ee787; font-family: monospace; }
+        .env-table td:nth-child(2) { color: #c9d1d9; }
+        .env-table td:nth-child(3) { color: #8b949e; font-size: 0.85rem; }
+        
+        .checklist { list-style: none; padding: 0; }
+        .checklist li { padding: 8px 0; padding-left: 30px; position: relative; color: #8b949e; }
+        .checklist li::before { content: "✓"; position: absolute; left: 0; color: #238636; font-weight: bold; }
+        
+        .print-btn { position: fixed; bottom: 30px; right: 30px; background: linear-gradient(135deg, #f97316, #ea580c); color: white; border: none; padding: 15px 30px; border-radius: 50px; cursor: pointer; font-weight: 600; font-size: 1rem; box-shadow: 0 4px 20px rgba(249, 115, 22, 0.4); }
+        .print-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(249, 115, 22, 0.5); }
+        
+        .toc { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 25px; margin-bottom: 40px; }
+        .toc h3 { color: #58a6ff; margin-bottom: 15px; }
+        .toc ol { padding-left: 25px; }
+        .toc li { padding: 5px 0; color: #8b949e; }
+        .toc a { color: #58a6ff; text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+        
+        @media print {
+            @page { size: A4 landscape; margin: 8mm; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            body { background: white !important; color: black; margin: 0 !important; }
+            .print-btn, .toc { display: none !important; }
+            .header {
+                height: 190mm !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: center !important;
+                align-items: center !important;
+                page-break-after: always !important;
+                background: #f97316 !important;
+            }
+            .step-card {
+                page-break-after: always !important;
+                page-break-inside: avoid !important;
+                break-after: page !important;
+                break-inside: avoid;
+                border: 1px solid #ddd !important;
+                padding: 12mm 15mm !important;
+            }
+            h2 { font-size: 18pt !important; margin-bottom: 12px !important; }
+            h3 { font-size: 12pt !important; }
+            p, li, code { font-size: 10pt !important; }
+            pre { font-size: 9pt !important; padding: 10px !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>AWS Deployment Guide</h1>
+            <p>Samikaran Olympiad - Complete Step-by-Step Server Setup</p>
+        </header>
+
+        <div class="toc">
+            <h3>Table of Contents</h3>
+            <ol>
+                <li><a href="#step1">Prerequisites - What You Need Before Starting</a></li>
+                <li><a href="#step2">Create AWS Account & Setup IAM User</a></li>
+                <li><a href="#step3">Launch EC2 Server (Virtual Machine)</a></li>
+                <li><a href="#step4">Create RDS Database (PostgreSQL)</a></li>
+                <li><a href="#step5">Connect to Your Server via SSH</a></li>
+                <li><a href="#step6">Install Required Software on Server</a></li>
+                <li><a href="#step7">Upload Your Code to Server</a></li>
+                <li><a href="#step8">Configure Environment Variables</a></li>
+                <li><a href="#step9">Build and Start the Application</a></li>
+                <li><a href="#step10">Setup Nginx (Web Server)</a></li>
+                <li><a href="#step11">Point Your Domain to Server</a></li>
+                <li><a href="#step12">Install SSL Certificate (HTTPS)</a></li>
+                <li><a href="#step13">Start Proctoring Service</a></li>
+                <li><a href="#step14">Create Super Admin Account</a></li>
+                <li><a href="#step15">Server Monitoring & Maintenance</a></li>
+            </ol>
+        </div>
+
+        <!-- STEP 1 -->
+        <div class="step-card" id="step1">
+            <div class="step-header">
+                <span class="step-number">1</span>
+                <span class="step-title">Prerequisites - What You Need Before Starting</span>
+            </div>
+            <div class="step-body">
+                <div class="step-desc">
+                    Before you start, make sure you have these things ready. This will save you time later.
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">Things You Need:</div>
+                    <ul class="checklist">
+                        <li>A computer with internet connection</li>
+                        <li>A credit/debit card for AWS account (they won't charge unless you exceed free tier)</li>
+                        <li>A domain name (like samikaran.com) - you can buy from GoDaddy, Namecheap, or Google Domains</li>
+                        <li>Your project code (either on GitHub or in a zip file)</li>
+                        <li>OpenAI API key for AI features</li>
+                        <li>About 2-3 hours of time for complete setup</li>
+                    </ul>
+                </div>
+                
+                <div class="info-box">
+                    <div class="info-box-title">What is AWS?</div>
+                    <p>AWS (Amazon Web Services) is like renting a computer in Amazon's data center. Instead of buying a physical server, you rent one online and pay only for what you use. We'll use two AWS services: EC2 (the server) and RDS (the database).</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="step-card" id="step2">
+            <div class="step-header">
+                <span class="step-number">2</span>
+                <span class="step-title">Create AWS Account & Setup IAM User</span>
+            </div>
+            <div class="step-body">
+                <div class="step-desc">
+                    First, you need an AWS account. If you already have one, skip to the IAM user creation part.
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">A. Create AWS Account</div>
+                    <div class="substep-desc">Go to <strong>aws.amazon.com</strong> and click "Create an AWS Account"</div>
+                    <ul class="checklist">
+                        <li>Enter your email and choose a password</li>
+                        <li>Enter your name and phone number</li>
+                        <li>Add credit/debit card (for verification only)</li>
+                        <li>Choose "Basic Support - Free" plan</li>
+                        <li>Verify your phone number with OTP</li>
+                    </ul>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">B. Create IAM User (For Security)</div>
+                    <div class="substep-desc">IAM user is a separate login for daily use. Never use root account for regular work.</div>
+                    <ul class="checklist">
+                        <li>Login to AWS Console</li>
+                        <li>Search for "IAM" in search bar and click it</li>
+                        <li>Click "Users" in left menu, then "Create user"</li>
+                        <li>Username: <strong>samikaran-admin</strong></li>
+                        <li>Check "Provide user access to AWS Management Console"</li>
+                        <li>Select "I want to create an IAM user"</li>
+                        <li>Set a password</li>
+                        <li>Click Next, then "Attach policies directly"</li>
+                        <li>Search and select: <strong>AdministratorAccess</strong></li>
+                        <li>Click "Create user"</li>
+                        <li>Save the login URL, username, and password somewhere safe</li>
+                    </ul>
+                </div>
+                
+                <div class="note">
+                    <div class="note-title">From now on...</div>
+                    <p>Always login using the IAM user account, not the root account. The root account should only be used for billing and emergencies.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="step-card" id="step3">
+            <div class="step-header">
+                <span class="step-number">3</span>
+                <span class="step-title">Launch EC2 Server (Virtual Machine)</span>
+            </div>
+            <div class="step-body">
+                <div class="step-desc">
+                    EC2 is your virtual server where the application will run. Think of it as a computer in the cloud that's always on.
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">A. Open EC2 Dashboard</div>
+                    <ul class="checklist">
+                        <li>Login to AWS Console with your IAM user</li>
+                        <li>In the top right, click the region dropdown</li>
+                        <li>Select <strong>"Asia Pacific (Mumbai) ap-south-1"</strong> - this is closest to India</li>
+                        <li>Search for "EC2" in search bar and click it</li>
+                        <li>Click the orange "Launch instance" button</li>
+                    </ul>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">B. Configure Instance</div>
+                    <table class="env-table">
+                        <tr><th>Setting</th><th>Value</th><th>Why?</th></tr>
+                        <tr><td>Name</td><td>samikaran-olympiad</td><td>Easy to identify later</td></tr>
+                        <tr><td>AMI (Operating System)</td><td>Ubuntu Server 22.04 LTS</td><td>Free, stable, well-supported</td></tr>
+                        <tr><td>Architecture</td><td>64-bit (x86)</td><td>Standard choice</td></tr>
+                        <tr><td>Instance type</td><td>t3.medium</td><td>2 CPU, 4GB RAM - good for 500+ users</td></tr>
+                    </table>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">C. Create Key Pair (Very Important!)</div>
+                    <div class="substep-desc">This is like a password file to connect to your server. You can only download it ONCE.</div>
+                    <ul class="checklist">
+                        <li>Click "Create new key pair"</li>
+                        <li>Name: <strong>samikaran-key</strong></li>
+                        <li>Type: RSA</li>
+                        <li>Format: .pem (for Mac/Linux) or .ppk (for Windows with PuTTY)</li>
+                        <li>Click "Create key pair" - file will download automatically</li>
+                        <li><strong>SAVE THIS FILE SAFELY!</strong> Store it in a secure folder. You cannot download it again.</li>
+                    </ul>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">D. Network Settings (Firewall)</div>
+                    <div class="substep-desc">This controls who can access your server and on which ports.</div>
+                    <ul class="checklist">
+                        <li>Click "Edit" next to Network settings</li>
+                        <li>Check "Allow SSH traffic from" - Select "Anywhere"</li>
+                        <li>Check "Allow HTTPS traffic from the internet"</li>
+                        <li>Check "Allow HTTP traffic from the internet"</li>
+                        <li>Click "Add security group rule"</li>
+                        <li>Type: Custom TCP, Port: 5000, Source: Anywhere (0.0.0.0/0)</li>
+                    </ul>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">E. Storage</div>
+                    <ul class="checklist">
+                        <li>Change storage from 8 GB to <strong>30 GB</strong></li>
+                        <li>Keep type as gp3</li>
+                    </ul>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">F. Launch!</div>
+                    <ul class="checklist">
+                        <li>Review everything</li>
+                        <li>Click "Launch instance"</li>
+                        <li>Wait 2-3 minutes for instance to start</li>
+                        <li>Click "View all instances"</li>
+                        <li>Note down the <strong>Public IPv4 address</strong> (like 13.234.xxx.xxx)</li>
+                    </ul>
+                </div>
+                
+                <div class="warning">
+                    <div class="warning-title">Cost Alert</div>
+                    <p>t3.medium costs approximately $30-40/month. You can start with t3.micro (free tier eligible) for testing, then upgrade later.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 4 -->
+        <div class="step-card" id="step4">
+            <div class="step-header">
+                <span class="step-number">4</span>
+                <span class="step-title">Create RDS Database (PostgreSQL)</span>
+            </div>
+            <div class="step-body">
+                <div class="step-desc">
+                    RDS is a managed database service. AWS handles backups, updates, and maintenance automatically.
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">A. Open RDS Dashboard</div>
+                    <ul class="checklist">
+                        <li>Search for "RDS" in AWS search bar</li>
+                        <li>Click "Create database"</li>
+                    </ul>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">B. Configure Database</div>
+                    <table class="env-table">
+                        <tr><th>Setting</th><th>Value</th><th>Why?</th></tr>
+                        <tr><td>Creation method</td><td>Standard create</td><td>More control</td></tr>
+                        <tr><td>Engine</td><td>PostgreSQL</td><td>Our app uses PostgreSQL</td></tr>
+                        <tr><td>Version</td><td>PostgreSQL 15.x</td><td>Latest stable version</td></tr>
+                        <tr><td>Templates</td><td>Free tier</td><td>For testing (or Production for live)</td></tr>
+                        <tr><td>DB instance identifier</td><td>samikaran-db</td><td>Database name</td></tr>
+                        <tr><td>Master username</td><td>dbadmin</td><td>Database login username</td></tr>
+                        <tr><td>Master password</td><td>YourSecurePassword123!</td><td>Choose a strong password</td></tr>
+                        <tr><td>Instance type</td><td>db.t3.micro</td><td>Free tier eligible</td></tr>
+                        <tr><td>Storage</td><td>20 GB, gp2</td><td>Enough for starting</td></tr>
+                    </table>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">C. Connectivity Settings</div>
+                    <ul class="checklist">
+                        <li>VPC: Default VPC</li>
+                        <li>Public access: <strong>Yes</strong> (so EC2 can connect)</li>
+                        <li>VPC security group: Create new</li>
+                        <li>New security group name: <strong>samikaran-db-sg</strong></li>
+                        <li>Availability Zone: No preference</li>
+                    </ul>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">D. Additional Settings</div>
+                    <ul class="checklist">
+                        <li>Initial database name: <strong>samikaran</strong></li>
+                        <li>Backup retention: 7 days</li>
+                        <li>Enable auto minor version upgrade</li>
+                    </ul>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">E. Create Database</div>
+                    <ul class="checklist">
+                        <li>Click "Create database"</li>
+                        <li>Wait 10-15 minutes for database to be ready (Status: Available)</li>
+                        <li>Click on database name</li>
+                        <li>Copy the <strong>Endpoint</strong> (like samikaran-db.xxxxx.ap-south-1.rds.amazonaws.com)</li>
+                    </ul>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">F. Allow EC2 to Connect to Database</div>
+                    <div class="substep-desc">We need to allow our EC2 server to talk to the database.</div>
+                    <ul class="checklist">
+                        <li>In RDS dashboard, click on your database</li>
+                        <li>Click on "VPC security groups" link</li>
+                        <li>Click on the security group ID</li>
+                        <li>Click "Inbound rules" tab, then "Edit inbound rules"</li>
+                        <li>Click "Add rule"</li>
+                        <li>Type: PostgreSQL, Source: Anywhere IPv4 (0.0.0.0/0)</li>
+                        <li>Click "Save rules"</li>
+                    </ul>
+                </div>
+                
+                <div class="note">
+                    <div class="note-title">Save These Details</div>
+                    <p>Write down: Database Endpoint, Username (dbadmin), Password, and Database name (samikaran). You'll need these later.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 5 -->
+        <div class="step-card" id="step5">
+            <div class="step-header">
+                <span class="step-number">5</span>
+                <span class="step-title">Connect to Your Server via SSH</span>
+            </div>
+            <div class="step-body">
+                <div class="step-desc">
+                    SSH is a secure way to connect to your server from your computer. It's like remote desktop but for command line.
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">For Windows Users:</div>
+                    <ul class="checklist">
+                        <li>Download and install <strong>PuTTY</strong> from putty.org</li>
+                        <li>If you downloaded .pem file, use PuTTYgen to convert to .ppk</li>
+                        <li>Open PuTTY</li>
+                        <li>Host Name: <strong>ubuntu@YOUR_EC2_IP</strong></li>
+                        <li>Go to Connection > SSH > Auth > Credentials</li>
+                        <li>Browse and select your .ppk file</li>
+                        <li>Click "Open"</li>
+                        <li>Click "Accept" on security alert</li>
+                    </ul>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">For Mac/Linux Users:</div>
+                    <div class="cmd-block">
+                        <div class="cmd-header">Terminal</div>
+                        <div class="cmd-content"><pre><span class="comment"># First, set correct permissions on key file</span>
+chmod 400 ~/Downloads/samikaran-key.pem
+
+<span class="comment"># Connect to server</span>
+ssh -i ~/Downloads/samikaran-key.pem ubuntu@<span class="var">YOUR_EC2_PUBLIC_IP</span>
+
+<span class="comment"># Type 'yes' when asked about fingerprint</span></pre></div>
+                    </div>
+                </div>
+                
+                <div class="note">
+                    <div class="note-title">You're Connected!</div>
+                    <p>If you see "ubuntu@ip-xxx-xxx-xxx-xxx:~$" then you're successfully connected to your server. All following commands should be run in this terminal.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 6 -->
+        <div class="step-card" id="step6">
+            <div class="step-header">
+                <span class="step-number">6</span>
+                <span class="step-title">Install Required Software on Server</span>
+            </div>
+            <div class="step-body">
+                <div class="step-desc">
+                    Your server is like a new computer - we need to install the programs our application needs to run.
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">A. Update System</div>
+                    <div class="substep-desc">First, update all existing software to latest versions.</div>
+                    <div class="cmd-block">
+                        <div class="cmd-header">Run on Server</div>
+                        <div class="cmd-content"><pre>sudo apt update && sudo apt upgrade -y</pre></div>
+                    </div>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">B. Install Node.js 20</div>
+                    <div class="substep-desc">Node.js is the runtime that executes our JavaScript code.</div>
+                    <div class="cmd-block">
+                        <div class="cmd-header">Run on Server</div>
+                        <div class="cmd-content"><pre>curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+<span class="comment"># Verify installation</span>
+node --version   <span class="comment"># Should show v20.x.x</span>
+npm --version    <span class="comment"># Should show 10.x.x</span></pre></div>
+                    </div>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">C. Install PM2 (Process Manager)</div>
+                    <div class="substep-desc">PM2 keeps your app running even after server restart and handles crashes automatically.</div>
+                    <div class="cmd-block">
+                        <div class="cmd-header">Run on Server</div>
+                        <div class="cmd-content"><pre>sudo npm install -g pm2</pre></div>
+                    </div>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">D. Install Nginx (Web Server)</div>
+                    <div class="substep-desc">Nginx receives requests from internet and forwards them to your app. Also handles SSL.</div>
+                    <div class="cmd-block">
+                        <div class="cmd-header">Run on Server</div>
+                        <div class="cmd-content"><pre>sudo apt install -y nginx
+
+<span class="comment"># Start Nginx</span>
+sudo systemctl start nginx
+sudo systemctl enable nginx</pre></div>
+                    </div>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">E. Install Python (for Proctoring Service)</div>
+                    <div class="cmd-block">
+                        <div class="cmd-header">Run on Server</div>
+                        <div class="cmd-content"><pre>sudo apt install -y python3 python3-pip python3-venv</pre></div>
+                    </div>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">F. Install Git</div>
+                    <div class="cmd-block">
+                        <div class="cmd-header">Run on Server</div>
+                        <div class="cmd-content"><pre>sudo apt install -y git</pre></div>
+                    </div>
+                </div>
+                
+                <div class="note">
+                    <div class="note-title">All Software Installed!</div>
+                    <p>Your server now has everything needed to run the Samikaran Olympiad platform.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 7 -->
+        <div class="step-card" id="step7">
+            <div class="step-header">
+                <span class="step-number">7</span>
+                <span class="step-title">Upload Your Code to Server</span>
+            </div>
+            <div class="step-body">
+                <div class="step-desc">
+                    Now we need to get the application code onto the server. There are two ways to do this.
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">Option A: Clone from GitHub (Recommended)</div>
+                    <div class="substep-desc">If your code is on GitHub:</div>
+                    <div class="cmd-block">
+                        <div class="cmd-header">Run on Server</div>
+                        <div class="cmd-content"><pre>cd /home/ubuntu
+git clone <span class="var">https://github.com/YOUR_USERNAME/samikaran-olympiad.git</span>
+cd samikaran-olympiad</pre></div>
+                    </div>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">Option B: Upload ZIP File</div>
+                    <div class="substep-desc">If you have code as ZIP file on your computer:</div>
+                    <div class="cmd-block">
+                        <div class="cmd-header">On Your Computer (Mac/Linux)</div>
+                        <div class="cmd-content"><pre><span class="comment"># Upload ZIP to server</span>
+scp -i ~/Downloads/samikaran-key.pem ~/Downloads/samikaran.zip ubuntu@<span class="var">YOUR_EC2_IP</span>:/home/ubuntu/</pre></div>
+                    </div>
+                    <div class="cmd-block">
+                        <div class="cmd-header">Then on Server</div>
+                        <div class="cmd-content"><pre>cd /home/ubuntu
+unzip samikaran.zip
+cd samikaran-olympiad</pre></div>
+                    </div>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">Install Dependencies</div>
+                    <div class="substep-desc">This downloads all the packages your application needs.</div>
+                    <div class="cmd-block">
+                        <div class="cmd-header">Run on Server</div>
+                        <div class="cmd-content"><pre>npm install</pre></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 8 -->
+        <div class="step-card" id="step8">
+            <div class="step-header">
+                <span class="step-number">8</span>
+                <span class="step-title">Configure Environment Variables</span>
+            </div>
+            <div class="step-body">
+                <div class="step-desc">
+                    Environment variables store sensitive information like passwords and API keys. We create a .env file that the application reads.
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">Create .env File</div>
+                    <div class="cmd-block">
+                        <div class="cmd-header">Run on Server</div>
+                        <div class="cmd-content"><pre>nano .env</pre></div>
+                    </div>
+                    <div class="substep-desc">This opens a text editor. Paste the following (replace the highlighted values with your actual values):</div>
+                    <div class="cmd-block">
+                        <div class="cmd-header">.env content</div>
+                        <div class="cmd-content"><pre>DATABASE_URL=postgresql://dbadmin:<span class="var">YourSecurePassword123!</span>@<span class="var">samikaran-db.xxxxx.ap-south-1.rds.amazonaws.com</span>:5432/samikaran
+NODE_ENV=production
+PORT=5000
+SESSION_SECRET=<span class="var">paste-a-64-character-random-string-here</span>
+OPENAI_API_KEY=<span class="var">sk-your-openai-api-key</span>
+ALLOWED_DOMAINS=<span class="var">samikaran.com,www.samikaran.com</span></pre></div>
+                    </div>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">Save and Exit nano</div>
+                    <ul class="checklist">
+                        <li>Press <strong>Ctrl + X</strong> to exit</li>
+                        <li>Press <strong>Y</strong> to confirm save</li>
+                        <li>Press <strong>Enter</strong> to confirm filename</li>
+                    </ul>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">Generate SESSION_SECRET</div>
+                    <div class="substep-desc">Run this command to generate a secure random string:</div>
+                    <div class="cmd-block">
+                        <div class="cmd-header">Run on Server</div>
+                        <div class="cmd-content"><pre>openssl rand -hex 32</pre></div>
+                    </div>
+                    <div class="substep-desc">Copy the output and paste it as SESSION_SECRET value in your .env file.</div>
+                </div>
+                
+                <div class="info-box">
+                    <div class="info-box-title">Environment Variables Explanation</div>
+                    <table class="env-table">
+                        <tr><th>Variable</th><th>What It Does</th></tr>
+                        <tr><td>DATABASE_URL</td><td>Connection string to your RDS database</td></tr>
+                        <tr><td>NODE_ENV</td><td>Tells app to run in production mode (faster, more secure)</td></tr>
+                        <tr><td>PORT</td><td>Which port the app listens on (5000)</td></tr>
+                        <tr><td>SESSION_SECRET</td><td>Secret key for encrypting user sessions</td></tr>
+                        <tr><td>OPENAI_API_KEY</td><td>API key for AI features (question generation, chatbot)</td></tr>
+                        <tr><td>ALLOWED_DOMAINS</td><td>Your domain names (for CORS security)</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 9 -->
+        <div class="step-card" id="step9">
+            <div class="step-header">
+                <span class="step-number">9</span>
+                <span class="step-title">Build and Start the Application</span>
+            </div>
+            <div class="step-body">
+                <div class="step-desc">
+                    Now we compile the code and start the application. The build process converts TypeScript to JavaScript and bundles everything for production.
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">A. Build the Application</div>
+                    <div class="cmd-block">
+                        <div class="cmd-header">Run on Server</div>
+                        <div class="cmd-content"><pre>npm run build</pre></div>
+                    </div>
+                    <div class="substep-desc">This takes 2-5 minutes. Wait until you see "Build completed" or similar message.</div>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">B. Push Database Schema</div>
+                    <div class="substep-desc">This creates all the tables in your database.</div>
+                    <div class="cmd-block">
+                        <div class="cmd-header">Run on Server</div>
+                        <div class="cmd-content"><pre>npm run db:push</pre></div>
+                    </div>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">C. Start Application with PM2</div>
+                    <div class="cmd-block">
+                        <div class="cmd-header">Run on Server</div>
+                        <div class="cmd-content"><pre><span class="comment"># Start the application</span>
+pm2 start npm --name "samikaran" -- start
+
+<span class="comment"># Save PM2 configuration (so it restarts after server reboot)</span>
+pm2 save
+
+<span class="comment"># Setup auto-start on server boot</span>
+pm2 startup
+<span class="comment"># Copy the command it shows and run it</span></pre></div>
+                    </div>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">D. Verify Application is Running</div>
+                    <div class="cmd-block">
+                        <div class="cmd-header">Run on Server</div>
+                        <div class="cmd-content"><pre><span class="comment"># Check status</span>
+pm2 status
+
+<span class="comment"># View logs</span>
+pm2 logs samikaran
+
+<span class="comment"># Test if app responds</span>
+curl http://localhost:5000</pre></div>
+                    </div>
+                </div>
+                
+                <div class="note">
+                    <div class="note-title">App is Running!</div>
+                    <p>If you see HTML output from the curl command, your application is running correctly on port 5000.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 10 -->
+        <div class="step-card" id="step10">
+            <div class="step-header">
+                <span class="step-number">10</span>
+                <span class="step-title">Setup Nginx (Web Server)</span>
+            </div>
+            <div class="step-body">
+                <div class="step-desc">
+                    Nginx acts as a "front door" for your application. It receives requests on port 80/443 and forwards them to your app on port 5000.
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">A. Create Nginx Configuration</div>
+                    <div class="cmd-block">
+                        <div class="cmd-header">Run on Server</div>
+                        <div class="cmd-content"><pre>sudo nano /etc/nginx/sites-available/samikaran</pre></div>
+                    </div>
+                    <div class="substep-desc">Paste this configuration:</div>
+                    <div class="cmd-block">
+                        <div class="cmd-header">Nginx Config</div>
+                        <div class="cmd-content"><pre>server {
+    listen 80;
+    server_name <span class="var">samikaran.com www.samikaran.com</span>;
+
+    location / {
+        proxy_pass http://localhost:5000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+        proxy_read_timeout 300s;
+        proxy_connect_timeout 75s;
+    }
+}</pre></div>
+                    </div>
+                    <div class="substep-desc">Save with Ctrl+X, then Y, then Enter.</div>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">B. Enable the Configuration</div>
+                    <div class="cmd-block">
+                        <div class="cmd-header">Run on Server</div>
+                        <div class="cmd-content"><pre><span class="comment"># Create symbolic link to enable site</span>
+sudo ln -s /etc/nginx/sites-available/samikaran /etc/nginx/sites-enabled/
+
+<span class="comment"># Remove default site</span>
+sudo rm /etc/nginx/sites-enabled/default
+
+<span class="comment"># Test configuration for errors</span>
+sudo nginx -t
+
+<span class="comment"># Restart Nginx</span>
+sudo systemctl restart nginx</pre></div>
+                    </div>
+                </div>
+                
+                <div class="note">
+                    <div class="note-title">Test It!</div>
+                    <p>Open your browser and go to <strong>http://YOUR_EC2_IP</strong>. You should see your application! (without domain, just IP for now)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 11 -->
+        <div class="step-card" id="step11">
+            <div class="step-header">
+                <span class="step-number">11</span>
+                <span class="step-title">Point Your Domain to Server</span>
+            </div>
+            <div class="step-body">
+                <div class="step-desc">
+                    Now we need to connect your domain name (like samikaran.com) to your server's IP address.
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">In Your Domain Registrar (GoDaddy, Namecheap, etc.)</div>
+                    <ul class="checklist">
+                        <li>Login to your domain registrar</li>
+                        <li>Go to DNS settings / DNS Management</li>
+                        <li>Find or create an <strong>A Record</strong></li>
+                        <li>Set Host/Name to <strong>@</strong> (or leave blank)</li>
+                        <li>Set Value/Points to <strong>YOUR_EC2_IP</strong></li>
+                        <li>TTL: 600 or Auto</li>
+                        <li>Save</li>
+                    </ul>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">For www subdomain</div>
+                    <ul class="checklist">
+                        <li>Create another A Record</li>
+                        <li>Host/Name: <strong>www</strong></li>
+                        <li>Value: <strong>YOUR_EC2_IP</strong></li>
+                        <li>Save</li>
+                    </ul>
+                </div>
+                
+                <div class="warning">
+                    <div class="warning-title">DNS Takes Time</div>
+                    <p>DNS changes can take 5 minutes to 48 hours to take effect worldwide. Usually it's 15-30 minutes. You can check if it's working by running: <code>ping samikaran.com</code></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 12 -->
+        <div class="step-card" id="step12">
+            <div class="step-header">
+                <span class="step-number">12</span>
+                <span class="step-title">Install SSL Certificate (HTTPS)</span>
+            </div>
+            <div class="step-body">
+                <div class="step-desc">
+                    SSL makes your site secure (https:// instead of http://). This is required for payments and shows a padlock in browser. We use Certbot which provides free SSL certificates.
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">Install Certbot and Get Certificate</div>
+                    <div class="cmd-block">
+                        <div class="cmd-header">Run on Server</div>
+                        <div class="cmd-content"><pre><span class="comment"># Install Certbot</span>
+sudo apt install certbot python3-certbot-nginx -y
+
+<span class="comment"># Get SSL certificate (replace with your domain)</span>
+sudo certbot --nginx -d <span class="var">samikaran.com</span> -d <span class="var">www.samikaran.com</span></pre></div>
+                    </div>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">Certbot Questions</div>
+                    <ul class="checklist">
+                        <li>Enter email: Your email for certificate notifications</li>
+                        <li>Agree to terms: Y</li>
+                        <li>Share email with EFF: N (or Y if you want)</li>
+                        <li>Redirect HTTP to HTTPS: 2 (Redirect - recommended)</li>
+                    </ul>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">Setup Auto-Renewal</div>
+                    <div class="substep-desc">SSL certificates expire after 90 days. Certbot auto-renews them.</div>
+                    <div class="cmd-block">
+                        <div class="cmd-header">Run on Server</div>
+                        <div class="cmd-content"><pre><span class="comment"># Test auto-renewal</span>
+sudo certbot renew --dry-run</pre></div>
+                    </div>
+                </div>
+                
+                <div class="note">
+                    <div class="note-title">HTTPS is Working!</div>
+                    <p>Visit <strong>https://samikaranolympiad.com</strong> - you should see a padlock icon and your website should load securely.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 13 -->
+        <div class="step-card" id="step13">
+            <div class="step-header">
+                <span class="step-number">13</span>
+                <span class="step-title">Start Proctoring Service</span>
+            </div>
+            <div class="step-body">
+                <div class="step-desc">
+                    The proctoring service is a Python application that monitors students during exams. It runs separately from the main application.
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">Setup and Start Proctoring</div>
+                    <div class="cmd-block">
+                        <div class="cmd-header">Run on Server</div>
+                        <div class="cmd-content"><pre><span class="comment"># Go to proctoring folder</span>
+cd /home/ubuntu/samikaran-olympiad/proctoring_service
+
+<span class="comment"># Install Python dependencies</span>
+pip3 install -r requirements.txt
+
+<span class="comment"># Start with PM2</span>
+pm2 start python3 --name "proctoring" -- main.py
+
+<span class="comment"># Save configuration</span>
+pm2 save</pre></div>
+                    </div>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">Verify Both Services Running</div>
+                    <div class="cmd-block">
+                        <div class="cmd-header">Run on Server</div>
+                        <div class="cmd-content"><pre>pm2 status</pre></div>
+                    </div>
+                    <div class="substep-desc">You should see two processes: "samikaran" and "proctoring" both with status "online".</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 14 -->
+        <div class="step-card" id="step14">
+            <div class="step-header">
+                <span class="step-number">14</span>
+                <span class="step-title">Create Super Admin Account</span>
+            </div>
+            <div class="step-body">
+                <div class="step-desc">
+                    Now you need to create the first admin account to manage the platform.
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">Create Super Admin</div>
+                    <div class="cmd-block">
+                        <div class="cmd-header">Run on Server or Browser</div>
+                        <div class="cmd-content"><pre>curl -X POST https://<span class="var">samikaran.com</span>/api/admin/create-super-admin \
+  -H "Content-Type: application/json" \
+  -d '{"email":"admin@samikaran.com","password":"YourSecurePassword123!"}'</pre></div>
+                    </div>
+                </div>
+                
+                <div class="note">
+                    <div class="note-title">You're Done!</div>
+                    <p>Visit <strong>https://samikaranolympiad.com</strong> and login with your super admin credentials. You can now manage the entire platform!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 15 -->
+        <div class="step-card" id="step15">
+            <div class="step-header">
+                <span class="step-number">15</span>
+                <span class="step-title">Server Monitoring & Maintenance</span>
+            </div>
+            <div class="step-body">
+                <div class="step-desc">
+                    Here are useful commands to monitor and maintain your server.
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">Daily Monitoring Commands</div>
+                    <div class="cmd-block">
+                        <div class="cmd-header">Common Commands</div>
+                        <div class="cmd-content"><pre><span class="comment"># Check if apps are running</span>
+pm2 status
+
+<span class="comment"># View application logs</span>
+pm2 logs samikaran
+pm2 logs proctoring
+
+<span class="comment"># View logs in real-time</span>
+pm2 logs --lines 100
+
+<span class="comment"># Check server resources (CPU, Memory)</span>
+pm2 monit
+
+<span class="comment"># Restart application</span>
+pm2 restart samikaran
+pm2 restart proctoring
+pm2 restart all
+
+<span class="comment"># Check disk space</span>
+df -h
+
+<span class="comment"># Check memory usage</span>
+free -m</pre></div>
+                    </div>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">Updating the Application</div>
+                    <div class="cmd-block">
+                        <div class="cmd-header">When you have new code</div>
+                        <div class="cmd-content"><pre>cd /home/ubuntu/samikaran-olympiad
+
+<span class="comment"># Pull latest code (if using Git)</span>
+git pull
+
+<span class="comment"># Install any new dependencies</span>
+npm install
+
+<span class="comment"># Rebuild</span>
+npm run build
+
+<span class="comment"># Restart application</span>
+pm2 restart samikaran</pre></div>
+                    </div>
+                </div>
+                
+                <div class="substep">
+                    <div class="substep-title">Server Backup (RDS)</div>
+                    <div class="substep-desc">RDS automatically takes daily backups. You can also create manual snapshots:</div>
+                    <ul class="checklist">
+                        <li>Go to AWS RDS Console</li>
+                        <li>Select your database</li>
+                        <li>Actions > Take snapshot</li>
+                        <li>Name it with date: samikaran-backup-2026-01-27</li>
+                    </ul>
+                </div>
+                
+                <div class="warning">
+                    <div class="warning-title">Monthly Tasks</div>
+                    <p>
+                        1. Check AWS billing to ensure costs are as expected<br>
+                        2. Review RDS storage usage (upgrade if approaching limit)<br>
+                        3. Update Ubuntu: <code>sudo apt update && sudo apt upgrade -y</code><br>
+                        4. Review PM2 logs for any recurring errors
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="note" style="margin-top: 40px;">
+            <div class="note-title">Congratulations!</div>
+            <p>Your Samikaran Olympiad platform is now live on AWS! If you face any issues, check PM2 logs first (<code>pm2 logs</code>), then Nginx logs (<code>sudo tail -f /var/log/nginx/error.log</code>).</p>
+        </div>
+    </div>
+
+    <button class="print-btn" onclick="window.print()">Print PDF</button>
+</body>
+</html>

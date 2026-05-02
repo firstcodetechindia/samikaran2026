@@ -1,0 +1,142 @@
+You are a senior full-stack SaaS architect and UI/UX designer building a production-grade
+AI-powered Online Olympiad Platform.
+
+TASK:  
+Design and implement a complete “Original Olympiads” section on the Homepage and connect it to the database so that all Olympiads appear dynamically and update automatically when new ones are added from Admin Panel.
+
+STRICT RULES:
+- DO NOT explain database table structures
+- Assume backend, auth, and admin panel already exist
+- Focus on UI, UX, data flow, logic, and component behavior
+- Follow modern SaaS + EdTech design standards
+- Use TailwindCSS + Glassmorphism + smooth animations
+- Build scalable, reusable components
+
+------------------------------------------------
+SECTION 1: OLYMPIAD CATEGORIES (SYSTEM LEVEL)
+------------------------------------------------
+1. Create predefined Olympiad Categories in the system (seed data):
+   - Mathematics
+   - Science
+   - Coding
+   - Logical Reasoning
+   - General Knowledge
+   - Olympiad for Class-wise (Class 1–12)
+   - Competitive Exams (NTSE, IMO, etc.)
+
+2. Each category must have:
+   - Name
+   - Icon (auto-selected based on category)
+   - Theme color / gradient
+   - Short description
+
+3. Olympiads must be ASSOCIATED with categories.
+4. Icons and colors should auto-update based on category mapping.
+
+------------------------------------------------
+SECTION 2: HOMEPAGE — ORIGINAL OLYMPIADS UI
+------------------------------------------------
+1. Add a new Homepage section titled:
+   “Original Olympiads”
+
+2. This section must:
+   - Fetch Olympiads dynamically from the database
+   - Display them in premium scrollable cards (horizontal + vertical hybrid)
+   - Auto-update when a new Olympiad is added (no manual changes)
+
+3. Olympiad Card Design:
+   - Glassmorphism card with hover animation
+   - Category icon (auto)
+   - Olympiad name
+   - Class range
+   - Exam date
+   - Registration status (Open / Closed / Upcoming)
+   - Register Now CTA button
+
+4. Add smooth scroll snapping, subtle motion effects, and responsive behavior
+   (mobile, tablet, desktop).
+
+------------------------------------------------
+SECTION 3: REGISTRATION FLOW (AUTH GUARD)
+------------------------------------------------
+On clicking “Register Now”:
+
+1. If student is NOT logged in:
+   - Redirect to Login screen
+   - After successful login → redirect back to selected Olympiad
+
+2. If student IS logged in:
+   - Proceed directly to payment screen
+
+------------------------------------------------
+SECTION 4: PAYMENT SCREEN (UI ONLY FOR NOW)
+------------------------------------------------
+1. Create a dedicated Payment UI screen:
+   - Show Olympiad details summary
+   - Amount
+   - Student name & email (readonly)
+
+2. Detect region automatically:
+   - India → Show Razorpay UI
+   - International → Show Stripe UI
+
+3. IMPORTANT:
+   - No real payment integration yet
+   - UI only (buttons, loaders, success states)
+
+4. On “Payment Successful” (mock success):
+   - Mark student as “Eligible” for that Olympiad
+   - Store payment success status
+
+------------------------------------------------
+SECTION 5: EMAIL CONFIRMATION (FLOW LOGIC)
+------------------------------------------------
+After successful payment:
+1. Trigger confirmation email to student:
+   - Payment confirmation
+   - Olympiad details
+   - Exam date & instructions
+
+(UI logic only, assume email service exists)
+
+------------------------------------------------
+SECTION 6: STUDENT DASHBOARD INTEGRATION
+------------------------------------------------
+1. Add a “My Olympiads” section in Student Panel:
+   - Show all paid & eligible Olympiads
+   - Display status:
+     - Upcoming
+     - Live
+     - Completed
+
+2. On Olympiad exam date:
+   - “Start Exam” button auto-activates
+   - Button disabled before exam time
+
+------------------------------------------------
+SECTION 7: EXAM ACCESS RULES
+------------------------------------------------
+- Only paid + eligible students can attempt Olympiad
+- Exam link visible ONLY on exam date/time
+- Prevent unauthorized access
+
+------------------------------------------------
+DESIGN & UX EXPECTATIONS
+------------------------------------------------
+- Premium EdTech SaaS look
+- Glass cards, gradients, subtle animations
+- Scroll-based storytelling
+- Clean typography
+- Highly impressive “first look” experience
+
+------------------------------------------------
+OUTPUT EXPECTATION:
+------------------------------------------------
+- React components structure
+- Page flow logic
+- State handling explanation
+- UI-first implementation
+- Production-ready architecture mindset
+
+Build everything assuming this is a GLOBAL SaaS Olympiad platform.
+Think scalable. Think PRO.

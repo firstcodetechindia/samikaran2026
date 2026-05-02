@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Samikaran Olympiad"
+version = "1.0.0"
+id = "artifacts/samikaran-olympiad"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22259
+
+[services.development]
+run = "pnpm --filter @workspace/samikaran-olympiad run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/samikaran-olympiad", "run", "build" ]
+publicDir = "artifacts/samikaran-olympiad/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22259"
+BASE_PATH = "/"

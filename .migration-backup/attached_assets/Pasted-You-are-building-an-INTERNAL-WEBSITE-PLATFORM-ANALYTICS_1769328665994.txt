@@ -1,0 +1,160 @@
+You are building an INTERNAL WEBSITE & PLATFORM ANALYTICS SYSTEM
+for a high-scale Online Olympiad SaaS platform.
+
+This system must provide Google-Analytics-level insights
+WITHOUT slowing down exams, proctoring, or real-time operations.
+
+========================
+PRIMARY GOAL
+========================
+Super Admin must be able to track:
+- Website traffic
+- App traffic
+- User behavior
+- Conversion funnel
+- Peak load timings
+
+BUT:
+- Analytics must NEVER block or slow exams
+- Analytics must be async, non-blocking, lightweight
+- Analytics must auto-degrade under heavy load
+
+========================
+CORE DESIGN PRINCIPLE
+========================
+Analytics must be:
+- READ-ONLY
+- EVENT-BASED
+- ASYNCHRONOUS
+- LOW PRIORITY
+- ISOLATED FROM EXAM SYSTEM
+
+========================
+WHAT TO TRACK (ESSENTIAL ONLY)
+========================
+Track ONLY critical events:
+
+A) Visitor Metrics
+- Unique visitors
+- Page views
+- Sessions
+- New vs returning users
+- Device type (mobile / desktop)
+- Browser & OS (basic)
+- Country / State (coarse, not exact)
+
+B) Traffic Sources
+- Direct
+- Organic
+- Social
+- Campaign (UTM-based)
+- Referral
+
+C) Platform Usage
+- Login count
+- Registration count
+- Exam page visits
+- Exam started
+- Exam submitted
+- Drop-offs
+
+D) Peak Load Monitoring
+- Concurrent users
+- Exam concurrency
+- Time-based spikes
+
+========================
+WHAT NOT TO TRACK (STRICT)
+========================
+- Mouse movement
+- Heatmaps
+- Screen recordings
+- Keystrokes
+- Anything heavy or intrusive
+
+========================
+SYSTEM ARCHITECTURE (VERY IMPORTANT)
+========================
+- Analytics runs as SEPARATE SERVICE / MODULE
+- No direct dependency on exam engine
+- Use event queue (buffer-based)
+- Fire-and-forget events
+- If analytics fails → ignore silently
+
+========================
+EVENT COLLECTION RULES
+========================
+- Events must be:
+  - Batched
+  - Compressed
+  - Sent with delay
+- Never synchronous API calls
+- Never block UI or backend response
+- Sample traffic under heavy load
+
+Example:
+If 50K users are giving exams,
+only 1 out of N analytics events are recorded (sampling)
+
+========================
+LOAD PROTECTION RULES
+========================
+- If system CPU > threshold → analytics auto-throttle
+- If DB load high → stop analytics writes
+- If queue full → drop analytics events
+- Exams and proctoring ALWAYS have priority
+
+========================
+SUPER ADMIN ANALYTICS PANEL
+========================
+Provide dashboards for:
+
+- Real-time visitors (approximate)
+- Today / Weekly / Monthly traffic
+- Exam-time peak load graphs
+- Registration funnel
+- Exam conversion funnel
+- Source-wise traffic
+- Device breakdown
+- Region-wise heatmap (lightweight)
+
+All analytics are READ-ONLY.
+
+========================
+DATA STORAGE STRATEGY
+========================
+- Raw events stored temporarily
+- Aggregated data stored long-term
+- No per-user detailed tracking
+- Auto cleanup old raw data
+
+========================
+PRIVACY & COMPLIANCE
+========================
+- No PII stored
+- No exact location
+- No behavioral profiling
+- GDPR-safe by design
+
+========================
+FAILSAFE BEHAVIOR
+========================
+- Analytics downtime must NOT affect users
+- Analytics can be fully disabled via admin toggle
+- System must survive 100K+ concurrent users
+
+========================
+DELIVERABLE
+========================
+Generate:
+- Lightweight analytics architecture
+- Event schema
+- Async event pipeline
+- Load-shedding logic
+- Super Admin dashboard logic
+- Performance-safe implementation
+
+DO NOT use third-party analytics like Google Analytics.
+Build an internal, scalable, low-overhead system.
+
+This analytics system must NEVER bring the platform down.

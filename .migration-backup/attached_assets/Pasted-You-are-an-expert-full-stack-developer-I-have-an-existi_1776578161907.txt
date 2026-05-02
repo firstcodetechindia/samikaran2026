@@ -1,0 +1,158 @@
+You are an expert full-stack developer. I have an existing admin panel for "Samikaran Olympiad" — an online olympiad/exam platform for school students in India. The admin panel is already built with the following tech stack:
+- Frontend: React.js + Tailwind CSS
+- Backend: Node.js + Express.js (port 5000)
+- Database: PostgreSQL
+- Real-time: WebSocket (/sysctrl/ws endpoint)
+- AI: OpenAI GPT-4o Mini
+- Payments: Razorpay + Stripe
+
+The existing admin panel (at /sysctrl/console) already has these working sections:
+1. Live Dashboard (real-time active students, exams, revenue, registrations, partner schools)
+2. Analytics (subject performance charts, participation pie chart, revenue trend)
+3. System Health (CPU, memory, latency, WebSocket status, API/DB server status)
+4. User Management: Students list, Supervisors, Schools, Coordinators, Partners
+5. Exam Control (7 olympiads, AI questions, bulk upload, pause/resume all, certificates tab)
+6. Olympiad Pages CMS (per-olympiad content management)
+7. Proctoring (live face detection, flagged sessions, warn/terminate)
+8. Results Management (completed/ongoing/upcoming filter, calculate & publish)
+9. Demo Exam environment
+10. Finance (Razorpay + Stripe revenue, payment transactions, CSV export)
+11. Social Media (AI content generator with event types, content calendar, approval queue)
+12. Email Marketing (campaigns, automations, AI insights for best send time)
+13. AI Chatbot (multi-persona: warm/friendly/professional, lead tracking with converted/contacted/new status, AI safety score)
+14. TARA AI (credit distribution, referral credits, usage limits, custom system prompt, AI model config)
+15. Content CMS (website pages management), Blog (AI generate, categories, tags), Media Library
+16. System Audit (all modules pass/fail with percentage)
+17. QA & Testing (release readiness score, test cases, defects, AI coverage)
+18. Documentation section
+19. Roles & Access (RBAC with roles: Marketing Manager, Content Manager, Support Agent, Analytics/MIS, Finance)
+20. Global Settings (Site Meta & SEO, Platform Control, AI Management, Certificate Previews, Social Media Links, Push Notifications, Email, SMS, Storage, Plugins, Languages, Logos, Payments & Tax, Data Export, Data Import, Code Export)
+21. PWA Settings, Database Sync, Server Terminal
+
+Now I want you to ADD the following NEW FEATURES to the existing admin panel. Keep the same UI style: purple/violet gradient theme, colorful stat cards, clean sidebar navigation, Tailwind CSS, white card-based layout.
+
+---
+
+## NEW FEATURES TO ADD:
+
+### FEATURE 1: Student Profile Detail View
+- When admin clicks any student row in the Students list, open a full detail modal/page
+- Show: Personal info (name, email, phone, student ID, school, class, city, state)
+- Exam History tab: list of all olympiads attempted, score, rank, date, duration, pass/fail
+- Payment History tab: all transactions, amount, gateway, status, invoice download
+- Proctoring Log tab: all sessions with warnings, face detection issues, timestamps
+- TARA AI Usage tab: credits used, daily/monthly usage, chat history count
+- Action buttons: Edit Profile, Deactivate Account, Send Message, Download Report PDF
+
+### FEATURE 2: User Onboarding Flows
+- In Schools page: Add "Add New School" button that opens a form with fields: School Name, Principal Name, Email, Phone, City, State, Board (CBSE/ICSE/State), Student Count, Partnership Type (Free/Paid), Coordinator Assign
+- In Supervisors page: Add "Add Supervisor" button with form: Name, Email, Phone, Assigned School(s) multi-select, Role
+- In Coordinators page: Add "Add Coordinator" button with similar form
+- In Partners page: Add "Add Partner" button with form: Organization Name, Contact, Commission %, Type (School/Coaching/NGO)
+- Add Bulk CSV Import button on each page — user uploads CSV, system maps columns and imports
+- Show import progress bar and success/error count
+
+### FEATURE 3: Certificate Designer & Bulk Generator
+- Add new sidebar item under Exam Management: "Certificates"
+- Certificate Designer: drag-and-drop canvas to design certificate template
+  - Add text fields (Student Name, Olympiad Name, Rank, Score, Date — all auto-filled from DB)
+  - Add image/logo upload zones
+  - Font selector, color picker, background upload
+  - Preview mode with sample data
+  - Save template per olympiad
+- Bulk Generator: select an olympiad → select students (all/toppers/passed) → Generate All Certificates as ZIP
+- Individual certificate preview and download per student
+- WhatsApp share button and Email send button per certificate
+
+### FEATURE 4: Coupon & Discount Management
+- Add new sidebar item under Business & Operations: "Coupons"
+- Create coupon form: Code, Discount Type (%, flat ₹), Value, Min Order, Max Uses, Expiry Date, Applicable Olympiads (multi-select), Applicable User Types
+- Coupon list table with: Code, Type, Value, Used/Total, Expiry, Status (Active/Expired/Paused), Actions
+- Analytics per coupon: total revenue saved, number of redemptions, conversion rate
+- Bulk generate coupon codes (e.g., for school partnerships)
+
+### FEATURE 5: WhatsApp Notification Module
+- Add "WhatsApp" tab in Marketing & Outreach (alongside Social Media and Email Marketing)
+- Integrate with WhatsApp Business API (via Twilio or WATI)
+- Pre-built message templates: Registration Confirmation, Exam Reminder, Result Announcement, Certificate Ready
+- Bulk WhatsApp campaign: select student segment → choose template → schedule/send now
+- Delivery status tracking: sent, delivered, read counts
+- Opt-out management
+
+### FEATURE 6: Leaderboard Management
+- Add new sidebar item under Exam Management: "Leaderboards"
+- Per-olympiad leaderboard view: Rank, Student Name, School, City, Score, Time Taken
+- Filter by: Class, State, School, Category (Little Champs / Elite Seniors)
+- Toggle: Show/Hide leaderboard publicly
+- Top 3 highlight with gold/silver/bronze styling
+- Export leaderboard as PDF/Excel
+- "Announce Toppers" button that auto-generates social media post via AI
+
+### FEATURE 7: Parent Portal Management
+- Add "Parents" section under User Management
+- Parent accounts linked to student accounts (one parent → multiple students)
+- Parent list: Name, Email, Phone, Linked Students, Registration Date, Status
+- Admin can send bulk communication to parents
+- Parent Portal access toggle (enable/disable parent login)
+- View what parents see: results, certificates, upcoming exams
+
+### FEATURE 8: Notification Center (Admin)
+- Add a bell icon in the top header of the admin panel
+- Real-time notification dropdown showing:
+  - New student registered
+  - Payment received / failed
+  - Exam flagged by proctoring
+  - New support ticket raised
+  - Certificate generated
+  - System health alert
+- Notification categories with color badges (red = critical, yellow = warning, green = info)
+- Mark as read, Mark all as read, Clear all
+- Notification history page (last 30 days)
+
+### FEATURE 9: Support Ticket System
+- Add "Support" section under Platform Control
+- Ticket list: Ticket ID, Student Name, Subject, Category (Payment/Exam/Technical/Other), Priority, Status (Open/In Progress/Resolved), Created Date
+- Ticket detail view: full conversation thread, admin can reply, attach files
+- Auto-assign tickets to team members based on category
+- SLA tracking: response time, resolution time
+- Canned responses library (pre-written replies for common issues)
+- Stats dashboard: open tickets, avg response time, resolved today
+
+### FEATURE 10: Advanced Reports & Analytics
+- Add "Reports" section under Dashboard & Insights
+- Report types:
+  - Registration Report: daily/weekly/monthly registrations with source (organic/referral/school)
+  - Revenue Report: per olympiad, per gateway, per date range — exportable
+  - Exam Performance Report: per olympiad average score, pass rate, drop-off rate
+  - School-wise Report: registrations, revenue, performance per school
+  - Geography Report: state-wise, city-wise heatmap
+  - Cohort Analysis: how students who registered in month X performed
+- All reports: date range filter, export as CSV/PDF/Excel
+- Scheduled Reports: email a report automatically every Monday
+
+---
+
+## DESIGN GUIDELINES (maintain throughout):
+- Color theme: Primary purple #7C3AED, gradient from #7C3AED to #EC4899
+- Sidebar: white background, active item = purple gradient background
+- Cards: white background, subtle shadow, rounded-xl
+- Stat cards: colorful gradients (green, purple, orange, pink, teal)
+- Typography: Inter font, clean hierarchy
+- Icons: Lucide React icons throughout
+- All new pages must have: page title, Live Updates toggle, Search bar in header (same as existing pages)
+- Empty states: show helpful icon + message + CTA button (same style as existing "No supervisors found")
+- Tables: alternating row highlight, sortable columns, pagination
+- Forms: clean modal dialogs with validation, purple primary buttons
+- Success/error toasts for all actions
+
+## TECHNICAL REQUIREMENTS:
+- All new routes added to the existing Express.js backend
+- New PostgreSQL tables created with proper relations
+- All new features connected to existing WebSocket for live updates where applicable
+- API endpoints follow existing REST pattern: GET/POST/PUT/DELETE
+- Authentication: use existing super admin session
+- File uploads: use existing storage configuration
+- Keep existing sidebar structure — add new items in correct sections
+- No breaking changes to existing functionality
+
+Start by showing me the complete updated sidebar navigation structure first, then implement each feature one by one starting with Feature 1 (Student Profile Detail View).

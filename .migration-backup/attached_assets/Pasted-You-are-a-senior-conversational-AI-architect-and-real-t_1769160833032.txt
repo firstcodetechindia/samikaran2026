@@ -1,0 +1,204 @@
+You are a senior conversational AI architect and real-time chat system engineer.
+
+Extend the existing AI Agent Chatbot Platform with an INTELLIGENT CHAT LIFECYCLE MANAGEMENT SYSTEM that handles:
+
+• User inactivity
+• Polite follow-ups
+• Automatic chat closure
+• User satisfaction detection
+• Seamless transition from AI Agent to Human Representative
+• Unified chat history across AI + Human
+
+This system must work automatically without manual intervention.
+
+=====================================================
+1. CHAT SESSION STATES (MANDATORY)
+=====================================================
+
+Each chat session must have clear states:
+
+• ACTIVE
+• WAITING_FOR_USER
+• FOLLOW_UP_SENT
+• ESCALATED_TO_HUMAN
+• CLOSED_BY_INACTIVITY
+• CLOSED_BY_USER
+• CLOSED_AFTER_HUMAN_CHAT
+
+State transitions must be automatic and logged.
+
+=====================================================
+2. USER INACTIVITY LOGIC (CRITICAL)
+=====================================================
+
+INACTIVITY RULES:
+
+• If AI sends a message
+• AND user does NOT respond for 2 minutes
+
+→ Trigger FOLLOW-UP MESSAGE
+
+FOLLOW-UP MESSAGE (Polite):
+"Hi {{user_name}}, are you still there? 😊  
+I’m here to help whenever you’re ready."
+
+-----------------------------------------------------
+
+If user STILL does not respond for 1 more minute (total 3 minutes):
+
+→ Automatically CLOSE chat session
+
+CLOSING MESSAGE:
+"It seems you’re away right now, so I’ll close this chat.  
+You can always come back anytime — I’ll be happy to help 😊"
+
+• Save chat transcript
+• Mark session as CLOSED_BY_INACTIVITY
+• Stop AI responses
+• End timers safely
+
+=====================================================
+3. USER SATISFACTION & ESCALATION LOGIC
+=====================================================
+
+The system must continuously analyze:
+
+• User sentiment
+• Repeated fallback triggers
+• Explicit dissatisfaction phrases
+• Confidence score drops
+
+SATISFACTION DETECTION SIGNALS:
+• "not helpful"
+• "I am not satisfied"
+• "this is not working"
+• Repeating same question
+• Confidence score < threshold twice
+
+-----------------------------------------------------
+
+If dissatisfaction detected:
+
+AI MUST ASK (Politely):
+
+"I’m sorry if this hasn’t fully helped.  
+Would you like to talk to a real representative?"
+
+OPTIONS (Buttons):
+• Yes, connect me
+• No, continue with AI
+
+=====================================================
+4. HUMAN AGENT HANDOFF SYSTEM
+=====================================================
+
+If user selects "Yes, connect me":
+
+→ Transition chat state to ESCALATED_TO_HUMAN
+
+SYSTEM MUST:
+• Pause AI responses
+• Notify available human agents
+• Lock AI from replying
+• Transfer full chat context
+• Keep same chat window (no refresh)
+
+AI MESSAGE BEFORE HANDOFF:
+"Thank you. I’m connecting you with our representative now. Please wait a moment."
+
+=====================================================
+5. HUMAN AGENT CHAT SYSTEM
+=====================================================
+
+Build a HUMAN AGENT PANEL with:
+
+• List of waiting chats
+• User details (name, language, issue summary)
+• Full chat history (AI + user)
+• Typing indicator
+• Internal notes
+• Close chat button
+
+RULES:
+• Human replies override AI
+• AI remains silent during human chat
+• Chat history is unified
+• Same UI for user (no confusion)
+
+=====================================================
+6. POST-HUMAN CHAT CLOSURE
+=====================================================
+
+After human closes chat:
+
+SYSTEM MESSAGE:
+"Thank you for chatting with us.  
+If you need anything else, feel free to start a new chat anytime."
+
+• Save transcript
+• Mark session CLOSED_AFTER_HUMAN_CHAT
+• Store resolution status
+
+=====================================================
+7. DATABASE EXTENSIONS (REQUIRED)
+=====================================================
+
+TABLE: chat_sessions (add fields)
+- status
+- last_user_message_at
+- follow_up_sent_at
+- closed_reason
+- escalated_at
+- human_agent_id
+
+TABLE: human_agents
+- id
+- name
+- status (online/offline)
+- languages_supported
+- active_chats
+
+TABLE: chat_assignments
+- session_id
+- human_agent_id
+- assigned_at
+- closed_at
+
+=====================================================
+8. TIMER & EVENT ENGINE
+=====================================================
+
+Build a background job / event engine that:
+
+• Monitors last user activity
+• Triggers follow-ups
+• Closes inactive chats
+• Escalates based on rules
+• Prevents duplicate timers
+• Is fault-tolerant
+
+Timers must reset on every user message.
+
+=====================================================
+9. UX & BEHAVIOR RULES
+=====================================================
+
+• No aggressive follow-ups
+• Friendly, respectful language only
+• Never blame user for inactivity
+• Always allow user to re-open chat
+• Clear visual status (AI / Human)
+
+=====================================================
+10. FINAL OBJECTIVE
+=====================================================
+
+Implement a FULL CHAT LIFECYCLE SYSTEM where:
+
+• AI handles 80–90% queries
+• Human agents step in only when needed
+• Users feel respected, not rushed
+• No chats are lost
+• Every interaction is logged, timed, and recoverable
+
+The transition between AI and Human must feel smooth, professional, and invisible to the user.

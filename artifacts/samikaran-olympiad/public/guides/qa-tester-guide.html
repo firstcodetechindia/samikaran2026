@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QA Tester Guide - Samikaran Olympiad</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #1e293b;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            margin-bottom: 5px;
+        }
+        
+        .logo-sub {
+            font-size: 14px;
+            letter-spacing: 8px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            padding: 12px 20px;
+            background: white;
+            color: #10B981;
+            border: none;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .toc {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        
+        .toc h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #10B981;
+        }
+        
+        .toc ul {
+            list-style: none;
+        }
+        
+        .toc li {
+            margin-bottom: 10px;
+        }
+        
+        .toc a {
+            color: #64748b;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .toc a:hover {
+            background: #f1f5f9;
+            color: #10B981;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 16px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        
+        .section h2 {
+            font-size: 24px;
+            color: #10B981;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+        
+        .section h3 {
+            font-size: 18px;
+            color: #334155;
+            margin: 25px 0 15px 0;
+        }
+        
+        .section p {
+            margin-bottom: 15px;
+            color: #475569;
+        }
+        
+        .section ul, .section ol {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .section li {
+            margin-bottom: 10px;
+            color: #475569;
+        }
+        
+        .credentials-box {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        
+        .credentials-box h4 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+        
+        .credential-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-family: monospace;
+            font-size: 14px;
+            background: rgba(255,255,255,0.1);
+            padding: 10px 15px;
+            border-radius: 8px;
+        }
+        
+        .step-box {
+            background: #f8fafc;
+            border-left: 4px solid #10B981;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 12px 12px 0;
+        }
+        
+        .step-box h4 {
+            color: #10B981;
+            margin-bottom: 10px;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .feature-card {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .feature-card h4 {
+            color: #10B981;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .feature-card p {
+            font-size: 14px;
+            color: #64748b;
+        }
+        
+        .warning-box {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        
+        .warning-box h4 {
+            color: #d97706;
+            margin-bottom: 10px;
+        }
+        
+        .info-box {
+            background: #dbeafe;
+            border: 1px solid #3b82f6;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        
+        .info-box h4 {
+            color: #2563eb;
+            margin-bottom: 10px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #64748b;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 28px;
+            }
+            .section {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-btn">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+        </svg>
+        Back to Platform
+    </a>
+    
+    <div class="header">
+        <div class="header-content">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 15px;">
+                <svg viewBox="0 0 100 100" width="55" height="55" style="filter: drop-shadow(0 4px 12px rgba(147,51,234,0.4));">
+                    <defs>
+                        <linearGradient id="qtLogoUp" x1="0%" y1="100%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#9333EA"/>
+                            <stop offset="50%" stop-color="#C026D3"/>
+                            <stop offset="100%" stop-color="#EC4899"/>
+                        </linearGradient>
+                        <linearGradient id="qtLogoDown" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#A855F7"/>
+                            <stop offset="100%" stop-color="#F472B6"/>
+                        </linearGradient>
+                    </defs>
+                    <polygon points="50,12 85,72 15,72" fill="rgba(0,0,0,0.12)" transform="translate(2,4)"/>
+                    <polygon points="50,88 15,28 85,28" fill="rgba(0,0,0,0.1)" transform="translate(2,4)"/>
+                    <polygon points="50,10 88,75 12,75" fill="url(#qtLogoUp)"/>
+                    <polygon points="50,10 69,42.5 31,42.5" fill="rgba(255,255,255,0.18)"/>
+                    <polygon points="50,90 12,25 88,25" fill="url(#qtLogoDown)" opacity="0.88"/>
+                    <polygon points="50,90 31,57.5 69,57.5" fill="rgba(255,255,255,0.12)"/>
+                    <rect x="32" y="44" width="36" height="5" rx="2.5" fill="white"/>
+                    <rect x="32" y="53" width="36" height="5" rx="2.5" fill="white"/>
+                    <rect x="32" y="44" width="36" height="2" rx="1" fill="rgba(255,255,255,0.5)"/>
+                    <rect x="32" y="53" width="36" height="2" rx="1" fill="rgba(255,255,255,0.5)"/>
+                </svg>
+                <div style="text-align: left;">
+                    <div style="font-size: 1.6rem; font-weight: 800; letter-spacing: 2px; color: white;">SAMIKARAN<span style="color: #EC4899;">.</span></div>
+                    <div style="font-size: 0.8rem; letter-spacing: 6px; opacity: 0.95; text-transform: uppercase; color: white;">OLYMPIAD</div>
+                </div>
+            </div>
+            <h1>QA Tester Guide</h1>
+            <p><span style="color: white;">AI-Powered</span> <span style="background: linear-gradient(135deg, #A855F7 0%, #EC4899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700;">Olympiad Platform</span> - QA Tester Guide</p>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="toc">
+            <h2>Table of Contents</h2>
+            <ul>
+                <li><a href="#credentials">1. Tester Credentials & Access</a></li>
+                <li><a href="#overview">2. System Overview</a></li>
+                <li><a href="#test-cases">3. Managing Test Cases</a></li>
+                <li><a href="#test-runs">4. Executing Test Runs</a></li>
+                <li><a href="#defects">5. Reporting Defects</a></li>
+                <li><a href="#best-practices">6. Best Practices</a></li>
+            </ul>
+        </div>
+        
+        <div class="section" id="credentials">
+            <h2>1. Tester Credentials & Access</h2>
+            
+            <div class="credentials-box">
+                <h4>Development Test Credentials</h4>
+                <div class="credential-item">
+                    <strong>Email:</strong> qa.tester@samikaran.com
+                </div>
+                <div class="credential-item">
+                    <strong>Password:</strong> QATester@2025
+                </div>
+                <div class="credential-item">
+                    <strong>OTP (Dev Mode):</strong> 123456
+                </div>
+            </div>
+            
+            <div class="info-box">
+                <h4>Access Information</h4>
+                <p>The QA & Testing system is accessible through the Super Admin Dashboard under "Platform Control" > "QA & Testing". You will need to enter the OTP code to access sensitive platform controls.</p>
+            </div>
+            
+            <h3>How to Access</h3>
+            <ol>
+                <li>Navigate to the Admin Dashboard</li>
+                <li>Click on "Platform Control" in the sidebar</li>
+                <li>Select "QA & Testing" tab</li>
+                <li>Enter OTP: <strong>123456</strong> (development mode)</li>
+                <li>You will see the QA Dashboard with all testing features</li>
+            </ol>
+        </div>
+        
+        <div class="section" id="overview">
+            <h2>2. System Overview</h2>
+            
+            <p>The QA & Testing system provides enterprise-grade quality assurance capabilities for the Samikaran Olympiad platform. It includes six main areas:</p>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>Dashboard</h4>
+                    <p>View overall QA metrics, test pass rates, defect counts, and release readiness status at a glance.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Test Cases</h4>
+                    <p>Create, manage, and organize test cases by module, priority, and type (functional, regression, smoke, etc.).</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Test Runs</h4>
+                    <p>Execute test suites, record results, and track testing progress across different release versions.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Defects</h4>
+                    <p>Report, track, and manage bugs with severity levels and module assignments.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Release Readiness</h4>
+                    <p>View Go/No-Go decisions based on automated scoring (0-100 scale) and deployment blockers.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>AI Coverage</h4>
+                    <p>Get AI-powered suggestions for test coverage gaps using GPT-4 analysis.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section" id="test-cases">
+            <h2>3. Managing Test Cases</h2>
+            
+            <h3>Creating a Test Suite</h3>
+            <div class="step-box">
+                <h4>Step 1: Navigate to Dashboard Tab</h4>
+                <p>Go to the QA Dashboard and click "Create Suite" button.</p>
+            </div>
+            <div class="step-box">
+                <h4>Step 2: Fill Suite Details</h4>
+                <p>Enter suite name (e.g., "Authentication Tests") and description.</p>
+            </div>
+            
+            <h3>Creating Test Cases</h3>
+            <div class="step-box">
+                <h4>Step 1: Go to Test Cases Tab</h4>
+                <p>Click on the "Test Cases" tab to view all existing test cases.</p>
+            </div>
+            <div class="step-box">
+                <h4>Step 2: Click "Create Test Case"</h4>
+                <p>Fill in the required fields:</p>
+                <ul>
+                    <li><strong>Title:</strong> Clear, descriptive name</li>
+                    <li><strong>Description:</strong> What the test validates</li>
+                    <li><strong>Suite:</strong> Select the parent test suite</li>
+                    <li><strong>Module:</strong> Authentication, Exam Management, Payment, etc.</li>
+                    <li><strong>Priority:</strong> Critical, High, Medium, or Low</li>
+                    <li><strong>Test Type:</strong> Functional, Regression, Smoke, Integration, Security, or Performance</li>
+                    <li><strong>Preconditions:</strong> Required setup before testing</li>
+                    <li><strong>Expected Result:</strong> What should happen when test passes</li>
+                </ul>
+            </div>
+            
+            <h3>Test Types Explained</h3>
+            <ul>
+                <li><strong>Functional:</strong> Tests specific feature functionality</li>
+                <li><strong>Regression:</strong> Ensures existing features still work after changes</li>
+                <li><strong>Smoke:</strong> Quick sanity checks for critical paths</li>
+                <li><strong>Integration:</strong> Tests interaction between modules</li>
+                <li><strong>Security:</strong> Validates security controls and vulnerabilities</li>
+                <li><strong>Performance:</strong> Tests system speed and load handling</li>
+            </ul>
+        </div>
+        
+        <div class="section" id="test-runs">
+            <h2>4. Executing Test Runs</h2>
+            
+            <h3>Creating a Test Run</h3>
+            <ol>
+                <li>Go to "Test Runs" tab</li>
+                <li>Click "Create Test Run"</li>
+                <li>Enter run name and select the test suite</li>
+                <li>Optionally specify release version being tested</li>
+                <li>Click "Create" to initialize the run</li>
+            </ol>
+            
+            <h3>Executing Tests</h3>
+            <div class="step-box">
+                <h4>Recording Results</h4>
+                <p>For each test case in the run, record the outcome:</p>
+                <ul>
+                    <li><strong>Passed:</strong> Test executed successfully as expected</li>
+                    <li><strong>Failed:</strong> Test did not produce expected results</li>
+                    <li><strong>Blocked:</strong> Test could not be executed due to blocker</li>
+                    <li><strong>Skipped:</strong> Test intentionally not executed</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <h4>Important</h4>
+                <p>When a test fails, always create a defect report with detailed reproduction steps. Link the defect to the failed test case for traceability.</p>
+            </div>
+        </div>
+        
+        <div class="section" id="defects">
+            <h2>5. Reporting Defects</h2>
+            
+            <h3>Creating a Defect</h3>
+            <ol>
+                <li>Go to "Defects" tab</li>
+                <li>Click "Report Defect"</li>
+                <li>Fill in required fields:
+                    <ul>
+                        <li><strong>Title:</strong> Brief, descriptive summary</li>
+                        <li><strong>Description:</strong> Detailed explanation</li>
+                        <li><strong>Module:</strong> Where the bug occurs</li>
+                        <li><strong>Severity:</strong> Critical, High, Medium, or Low</li>
+                        <li><strong>Steps to Reproduce:</strong> Exact steps to recreate the issue</li>
+                    </ul>
+                </li>
+            </ol>
+            
+            <h3>Severity Guidelines</h3>
+            <ul>
+                <li><strong>Critical:</strong> System crash, data loss, security breach, blocks core functionality</li>
+                <li><strong>High:</strong> Major feature broken, significant user impact, no workaround</li>
+                <li><strong>Medium:</strong> Feature partially broken, workaround available</li>
+                <li><strong>Low:</strong> Minor issue, cosmetic problem, minimal user impact</li>
+            </ul>
+            
+            <div class="warning-box">
+                <h4>Deployment Blockers</h4>
+                <p>Critical bugs in <strong>Payment</strong>, <strong>Exam Management</strong>, or <strong>Security</strong> modules automatically block deployments until resolved.</p>
+            </div>
+        </div>
+        
+        <div class="section" id="best-practices">
+            <h2>6. Best Practices</h2>
+            
+            <h3>Test Case Writing</h3>
+            <ul>
+                <li>Write clear, atomic test cases that test one thing</li>
+                <li>Include all preconditions needed to execute</li>
+                <li>Specify exact expected results</li>
+                <li>Use consistent naming conventions</li>
+            </ul>
+            
+            <h3>Defect Reporting</h3>
+            <ul>
+                <li>Always include steps to reproduce</li>
+                <li>Attach screenshots or videos when possible</li>
+                <li>Specify environment (browser, device, etc.)</li>
+                <li>Link related test cases</li>
+            </ul>
+            
+            <h3>Test Run Execution</h3>
+            <ul>
+                <li>Complete all tests in a run before marking complete</li>
+                <li>Add notes for any anomalies observed</li>
+                <li>Report blockers immediately</li>
+                <li>Verify fixes with regression tests</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>Samikaran Olympiad - QA & Testing Documentation</p>
+        <p>Version 1.0 | January 2026</p>
+    </div>
+</body>
+</html>

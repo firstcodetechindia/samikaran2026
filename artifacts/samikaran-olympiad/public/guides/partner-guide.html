@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partner Guide - Samikaran Olympiad</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #FDF4FF 0%, #FAE8FF 100%);
+            color: #1e293b;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #A855F7 0%, #EC4899 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            margin-bottom: 5px;
+        }
+        
+        .logo-sub {
+            font-size: 14px;
+            letter-spacing: 8px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            padding: 12px 20px;
+            background: white;
+            color: #A855F7;
+            border: none;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .welcome-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        
+        .welcome-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #A855F7 0%, #EC4899 100%);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 50px;
+        }
+        
+        .welcome-card h2 {
+            font-size: 28px;
+            color: #1e293b;
+            margin-bottom: 15px;
+        }
+        
+        .welcome-card p {
+            font-size: 16px;
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .earnings-highlight {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .earnings-card {
+            background: linear-gradient(135deg, #FDF4FF 0%, #FAE8FF 100%);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .earnings-card h3 {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #A855F7 0%, #EC4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 5px;
+        }
+        
+        .earnings-card p {
+            font-size: 14px;
+            color: #64748b;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+        
+        .section-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+        
+        .section-icon.purple { background: linear-gradient(135deg, #A855F7 0%, #C084FC 100%); }
+        .section-icon.blue { background: linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%); }
+        .section-icon.green { background: linear-gradient(135deg, #10B981 0%, #34D399 100%); }
+        .section-icon.orange { background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%); }
+        .section-icon.pink { background: linear-gradient(135deg, #EC4899 0%, #F472B6 100%); }
+        
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .step {
+            display: flex;
+            gap: 20px;
+            padding: 25px;
+            background: linear-gradient(135deg, #FDF4FF 0%, #FAE8FF 100%);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .step:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        
+        .step-number {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #A855F7 0%, #EC4899 100%);
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        .step-content h4 {
+            font-size: 17px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+        
+        .step-content p {
+            font-size: 15px;
+            color: #64748b;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .feature-card {
+            padding: 25px;
+            background: linear-gradient(135deg, #FDF4FF 0%, #FAE8FF 100%);
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+        
+        .feature-card .icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+        
+        .feature-card p {
+            font-size: 14px;
+            color: #64748b;
+        }
+        
+        .tip-box {
+            background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
+            border-left: 4px solid #10B981;
+            padding: 20px 25px;
+            border-radius: 0 15px 15px 0;
+            margin-top: 25px;
+        }
+        
+        .tip-box h4 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #065F46;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tip-box p {
+            font-size: 14px;
+            color: #047857;
+        }
+        
+        .commission-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .commission-table th, .commission-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .commission-table th {
+            background: linear-gradient(135deg, #A855F7 0%, #EC4899 100%);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .commission-table th:first-child {
+            border-radius: 10px 0 0 0;
+        }
+        
+        .commission-table th:last-child {
+            border-radius: 0 10px 0 0;
+        }
+        
+        .commission-table tr:hover {
+            background: #FDF4FF;
+        }
+        
+        .faq-item {
+            padding: 20px;
+            background: #FDF4FF;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .faq-item h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #A855F7;
+            margin-bottom: 10px;
+        }
+        
+        .faq-item p {
+            font-size: 14px;
+            color: #64748b;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        .help-banner {
+            background: linear-gradient(135deg, #A855F7 0%, #EC4899 100%);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .help-banner h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        
+        .help-banner p {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .help-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 30px;
+            background: white;
+            color: #A855F7;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .help-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 28px; }
+            .welcome-card { padding: 25px; }
+            .section { padding: 25px; }
+            .step { flex-direction: column; gap: 15px; }
+            .back-btn { top: 10px; left: 10px; padding: 10px 15px; font-size: 12px; }
+            .commission-table { font-size: 12px; }
+            .commission-table th, .commission-table td { padding: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <a href="javascript:history.back()" class="back-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Back to Dashboard
+    </a>
+
+    <header class="header">
+        <div class="header-content">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 15px;">
+                <svg viewBox="0 0 100 100" width="55" height="55" style="filter: drop-shadow(0 4px 12px rgba(147,51,234,0.4));">
+                    <defs>
+                        <linearGradient id="ptnLogoUp" x1="0%" y1="100%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#9333EA"/>
+                            <stop offset="50%" stop-color="#C026D3"/>
+                            <stop offset="100%" stop-color="#EC4899"/>
+                        </linearGradient>
+                        <linearGradient id="ptnLogoDown" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#A855F7"/>
+                            <stop offset="100%" stop-color="#F472B6"/>
+                        </linearGradient>
+                    </defs>
+                    <polygon points="50,12 85,72 15,72" fill="rgba(0,0,0,0.12)" transform="translate(2,4)"/>
+                    <polygon points="50,88 15,28 85,28" fill="rgba(0,0,0,0.1)" transform="translate(2,4)"/>
+                    <polygon points="50,10 88,75 12,75" fill="url(#ptnLogoUp)"/>
+                    <polygon points="50,10 69,42.5 31,42.5" fill="rgba(255,255,255,0.18)"/>
+                    <polygon points="50,90 12,25 88,25" fill="url(#ptnLogoDown)" opacity="0.88"/>
+                    <polygon points="50,90 31,57.5 69,57.5" fill="rgba(255,255,255,0.12)"/>
+                    <rect x="32" y="44" width="36" height="5" rx="2.5" fill="white"/>
+                    <rect x="32" y="53" width="36" height="5" rx="2.5" fill="white"/>
+                    <rect x="32" y="44" width="36" height="2" rx="1" fill="rgba(255,255,255,0.5)"/>
+                    <rect x="32" y="53" width="36" height="2" rx="1" fill="rgba(255,255,255,0.5)"/>
+                </svg>
+                <div style="text-align: left;">
+                    <div style="font-size: 1.6rem; font-weight: 800; letter-spacing: 2px; color: white;">SAMIKARAN<span style="color: #EC4899;">.</span></div>
+                    <div style="font-size: 0.8rem; letter-spacing: 6px; opacity: 0.95; text-transform: uppercase; color: white;">OLYMPIAD</div>
+                </div>
+            </div>
+            <h1>Partner Guide</h1>
+            <p><span style="color: white;">AI-Powered</span> <span style="background: linear-gradient(135deg, #A855F7 0%, #EC4899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700;">Olympiad Platform</span> - Partner Guide</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="welcome-card">
+            <div class="welcome-icon">
+                <span style="color: white;">&#129309;</span>
+            </div>
+            <h2>Welcome, Partner!</h2>
+            <p>As a Samikaran Olympiad Partner, you earn commission for every student registration through your referral. The more students you bring, the more you earn!</p>
+            
+            <div class="earnings-highlight">
+                <div class="earnings-card">
+                    <h3>15-25%</h3>
+                    <p>Commission Rate</p>
+                </div>
+                <div class="earnings-card">
+                    <h3>Weekly</h3>
+                    <p>Payouts</p>
+                </div>
+                <div class="earnings-card">
+                    <h3>Unlimited</h3>
+                    <p>Earning Potential</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon purple">
+                    <span style="color: white;">&#128176;</span>
+                </div>
+                <h3 class="section-title">How to Earn Commissions</h3>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Get Your Unique Referral Link</h4>
+                        <p>Go to your dashboard and copy your unique referral link. This link tracks all registrations that come through you.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Share with Schools & Parents</h4>
+                        <p>Share your link with schools, coaching centers, parents, and students. Use WhatsApp, email, or social media.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Track Registrations</h4>
+                        <p>Watch your dashboard as students register through your link. See real-time registration counts and pending commissions.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Receive Weekly Payouts</h4>
+                        <p>Commissions are calculated weekly and transferred to your bank account. Minimum payout threshold is Rs. 500.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon green">
+                    <span style="color: white;">&#128178;</span>
+                </div>
+                <h3 class="section-title">Commission Structure</h3>
+            </div>
+            
+            <table class="commission-table">
+                <thead>
+                    <tr>
+                        <th>Monthly Registrations</th>
+                        <th>Commission Rate</th>
+                        <th>Example Earning</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1 - 50 Students</td>
+                        <td>15%</td>
+                        <td>Rs. 150 per Rs. 1000 registration</td>
+                    </tr>
+                    <tr>
+                        <td>51 - 100 Students</td>
+                        <td>18%</td>
+                        <td>Rs. 180 per Rs. 1000 registration</td>
+                    </tr>
+                    <tr>
+                        <td>101 - 200 Students</td>
+                        <td>20%</td>
+                        <td>Rs. 200 per Rs. 1000 registration</td>
+                    </tr>
+                    <tr>
+                        <td>200+ Students</td>
+                        <td>25%</td>
+                        <td>Rs. 250 per Rs. 1000 registration</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="tip-box">
+                <h4><span>&#128161;</span> Maximize Your Earnings</h4>
+                <p>Partner with schools! When a school registers through you, all their students count toward your monthly total. One school partnership can push you to the highest commission tier!</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon blue">
+                    <span style="color: white;">&#128202;</span>
+                </div>
+                <h3 class="section-title">Dashboard Features</h3>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="icon">&#128279;</div>
+                    <h4>Referral Link</h4>
+                    <p>Your unique link to share with students and schools. Track all registrations from this link.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">&#128200;</div>
+                    <h4>Earnings Dashboard</h4>
+                    <p>Real-time view of your commissions, pending payments, and total earnings.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">&#128101;</div>
+                    <h4>Registration Report</h4>
+                    <p>Detailed list of all students who registered through your link with payment status.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">&#127979;</div>
+                    <h4>School Partnerships</h4>
+                    <p>Manage schools you've partnered with and track their student registrations.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">&#128184;</div>
+                    <h4>Payout History</h4>
+                    <p>View all past payouts with transaction details and download receipts.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">&#128200;</div>
+                    <h4>Marketing Materials</h4>
+                    <p>Download posters, brochures, and social media content to promote olympiads.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon orange">
+                    <span style="color: white;">&#10067;</span>
+                </div>
+                <h3 class="section-title">Frequently Asked Questions</h3>
+            </div>
+            <div class="faq-item">
+                <h4>When do I get paid?</h4>
+                <p>Payouts are processed every Friday for the previous week's confirmed registrations. You need minimum Rs. 500 balance to receive payout.</p>
+            </div>
+            <div class="faq-item">
+                <h4>What if a student gets a refund?</h4>
+                <p>If a student cancels and gets a refund, the commission for that registration is deducted from your balance.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Can I have sub-partners under me?</h4>
+                <p>Yes! Contact our partner team to learn about our multi-level partner program where you earn from your team's registrations too.</p>
+            </div>
+            <div class="faq-item">
+                <h4>How do I promote to schools?</h4>
+                <p>We provide school partnership kits with presentations, brochures, and sample letters. Download from your Marketing Materials section.</p>
+            </div>
+        </div>
+
+        <div class="help-banner">
+            <h3>Partner Success Team</h3>
+            <p>Dedicated support to help you grow your earnings</p>
+            <a href="/partner/dashboard" class="help-btn" onclick="window.close(); return false;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+                Contact Partner Support
+            </a>
+            <p style="margin-top: 12px; font-size: 14px; opacity: 0.9;">Click to close this guide and use the chat widget on your dashboard</p>
+        </div>
+
+        <div class="footer">
+            <p>Samikaran Olympiad - Grow Together, Earn Together</p>
+            <p style="margin-top: 8px; opacity: 0.7;">Version 1.0 | Last Updated: January 2026</p>
+        </div>
+    </div>
+</body>
+</html>

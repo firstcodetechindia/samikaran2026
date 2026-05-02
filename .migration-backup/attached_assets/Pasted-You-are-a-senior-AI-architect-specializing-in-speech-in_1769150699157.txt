@@ -1,0 +1,200 @@
+You are a senior AI architect specializing in speech intelligence, multilingual NLP, and conversational systems.
+
+Extend the existing AI Agent Chatbot Platform with a FULLY GOVERNED, MULTI-LANGUAGE AUDIO CHAT FEATURE where users can TALK naturally in ANY LANGUAGE and receive accurate, polite, intelligent replies from AI Agents.
+
+This must NOT be a simple speech-to-text bot.
+This must be a true VOICE-INTELLIGENCE SYSTEM.
+
+=====================================================
+1. CORE AUDIO CHAT VISION
+=====================================================
+
+• User can send voice messages (mic input)
+• Agent understands intent, emotion, and language
+• System auto-detects spoken language
+• Agent replies accurately using existing flows & knowledge
+• Agent can reply in:
+  - Text
+  - Voice
+  - Both (configurable)
+• Fully governed by Super Admin
+• Multilingual by default
+
+=====================================================
+2. AUDIO INPUT PIPELINE (MANDATORY FLOW)
+=====================================================
+
+User Audio →
+→ Speech Capture
+→ Noise Reduction
+→ Speech-to-Text (STT)
+→ Language Detection
+→ Confidence Scoring
+→ Intent Extraction
+→ Flow Engine
+→ Knowledge Base Lookup
+→ AI Reasoning
+→ Response Confidence Check
+→ Text Response
+→ Optional Text-to-Speech (TTS)
+
+NO STEP CAN BE SKIPPED.
+
+=====================================================
+3. MULTI-LANGUAGE VOICE INTELLIGENCE
+=====================================================
+
+SYSTEM MUST:
+• Auto-detect spoken language (Hindi, English, Hinglish, Tamil, Telugu, etc.)
+• Handle mixed languages (e.g. Hindi + English)
+• Normalize accents & pronunciation
+• Translate internally only if required
+• Reply in:
+  - Same language as user (default)
+  - Admin-selected language (optional)
+
+Admin controls:
+• Enable / Disable languages
+• Voice accent per agent
+• Formal / casual tone per language
+
+=====================================================
+4. AUDIO CONFIDENCE & SAFETY LAYER
+=====================================================
+
+For AUDIO INPUT, calculate confidence:
+
+audio_confidence =
+(speech_clarity * 0.3)
++ (language_detection_score * 0.2)
++ (intent_confidence * 0.3)
++ (knowledge_match * 0.2)
+
+MINIMUM audio_confidence = 0.75
+
+IF confidence < threshold:
+→ Ask user politely to repeat
+OR
+→ Switch to text input
+OR
+→ Escalate to human support
+
+=====================================================
+5. AGENT AUDIO PROMPT GUARDS (CRITICAL)
+=====================================================
+
+Extend agent SYSTEM PROMPT with:
+
+--- AUDIO RULES ---
+
+• You must treat audio input as HIGH-RISK data
+• Do NOT assume unclear words
+• If speech is ambiguous → ask clarification
+• Respect user's language and cultural tone
+• Never misinterpret emotional cues
+• Never guess intent
+
+STANDARD FALLBACK AUDIO MESSAGE:
+"I may not have understood that clearly.
+Could you please repeat or type your question?"
+
+=====================================================
+6. VOICE RESPONSE SYSTEM (TTS)
+=====================================================
+
+Agent Voice Replies:
+• Natural human-like voice
+• Gender matches agent avatar
+• Language-specific pronunciation
+• Emotion-neutral (safe & polite)
+
+Admin can configure:
+• Voice ON / OFF
+• Voice speed
+• Accent
+• Pitch
+• Text-only / Voice-only / Both
+
+=====================================================
+7. FLOW BUILDER – AUDIO NODES
+=====================================================
+
+Add NEW Flow Nodes:
+
+• AudioInputNode
+• SpeechValidationNode
+• LanguageDetectionNode
+• VoiceFallbackNode
+• TextToSpeechNode
+
+Admin can visually:
+• Route audio to text
+• Force clarification
+• Escalate on low confidence
+
+NO CODE required.
+
+=====================================================
+8. DATABASE EXTENSIONS
+=====================================================
+
+TABLE: audio_messages
+- id
+- session_id
+- audio_url
+- transcript
+- detected_language
+- clarity_score
+- intent_score
+- confidence_score
+- created_at
+
+TABLE: agent_voice_settings
+- agent_id
+- voice_enabled
+- voice_gender
+- accent
+- speed
+- pitch
+
+=====================================================
+9. USER EXPERIENCE RULES
+=====================================================
+
+• Mic button always visible (where chatbot is allowed)
+• Visual waveform while recording
+• “Listening…” indicator
+• “Analyzing…” indicator
+• Replay agent voice option
+• Switch to text anytime
+
+=====================================================
+10. PRIVACY & SECURITY
+=====================================================
+
+• Audio encrypted at rest
+• Optional auto-delete audio after processing
+• Admin retention policy
+• No training on user audio without consent
+
+=====================================================
+11. FUTURE-READY EXTENSIONS
+=====================================================
+
+• Emotion detection (optional)
+• Voice biometrics (optional)
+• Real-time conversation mode
+• Accessibility support
+
+=====================================================
+12. FINAL OBJECTIVE
+=====================================================
+
+Implement a PRODUCTION-GRADE, MULTI-LANGUAGE, AUDIO-FIRST AI CHAT SYSTEM fully integrated with:
+• Agents
+• Flow Builder
+• Knowledge Base
+• AI Confidence Engine
+• Safety Guards
+
+This must feel like talking to a calm, intelligent human — not a bot.

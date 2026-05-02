@@ -1,0 +1,71 @@
+I need to implement a RANDOM QUESTION DISTRIBUTION SYSTEM for an Online Olympiad Exam.
+
+USE CASE:
+- Admin will upload a large pool of questions (example: 100 questions).
+- Olympiad will be conducted for a FIXED NUMBER of questions (example: 50 or 70).
+- Each student must see ONLY the configured number of questions.
+- Questions must be picked RANDOMLY from the uploaded pool.
+- I do NOT want to create or manage question sets manually.
+
+CORE REQUIREMENTS:
+
+1. QUESTION POOL LOGIC
+- Exam has:
+  - Total Question Pool (e.g., 100 questions)
+  - Exam Question Limit (e.g., 50 or 70)
+- All uploaded questions are eligible unless explicitly disabled.
+
+2. RANDOM SELECTION ALGORITHM
+- Use Fisher–Yates Shuffle algorithm to shuffle the entire question pool.
+- After shuffle:
+  - Pick the FIRST N questions (N = exam question limit).
+- Randomization must be:
+  - Fair
+  - Unbiased
+  - Uniform
+
+3. PER-STUDENT RANDOMIZATION
+- Each student gets a UNIQUE shuffled sequence.
+- Two students starting exam at same time should NOT get same order by default.
+- Shuffle must be executed:
+  - At exam start for that student
+  - Based on secure random seed
+
+4. CONSISTENCY RULE
+- Once questions are assigned to a student:
+  - Question list must be LOCKED
+  - Refresh / reconnect should NOT reshuffle
+- Store assigned question IDs per student attempt.
+
+5. ANSWER MAPPING & EVALUATION
+- Evaluation must match:
+  - Student’s assigned question IDs
+  - Correct answers from master question bank
+- No mismatch allowed due to shuffle.
+
+6. PERFORMANCE & SCALE
+- Shuffle logic must be:
+  - Efficient (O(n))
+  - Safe for high concurrent users
+- Avoid reshuffling entire pool for every action.
+
+7. OPTIONAL SAFETY CONTROLS
+- Admin can enable:
+  - Same question pool but shuffled order only
+  - Or full random selection + order shuffle
+- Admin can preview random distribution (sample run).
+
+8. SECURITY & FAIRNESS
+- No predictable random pattern
+- No client-side shuffle (server-side only)
+- No manipulation by student
+- Full audit log:
+  - Assigned question IDs
+  - Shuffle timestamp
+  - Seed reference (optional)
+
+FINAL EXPECTATION:
+This system should completely remove the need for question sets.
+Admin uploads questions once, defines exam question count, and the system automatically handles fair, random, and secure question distribution for every student using Fisher–Yates shuffle logic.
+
+Implementation must be production-grade, logically correct, scalable, and exam-safe.

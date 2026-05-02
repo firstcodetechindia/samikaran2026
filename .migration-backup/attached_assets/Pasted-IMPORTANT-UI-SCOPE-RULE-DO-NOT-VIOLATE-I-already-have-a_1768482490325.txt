@@ -1,0 +1,122 @@
+IMPORTANT UI SCOPE RULE (DO NOT VIOLATE):
+
+I already have an existing "Exam Control" screen inside my admin panel.
+You must NOT add new sidebar menu items, routes, layouts, or pages.
+
+ALL new functionality must live INSIDE the EXISTING Exam Control screen shown in my UI.
+Treat Exam Control as the parent container.
+
+You are allowed to use ONLY:
+- Buttons
+- Tabs
+- Drawers
+- Modals
+- Stepper flows
+- Inline sections
+
+DO NOT:
+- Add sidebar items
+- Create new pages
+- Create standalone screens
+- Create new layouts
+- Change panel structure
+
+---
+
+TASK:
+
+Extend the EXISTING Exam Control screen to support the following INTERNAL workflows.
+
+1) OLYMPIAD CATEGORY MANAGEMENT (INSIDE EXAM CONTROL)
+- Triggered by a button like "Manage Categories"
+- Opens as a modal or drawer (not a new page)
+- Fields:
+  - Category name
+  - Slug (auto-generate, editable)
+  - Language dropdown
+  - Image upload
+- Submit + validation
+- Below the form, show a list/table of categories
+- Each row has Edit and Delete actions
+- Edit updates inline or reopens the same modal
+- Delete must be confirmed
+
+2) OLYMPIAD CREATION (INSIDE EXAM CONTROL)
+- Triggered by existing "Create Olympiad" button
+- Opens as a multi-step modal / drawer / stepper
+- Step 1: Select Category (language auto-locked)
+- Step 2:
+  - Olympiad name
+  - Slug
+  - Registration open date
+  - Registration close date
+  - Proctoring toggle
+  - Negative marking toggle
+    - If ON → ask marks deduction per wrong answer
+  - Maximum total marks
+  - Participant limit:
+    - Limited → ask max count
+    - Open → unlimited
+  - Olympiad image upload
+  - Participation fee
+  - Class category
+  - Maximum age
+    - Validate age based on registration closing date using student DOB
+  - Result declaration date
+  - Visibility toggle (hidden until enabled)
+- Full validation at each step
+- Save only when all steps are valid
+
+3) QUESTION CREATION (INSIDE EXAM CONTROL)
+- Shown as tabs or secondary buttons:
+  - "Manual Questions"
+  - "AI Generate Questions"
+
+MANUAL MODE:
+- Add questions one by one
+- Bulk upload via Excel
+- Support:
+  - MCQ
+  - True/False
+  - Image-based
+- Admin decides:
+  - Question count per type
+  - Marks per question
+
+AI MODE:
+- Admin selects an active Olympiad
+- Admin provides a prompt
+- Admin defines how many questions per type
+- Total questions must NOT exceed Olympiad limits
+- AI generates ONLY student-safe educational content
+- After generation:
+  - Show full preview INSIDE Exam Control
+  - Admin selects correct answer per question
+  - Admin approves before save
+- AI auto-assigns marks (min 1, max 5) distributed against Olympiad max marks
+
+4) QUESTION RANDOMIZATION (EXAM TIME)
+- Question order shuffled per student
+- Options shuffled per student
+- Option values must not change
+- Correct answer mapping preserved
+- Each question keeps its own marks
+
+5) RICH TEXT EDITOR (MANDATORY)
+- Used for questions and options
+- Supports:
+  - Multiple languages
+  - Math formulas
+  - Tables
+  - Images
+  - Full formatting
+- Same editor for Manual and AI flows
+
+6) GENERAL RULES
+- All logic must stay inside Exam Control UI
+- Reuse existing styles and components
+- No new navigation
+- No UX experiments
+- No layout changes
+
+First analyze the current Exam Control code, then extend it carefully without breaking anything.

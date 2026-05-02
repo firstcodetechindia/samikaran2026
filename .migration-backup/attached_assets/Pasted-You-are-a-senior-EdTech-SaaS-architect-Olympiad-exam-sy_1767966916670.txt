@@ -1,0 +1,231 @@
+You are a senior EdTech SaaS architect, Olympiad exam system designer, and full-stack engineer.
+
+I am building a **COMPLETE OLYMPIAD EXAM MANAGEMENT MODULE** inside the **SUPER ADMIN PANEL** of my GLOBAL AI-POWERED OLYMPIAD PLATFORM.
+
+This module will be called **“Exam Control”** and must be production-grade, scalable, and comparable to the best Olympiad platforms worldwide.
+
+════════════════════════════════════
+MODULE OBJECTIVE
+════════════════════════════════════
+Create a full system to:
+• Create & manage Olympiad categories
+• Create & manage sub-categories
+• Create & configure Olympiads
+• Manage questions manually
+• Generate questions using AI
+• Control exam rules, rewards & proctoring
+• Ensure clean UI, validation & rich editors
+
+Everything must be ADMIN-DRIVEN, API-BASED, and CMS-LIKE.
+
+════════════════════════════════════
+MAIN MENU STRUCTURE
+════════════════════════════════════
+Super Admin → Exam Control
+  ├── Olympiad Categories
+  ├── Olympiad Sub-Categories
+  ├── Olympiad Management
+  ├── Question Bank
+  ├── AI Question Generator
+  ├── Exam Rules & Settings
+
+════════════════════════════════════
+1️⃣ OLYMPIAD CATEGORY MANAGEMENT
+════════════════════════════════════
+Create CRUD system for **Main Olympiad Categories** with:
+
+Fields:
+• Category Name
+• Slug (auto-generated, editable)
+• Language selector (multi-language ready)
+• Category Image (upload/select)
+• Is Premium (toggle)
+• Status (active / inactive)
+• Created / Updated timestamps
+
+Rules:
+• Slug must be unique per language
+• Image optional but recommended
+• Toggle UI for premium
+• Soft delete support
+
+════════════════════════════════════
+2️⃣ SUB-CATEGORY MANAGEMENT
+════════════════════════════════════
+Create Sub-Categories linked to Main Categories.
+
+Fields:
+• Parent Category (dropdown)
+• Language (auto-filtered by parent)
+• Sub-Category Name
+• Slug
+• Image
+• Status
+
+Rules:
+• Parent category mandatory
+• Language must match parent category
+• Slug unique within parent
+
+════════════════════════════════════
+3️⃣ OLYMPIAD CREATION & MANAGEMENT
+════════════════════════════════════
+Create full Olympiad setup with:
+
+Basic Info:
+• Category (dropdown)
+• Sub-Category (filtered)
+• Language
+• Olympiad Name
+• Olympiad Title (SEO friendly)
+• Olympiad Description (Rich Text Editor)
+
+Registration:
+• Registration Start Date & Time
+• Registration Close Date & Time
+• Olympiad Fee
+• Class Selection (multi-select dropdown)
+
+Exam Rules:
+• Total Questions
+• Exam Duration (minutes)
+• Negative Marking (Yes/No)
+• Marks per question
+• Proctoring Enabled (Yes/No)
+• Olympiad Difficulty (Easy / Medium / Hard)
+
+Rewards System:
+• Total Winners Count
+• 1st Prize (amount / reward text)
+• 2nd Prize
+• 3rd Prize
+• Remaining Winners Reward
+• Certificate for all / selected
+
+Controls:
+• Draft / Published status
+• Preview mode
+• Duplicate Olympiad option
+
+════════════════════════════════════
+4️⃣ QUESTION MANAGEMENT (MANUAL)
+════════════════════════════════════
+Create Question Bank linked to Olympiads.
+
+Flow:
+• Select Olympiad
+• Select Question Type:
+  - Multiple Choice (A, B, C, D)
+  - True / False
+• Question Content (Rich Text Editor)
+• Optional Image upload
+• Optional Audio upload
+• Options Editor (Rich Text)
+• Correct Answer (dropdown)
+• Difficulty Level (Easy / Medium / Hard)
+• Marks per question
+• Negative marks (if enabled)
+
+Rules:
+• Mandatory validation on save
+• Preview question before save
+• Reusable across exams (future-ready)
+
+════════════════════════════════════
+5️⃣ AI QUESTION GENERATION MODULE
+════════════════════════════════════
+Create AI-driven question generator.
+
+Inputs:
+• Category
+• Sub-Category
+• Olympiad
+• Language
+• Question Type (MCQ / True-False)
+• Difficulty Level
+• Image-based questions (Yes/No)
+• Total number of questions to generate
+
+AI Behavior:
+• Generate syllabus-relevant questions
+• Avoid repetition
+• Match Olympiad difficulty
+• Auto-generate correct answers
+• Auto-tag difficulty
+• Preview before saving to bank
+
+Generated questions must be:
+• Editable
+• Approve / Reject before publish
+• Stored like manual questions
+
+════════════════════════════════════
+6️⃣ ADVANCED EXAM CONTROLS (ADD THESE)
+════════════════════════════════════
+Add features inspired by top Olympiad platforms:
+
+• Question randomization
+• Section-wise questions (future-ready)
+• Timer auto-submit
+• Resume rules (allowed / not)
+• Exam visibility control
+• Region / country eligibility (future)
+• Attempt limits
+
+════════════════════════════════════
+7️⃣ UI / UX REQUIREMENTS
+════════════════════════════════════
+• Use existing admin theme
+• Sidebar submenu like shown in screenshot
+• Rich text editor like shown
+• Mandatory field validation
+• Error SHAKE animation (same as login/register)
+• Image preview before upload
+• Clean, fast, intuitive UX
+
+════════════════════════════════════
+8️⃣ DATABASE DESIGN (REQUIRED)
+════════════════════════════════════
+Design schemas for:
+• Categories
+• Sub-categories
+• Olympiads
+• Exam rules
+• Rewards
+• Questions
+• AI generated questions
+• Media assets
+
+Use relational, scalable design.
+
+════════════════════════════════════
+9️⃣ TECH & ARCHITECTURE
+════════════════════════════════════
+• Modular services
+• Clean APIs
+• Multi-language ready
+• Multi-tenant ready
+• Secure inputs
+• Future analytics hooks
+
+════════════════════════════════════
+EXPECTED OUTPUT FROM YOU
+════════════════════════════════════
+Generate step-by-step:
+1. Module architecture
+2. Database schemas
+3. Backend APIs
+4. Admin UI components
+5. Rich editor integration
+6. Question workflow
+7. AI generation flow
+8. Validation & animations
+
+════════════════════════════════════
+FINAL STANDARD
+════════════════════════════════════
+This must feel like:
+
+“A world-class Olympiad exam control system used by millions of students globally, built inside a professional Super Admin dashboard.”
+
+Build it clean, scalable, realistic, and production-ready.

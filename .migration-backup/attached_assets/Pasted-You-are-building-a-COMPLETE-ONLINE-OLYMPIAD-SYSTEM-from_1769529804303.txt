@@ -1,0 +1,150 @@
+You are building a COMPLETE ONLINE OLYMPIAD SYSTEM from ZERO.
+
+DO NOT explain table structure, backend logic, database schema, or code.
+JUST DO THE WORK END-TO-END.
+
+First:
+❌ REMOVE EVERYTHING OLD (old olympiads, old pages, old logic, old UI)
+Start CLEAN.
+
+---
+
+## WHAT YOU MUST BUILD
+
+### 1. CREATE ALL OLYMPIADS IN SYSTEM
+
+Create these Olympiads fully in the system:
+
+- Mathematics Olympiad
+- Science Olympiad
+- Computer Olympiad
+- Physics Olympiad
+- Chemistry Olympiad
+- Biology Olympiad
+- English Olympiad
+- Hindi Olympiad
+- Reasoning Olympiad
+- General Knowledge Olympiad
+- Economics Olympiad
+- Business Studies Olympiad
+- Accountancy Olympiad
+- Psychology Olympiad
+- History Olympiad
+- Geography Olympiad
+- Cyber Security Olympiad
+
+Each Olympiad must be:
+- Created in database
+- Connected to frontend
+- Editable from admin
+- Independently controllable
+
+---
+
+### 2. SUPER ADMIN = FULL POWER
+
+Create a SUPER ADMIN PANEL where I can:
+
+- Create new Olympiads anytime
+- Edit any Olympiad content
+- Decide Olympiad status:
+  - Draft (not visible)
+  - Live (visible)
+  - Scheduled (future)
+  - Archived (past)
+- Decide WHEN an Olympiad goes live
+- Decide WHEN it goes offline
+- Preview Olympiad before publishing
+- Turn registration button ON / OFF
+- Control everything from one place
+
+I want COMPLETE CONTROL.
+No hard-coding.
+No limitations.
+
+---
+
+### 3. FRONTEND (WORLD-CLASS UI)
+
+Create TWO main frontend pages:
+
+#### A. All Olympiads Page
+- Show ONLY LIVE Olympiads
+- Beautiful cards
+- World-class UI
+- Smooth animations
+- Filter by subject
+- Clean, premium, trust-building
+
+#### B. Olympiad Detail Page
+- One common layout for all Olympiads
+- Content changes per Olympiad automatically
+- World-class UI
+- Parent + student friendly
+- Register Now button visible clearly
+
+---
+
+### 4. DESIGN RULES (VERY IMPORTANT)
+
+- Each Olympiad must have its OWN COLOR THEME
+- Theme affects:
+  - Header
+  - Buttons
+  - Highlights
+- Each Olympiad must have:
+  - Subject-based SVG animation
+  - Light animations (no heavy images)
+  - Smooth micro-interactions
+- UI must look GLOBAL-LEVEL, not local website
+
+---
+
+### 5. REGISTRATION CONNECTION
+
+- Registration system is already built
+- Just CONNECT it
+- Register button must:
+  - Match Olympiad theme
+  - Redirect correctly
+  - Be controllable from admin
+
+---
+
+### 6. SEO (AUTOMATIC)
+
+For every Olympiad page:
+- Auto SEO title
+- Auto meta description
+- SEO-friendly URL
+- FAQ content
+- Search-engine ready
+
+I should NOT manually write SEO every time.
+
+---
+
+### 7. FUTURE-READY SYSTEM
+
+System must allow:
+- Adding unlimited Olympiads in future
+- No redesign needed
+- No developer needed
+- Just admin input → page auto created
+
+---
+
+## FINAL EXPECTATION
+
+When work is done:
+- All listed Olympiads exist
+- Old system is gone
+- Admin controls everything
+- Frontend looks world-class
+- SEO is ready
+- Registration works
+- System is scalable
+
+DO NOT ASK QUESTIONS.
+DO NOT EXPLAIN THEORY.
+JUST BUILD THE COMPLETE SYSTEM.

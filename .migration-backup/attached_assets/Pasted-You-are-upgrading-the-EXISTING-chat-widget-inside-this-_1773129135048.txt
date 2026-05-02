@@ -1,0 +1,185 @@
+You are upgrading the EXISTING chat widget inside this Olympiad platform into a professional AI Support Chat System.
+
+IMPORTANT ARCHITECTURE RULE:
+
+This platform already has two different AI systems:
+
+1. TARA AI
+2. Support Chatbot
+
+These two systems must remain COMPLETELY SEPARATE.
+
+TARA AI is a learning assistant used only for helping students study, solve questions, and guide learning inside exams or practice sections.
+
+TARA AI must NEVER be used for support chat.
+
+The Support Chatbot is a different AI agent whose only purpose is to help users navigate the platform and resolve support issues.
+
+Do NOT mix TARA with the support chatbot.
+
+---
+
+STEP 1 — MANDATORY SYSTEM AUDIT
+
+Before writing or modifying any code, you must first analyze the existing system architecture.
+
+Carefully inspect the following:
+
+• Super Admin Panel
+• Existing Support / Chat Flow
+• AI Tools configuration in Admin
+• OpenAI API integration
+• Gemini API integration
+• Existing chat database tables
+• Existing support ticket workflow
+• Agent dashboard and takeover logic
+
+The Super Admin panel already contains:
+
+AI integrations
+support workflows
+chat flow configuration
+
+Your job is NOT to rebuild these systems.
+
+Your job is to CONNECT the frontend chat widget with the existing admin support infrastructure.
+
+Do not create duplicate systems.
+
+---
+
+STEP 2 — AI ENGINE USAGE
+
+The chatbot must use the existing AI tools already integrated in the platform.
+
+Supported AI providers:
+
+OpenAI
+Gemini
+
+The active AI provider must be selected dynamically from the Admin settings.
+
+Do NOT hardcode any API keys.
+
+Use the existing environment variables and AI configuration system already present in the admin panel.
+
+---
+
+STEP 3 — CHATBOT PURPOSE
+
+This chatbot is strictly a PORTAL SUPPORT ASSISTANT.
+
+It must only answer questions related to this platform.
+
+Allowed topics include:
+
+Olympiad exams
+student dashboard
+exam registration
+exam schedule
+mock tests
+results
+certificates
+school onboarding
+payments
+technical issues inside the portal
+
+The chatbot must NEVER answer general internet questions.
+
+It must act like a professional support agent dedicated to this platform.
+
+---
+
+STEP 4 — CHAT SYSTEM ARCHITECTURE
+
+The support system must operate in three levels.
+
+LEVEL 1 — AI AUTO RESPONSE
+
+The AI agent automatically responds to user questions using the configured AI provider.
+
+It should understand user intent and guide users step by step inside the portal.
+
+Example support guidance:
+
+how to register for Olympiad
+how to check results
+how to download certificates
+how to reset password
+how schools register
+
+Responses must be helpful, structured, and professional.
+
+---
+
+LEVEL 2 — SMART QUICK ACTIONS
+
+After each AI response show contextual quick action buttons.
+
+Examples:
+
+Check Result
+Download Certificate
+Register for Olympiad
+Reset Password
+Contact Support
+
+These suggestions should be dynamically generated based on the user's intent.
+
+---
+
+LEVEL 3 — HUMAN AGENT ESCALATION
+
+If the AI cannot resolve the issue or the user asks for human support:
+
+The chat must be transferred to the existing admin support system.
+
+Requirements:
+
+notify admin dashboard
+allow agent takeover
+preserve full chat history
+AI must stop responding after transfer
+
+This must reuse the existing support workflow already available in the admin panel.
+
+---
+
+STEP 5 — CHAT FEATURES
+
+Typing indicator
+AI thinking animation
+real-time streaming responses
+chat history saved in database
+session tracking
+mobile responsive UI
+
+---
+
+STEP 6 — FAILSAFE SYSTEM
+
+The chatbot must NEVER show generic errors like:
+
+"I am experiencing technical difficulties."
+
+Instead it must:
+
+retry AI response
+fallback to secondary AI provider
+or escalate to human support
+
+---
+
+FINAL OBJECTIVE
+
+Upgrade the existing chat widget into a modern AI Support System similar to Intercom or Zendesk AI.
+
+The system must:
+
+reuse existing admin workflows
+reuse existing AI integrations
+never duplicate systems
+never mix with TARA AI
+operate strictly as a platform support assistant
+
+Before writing code, first analyze the current architecture and explain how the chatbot will connect with the existing admin support system.

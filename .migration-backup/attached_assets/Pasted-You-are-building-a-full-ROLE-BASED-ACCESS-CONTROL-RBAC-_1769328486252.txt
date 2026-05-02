@@ -1,0 +1,202 @@
+You are building a full ROLE-BASED ACCESS CONTROL (RBAC) SYSTEM
+for a large multi-module SaaS platform (Online Olympiad + Exams + AI + Finance + Marketing).
+
+This system must be enterprise-grade, scalable, and future-proof.
+
+========================
+CORE OBJECTIVE
+========================
+Only SUPER ADMIN can create roles.
+Each role controls EXACTLY what modules, pages, and actions a user can access.
+No user can access anything outside their assigned permissions.
+
+Permissions must apply to:
+- Sidebar visibility
+- Page access
+- API access
+- Real-time features
+- Actions (view, create, edit, delete)
+
+========================
+ROLE HIERARCHY
+========================
+1) SUPER ADMIN (God Mode)
+- Full access to everything
+- Can create, edit, clone, disable roles
+- Can assign users to multiple roles
+- Can override any permission instantly
+- Can impersonate any role for testing
+
+2) SYSTEM-DEFINED ROLES (Examples)
+(Editable by Super Admin)
+
+A) Controller of Examination (COE)
+- Exam Control
+- Proctoring
+- Results
+- Exam scheduling
+- Exam termination
+- Re-exam approval
+- Cannot access Finance, Marketing, Global Settings
+
+B) Proctoring Admin
+- Live proctoring monitoring
+- Violation reports
+- Candidate termination
+- AI proctoring logs
+- Cannot edit exam content
+
+C) Accounts / Finance Department
+- Payments
+- Refunds
+- Invoices
+- Revenue reports
+- Partner payouts
+- No access to exams or users
+
+D) Marketing Manager
+- Social media
+- Email marketing
+- Campaign analytics
+- Lead tracking
+- No access to finance or exams
+
+E) Content Manager
+- CMS
+- Blog
+- Media library
+- SEO content
+- No system or exam control
+
+F) Support Agent
+- AI Chatbot handover
+- User support chats
+- Ticket resolution
+- Cannot see analytics or finance
+
+G) Analytics / MIS Team
+- Analytics
+- Reports
+- Dashboards
+- Read-only access
+
+========================
+PERMISSION MODEL (VERY IMPORTANT)
+========================
+Permissions must be defined at FOUR LEVELS:
+
+1) MODULE LEVEL
+   - Example: Exam Management, Finance, AI Chatbot
+
+2) PAGE LEVEL
+   - Example: Exam Control, Results, Proctoring
+
+3) ACTION LEVEL
+   - View
+   - Create
+   - Edit
+   - Delete
+   - Approve
+   - Export
+
+4) DATA SCOPE
+   - All data
+   - Assigned exams only
+   - Assigned regions only
+   - Assigned partners only
+
+========================
+ROLE CREATION UI (ADMIN PANEL)
+========================
+Super Admin must see:
+- Role Name
+- Role Description
+- Role Priority
+- Role Status (Active / Disabled)
+
+Permission selection via:
+- Checkbox-based UI
+- Nested structure:
+  ▢ Dashboard & Insights
+     ▢ Live Dashboard
+     ▢ Analytics
+     ▢ System Health
+
+  ▢ Exam Management
+     ▢ Exam Control
+     ▢ Proctoring
+     ▢ Results
+
+  ▢ Business & Operations
+     ▢ Finance
+     ▢ Partners
+
+  ▢ Marketing & Outreach
+     ▢ Social Media
+     ▢ Email Marketing
+     ▢ AI Chatbot
+
+  ▢ Content Management
+     ▢ CMS
+     ▢ Blog
+     ▢ Media Library
+
+  ▢ Platform Control
+     ▢ PWA Settings
+     ▢ Global Settings
+
+Each checkbox must dynamically map to backend permissions.
+
+========================
+SIDEBAR & UI BEHAVIOR
+========================
+- Sidebar must auto-render based on role permissions
+- If no permission → menu item is invisible
+- Direct URL access must still be blocked at backend
+- Disabled roles see zero system access
+
+========================
+BACKEND ENFORCEMENT (CRITICAL)
+========================
+- Every API must check role + permission
+- No frontend-only security
+- JWT / session must include role & permission map
+- Permissions cached but revalidated on change
+
+========================
+MULTI-ROLE USER SUPPORT
+========================
+- A user can have multiple roles
+- Effective permission = UNION of all roles
+- Super Admin can toggle role ON/OFF per user
+
+========================
+AUDIT & SECURITY
+========================
+- Log every permission change
+- Log every role assignment
+- Track who accessed what and when
+- Prevent privilege escalation
+
+========================
+FAILSAFE RULES
+========================
+- If role misconfigured → deny access by default
+- If permission missing → block action
+- Super Admin override always wins
+
+========================
+DELIVERABLE
+========================
+Generate:
+- RBAC database schema
+- Permission mapping structure
+- Role management APIs
+- Sidebar permission logic
+- Secure middleware enforcement
+- Production-ready scalable architecture
+
+DO NOT build UI visuals.
+FOCUS on logic, structure, APIs, and enforcement.
+
+Build it as if this system will be audited by enterprise clients.

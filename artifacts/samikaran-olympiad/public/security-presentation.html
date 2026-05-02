@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samikaran Olympiad - Security Features Presentation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+        
+        /* Print Controls */
+        .print-controls {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 12px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+        }
+        
+        .print-btn {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #dc2626 0%, #f97316 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+        }
+        
+        .print-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+        }
+        
+        .nav-btn {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #8A2BE2 0%, #FF2FBF 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(138, 43, 226, 0.4);
+        }
+        
+        .back-btn {
+            padding: 12px 20px;
+            background: white;
+            color: #dc2626;
+            border: 2px solid #dc2626;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        
+        .back-btn:hover {
+            background: #dc2626;
+            color: white;
+        }
+        
+        .version-badge {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+        }
+        
+        /* Page styles for print */
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            max-width: 900px;
+            margin: 0 auto 20px;
+            padding: 15mm 20mm;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #dc2626 0%, #f97316 100%);
+            color: white;
+            min-height: 297mm;
+        }
+        
+        .logo {
+            font-size: 48px;
+            font-weight: 800;
+            letter-spacing: 4px;
+            margin-bottom: 8px;
+        }
+        
+        .logo-sub {
+            font-size: 28px;
+            font-weight: 300;
+            letter-spacing: 8px;
+            margin-bottom: 60px;
+        }
+        
+        .cover h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .cover p {
+            font-size: 20px;
+            opacity: 0.9;
+            max-width: 600px;
+        }
+        
+        .cover-footer {
+            position: absolute;
+            bottom: 40px;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+        
+        .section-header {
+            background: linear-gradient(135deg, #dc2626 0%, #f97316 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #dc2626;
+        }
+        
+        .section-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #dc2626 0%, #f97316 100%);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-size: 20px;
+            font-weight: 700;
+            margin-right: 12px;
+            -webkit-text-fill-color: white;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+        
+        .feature-card {
+            background: #fef2f2;
+            border-radius: 10px;
+            padding: 16px;
+            border-left: 4px solid #dc2626;
+        }
+        
+        .feature-card h3 {
+            color: #dc2626;
+            font-size: 15px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .feature-card p {
+            color: #64748b;
+            font-size: 13px;
+        }
+        
+        .icon {
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #dc2626 0%, #f97316 100%);
+            color: white;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #dc2626 0%, #f97316 100%);
+            color: white;
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+        }
+        
+        .stat-card .number {
+            font-size: 28px;
+            font-weight: 700;
+        }
+        
+        .stat-card .label {
+            font-size: 11px;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.1) 0%, rgba(249, 115, 22, 0.1) 100%);
+            border-radius: 10px;
+            padding: 16px;
+            margin: 16px 0;
+            border: 1px solid rgba(220, 38, 38, 0.2);
+        }
+        
+        .highlight-box h4 {
+            color: #dc2626;
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+        
+        .check-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .check-list li {
+            padding: 8px 0;
+            padding-left: 28px;
+            position: relative;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 13px;
+        }
+        
+        .check-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 12px;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #dc2626 0%, #f97316 100%);
+            color: white;
+            padding: 10px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        tr:nth-child(even) {
+            background: #fef2f2;
+        }
+        
+        .warning-levels {
+            display: flex;
+            gap: 12px;
+            margin: 16px 0;
+        }
+        
+        .warning-level {
+            flex: 1;
+            padding: 14px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .warning-level.green { background: #dcfce7; color: #166534; }
+        .warning-level.yellow { background: #fef9c3; color: #854d0e; }
+        .warning-level.orange { background: #ffedd5; color: #c2410c; }
+        .warning-level.red { background: #fee2e2; color: #dc2626; }
+        
+        .warning-level .score {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .page-number {
+            position: absolute;
+            bottom: 15mm;
+            right: 20mm;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+        
+        .keyboard-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        .keyboard-key {
+            background: white;
+            padding: 8px;
+            border-radius: 6px;
+            text-align: center;
+            font-family: monospace;
+            font-size: 12px;
+            border: 1px solid #fecaca;
+        }
+        
+        /* Print styles - Landscape PPT */
+        @media print {
+            @page { size: A4 landscape; margin: 8mm; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            .print-controls { display: none !important; }
+            html, body { background: white !important; margin: 0 !important; }
+            .page {
+                width: 100% !important;
+                height: 190mm !important;
+                min-height: 190mm !important;
+                max-height: 190mm !important;
+                padding: 12mm 15mm !important;
+                margin: 0 !important;
+                box-shadow: none !important;
+                page-break-after: always !important;
+                page-break-inside: avoid !important;
+                break-after: page !important;
+                overflow: hidden !important;
+                box-sizing: border-box !important;
+                background: linear-gradient(135deg, #fdfbfb 0%, #e8f5e9 50%, #f0fff4 100%) !important;
+            }
+            .page:last-child { page-break-after: auto !important; }
+            .cover {
+                height: 190mm !important;
+                min-height: 190mm !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: center !important;
+                align-items: center !important;
+                background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%) !important;
+            }
+            .feature-card, .highlight-box, .stat-card { break-inside: avoid; padding: 10px !important; }
+            .feature-grid, .stats-grid, .warning-levels { break-inside: avoid; gap: 12px !important; }
+            table { break-inside: avoid; font-size: 9pt !important; }
+            th, td { padding: 6px 10px !important; }
+            h1 { font-size: 28pt !important; }
+            h2 { font-size: 18pt !important; margin-bottom: 12px !important; }
+            h3 { font-size: 12pt !important; }
+            p, li { font-size: 10pt !important; }
+            .logo-watermark { opacity: 0.3 !important; font-size: 7pt !important; bottom: 3mm !important; }
+            .logo-watermark svg { width: 10px !important; height: 10px !important; opacity: 0.3 !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="print-controls">
+        <span id="version-badge" class="version-badge">v1.1</span>
+        <a href="/sysctrl/console#docs" class="back-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Dashboard
+        </a>
+        <a href="/features-presentation.html" class="nav-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+            Features Docs
+        </a>
+        <button class="print-btn" onclick="window.print()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+                <rect x="6" y="14" width="12" height="8"/>
+            </svg>
+            Print / PDF
+        </button>
+    </div>
+    
+    <script>
+        (async function loadVersion() {
+            try {
+                const res = await fetch('/docs-versions.json?t=' + Date.now());
+                const data = await res.json();
+                const doc = data.documents['security-presentation'];
+                if (doc) {
+                    document.getElementById('version-badge').textContent = 'v' + doc.version;
+                }
+            } catch(e) { console.log('Version load failed:', e); }
+        })();
+    </script>
+
+    <!-- Page 1: Cover -->
+    <div class="page cover">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 20px;">
+            <svg viewBox="0 0 100 100" width="70" height="70" style="filter: drop-shadow(0 4px 12px rgba(147,51,234,0.4));">
+                <defs>
+                    <linearGradient id="sLogoUp" x1="0%" y1="100%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#9333EA"/>
+                        <stop offset="50%" stop-color="#C026D3"/>
+                        <stop offset="100%" stop-color="#EC4899"/>
+                    </linearGradient>
+                    <linearGradient id="sLogoDown" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#A855F7"/>
+                        <stop offset="100%" stop-color="#F472B6"/>
+                    </linearGradient>
+                </defs>
+                <polygon points="50,12 85,72 15,72" fill="rgba(0,0,0,0.12)" transform="translate(2,4)"/>
+                <polygon points="50,88 15,28 85,28" fill="rgba(0,0,0,0.1)" transform="translate(2,4)"/>
+                <polygon points="50,10 88,75 12,75" fill="url(#sLogoUp)"/>
+                <polygon points="50,10 69,42.5 31,42.5" fill="rgba(255,255,255,0.18)"/>
+                <polygon points="50,90 12,25 88,25" fill="url(#sLogoDown)" opacity="0.88"/>
+                <polygon points="50,90 31,57.5 69,57.5" fill="rgba(255,255,255,0.12)"/>
+                <rect x="32" y="44" width="36" height="5" rx="2.5" fill="white"/>
+                <rect x="32" y="53" width="36" height="5" rx="2.5" fill="white"/>
+                <rect x="32" y="44" width="36" height="2" rx="1" fill="rgba(255,255,255,0.5)"/>
+                <rect x="32" y="53" width="36" height="2" rx="1" fill="rgba(255,255,255,0.5)"/>
+            </svg>
+            <div style="text-align: left;">
+                <div style="font-size: 2rem; font-weight: 800; letter-spacing: 2px; color: white;">SAMIKARAN<span style="color: #EC4899;">.</span></div>
+                <div style="font-size: 0.9rem; letter-spacing: 6px; opacity: 0.95; text-transform: uppercase; color: white;">OLYMPIAD</div>
+            </div>
+        </div>
+        <h1>Security & Proctoring</h1>
+        <p><span style="color: white;">AI-Powered</span> <span style="background: linear-gradient(135deg, #A855F7 0%, #EC4899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700;">Olympiad Platform</span> - Security System</p>
+        <div class="cover-footer">Security Documentation | Version 1.0 | January 2026</div>
+    </div>
+
+    <!-- Page 2: Overview -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">1</span> Security Overview</h2>
+        
+        <p style="font-size: 14px; margin-bottom: 20px;">
+            Samikaran Olympiad employs a multi-layered security approach combining artificial intelligence, 
+            browser security, and real-time monitoring to ensure exam integrity.
+        </p>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="number">6+</div>
+                <div class="label">Security Layers</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">AI</div>
+                <div class="label">Powered Proctoring</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">12</div>
+                <div class="label">Languages</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">24/7</div>
+                <div class="label">Monitoring</div>
+            </div>
+        </div>
+        
+        <div class="highlight-box">
+            <h4>Key Security Pillars</h4>
+            <ul class="check-list">
+                <li><strong>AI-Powered Face Detection</strong> - Continuous monitoring using computer vision</li>
+                <li><strong>Browser Lockdown</strong> - Prevents tab switching, copy-paste, and screenshots</li>
+                <li><strong>Question Randomization</strong> - Unique question order for each student</li>
+                <li><strong>Multi-language Voice Warnings</strong> - Real-time audio alerts in 12 languages</li>
+                <li><strong>Comprehensive Audit Trail</strong> - Complete logging of all activities</li>
+            </ul>
+        </div>
+        
+        <div class="page-number">2</div>
+    </div>
+
+    <!-- Page 3: Pre-Exam Security -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">2</span> Pre-Exam Security Check</h2>
+        
+        <p style="margin-bottom: 16px; font-size: 13px;">
+            Before starting an exam, students must pass a comprehensive system check that verifies 
+            their device meets all security requirements.
+        </p>
+        
+        <table>
+            <tr>
+                <th>Check</th>
+                <th>Purpose</th>
+                <th>Required</th>
+            </tr>
+            <tr>
+                <td>Browser Compatibility</td>
+                <td>Ensures browser supports all security features</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td>Security Check</td>
+                <td>Detects automation tools and VMs</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td>Camera Access</td>
+                <td>Enables visual proctoring</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td>Microphone Access</td>
+                <td>Enables audio monitoring</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td>Face Detection</td>
+                <td>Verifies student identity</td>
+                <td>Yes</td>
+            </tr>
+        </table>
+        
+        <div class="highlight-box">
+            <h4>System Requirements Verification</h4>
+            <p style="font-size: 13px;">All checks must pass before the student can begin the exam. Failed checks display specific error messages with troubleshooting guidance.</p>
+        </div>
+        
+        <div class="page-number">3</div>
+    </div>
+
+    <!-- Page 4: AI Proctoring -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">3</span> AI-Powered Proctoring</h2>
+        
+        <p style="margin-bottom: 16px; font-size: 13px;">
+            Our advanced AI proctoring system uses computer vision and machine learning to monitor 
+            student behavior in real-time.
+        </p>
+        
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3><span class="icon">F</span> Face Detection</h3>
+                <p>Continuously monitors if student's face is visible. Alerts if face disappears.</p>
+            </div>
+            <div class="feature-card">
+                <h3><span class="icon">M</span> Multiple Face Detection</h3>
+                <p>Detects if more than one person appears, preventing unauthorized help.</p>
+            </div>
+            <div class="feature-card">
+                <h3><span class="icon">E</span> Eye Gaze Tracking</h3>
+                <p>Monitors if student is looking at the screen or looking away frequently.</p>
+            </div>
+            <div class="feature-card">
+                <h3><span class="icon">H</span> Head Pose Analysis</h3>
+                <p>Tracks head orientation to detect looking at external materials.</p>
+            </div>
+        </div>
+        
+        <h4 style="color: #dc2626; margin: 16px 0 12px; font-size: 14px;">AI Trust Score</h4>
+        
+        <div class="warning-levels">
+            <div class="warning-level green">
+                <div class="score">80-100%</div>
+                <div>Excellent</div>
+            </div>
+            <div class="warning-level yellow">
+                <div class="score">60-79%</div>
+                <div>Good</div>
+            </div>
+            <div class="warning-level orange">
+                <div class="score">40-59%</div>
+                <div>Warning</div>
+            </div>
+            <div class="warning-level red">
+                <div class="score">0-39%</div>
+                <div>Critical</div>
+            </div>
+        </div>
+        
+        <div class="page-number">4</div>
+    </div>
+
+    <!-- Page 5: Browser Security -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">4</span> Browser Security Lockdown</h2>
+        
+        <p style="margin-bottom: 16px; font-size: 13px;">
+            The exam interface implements comprehensive browser security measures to prevent 
+            students from accessing external resources or copying exam content.
+        </p>
+        
+        <table>
+            <tr>
+                <th>Security Feature</th>
+                <th>Description</th>
+                <th>Detection Method</th>
+            </tr>
+            <tr>
+                <td><strong>Fullscreen Mode</strong></td>
+                <td>Exam runs in mandatory fullscreen</td>
+                <td>Fullscreen API</td>
+            </tr>
+            <tr>
+                <td><strong>Tab Switch Detection</strong></td>
+                <td>Detects browser tab switches</td>
+                <td>Visibility API</td>
+            </tr>
+            <tr>
+                <td><strong>Window Blur</strong></td>
+                <td>Knows when window loses focus</td>
+                <td>Focus events</td>
+            </tr>
+            <tr>
+                <td><strong>Right-Click Disabled</strong></td>
+                <td>Prevents context menu</td>
+                <td>Event prevention</td>
+            </tr>
+            <tr>
+                <td><strong>Copy-Paste Blocked</strong></td>
+                <td>Blocks Ctrl+C, Ctrl+V</td>
+                <td>Keyboard capture</td>
+            </tr>
+            <tr>
+                <td><strong>DevTools Detection</strong></td>
+                <td>Detects developer tools</td>
+                <td>Timing analysis</td>
+            </tr>
+        </table>
+        
+        <div class="highlight-box" style="background: #fef2f2; border-color: #fecaca;">
+            <h4 style="color: #dc2626;">Blocked Keyboard Shortcuts</h4>
+            <div class="keyboard-grid">
+                <div class="keyboard-key">Ctrl+C</div>
+                <div class="keyboard-key">Ctrl+V</div>
+                <div class="keyboard-key">Ctrl+A</div>
+                <div class="keyboard-key">Ctrl+P</div>
+                <div class="keyboard-key">Ctrl+S</div>
+                <div class="keyboard-key">F12</div>
+                <div class="keyboard-key">PrtScn</div>
+                <div class="keyboard-key">Alt+Tab</div>
+            </div>
+        </div>
+        
+        <div class="page-number">5</div>
+    </div>
+
+    <!-- Page 6: Anti-Cheating -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">5</span> Anti-Cheating Measures</h2>
+        
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3><span class="icon">R</span> Question Randomization</h3>
+                <p>Each student receives questions in unique random order using Fisher-Yates shuffle.</p>
+            </div>
+            <div class="feature-card">
+                <h3><span class="icon">O</span> Option Shuffling</h3>
+                <p>MCQ options randomly ordered. "Option A" for one student may be "Option C" for another.</p>
+            </div>
+            <div class="feature-card">
+                <h3><span class="icon">T</span> Strict Time Limits</h3>
+                <p>Enforced exam duration with automatic submission when time expires.</p>
+            </div>
+            <div class="feature-card">
+                <h3><span class="icon">1</span> Single Attempt</h3>
+                <p>Students get only one attempt per exam. No restart or retake options.</p>
+            </div>
+        </div>
+        
+        <div class="highlight-box">
+            <h4>How Randomization Works</h4>
+            <p style="font-size: 13px; margin-bottom: 8px;">The Fisher-Yates shuffle algorithm ensures:</p>
+            <ul class="check-list">
+                <li>Each student sees questions in a different sequence</li>
+                <li>MCQ options are independently shuffled per student</li>
+                <li>Correct answer positions are completely randomized</li>
+                <li>Screen sharing becomes ineffective as sequences differ</li>
+            </ul>
+        </div>
+        
+        <div class="page-number">6</div>
+    </div>
+
+    <!-- Page 7: Voice Warnings -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">6</span> Multi-Language Voice Warnings</h2>
+        
+        <p style="margin-bottom: 16px; font-size: 13px;">
+            The proctoring system provides real-time voice warnings in multiple Indian languages 
+            to alert students about violations.
+        </p>
+        
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>Supported Languages</h3>
+                <p>English, Hindi, Bengali, Tamil, Telugu, Marathi, Gujarati, Kannada, Malayalam, Punjabi, Odia, Urdu</p>
+            </div>
+            <div class="feature-card">
+                <h3>Voice Types</h3>
+                <p>Young Female (18-22), Adult Female (25-35), Mature Female (40+) with adjustable pitch</p>
+            </div>
+        </div>
+        
+        <h4 style="color: #dc2626; margin: 16px 0 12px; font-size: 14px;">Warning Types</h4>
+        
+        <table>
+            <tr>
+                <th>Warning</th>
+                <th>Trigger</th>
+                <th>Action</th>
+            </tr>
+            <tr>
+                <td>Face Not Detected</td>
+                <td>Face leaves camera view</td>
+                <td>Voice alert + log</td>
+            </tr>
+            <tr>
+                <td>Multiple Faces</td>
+                <td>More than one face visible</td>
+                <td>Critical warning</td>
+            </tr>
+            <tr>
+                <td>Looking Away</td>
+                <td>Eyes away from screen (3s tolerance for natural reading)</td>
+                <td>Gentle reminder</td>
+            </tr>
+            <tr>
+                <td>Tab Switch</td>
+                <td>Browser tab changed</td>
+                <td>Warning + log</td>
+            </tr>
+        </table>
+        
+        <div class="highlight-box">
+            <h4>Auto-Translation System</h4>
+            <p style="font-size: 13px;">All warnings are written in English and automatically translated to regional languages using OpenAI GPT-4o. Admins can also manually edit translations.</p>
+        </div>
+        
+        <div class="page-number">7</div>
+    </div>
+
+    <!-- Page 8: Admin Security -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">7</span> Admin Security Features</h2>
+        
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3><span class="icon">2</span> Two-Factor Authentication</h3>
+                <p>Admin login requires password + OTP verification for enhanced security.</p>
+            </div>
+            <div class="feature-card">
+                <h3><span class="icon">L</span> Screen Lock (Ctrl+L)</h3>
+                <p>PIN-protected screen lock for admin dashboards when stepping away.</p>
+            </div>
+            <div class="feature-card">
+                <h3><span class="icon">R</span> Role-Based Access</h3>
+                <p>Different permission levels for Super Admin, Admin, Teacher, School, Student.</p>
+            </div>
+            <div class="feature-card">
+                <h3><span class="icon">S</span> Session Management</h3>
+                <p>Automatic timeout and secure session handling with PostgreSQL storage.</p>
+            </div>
+            <div class="feature-card">
+                <h3><span class="icon">1</span> Single-Session Login</h3>
+                <p>Students can only be logged in on one device at a time. Real-time session detection with 3-second polling. Force logout instantly terminates other sessions with visual confirmation.</p>
+            </div>
+        </div>
+        
+        <div class="highlight-box">
+            <h4>Audit Trail</h4>
+            <p style="font-size: 13px;">All admin actions are logged with timestamp, user ID, action type, and affected data for complete accountability and compliance.</p>
+        </div>
+        
+        <div class="feature-grid" style="margin-top: 16px;">
+            <div class="feature-card">
+                <h3>Data Protection</h3>
+                <ul style="font-size: 12px; padding-left: 16px; margin-top: 8px; color: #64748b;">
+                    <li>PostgreSQL encrypted connections</li>
+                    <li>Environment variable encryption</li>
+                    <li>Zod API validation</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <h3>Secure Infrastructure</h3>
+                <ul style="font-size: 12px; padding-left: 16px; margin-top: 8px; color: #64748b;">
+                    <li>HTTPS everywhere</li>
+                    <li>CORS configuration</li>
+                    <li>Rate limiting</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="page-number">8</div>
+    </div>
+
+    <!-- Page 9: Summary -->
+    <div class="page">
+        <h2 class="section-header"><span class="section-number">8</span> Security Summary</h2>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="number">AI</div>
+                <div class="label">Proctoring</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">2FA</div>
+                <div class="label">Admin Login</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">12</div>
+                <div class="label">Languages</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">100%</div>
+                <div class="label">Audit Trail</div>
+            </div>
+        </div>
+        
+        <div class="highlight-box">
+            <h4>Complete Security Stack</h4>
+            <ul class="check-list">
+                <li>Real-time AI face and gaze detection with trust scoring</li>
+                <li>Browser lockdown with tab switch and copy-paste prevention</li>
+                <li>Question and answer randomization per student</li>
+                <li>Multi-language voice warnings with pitch control</li>
+                <li>Two-factor authentication for admin access</li>
+                <li>PIN-protected screen lock for dashboards</li>
+                <li>Role-based access control with audit logging</li>
+                <li>Encrypted database connections and API validation</li>
+            </ul>
+        </div>
+        
+        <div style="text-align: center; margin-top: 30px; padding: 20px; background: linear-gradient(135deg, rgba(220, 38, 38, 0.1) 0%, rgba(249, 115, 22, 0.1) 100%); border-radius: 12px;">
+            <h3 style="color: #dc2626; margin-bottom: 10px;">Thank You</h3>
+            <p style="color: #64748b; font-size: 13px;">Samikaran Olympiad - Secure, Fair, and Transparent Examinations</p>
+            <div style="margin-top: 16px;">
+                <span style="display: inline-block; padding: 6px 16px; background: linear-gradient(135deg, #dc2626 0%, #f97316 100%); color: white; border-radius: 20px; font-size: 12px; font-weight: 600;">Version 1.1 | January 2026</span>
+            </div>
+        </div>
+        
+        <div class="page-number">9</div>
+    </div>
+</body>
+</html>

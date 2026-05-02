@@ -1,0 +1,246 @@
+You are a senior full-stack architect and product engineer.
+
+I want you to rebuild my entire system from scratch in a NEW Replit workspace.
+This is a LARGE, production-grade SaaS platform. Follow instructions strictly.
+Do NOT assume anything. Do NOT change architecture decisions.
+Do NOT create random UI. Everything must stay INSIDE existing layouts/panels.
+
+====================================================
+1. CORE PLATFORM OVERVIEW
+====================================================
+
+Build a GLOBAL, MULTI-TENANT, AI-POWERED ONLINE OLYMPIAD & EXAMINATION SaaS PLATFORM.
+
+Primary goals:
+- Online Olympiad exams (school / state / national / global)
+- AI-assisted question generation & analysis
+- Strong proctoring (face + voice + behavior)
+- Scalable SaaS (future one-click tenant provisioning)
+- Admin-controlled, exam-safe, audit-ready system
+
+Tech stack (MANDATORY):
+- Frontend: React (PWA-ready)
+- Backend: Node.js (Express / Fastify allowed)
+- Database: PostgreSQL
+- ORM: Prisma
+- Auth: JWT + Role-based Access Control
+- Hosting assumption: AWS later (PM2 + Nginx compatible)
+- Development: Replit → GitHub → Production
+
+====================================================
+2. USER ROLES (STRICT)
+====================================================
+
+Roles:
+1. Super Admin (Global owner)
+2. Tenant Admin (School / Organization)
+3. Examiner / Teacher
+4. Student
+
+Role rules:
+- Every API must validate role permissions
+- No UI or API should be accessible without role check
+- Tenant isolation is mandatory (tenant_id everywhere)
+
+====================================================
+3. ADMIN PANEL STRUCTURE (DO NOT BREAK)
+====================================================
+
+Existing Sidebar Sections (DO NOT redesign):
+- Dashboard
+- Exam Control
+- Students
+- Results
+- Certificates
+- Global Settings
+
+IMPORTANT UI RULES:
+- NEVER create UI outside existing panels
+- NEVER float forms or pages outside layout
+- If adding a feature, ADD IT INSIDE the CORRECT existing menu
+- Keep UI clean, minimal, and admin-first
+
+====================================================
+4. EXAM CONTROL MODULE (CORE)
+====================================================
+
+Inside "Exam Control":
+
+Features:
+- Create Exam
+- Set Exam Type (Olympiad / Mock / Practice)
+- Set syllabus (manual upload + AI-generated)
+- Set difficulty (fixed or adaptive)
+- Question sets (Set-A, Set-B, etc.)
+- Rolling entry with hard cutoff time
+- Exam timer NEVER pauses under any condition
+
+Question Types:
+- MCQ
+- Theory
+- Voice-answer (audio recorded & analyzed)
+- AI-evaluated descriptive answers
+
+====================================================
+5. AI MANAGEMENT SYSTEM (GLOBAL SETTINGS)
+====================================================
+
+Inside "Global Settings" → create a new tab:
+➡️ "AI Management"
+
+Features:
+- Dropdown of AI tools (OpenAI, Vision AI, Speech-to-Text, Face Detection, etc.)
+- Each tool:
+  - API Key input
+  - Auth method
+  - Status: Active / Inactive
+- Keys stored securely (env + encrypted DB)
+- Entire platform must consume AI ONLY via this layer
+- If tool is inactive → system must fallback gracefully
+
+NO hard-coded API keys anywhere.
+
+====================================================
+6. PROCTORING SYSTEM (VERY IMPORTANT)
+====================================================
+
+Real-time Proctoring Rules:
+- Face detection must run continuously
+- Conditions:
+  - NO FACE → warning popup
+  - MULTIPLE FACES → warning popup
+- Exam MUST NOT pause
+- Student CANNOT proceed until:
+  - Exactly ONE face is detected again
+
+False positives must be minimized.
+
+UI:
+- Clear on-screen warning message
+- No page reloads
+- No timer manipulation
+
+Logs:
+- Timestamped violations
+- Stored per student per exam
+
+====================================================
+7. VOICE-BASED ANSWER SYSTEM
+====================================================
+
+Features:
+- Optional audio mode per question
+- Student answers via microphone
+- Audio stored securely
+- Speech-to-text conversion
+- AI evaluation:
+  - Correct / Incorrect
+  - Confidence score
+  - Keyword match
+
+====================================================
+8. RESULT & ANALYTICS SYSTEM
+====================================================
+
+Results:
+- Instant + post-exam evaluation
+- Section-wise breakdown
+- Accuracy, speed, rank
+
+Analytics Levels:
+- Global
+- Country
+- State
+- District
+- School
+- Student
+
+Charts must be data-driven and exportable.
+
+====================================================
+9. CERTIFICATES & REWARDS
+====================================================
+
+Certificates:
+- Auto-generated PDF
+- QR code verification
+- Rank & score embedded
+- Tamper-proof verification endpoint
+
+Rewards:
+- Badge system
+- Optional future wallet integration
+
+====================================================
+10. SEO & PERFORMANCE (STRICT)
+====================================================
+
+- SEO-friendly URLs
+- Proper meta tags
+- Schema markup for exams/results
+- Fast loading (PWA optimization)
+- No unnecessary UI animations
+
+====================================================
+11. DATABASE RULES
+====================================================
+
+- PostgreSQL only
+- Prisma schema with:
+  - users
+  - tenants
+  - exams
+  - questions
+  - answers
+  - proctor_logs
+  - ai_tools
+  - results
+  - certificates
+
+- Use foreign keys
+- Soft delete where required
+- Index all high-read columns
+
+====================================================
+12. DEPLOYMENT COMPATIBILITY
+====================================================
+
+Code must be:
+- PM2 compatible
+- ENV-based configuration
+- No secrets in repo
+- Ready for Nginx reverse proxy
+- HTTPS-safe
+
+====================================================
+13. CODING DISCIPLINE (MANDATORY)
+====================================================
+
+- Clean folder structure
+- No mixed logic
+- No dummy UI
+- No placeholder APIs
+- Every feature must be functional
+- Comment complex logic
+- Follow production standards
+
+====================================================
+FINAL INSTRUCTION
+====================================================
+
+Build this SYSTEM STEP-BY-STEP.
+Start with:
+1. Database schema
+2. Auth & roles
+3. Admin layout
+4. Exam Control
+5. AI Management
+6. Proctoring
+7. Voice system
+8. Results & certificates
+
+DO NOT SKIP ANY REQUIREMENT.
+DO NOT SIMPLIFY.
+DO NOT CHANGE SCOPE.
+
+This is a long-term scalable SaaS product.

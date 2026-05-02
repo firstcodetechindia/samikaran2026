@@ -1,0 +1,200 @@
+You are a senior SaaS architect, AI engineer, and full-stack product builder.
+
+I am building a new SUPER ADMIN MODULE called:
+
+“Marketing Automation & Social Media AI Manager”
+
+inside an existing GLOBAL AI-POWERED OLYMPIAD EXAMINATION PLATFORM (multi-tenant, SaaS-ready).
+
+Your task is to DESIGN AND IMPLEMENT this module end-to-end in a REALISTIC, PRODUCTION-GRADE, FUTURISTIC way.
+
+════════════════════════════════════
+CORE GOAL
+════════════════════════════════════
+This module will automatically:
+• Generate AI-written social media content
+• Generate AI-created images for posts
+• Plan posts in a full monthly calendar
+• Notify Super Admin for approval
+• Publish ONLY after approval
+
+NO MANUAL CONTENT WRITING  
+NO MANUAL IMAGE DESIGN  
+NO AUTO-PUBLISH WITHOUT APPROVAL  
+
+API keys, auth tokens, and platform credentials will be configured later — use clean placeholders and abstraction layers.
+
+════════════════════════════════════
+SUPPORTED PLATFORMS (PHASE 1)
+════════════════════════════════════
+• Facebook
+• Instagram
+• X (Twitter)
+• LinkedIn
+
+Architecture must be EXTENSIBLE for future platforms.
+
+════════════════════════════════════
+EVENT-DRIVEN CONTENT GENERATION
+════════════════════════════════════
+Automatically trigger AI content creation when ANY of these events occur on the website:
+
+• New blog published
+• New Olympiad announced
+• Olympiad registration opened
+• Registration reminder (mid & last-day reminder)
+• Olympiad completed
+• Top 10 ranks declared
+• Rewards / certificates issued
+• Admin manual announcement
+
+Each event must generate PLATFORM-SPECIFIC content (not generic copy).
+
+════════════════════════════════════
+AI CONTENT GENERATION SYSTEM
+════════════════════════════════════
+Build an AI Content Engine that:
+
+• Writes unique copy per platform:
+  - Instagram/X → short, viral, emotional
+  - LinkedIn → professional, informative
+  - Facebook → balanced engagement
+• Uses:
+  - Contextual emojis (not excessive)
+  - Smart hashtags
+  - Strong CTA (Register Now, Read More, Congratulations, etc.)
+• Automatically sets tone:
+  - Promotional
+  - Informative
+  - Celebratory
+  - Reminder
+• Is MULTI-LANGUAGE READY (English first, scalable)
+
+════════════════════════════════════
+AI IMAGE GENERATION SYSTEM
+════════════════════════════════════
+For EVERY post, auto-generate images using AI.
+
+Examples:
+• Blog → educational banner
+• Olympiad announcement → exam poster
+• Registration open → CTA banner
+• Top 10 ranks → collage with ranks, names, rewards
+
+Rules:
+• No manual design input
+• Image style must match content
+• Auto-resize per platform:
+  - Square (Instagram)
+  - Landscape (Facebook, LinkedIn)
+• Architecture must support future image engines
+
+════════════════════════════════════
+MONTHLY CONTENT CALENDAR
+════════════════════════════════════
+Create a FULL-MONTH marketing calendar that:
+
+• Auto-fills based on:
+  - Website events
+  - Upcoming Olympiads
+  - Ongoing registrations
+  - Recent results
+• Supports:
+  - Day / week / month views
+  - Drag & drop rescheduling
+• Status tracking:
+  - Draft (AI generated)
+  - Pending approval
+  - Approved
+  - Published
+  - Failed
+
+════════════════════════════════════
+APPROVAL WORKFLOW (CRITICAL)
+════════════════════════════════════
+Before publishing ANY post:
+
+• Notify Super Admin (dashboard + notification system)
+• Admin can:
+  - Approve
+  - Reject
+  - Edit (optional)
+• NOTHING publishes without approval
+
+════════════════════════════════════
+PUBLISHING ENGINE (SIMULATED)
+════════════════════════════════════
+Create clean abstraction layers for:
+• Facebook API
+• Instagram Graph API
+• X API
+• LinkedIn API
+
+For now:
+• Use mock publishing services
+• Store publish status, response, errors
+• Make system production-ready once keys are added
+
+════════════════════════════════════
+DATA MODELS (DESIGN REQUIRED)
+════════════════════════════════════
+Design scalable schemas for:
+• Marketing events
+• AI generated content
+• AI generated images
+• Calendar schedules
+• Approval logs
+• Publishing logs
+• Platform metadata
+
+════════════════════════════════════
+SUPER ADMIN CONTROLS
+════════════════════════════════════
+Provide UI + backend logic to:
+• Enable / disable platforms
+• Control posting frequency
+• Control content tone
+• Auto-generate calendar
+• Emergency STOP ALL POSTING switch
+
+════════════════════════════════════
+ANALYTICS-READY (FUTURE)
+════════════════════════════════════
+Design hooks for:
+• Engagement metrics
+• Click tracking
+• Conversion tracking
+
+(No implementation required now, only architecture.)
+
+════════════════════════════════════
+TECH REQUIREMENTS
+════════════════════════════════════
+• Modular architecture
+• Event-driven system
+• Async jobs / queue-ready
+• Clean service layers
+• Secure & scalable
+• SaaS multi-tenant ready
+
+════════════════════════════════════
+EXPECTED OUTPUT
+════════════════════════════════════
+Generate:
+• Backend services
+• Database models
+• APIs
+• Super Admin UI
+• Calendar UI
+• Approval workflow
+• Mock social publishers
+• AI content & image generators (stubbed)
+
+════════════════════════════════════
+FINAL STANDARD
+════════════════════════════════════
+This module must feel like:
+
+“A fully autonomous AI marketing manager for a global Olympiad SaaS platform — with human approval control.”
+
+Build it as if this will be used by millions of students and schools worldwide.

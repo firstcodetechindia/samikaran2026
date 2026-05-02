@@ -1,0 +1,309 @@
+You are acting as a CLOUD SOLUTION ARCHITECT + DEVOPS ENGINEER + SYSTEM DEPLOYMENT CONSULTANT.
+
+Your task is to DESIGN, DOCUMENT, and LOGICALLY EXPLAIN the COMPLETE AWS DEPLOYMENT PROCESS for this entire platform from A to Z in a LAYMAN-FRIENDLY manner.
+
+This explanation will appear inside:
+Platform Control → Global Settings → Platform Presentations
+
+The goal is:
+Even a non-technical founder should understand:
+- What to do
+- Why it is done
+- In what order
+- What depends on what
+- What can break if skipped
+
+===============================
+CORE OBJECTIVE
+===============================
+
+Create a FULL SYSTEM AWS DEPLOYMENT GUIDE that:
+- Covers END-TO-END deployment
+- Explains EVERYTHING in SIMPLE language
+- Uses logical flow (no jargon without explanation)
+- Acts as a permanent internal deployment manual
+- Matches real-world production standards
+
+===============================
+SECTION 1: UNDERSTANDING THE SYSTEM (LAYMAN MODE)
+===============================
+
+First explain:
+- What this platform is made of
+  - Frontend (what users see)
+  - Backend (brain of the system)
+  - Database (where data lives)
+  - Realtime services (WebSockets / proctoring)
+  - File storage (images, videos, snapshots)
+  - Third-party services (email, SMS, payment, AI, proctoring, analytics)
+
+Explain:
+- Why cloud (AWS) is needed
+- Why we cannot deploy everything on one simple server
+- What “scalable”, “secure”, and “high availability” mean in plain English
+
+===============================
+SECTION 2: AWS ACCOUNT SETUP (FROM ZERO)
+===============================
+
+Explain step-by-step:
+1. How to create an AWS account
+2. What region to choose and why
+3. Difference between region and availability zone (simple analogy)
+4. Why billing alerts are important
+5. How to avoid unexpected AWS bills
+
+===============================
+SECTION 3: HIGH-LEVEL ARCHITECTURE (BIG PICTURE)
+===============================
+
+Explain the full system architecture in words:
+
+- Internet → Domain → Load Balancer
+- Load Balancer → Application Servers
+- Application Servers → Database
+- Application Servers → File Storage
+- Application Servers → Third-party APIs
+
+Explain:
+- Why Load Balancer is used
+- Why we don’t expose servers directly
+- How traffic flows during peak exam time
+- What happens if one server crashes
+
+===============================
+SECTION 4: DOMAIN & DNS CONFIGURATION
+===============================
+
+Explain:
+- What a domain is
+- What DNS is (simple phonebook analogy)
+- How to connect domain to AWS
+
+Include:
+- Main domain
+- Subdomains (admin, api, app, cdn, etc.)
+- SSL / HTTPS importance
+- How HTTPS protects users
+
+===============================
+SECTION 5: SERVER SETUP (COMPUTE)
+===============================
+
+Explain in detail:
+- What a server is
+- What EC2 is
+- Instance types (small vs large example)
+- Operating system choice
+
+Steps:
+1. Create server
+2. Secure server access
+3. Why SSH keys are used
+4. Folder structure for production apps
+5. Environment separation (dev / staging / production)
+
+Explain:
+- Why we never hardcode secrets
+- Why environment variables matter
+
+===============================
+SECTION 6: BACKEND DEPLOYMENT
+===============================
+
+Explain:
+- How backend code reaches AWS
+- Why Git-based deployment is used
+- How build process works
+- How backend starts and stays running
+- What happens if backend crashes
+
+Include:
+- Process manager concept
+- Restart strategy
+- Logs and error handling
+
+===============================
+SECTION 7: FRONTEND DEPLOYMENT
+===============================
+
+Explain:
+- Difference between frontend build and backend
+- How frontend is optimized for speed
+- CDN concept in simple words
+- Why static files are cheaper and faster
+
+Explain:
+- How frontend talks to backend securely
+- Environment-based API URLs
+
+===============================
+SECTION 8: DATABASE SETUP
+===============================
+
+Explain:
+- What database is
+- Why managed database is safer
+- Backup importance
+
+Explain:
+- Tables
+- Indexes (book index analogy)
+- Why slow queries kill performance
+- Read vs write load
+
+Explain:
+- Automatic backups
+- Recovery in case of failure
+
+===============================
+SECTION 9: FILE STORAGE & MEDIA
+===============================
+
+Explain:
+- Why images, videos, snapshots are not stored inside database
+- Object storage concept
+- How exam snapshots & recordings are stored securely
+- Access control rules
+
+===============================
+SECTION 10: REALTIME & PROCTORING SERVICES
+===============================
+
+Explain:
+- What realtime communication means
+- Why WebSockets are needed
+- How proctoring works at scale
+- What happens if internet fluctuates
+
+Explain:
+- Session handling
+- Violation logging
+- Snapshot intervals
+- Audio & camera rules
+
+===============================
+SECTION 11: THIRD-PARTY SERVICES (WITH PROVIDER URLs)
+===============================
+
+Explain HOW and WHY to integrate each:
+
+Email:
+- What it is used for
+- Verification, alerts, reports
+- API key concept
+- Example providers (official URLs only)
+
+SMS / OTP:
+- Why SMS is still important
+- OTP security logic
+- Provider integration flow
+
+Payments:
+- Why payment gateways are external
+- Token safety
+- Webhook concept
+
+AI Services:
+- Why AI APIs are used
+- Cost control
+- Rate limiting
+- Data privacy
+
+Analytics & Monitoring:
+- Why monitoring is mandatory
+- Error tracking
+- Performance visibility
+
+Explain:
+- Where API keys are stored
+- How keys are rotated
+- What happens if key leaks
+
+===============================
+SECTION 12: SECURITY (LAYMAN BUT STRONG)
+===============================
+
+Explain:
+- Why frontend security is not enough
+- Server-side validation importance
+- Role-based access control
+- Why super admin is most sensitive
+
+Explain:
+- HTTPS
+- Secure headers
+- Rate limiting
+- Brute force protection
+- API abuse prevention
+
+Explain:
+- What hacking really means
+- How system defends itself
+
+===============================
+SECTION 13: SCALING STRATEGY
+===============================
+
+Explain:
+- What scaling means
+- Vertical vs horizontal scaling
+- Auto-scaling concept
+- Exam day traffic spike handling
+
+Explain:
+- How system grows with users
+- How cost grows gradually, not suddenly
+
+===============================
+SECTION 14: BACKUPS, DISASTER & RECOVERY
+===============================
+
+Explain:
+- What happens if server dies
+- What happens if database fails
+- Backup frequency
+- Restore logic
+
+Explain:
+- Human mistakes recovery
+- Rollback strategy
+
+===============================
+SECTION 15: COST MANAGEMENT
+===============================
+
+Explain:
+- Why AWS bills grow
+- Which services cost most
+- How to control cost
+- Alerts and limits
+
+Explain:
+- Early-stage vs large-scale cost planning
+
+===============================
+SECTION 16: FINAL DEPLOYMENT CHECKLIST
+===============================
+
+Create a checklist:
+- Before deployment
+- During deployment
+- After deployment
+- Before going live
+- After first 1,000 users
+
+===============================
+FINAL OUTPUT RULES
+===============================
+
+- Language must be simple, non-technical
+- Use analogies wherever possible
+- No assumptions of prior AWS knowledge
+- Explain WHY before HOW
+- This content must feel like:
+  “Founder’s AWS Deployment Bible”
+
+This guide should allow anyone to confidently plan and deploy the system on AWS without fear.
+
+Start now. Write in structured sections. Be clear, calm, and authoritative.

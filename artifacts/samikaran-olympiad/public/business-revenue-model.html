@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business & Revenue Model | Samikaran Olympiad</title>
+    <meta name="description" content="Comprehensive business and revenue model for Samikaran Olympiad platform - India's premier AI-powered olympiad examination platform.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
+    <style>
+        :root {
+            --primary: #8B5CF6;
+            --primary-dark: #7C3AED;
+            --secondary: #EC4899;
+            --gradient: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+            --text: #1F2937;
+            --text-secondary: #6B7280;
+            --bg: #F9FAFB;
+            --card-bg: #FFFFFF;
+            --border: #E5E7EB;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --info: #3B82F6;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: var(--gradient);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-top: 15px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            border: 1px solid var(--border);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 28px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .card {
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--border);
+        }
+        
+        .card h4 {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+        
+        .card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        
+        .card .amount {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+        
+        .revenue-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+        
+        .revenue-icon.exam { background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%); }
+        .revenue-icon.tara { background: linear-gradient(135deg, #EC4899 0%, #F472B6 100%); }
+        .revenue-icon.partner { background: linear-gradient(135deg, #10B981 0%, #34D399 100%); }
+        .revenue-icon.premium { background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%); }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        th {
+            background: var(--bg);
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        tr:hover {
+            background: var(--bg);
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, rgba(139,92,246,0.1) 0%, rgba(236,72,153,0.1) 100%);
+            border: 1px solid rgba(139,92,246,0.3);
+        }
+        
+        .formula-box {
+            background: #1F2937;
+            color: #F9FAFB;
+            padding: 20px 24px;
+            border-radius: 12px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        
+        .formula-box .comment { color: #9CA3AF; }
+        .formula-box .keyword { color: #A78BFA; }
+        .formula-box .number { color: #34D399; }
+        .formula-box .operator { color: #FBBF24; }
+        
+        .tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .tag-primary { background: rgba(139,92,246,0.15); color: var(--primary); }
+        .tag-success { background: rgba(16,185,129,0.15); color: var(--success); }
+        .tag-warning { background: rgba(245,158,11,0.15); color: var(--warning); }
+        .tag-info { background: rgba(59,130,246,0.15); color: var(--info); }
+        
+        .toc {
+            position: sticky;
+            top: 20px;
+        }
+        
+        .toc a {
+            display: block;
+            padding: 8px 16px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        
+        .toc a:hover {
+            background: var(--bg);
+            color: var(--primary);
+        }
+        
+        .flex-layout {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .main-content {
+            flex: 1;
+        }
+        
+        .sidebar {
+            width: 250px;
+            flex-shrink: 0;
+        }
+        
+        .stat-highlight {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        @media (max-width: 900px) {
+            .flex-layout { flex-direction: column; }
+            .sidebar { width: 100%; order: -1; }
+            .toc { position: static; }
+            .header h1 { font-size: 1.8rem; }
+        }
+        
+        .print-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(139,92,246,0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s;
+        }
+        
+        .print-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        @media print {
+            @page { size: A4 landscape; margin: 8mm; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            .print-btn, .sidebar, .back-to-top, .last-updated-footer, .no-print { display: none !important; }
+            html, body { background: white !important; margin: 0 !important; }
+            .section {
+                width: 100% !important;
+                height: 190mm !important;
+                min-height: 190mm !important;
+                max-height: 190mm !important;
+                padding: 12mm 15mm !important;
+                margin: 0 !important;
+                page-break-after: always !important;
+                page-break-inside: avoid !important;
+                break-after: page !important;
+                overflow: hidden !important;
+                box-sizing: border-box !important;
+                background: linear-gradient(135deg, #fdfbfb 0%, #fff9e6 50%, #fffbeb 100%) !important;
+            }
+            .section:last-child { page-break-after: auto !important; }
+            .header {
+                height: 190mm !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: center !important;
+                align-items: center !important;
+                page-break-after: always !important;
+                background: linear-gradient(135deg, #f5af19 0%, #f12711 100%) !important;
+            }
+            .card { break-inside: avoid; page-break-inside: avoid; padding: 10px !important; }
+            table { break-inside: avoid; page-break-inside: avoid; font-size: 9pt !important; }
+            th, td { padding: 6px 10px !important; }
+            h2 { font-size: 18pt !important; margin-bottom: 12px !important; }
+            h3 { font-size: 12pt !important; }
+            p, li { font-size: 10pt !important; }
+            .formula-box { break-inside: avoid; page-break-inside: avoid; padding: 10px !important; }
+            .logo-watermark { opacity: 0.3 !important; font-size: 7pt !important; }
+            .logo-watermark svg { width: 10px !important; height: 10px !important; opacity: 0.3 !important; }
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(139,92,246,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 999;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(139,92,246,0.5);
+        }
+        
+        .last-updated-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+            padding: 12px 20px;
+            font-size: 0.9rem;
+            z-index: 998;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 20px;">
+            <svg viewBox="0 0 100 100" width="60" height="60" style="filter: drop-shadow(0 4px 12px rgba(147,51,234,0.4));">
+                <defs>
+                    <linearGradient id="hLogoUp" x1="0%" y1="100%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#9333EA"/>
+                        <stop offset="50%" stop-color="#C026D3"/>
+                        <stop offset="100%" stop-color="#EC4899"/>
+                    </linearGradient>
+                    <linearGradient id="hLogoDown" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#A855F7"/>
+                        <stop offset="100%" stop-color="#F472B6"/>
+                    </linearGradient>
+                </defs>
+                <polygon points="50,12 85,72 15,72" fill="rgba(0,0,0,0.12)" transform="translate(2,4)"/>
+                <polygon points="50,88 15,28 85,28" fill="rgba(0,0,0,0.1)" transform="translate(2,4)"/>
+                <polygon points="50,10 88,75 12,75" fill="url(#hLogoUp)"/>
+                <polygon points="50,10 69,42.5 31,42.5" fill="rgba(255,255,255,0.18)"/>
+                <polygon points="50,90 12,25 88,25" fill="url(#hLogoDown)" opacity="0.88"/>
+                <polygon points="50,90 31,57.5 69,57.5" fill="rgba(255,255,255,0.12)"/>
+                <rect x="32" y="44" width="36" height="5" rx="2.5" fill="white"/>
+                <rect x="32" y="53" width="36" height="5" rx="2.5" fill="white"/>
+                <rect x="32" y="44" width="36" height="2" rx="1" fill="rgba(255,255,255,0.5)"/>
+                <rect x="32" y="53" width="36" height="2" rx="1" fill="rgba(255,255,255,0.5)"/>
+            </svg>
+            <div style="text-align: left;">
+                <div style="font-size: 1.5rem; font-weight: 800; letter-spacing: 2px;">SAMIKARAN<span style="color: #EC4899;">.</span></div>
+                <div style="font-size: 0.8rem; letter-spacing: 6px; opacity: 0.95; text-transform: uppercase;">OLYMPIAD</div>
+            </div>
+        </div>
+        <h1>Business & Revenue Model</h1>
+        <p><span style="opacity: 0.95;">AI-Powered</span> <span style="background: linear-gradient(135deg, #A855F7 0%, #EC4899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700;">Olympiad Platform</span> - Revenue Strategy</p>
+        <span class="badge">Confidential - Internal Document</span>
+    </header>
+    
+    <div class="container">
+        <div class="flex-layout">
+            <main class="main-content">
+                
+                <section class="section" id="overview">
+                    <h2 class="section-title">Executive Overview</h2>
+                    <p>Samikaran Olympiad is a B2B2C EdTech platform generating revenue through multiple diversified streams. The platform serves schools, students, and partners with AI-powered olympiad examinations, intelligent tutoring, and educational services.</p>
+                    
+                    <div class="grid" style="margin-top: 24px;">
+                        <div class="card highlight">
+                            <div class="stat-highlight">6+</div>
+                            <h4>Revenue Streams</h4>
+                            <p>Diversified income sources ensuring business stability</p>
+                        </div>
+                        <div class="card highlight">
+                            <div class="stat-highlight">B2B2C</div>
+                            <h4>Business Model</h4>
+                            <p>Schools, Partners, and Direct Students</p>
+                        </div>
+                        <div class="card highlight">
+                            <div class="stat-highlight">AI-First</div>
+                            <h4>Technology Stack</h4>
+                            <p>AI Proctoring, TARA Tutor, Smart Analytics</p>
+                        </div>
+                    </div>
+                </section>
+                
+                <section class="section" id="revenue-streams">
+                    <h2 class="section-title">Revenue Streams</h2>
+                    
+                    <div class="grid">
+                        <div class="card">
+                            <div class="revenue-icon exam"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+                            <h4>1. Olympiad Exam Fees</h4>
+                            <span class="tag tag-primary">Primary Revenue</span>
+                            <p class="amount">&#8377;100 - &#8377;500</p>
+                            <p>Per student exam registration fee. Includes exam access, AI proctoring, instant results, and digital certificates.</p>
+                            <ul style="margin-top: 12px; padding-left: 20px; color: var(--text-secondary); font-size: 0.9rem;">
+                                <li>Individual student registration</li>
+                                <li>School bulk registrations (discounted)</li>
+                                <li>Combo packages (multiple subjects)</li>
+                                <li>Practice test purchases</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="revenue-icon tara"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
+                            <h4>2. TARA AI Credits</h4>
+                            <span class="tag tag-success">High Margin</span>
+                            <p class="amount">&#8377;49 - &#8377;999</p>
+                            <p>AI tutor credit packages. Students purchase credits to interact with TARA for personalized learning assistance.</p>
+                            <ul style="margin-top: 12px; padding-left: 20px; color: var(--text-secondary); font-size: 0.9rem;">
+                                <li>Text-based tutoring credits</li>
+                                <li>Voice interaction (premium)</li>
+                                <li>Monthly subscription plans</li>
+                                <li>Exam prep bundles</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="revenue-icon partner"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+                            <h4>3. Partner Commissions</h4>
+                            <span class="tag tag-info">Recurring</span>
+                            <p class="amount">10% - 30%</p>
+                            <p>Revenue share from partner and franchise network. Partners bring schools and students, earn commission on every transaction.</p>
+                            <ul style="margin-top: 12px; padding-left: 20px; color: var(--text-secondary); font-size: 0.9rem;">
+                                <li>State/City franchise fees</li>
+                                <li>Partner registration fees</li>
+                                <li>Ongoing commission share</li>
+                                <li>Performance bonuses</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="revenue-icon premium"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                            <h4>4. Premium Study Materials</h4>
+                            <span class="tag tag-warning">Value Add</span>
+                            <p class="amount">&#8377;199 - &#8377;1499</p>
+                            <p>Digital and physical study materials, question banks, and preparation guides.</p>
+                            <ul style="margin-top: 12px; padding-left: 20px; color: var(--text-secondary); font-size: 0.9rem;">
+                                <li>Subject-wise question banks</li>
+                                <li>Previous year papers</li>
+                                <li>Video tutorials</li>
+                                <li>Printed workbooks</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 30px;">
+                        <h3 style="margin-bottom: 15px;">Additional Revenue Sources</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Revenue Stream</th>
+                                    <th>Type</th>
+                                    <th>Pricing</th>
+                                    <th>Target</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>School Subscription</strong></td>
+                                    <td>B2B SaaS</td>
+                                    <td>&#8377;10,000 - &#8377;1,00,000/year</td>
+                                    <td>Schools & Institutions</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Certificate & Medal Sales</strong></td>
+                                    <td>Physical Goods</td>
+                                    <td>&#8377;200 - &#8377;1000</td>
+                                    <td>Students & Parents</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Analytics Dashboard</strong></td>
+                                    <td>Premium Feature</td>
+                                    <td>&#8377;5,000 - &#8377;25,000/year</td>
+                                    <td>Schools & Groups</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>API Access</strong></td>
+                                    <td>Enterprise</td>
+                                    <td>Custom Pricing</td>
+                                    <td>Coaching Institutes</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Sponsored Olympiads</strong></td>
+                                    <td>B2B Sponsorship</td>
+                                    <td>&#8377;50,000 - &#8377;5,00,000</td>
+                                    <td>Corporates & NGOs</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                
+                <section class="section" id="tara-credits">
+                    <h2 class="section-title">TARA AI Credit System</h2>
+                    <div style="background: linear-gradient(135deg, #fdf4ff 0%, #fae8ff 100%); border-left: 4px solid #a855f7; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px;">
+                        <strong style="color: #a855f7; font-size: 1.1rem;">Meet TARA (Talent Assessment & Research Assistant)</strong>
+                    </div>
+                    <p>TARA is the platform's AI-powered personal tutor. Students purchase credits to interact with TARA for homework help, concept explanations, and exam preparation.</p>
+                    
+                    <h3 style="margin: 24px 0 15px;">Credit Pricing Model</h3>
+                    
+                    <div class="card highlight" style="margin-bottom: 20px;">
+                        <h4>TEXT Interactions (Word-Based Slab)</h4>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Response Length</th>
+                                    <th>Credits Charged</th>
+                                    <th>Example</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1 - 100 words</td>
+                                    <td><strong>2 credits</strong></td>
+                                    <td>Quick answers, definitions</td>
+                                </tr>
+                                <tr>
+                                    <td>101 - 300 words</td>
+                                    <td><strong>4 credits</strong></td>
+                                    <td>Explanations, examples</td>
+                                </tr>
+                                <tr>
+                                    <td>301 - 500 words</td>
+                                    <td><strong>6 credits</strong></td>
+                                    <td>Detailed concepts</td>
+                                </tr>
+                                <tr>
+                                    <td>500+ words</td>
+                                    <td><strong>8 credits</strong></td>
+                                    <td>Comprehensive tutorials</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="card highlight">
+                        <h4>VOICE Interactions - Samikaran Voice AI</h4>
+                        <p style="margin: 10px 0;">Premium voice-enabled learning powered by Samikaran's proprietary Voice AI technology. Students can speak naturally and receive spoken responses from TARA.</p>
+                        
+                        <div class="formula-box">
+<span class="comment">// Samikaran Voice AI - Credit Calculation</span>
+<br><br>
+<span class="keyword">Voice Credits</span> <span class="operator">=</span> (Text + STT + TTS) <span class="operator">×</span> Voice Premium
+<br><br>
+<span class="comment">// Components:</span>
+<br>Text Credits    <span class="operator">=</span> Word-based slab (<span class="number">2</span>/<span class="number">4</span>/<span class="number">6</span>/<span class="number">8</span>)
+<br>STT Credits     <span class="operator">=</span> <span class="number">1</span> credit (Samikaran Speech Recognition)
+<br>TTS Credits     <span class="operator">=</span> Character Count <span class="operator">×</span> Rate
+<br>Voice Premium   <span class="operator">=</span> <span class="number">1.20</span> (20% premium for voice experience)
+<br><br>
+<span class="comment">// TTS Rate (Admin Configurable)</span>
+<br>Default: <span class="number">1</span> credit per character
+<br>Range: <span class="number">0.5</span> to <span class="number">2.0</span> credits/char (adjustable)
+                        </div>
+                        
+                        <h4 style="margin-top: 20px;">Voice Interaction Examples</h4>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Response Size</th>
+                                    <th>STT + Text</th>
+                                    <th>TTS (1 cr/char)</th>
+                                    <th>+20% Premium</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Short (300 chars)</td>
+                                    <td>1 + 2 = 3</td>
+                                    <td>300</td>
+                                    <td>61</td>
+                                    <td><strong>364 credits</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Medium (500 chars)</td>
+                                    <td>1 + 4 = 5</td>
+                                    <td>500</td>
+                                    <td>101</td>
+                                    <td><strong>606 credits</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Long (800 chars)</td>
+                                    <td>1 + 4 = 5</td>
+                                    <td>800</td>
+                                    <td>161</td>
+                                    <td><strong>966 credits</strong></td>
+                                </tr>
+                                <tr style="background: rgba(139,92,246,0.1);">
+                                    <td>Detailed (1000 chars)</td>
+                                    <td>1 + 6 = 7</td>
+                                    <td>1000</td>
+                                    <td>201</td>
+                                    <td><strong>1208 credits</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <div style="margin-top: 20px; padding: 16px; background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(34,211,153,0.1)); border-radius: 8px; border-left: 4px solid #10B981;">
+                            <h4 style="color: #10B981; margin-bottom: 8px;">Profit Margin: ~85%</h4>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary);">
+                                Voice AI infrastructure cost: ~₹9-15 per response<br>
+                                Student pays (500 char example): ₹60.60 (at ₹10/100 credits)<br>
+                                <strong>Net Profit: ₹45-50 per voice interaction</strong>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <h3 style="margin: 24px 0 15px;">Credit Package Pricing</h3>
+                    <div class="grid">
+                        <div class="card">
+                            <h4>Starter Pack</h4>
+                            <p class="amount">&#8377;49</p>
+                            <p>50 Credits</p>
+                            <p style="color: var(--text-secondary); font-size: 0.85rem;">&#8377;0.98 per credit</p>
+                        </div>
+                        <div class="card highlight">
+                            <span class="tag tag-success" style="margin-bottom: 10px;">Most Popular</span>
+                            <h4>Value Pack</h4>
+                            <p class="amount">&#8377;199</p>
+                            <p>250 Credits</p>
+                            <p style="color: var(--text-secondary); font-size: 0.85rem;">&#8377;0.80 per credit</p>
+                        </div>
+                        <div class="card">
+                            <h4>Pro Pack</h4>
+                            <p class="amount">&#8377;499</p>
+                            <p>700 Credits</p>
+                            <p style="color: var(--text-secondary); font-size: 0.85rem;">&#8377;0.71 per credit</p>
+                        </div>
+                        <div class="card">
+                            <h4>Unlimited Monthly</h4>
+                            <p class="amount">&#8377;999</p>
+                            <p>2000 Credits/month</p>
+                            <p style="color: var(--text-secondary); font-size: 0.85rem;">Best for heavy users</p>
+                        </div>
+                    </div>
+                </section>
+                
+                <section class="section" id="cost-recovery">
+                    <h2 class="section-title">Cost Recovery & Profitability</h2>
+                    
+                    <h3 style="margin-bottom: 15px;">AI Cost Structure</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>Provider</th>
+                                <th>Actual Cost</th>
+                                <th>Our Charge</th>
+                                <th>Margin</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Text Generation</td>
+                                <td>OpenAI GPT-4o-mini</td>
+                                <td>~$0.0001/query</td>
+                                <td>2-8 credits (&#8377;1.6-6.4)</td>
+                                <td><span class="tag tag-success">High</span></td>
+                            </tr>
+                            <tr>
+                                <td>Text-to-Speech</td>
+                                <td>ElevenLabs</td>
+                                <td>~$0.003/100 chars</td>
+                                <td>15+ credits (&#8377;12+)</td>
+                                <td><span class="tag tag-success">High</span></td>
+                            </tr>
+                            <tr>
+                                <td>Speech-to-Text</td>
+                                <td>OpenAI Whisper</td>
+                                <td>~$0.001/query</td>
+                                <td>1 credit (&#8377;0.80)</td>
+                                <td><span class="tag tag-warning">Medium</span></td>
+                            </tr>
+                            <tr>
+                                <td>AI Proctoring</td>
+                                <td>OpenCV + Custom</td>
+                                <td>Server costs</td>
+                                <td>Included in exam fee</td>
+                                <td><span class="tag tag-success">Bundled</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="card highlight" style="margin-top: 24px;">
+                        <h4>Key Business Metrics</h4>
+                        <div class="grid" style="margin-top: 15px;">
+                            <div>
+                                <p class="stat-highlight">60-80%</p>
+                                <p>Gross Margin on TARA Credits</p>
+                            </div>
+                            <div>
+                                <p class="stat-highlight">70%+</p>
+                                <p>Margin on Exam Fees</p>
+                            </div>
+                            <div>
+                                <p class="stat-highlight">90%+</p>
+                                <p>Margin on Digital Materials</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <section class="section" id="admin-controls">
+                    <h2 class="section-title">Admin Controls</h2>
+                    <p>Super Admins have full control over pricing and credit configurations through the TARA AI Settings panel.</p>
+                    
+                    <h3 style="margin: 20px 0 15px;">Configurable Parameters</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Setting</th>
+                                <th>Default</th>
+                                <th>Range</th>
+                                <th>Impact</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Response Credits (1-100 words)</td>
+                                <td>2 credits</td>
+                                <td>1-10</td>
+                                <td>Base text cost</td>
+                            </tr>
+                            <tr>
+                                <td>Response Credits (101-300 words)</td>
+                                <td>4 credits</td>
+                                <td>2-15</td>
+                                <td>Medium response cost</td>
+                            </tr>
+                            <tr>
+                                <td>Response Credits (301-500 words)</td>
+                                <td>6 credits</td>
+                                <td>3-20</td>
+                                <td>Longer response cost</td>
+                            </tr>
+                            <tr>
+                                <td>Response Credits (500+ words)</td>
+                                <td>8 credits</td>
+                                <td>4-25</td>
+                                <td>Detailed response cost</td>
+                            </tr>
+                            <tr>
+                                <td>STT Credit per Query</td>
+                                <td>1 credit</td>
+                                <td>0-5</td>
+                                <td>Voice input cost</td>
+                            </tr>
+                            <tr>
+                                <td><strong>TTS Character Multiplier</strong></td>
+                                <td>2.0 per 100 chars</td>
+                                <td>1.0-5.0</td>
+                                <td>Voice output cost recovery</td>
+                            </tr>
+                            <tr>
+                                <td>Voice Premium %</td>
+                                <td>20%</td>
+                                <td>0-50%</td>
+                                <td>Overall voice surcharge</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="formula-box" style="margin-top: 20px;">
+<span class="comment">// TTS Character Multiplier Setting</span>
+<br><br>
+<span class="comment">// Stored as integer (×10 for precision)</span>
+<br><span class="keyword">ttsCharacterMultiplier</span> <span class="operator">=</span> <span class="number">20</span>  <span class="comment">// Means 2.0 credits per 100 chars</span>
+<br><span class="keyword">ttsCharacterMultiplier</span> <span class="operator">=</span> <span class="number">25</span>  <span class="comment">// Means 2.5 credits per 100 chars</span>
+<br><span class="keyword">ttsCharacterMultiplier</span> <span class="operator">=</span> <span class="number">30</span>  <span class="comment">// Means 3.0 credits per 100 chars</span>
+<br><br>
+<span class="comment">// Increase multiplier if ElevenLabs costs rise</span>
+<span class="comment">// Decrease for promotional periods</span>
+                    </div>
+                </section>
+                
+                <section class="section" id="growth">
+                    <h2 class="section-title">Growth Strategy</h2>
+                    
+                    <div class="grid">
+                        <div class="card">
+                            <h4>Phase 1: Foundation</h4>
+                            <span class="tag tag-primary">Current</span>
+                            <ul style="margin-top: 12px; padding-left: 20px; color: var(--text-secondary);">
+                                <li>Launch core olympiad platform</li>
+                                <li>Onboard 100+ schools</li>
+                                <li>Build partner network</li>
+                                <li>TARA AI beta launch</li>
+                            </ul>
+                        </div>
+                        <div class="card">
+                            <h4>Phase 2: Expansion</h4>
+                            <span class="tag tag-info">6-12 Months</span>
+                            <ul style="margin-top: 12px; padding-left: 20px; color: var(--text-secondary);">
+                                <li>Pan-India school coverage</li>
+                                <li>State-level partnerships</li>
+                                <li>Premium study materials</li>
+                                <li>Mobile app launch</li>
+                            </ul>
+                        </div>
+                        <div class="card">
+                            <h4>Phase 3: Scale</h4>
+                            <span class="tag tag-success">12-24 Months</span>
+                            <ul style="margin-top: 12px; padding-left: 20px; color: var(--text-secondary);">
+                                <li>1M+ student registrations</li>
+                                <li>International expansion</li>
+                                <li>Enterprise API licensing</li>
+                                <li>AI-powered coaching</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                
+            </main>
+            
+            <aside class="sidebar">
+                <div class="section toc">
+                    <h3 style="margin-bottom: 15px; font-size: 1rem;">Contents</h3>
+                    <a href="#overview">Executive Overview</a>
+                    <a href="#revenue-streams">Revenue Streams</a>
+                    <a href="#tara-credits">TARA Credit System</a>
+                    <a href="#cost-recovery">Cost Recovery</a>
+                    <a href="#admin-controls">Admin Controls</a>
+                    <a href="#growth">Growth Strategy</a>
+                </div>
+                
+                <div class="section" style="margin-top: 20px;">
+                    <h4 style="margin-bottom: 10px;">Document Info</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <strong>Version:</strong> 1.0<br>
+                        <strong>Last Updated:</strong> January 2026<br>
+                        <strong>Classification:</strong> Internal
+                    </p>
+                </div>
+            </aside>
+        </div>
+    </div>
+    
+    <button class="print-btn" onclick="window.print()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Print / Export PDF
+    </button>
+    
+    <button class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Back to Top">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+    
+    <div class="last-updated-footer">
+        Last Updated: <span id="last-updated-time"></span>
+    </div>
+    
+    <script>
+        // Last Updated timestamp
+        document.getElementById('last-updated-time').textContent = new Date().toLocaleString('en-IN', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true
+        });
+        
+        // Back to Top button visibility
+        const backToTopBtn = document.querySelector('.back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+    </script>
+</body>
+</html>

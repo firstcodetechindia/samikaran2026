@@ -1,0 +1,304 @@
+I am upgrading my existing Olympiad system into a Multi-Tenant AI Powered School Assessment SaaS Platform with White-Label School Experience.
+
+IMPORTANT INSTRUCTION:
+The current Olympiad system must remain fully functional exactly as it is. 
+Do NOT remove, break, or modify any existing working Olympiad features.
+This upgrade must be implemented as an extension layer on top of the current system.
+All existing exam flows, reports, analytics, and national Olympiad logic must remain intact.
+No data loss. No breaking changes. Maintain backward compatibility.
+
+PRIMARY GOAL:
+Convert system into secure multi-tenant SaaS where each school is isolated and has its own academic hierarchy, branding, exams, analytics and storage — while preserving the existing Olympiad engine.
+
+------------------------------------------------
+1. MULTI TENANT STRUCTURE
+------------------------------------------------
+
+- Add School (Tenant) table
+- Every entity must include schoolId
+- Strict row-level isolation
+- No cross-school data access possible
+- Existing Olympiad data must remain usable
+
+------------------------------------------------
+2. ROLE STRUCTURE (SIMPLIFIED)
+------------------------------------------------
+
+Roles:
+
+- SuperAdmin (platform owner)
+- SchoolHead (full control of school)
+- SubjectTeacher
+- ClassTeacher
+- Student
+
+Remove Coordinator role only if not used in existing system.
+If already implemented, refactor safely without breaking current flows.
+
+Rules:
+- SchoolHead can manage everything
+- ClassTeacher can manage student list and modifications
+- SubjectTeacher can manage their subjects, exams, and view student performance
+- A ClassTeacher can also be a SubjectTeacher
+- During teacher profile creation, allow assignment:
+   - Is Class Teacher? (Yes/No)
+   - Assigned Class
+   - Assigned Subjects
+
+Implement strict role middleware without breaking existing permissions.
+
+------------------------------------------------
+3. SCHOOL BRANDING SYSTEM
+------------------------------------------------
+
+Each school profile must include:
+- Logo
+- School name
+- Tagline
+- Address
+- Contact info
+- Principal name
+- Board affiliation
+- Academic year
+
+Theme selection:
+Provide 5 pre-built color themes:
+1. Blue Academic
+2. Green Modern
+3. Purple Smart
+4. Red Premium
+5. Dark Professional
+
+School can select only one.
+No custom CSS allowed.
+Maintain overall platform identity.
+
+All school panels must:
+- Show school logo
+- Apply selected theme
+- Display school name in header
+- Provide proper white-label experience
+
+------------------------------------------------
+4. STUDENT PANEL MENU SIMPLIFICATION
+------------------------------------------------
+
+Remove gamified wording like:
+- Exam Mission
+- Dashboard Arena
+- My World
+
+Replace with simple language.
+
+For Classes 1-5:
+- Home
+- My Tests
+- My Results
+- Practice
+- Profile
+
+For Classes 6-12:
+- Dashboard
+- Tests
+- Results
+- Practice Tests
+- Performance
+- Profile
+
+System must auto-detect class group and render appropriate menu.
+Do not break current routing or navigation logic.
+
+------------------------------------------------
+5. ACADEMIC STRUCTURE
+------------------------------------------------
+
+School
+  -> Classes
+     -> Subjects
+        -> Chapters
+           -> Syllabus (Text + PDF)
+           -> Learning Objectives
+           -> Concept Tags
+           -> Difficulty Level
+           -> Bloom Taxonomy Tags
+
+Fully dynamic CRUD.
+No hardcoded subjects or classes.
+Existing academic structure must remain functional.
+
+------------------------------------------------
+6. PDF AI PROCESSING + IMAGE EXTRACTION
+------------------------------------------------
+
+When syllabus PDF uploaded:
+
+Step 1: Extract text
+Step 2: Extract embedded images
+Step 3: Save everything to S3 only
+Step 4: Store structured data in DB
+Step 5: Send text to AI for:
+   - Concept extraction
+   - Formula detection
+   - Structured JSON question generation
+
+Image handling:
+- Crop topic-wise if possible
+- Store in:
+  bucket/schoolId/subjectId/chapterId/images/
+- Tag images with:
+   - Related concept
+   - Page number
+   - Image type
+
+During question generation:
+If relevant image found:
+Attach image automatically.
+
+------------------------------------------------
+7. S3 STORAGE ARCHITECTURE
+------------------------------------------------
+
+No local storage allowed.
+All files must be stored in S3.
+
+Structure:
+
+bucket/
+   schoolId/
+      subjects/
+         subjectId/
+            chapters/
+               chapterId/
+                  pdf/
+                  images/
+      exams/
+      reports/
+
+Use signed URLs.
+No public buckets.
+Strict isolation.
+
+------------------------------------------------
+8. EXAM ENGINE
+------------------------------------------------
+
+Existing Olympiad exam system must remain unchanged.
+
+Add additional capabilities without breaking existing patterns:
+
+Exam Types:
+- Chapter Test
+- Subject Cumulative Test
+- Grand Overall Test
+
+Features:
+- Configurable pattern
+- Question shuffle
+- Option shuffle
+- Fixed duration
+- Auto submit
+- Weighted random selection
+- Regeneration support
+
+------------------------------------------------
+9. PROCTORING CONTROL
+------------------------------------------------
+
+During exam creation:
+
+Add toggle:
+Proctoring ON/OFF
+Default = ON
+
+Options:
+- Tab switch detection
+- Full screen enforcement
+- Log window blur events
+- Track time per question
+
+Must integrate safely with existing exam submission flow.
+
+------------------------------------------------
+10. REPORTING ENGINE
+------------------------------------------------
+
+Student:
+- Chapter mastery %
+- Subject trend graph
+- Weak concept heatmap
+
+SubjectTeacher:
+- Student performance
+- Concept weakness analysis
+- Question difficulty stats
+
+ClassTeacher:
+- Class performance summary
+- Student modification rights
+
+SchoolHead:
+- Full analytics
+- Class comparison
+- Subject comparison
+- Teacher analytics
+
+All reports must calculate from database.
+No dummy data.
+Existing reports must not break.
+
+------------------------------------------------
+11. ADAPTIVE BASE ENGINE
+------------------------------------------------
+
+If student weak in concept:
+Increase weightage in next test automatically.
+
+Must not interfere with current Olympiad scoring logic.
+
+------------------------------------------------
+12. QUALITY CONTROLS
+------------------------------------------------
+
+Add:
+- Question duplication detection
+- AI quality score
+- Syllabus coverage %
+- Exam blueprint template system
+- Risk prediction scoring
+
+------------------------------------------------
+13. STRICT PRESERVATION RULE
+------------------------------------------------
+
+- No existing feature removal
+- No route breakage
+- No exam logic change
+- No analytics loss
+- No DB destructive migration
+- Use additive migrations only
+- Ensure backward compatibility
+
+------------------------------------------------
+14. FULL END TO END VALIDATION
+------------------------------------------------
+
+After implementation test:
+
+- Existing Olympiad flow
+- School onboarding
+- Branding
+- Class/subject creation
+- PDF upload
+- AI generation
+- Image extraction
+- Exam creation
+- Proctoring toggle
+- Student attempt
+- Analytics generation
+- Dashboard validation
+
+Ensure zero broken flow.
+Optimize performance.
+Maintain clean architecture.
+Do not partially implement.
+Implement completely and safely.

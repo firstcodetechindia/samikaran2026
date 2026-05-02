@@ -1,0 +1,178 @@
+I want to implement a SMART, COST-FREE, RULE-BASED CHATBOT SYSTEM in my platform with ZERO external AI cost (NO OpenAI, NO paid AI APIs).
+
+GOAL:
+Chatbot intelligent lage, user ko samjhe, guide kare aur help kare — bina kisi AI model ke.
+Pure system-driven, logic-based, fast aur safe hona chahiye.
+
+================================================
+CHATBOT MODES
+================================================
+
+Chatbot must work in TWO MODES:
+
+1️⃣ GUEST MODE (User not logged-in)
+2️⃣ LOGGED-IN MODE (User authenticated)
+
+================================================
+MODE 1: GUEST CHATBOT (NOT LOGGED-IN USERS)
+================================================
+
+AVAILABLE CONTEXT:
+- User is NOT logged-in
+- Current page (Home, Olympiad Info, Pricing, etc.)
+- Device type (mobile / desktop)
+
+BEHAVIOR:
+- Friendly, welcoming, generic greeting
+- No personal data usage
+- No assumptions
+
+Greeting Examples:
+- "Hi 👋 Main aapki Olympiad journey me madad kar sakta hoon."
+- "Welcome! Olympiad exams ke baare me poochna chahoge?"
+
+ALLOWED HELP:
+- Olympiad information
+- Exam pattern & structure
+- Eligibility & registration process
+- Pricing & general FAQs
+- How online exam works
+
+RESPONSE LOGIC:
+- Predefined intent-based responses
+- Keyword + intent matching
+- Button-based quick replies
+
+SOFT LOGIN NUDGE:
+- Every few interactions suggest login politely
+Example:
+"Personalised guidance ke liye login karein 👉 Login / Sign up"
+
+RESTRICTIONS:
+- No results
+- No performance
+- No user-specific answers
+
+================================================
+MODE 2: LOGGED-IN CHATBOT (SMART MODE)
+================================================
+
+USER CONTEXT FETCH (ON CHAT OPEN):
+- User first name
+- User role (Student / Parent / Teacher / School / Partner)
+- Role-specific allowed data
+- Recent activity (last exam, last report, pending action)
+
+This context must be stored in session memory.
+
+SMART GREETING:
+- Use user's first name
+- Role-aware greeting
+
+Examples:
+- "Hi Rahul 👋 Aaj kaise improve karna chahoge?"
+- "Hello Mrs. Sharma, aapke child ka latest progress ready hai."
+
+================================================
+ROLE-BASED CHAT LOGIC (RULE ENGINE)
+================================================
+
+Student:
+- Exam help
+- Result explanation
+- Weak topic identification
+- Study suggestions (rule-based)
+- Upcoming Olympiad info
+
+Parent:
+- Child performance summary
+- Improvement areas
+- Next steps guidance
+
+Teacher:
+- Class performance overview
+- Weak topic alerts
+- Evaluation status
+
+School:
+- School-level analytics
+- Batch performance
+- Common weak areas
+
+Partner:
+- Onboarding stats
+- Participation data
+- Commission & payout info
+
+================================================
+SMARTNESS WITHOUT AI (IMPORTANT)
+================================================
+
+Use RULE-BASED INTELLIGENCE:
+
+- Keyword detection
+- Intent mapping
+- Data thresholds
+- Conditional responses
+
+Examples:
+- If accuracy < 50% → Suggest revision
+- If repeated wrong answers → Highlight weak topic
+- If no recent activity → Suggest next action
+
+NO AI TEXT GENERATION.
+Responses come from:
+- Templates
+- Dynamic data insertion
+- Pre-written logic flows
+
+================================================
+REALTIME SUGGESTIONS (WITHOUT AI)
+================================================
+
+Using WebSocket / realtime events:
+
+- On login → Push relevant quick actions
+- On result publish → Notify user
+- On inactivity → Gentle reminder
+- On weak performance → Improvement tip
+
+All suggestions:
+- Predefined
+- Rule-triggered
+- Cost-free
+
+================================================
+CHATBOT UI BEHAVIOR
+================================================
+
+- Floating chatbot button
+- Mobile full-screen chat
+- Desktop glass-style panel
+- Message bubbles (user right, bot left)
+- Typing indicator animation
+- Quick reply buttons
+- Action cards inside chat
+
+================================================
+SECURITY & PRIVACY
+================================================
+
+- Strict role-based data access
+- No cross-user data leakage
+- No guessing
+- Graceful fallback if data not available
+
+================================================
+FINAL EXPECTATION
+================================================
+
+This chatbot must:
+- Feel smart without AI
+- Be fast and reliable
+- Cost ZERO in external APIs
+- Be production-grade
+- Help users effectively
+- Improve overall UX and engagement
+
+Deliver a RULE-BASED, LOGIN-AWARE, REALTIME CHATBOT SYSTEM that feels intelligent without using any paid AI service.
