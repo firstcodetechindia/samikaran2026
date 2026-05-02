@@ -48,6 +48,12 @@ uri = "file://attached_assets/gen_laptop.png"
 type = "image"
 title = "generated_image"
 
+[[generated]]
+id = "15qn-qAsRIzRRnRU-Md6P"
+uri = "file://attached_assets/family_fullbody.png"
+type = "image"
+title = "generated_image"
+
 [[outputs]]
 id = "JFVjQAFG6Sx4lgmPpHHgl"
 uri = "file://attached_assets/gen_family.png"
@@ -65,3 +71,9 @@ id = "3DJ2xut_RYG2V-I2yhXT2"
 uri = "file://attached_assets/family_v2_nobg.png"
 type = "image"
 title = "Family — background removed, full size"
+
+[[outputs]]
+id = "gXG5GtU92QLsBgSILIL4I"
+uri = "file://attached_assets/family_fullbody.png"
+type = "image"
+title = "Family — Full body head to feet"
