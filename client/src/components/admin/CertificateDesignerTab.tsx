@@ -254,6 +254,7 @@ export default function CertificateDesignerTab() {
   const [s1Name,  setS1Name]  = useState("Authorized Signatory");
   const [s1Title, setS1Title] = useState("Founder, Samikaran Olympiad");
   const [s1Image, setS1Image] = useState("");
+  const [s1SavedImages, setS1SavedImages] = useState<string[]>([]);
   const [s2Name,  setS2Name]  = useState("Authorized Signatory");
   const [s2Title, setS2Title] = useState("Controller of Examinations (CoE)");
   const [s2Image, setS2Image] = useState("");
@@ -303,6 +304,9 @@ export default function CertificateDesignerTab() {
     if (siteSettings.certificate_signatory_1_name)  setS1Name(siteSettings.certificate_signatory_1_name);
     if (siteSettings.certificate_signatory_1_title) setS1Title(siteSettings.certificate_signatory_1_title);
     if (siteSettings.certificate_signatory_1_image) setS1Image(siteSettings.certificate_signatory_1_image);
+    if (siteSettings.certificate_signatory_1_saved_images) {
+      try { setS1SavedImages(JSON.parse(siteSettings.certificate_signatory_1_saved_images)); } catch {}
+    }
     if (siteSettings.certificate_signatory_2_name)  setS2Name(siteSettings.certificate_signatory_2_name);
     if (siteSettings.certificate_signatory_2_title) setS2Title(siteSettings.certificate_signatory_2_title);
     if (siteSettings.certificate_signatory_2_image) setS2Image(siteSettings.certificate_signatory_2_image);
@@ -351,6 +355,7 @@ export default function CertificateDesignerTab() {
           { key: "certificate_signatory_1_name",      value: s1Name,                   category: "certificate" },
           { key: "certificate_signatory_1_title",     value: s1Title,                  category: "certificate" },
           { key: "certificate_signatory_1_image",     value: s1Image,                  category: "certificate" },
+          { key: "certificate_signatory_1_saved_images", value: JSON.stringify(s1SavedImages), category: "certificate" },
           { key: "certificate_signatory_2_name",      value: s2Name,                   category: "certificate" },
           { key: "certificate_signatory_2_title",     value: s2Title,                  category: "certificate" },
           { key: "certificate_signatory_2_image",     value: s2Image,                  category: "certificate" },
@@ -547,12 +552,30 @@ export default function CertificateDesignerTab() {
                     data-testid="input-signatory-1-title"
                   />
                 </div>
-                <div className="space-y-1.5">
-                  <Label className="text-xs">Signature Image (optional)</Label>
-                  {s1Image && (
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <img src={s1Image} alt="Sig 1" className="h-10 object-contain border rounded bg-white px-2" />
-                      <Button size="sm" variant="ghost" className="text-xs text-red-500 h-8 px-2" onClick={() => setS1Image("")} data-testid="button-remove-sig1-image">Remove</Button>
+                <div className="space-y-2">
+                  <Label className="text-xs">Signature Image</Label>
+                  {s1SavedImages.length > 0 && (
+                    <div className="space-y-1.5">
+                      <p className="text-xs text-muted-foreground">Click to select active signature:</p>
+                      <div className="flex flex-wrap gap-2">
+                        {s1SavedImages.map((imgUrl, idx) => (
+                          <div
+                            key={idx}
+                            onClick={() => setS1Image(imgUrl)}
+                            data-testid={`button-select-sig1-${idx}`}
+                            className={`relative cursor-pointer rounded-lg border-2 p-2 bg-white transition-all ${
+                              s1Image === imgUrl
+                                ? "border-blue-500 ring-2 ring-blue-200"
+                                : "border-gray-200 hover:border-gray-400"
+                            }`}
+                          >
+                            <img src={imgUrl} alt={`Founder Sig ${idx + 1}`} className="h-10 w-28 object-contain" />
+                            {s1Image === imgUrl && (
+                              <span className="absolute -top-1.5 -right-1.5 bg-blue-500 text-white text-[9px] rounded-full px-1 py-0.5 font-bold">Active</span>
+                            )}
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   )}
                   <label className="flex items-center gap-2 cursor-pointer">
@@ -563,16 +586,19 @@ export default function CertificateDesignerTab() {
                       data-testid="input-sig1-image"
                       onChange={(e) => {
                         const f = e.target.files?.[0];
-                        if (f) uploadSignatureImage(f, setS1Image, setS1Uploading);
+                        if (f) uploadSignatureImage(f, (url) => {
+                          setS1Image(url);
+                          setS1SavedImages(prev => prev.includes(url) ? prev : [...prev, url]);
+                        }, setS1Uploading);
                         e.target.value = "";
                       }}
                     />
                     <Button size="sm" variant="outline" className="text-xs h-8 gap-1.5 pointer-events-none" disabled={s1Uploading} data-testid="button-upload-sig1">
                       {s1Uploading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Upload className="w-3 h-3" />}
-                      {s1Uploading ? "Uploading..." : s1Image ? "Replace Signature" : "Upload Signature"}
+                      {s1Uploading ? "Uploading..." : "Upload New Signature"}
                     </Button>
                   </label>
-                  <p className="text-xs text-muted-foreground">PNG/JPG with transparent background recommended.</p>
+                  <p className="text-xs text-muted-foreground">Upload new signature — it gets added to the library above.</p>
                 </div>
               </div>
               {/* Signatory 2 */}

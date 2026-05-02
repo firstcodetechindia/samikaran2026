@@ -8169,6 +8169,7 @@ Generate questions that are educational, challenging, and appropriate for olympi
       const keys = [
         "contact_phone", "support_email", "support_phone",
         "certificate_signatory_1_name", "certificate_signatory_1_title", "certificate_signatory_1_image",
+        "certificate_signatory_1_saved_images",
         "certificate_signatory_2_name", "certificate_signatory_2_title", "certificate_signatory_2_image",
         "certificate_signatory_2_saved_images",
         "testimonials", "partner_stats", "company_name",
