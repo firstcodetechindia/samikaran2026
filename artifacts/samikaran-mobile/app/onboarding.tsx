@@ -24,7 +24,7 @@ import Animated, {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Haptics from "expo-haptics";
-import Svg, { Ellipse } from "react-native-svg";
+import Svg, { Ellipse, RadialGradient, Stop, Defs } from "react-native-svg";
 
 const { width, height } = Dimensions.get("window");
 
@@ -151,18 +151,43 @@ export default function OnboardingScreen() {
         end={{ x: 0.8, y: 1 }}
       />
 
-      {/* Organic blob glow behind character */}
-      <View style={styles.blobWrap} pointerEvents="none">
-        <Svg width={width * 1.1} height={height * 0.65} viewBox={`0 0 ${width * 1.1} ${height * 0.65}`}>
+      {/* Background stage — layered radial glow */}
+      <View style={styles.stageWrap} pointerEvents="none">
+        {/* Outermost soft halo */}
+        <View style={[styles.halo3, { backgroundColor: slide.blobColor + "18" }]} />
+        {/* Mid glow ring */}
+        <View style={[styles.halo2, { backgroundColor: slide.blobColor + "30" }]} />
+        {/* Inner bright stage */}
+        <View style={[styles.halo1, { backgroundColor: slide.blobColor + "55" }]} />
+        {/* SVG radial gradient core */}
+        <Svg
+          width={width * 0.9}
+          height={width * 0.9}
+          style={styles.svgGlow}
+        >
+          <Defs>
+            <RadialGradient id="rg" cx="50%" cy="50%" rx="50%" ry="50%">
+              <Stop offset="0%" stopColor={slide.blobColor} stopOpacity="0.55" />
+              <Stop offset="60%" stopColor={slide.blobColor} stopOpacity="0.18" />
+              <Stop offset="100%" stopColor={slide.blobColor} stopOpacity="0" />
+            </RadialGradient>
+          </Defs>
           <Ellipse
-            cx={(width * 1.1) / 2}
-            cy={(height * 0.65) / 2}
-            rx={width * 0.52}
-            ry={height * 0.28}
-            fill={slide.blobColor}
-            opacity={0.28}
+            cx={width * 0.45}
+            cy={width * 0.45}
+            rx={width * 0.44}
+            ry={width * 0.44}
+            fill="url(#rg)"
           />
         </Svg>
+
+        {/* Decorative floating dots */}
+        <View style={[styles.dot1, { backgroundColor: slide.blobColor + "90" }]} />
+        <View style={[styles.dot2, { backgroundColor: slide.blobColor + "60" }]} />
+        <View style={[styles.dot3, { backgroundColor: "#FF2FBF" + "55" }]} />
+        <View style={[styles.dot4, { backgroundColor: "#fff" + "30" }]} />
+        <View style={[styles.dot5, { backgroundColor: "#fff" + "20" }]} />
+        <View style={[styles.dot6, { backgroundColor: slide.blobColor + "40" }]} />
       </View>
 
       {/* Top bar */}
@@ -310,12 +335,53 @@ const CARD_RADIUS = 32;
 const styles = StyleSheet.create({
   root: { flex: 1 },
 
-  blobWrap: {
+  stageWrap: {
     position: "absolute",
-    top: height * 0.08,
-    left: -width * 0.05,
-    zIndex: 0,
+    top: 0,
+    left: 0,
+    right: 0,
+    height: CHAR_H,
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 1,
   },
+  // Layered halos — circles centered behind character
+  halo3: {
+    position: "absolute",
+    width: width * 1.0,
+    height: width * 1.0,
+    borderRadius: width * 0.5,
+    alignSelf: "center",
+    top: CHAR_H * 0.5 - width * 0.5,
+  },
+  halo2: {
+    position: "absolute",
+    width: width * 0.82,
+    height: width * 0.82,
+    borderRadius: width * 0.41,
+    alignSelf: "center",
+    top: CHAR_H * 0.5 - width * 0.41,
+  },
+  halo1: {
+    position: "absolute",
+    width: width * 0.64,
+    height: width * 0.64,
+    borderRadius: width * 0.32,
+    alignSelf: "center",
+    top: CHAR_H * 0.5 - width * 0.32,
+  },
+  svgGlow: {
+    position: "absolute",
+    alignSelf: "center",
+    top: CHAR_H * 0.5 - (width * 0.9) / 2,
+  },
+  // Scattered decorative dots
+  dot1: { position: "absolute", width: 14, height: 14, borderRadius: 7, top: "18%", left: "10%" },
+  dot2: { position: "absolute", width: 9, height: 9, borderRadius: 4.5, top: "30%", left: "5%" },
+  dot3: { position: "absolute", width: 12, height: 12, borderRadius: 6, top: "15%", right: "12%" },
+  dot4: { position: "absolute", width: 7, height: 7, borderRadius: 3.5, top: "40%", right: "6%" },
+  dot5: { position: "absolute", width: 18, height: 18, borderRadius: 9, top: "55%", left: "8%" },
+  dot6: { position: "absolute", width: 10, height: 10, borderRadius: 5, top: "60%", right: "10%" },
 
   topBar: {
     position: "absolute",
