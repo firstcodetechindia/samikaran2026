@@ -99,12 +99,13 @@ function useToast() {
     <Animated.View
       style={[
         styles.toast,
-        type === "success" && { backgroundColor: "#14532d" },
-        type === "error" && { backgroundColor: "#7f1d1d" },
+        type === "success" && styles.toastSuccess,
+        type === "error" && styles.toastError,
+        type === "info" && styles.toastInfo,
         {
           opacity: anim,
           transform: [
-            { translateY: anim.interpolate({ inputRange: [0, 1], outputRange: [-16, 0] }) },
+            { translateY: anim.interpolate({ inputRange: [0, 1], outputRange: [-8, 0] }) },
           ],
         },
       ]}
@@ -119,9 +120,19 @@ function useToast() {
             : "information-circle"
         }
         size={17}
-        color="#fff"
+        color={type === "success" ? "#15803d" : type === "error" ? "#dc2626" : "#6b21a8"}
       />
-      <Text style={[styles.toastTxt, { fontFamily: "Roboto_500Medium" }]}>{msg}</Text>
+      <Text
+        style={[
+          styles.toastTxt,
+          { fontFamily: "Roboto_500Medium" },
+          type === "success" && { color: "#15803d" },
+          type === "error" && { color: "#dc2626" },
+          type === "info" && { color: "#6b21a8" },
+        ]}
+      >
+        {msg}
+      </Text>
     </Animated.View>
   ) : null;
 
@@ -491,11 +502,6 @@ export default function LoginScreen() {
       <View style={styles.blob2} />
       <View style={styles.blob3} />
 
-      {/* Toast — sits just above the card, not in the status bar */}
-      <View style={[styles.toastZone, { top: height * 0.30 - 60 }]} pointerEvents="none">
-        {ToastEl}
-      </View>
-
       {/* ── TOP: Logo (always visible, fixed area) ── */}
       <View style={[styles.topArea, { paddingTop: insets.top + 16 }]}>
         <View style={styles.logoRing}>
@@ -556,6 +562,11 @@ export default function LoginScreen() {
                 {meta[screen].sub}
               </Text>
             </View>
+          </View>
+
+          {/* Toast inside card */}
+          <View pointerEvents="none" style={styles.toastZone}>
+            {ToastEl}
           </View>
 
           <ScrollView
@@ -947,9 +958,12 @@ const styles = StyleSheet.create({
   blob2: { position: "absolute", width: 240, height: 240, borderRadius: 120, backgroundColor: "#ec4899", opacity: 0.15, top: 40, right: -70 },
   blob3: { position: "absolute", width: 200, height: 200, borderRadius: 100, backgroundColor: "#6d28d9", opacity: 0.2, top: height * 0.15, left: width * 0.2 },
 
-  toastZone: { position: "absolute", left: 16, right: 16, zIndex: 999 },
-  toast: { flexDirection: "row", alignItems: "center", gap: 8, borderRadius: 14, paddingVertical: 12, paddingHorizontal: 16, shadowColor: "#000", shadowOpacity: 0.25, shadowRadius: 10, shadowOffset: { width: 0, height: 4 }, elevation: 10 },
-  toastTxt: { flex: 1, fontSize: 13, color: "#fff" },
+  toastZone: { marginBottom: 4, zIndex: 1 },
+  toast: { flexDirection: "row", alignItems: "center", gap: 8, borderRadius: 14, paddingVertical: 11, paddingHorizontal: 14, borderWidth: 1 },
+  toastSuccess: { backgroundColor: "#f0fdf4", borderColor: "#bbf7d0" },
+  toastError: { backgroundColor: "#fef2f2", borderColor: "#fecaca" },
+  toastInfo: { backgroundColor: "#faf5ff", borderColor: "#ede9fe" },
+  toastTxt: { flex: 1, fontSize: 13 },
 
   // ── TOP LOGO AREA ── fixed height, always shows purple BG
   topArea: {
@@ -1057,8 +1071,8 @@ const styles = StyleSheet.create({
   orLine: { flex: 1, height: 1, backgroundColor: "#e5e7eb" },
   orTxt: { fontSize: 12, color: "#d1d5db" },
 
-  otpRow: { flexDirection: "row", gap: 8 },
-  otpBox: { flex: 1, height: 58, borderRadius: 14, borderWidth: 1.5, borderColor: "#e5e7eb", fontSize: 24, color: "#111827", backgroundColor: "#f9fafb", textAlign: "center" },
+  otpRow: { flexDirection: "row", gap: 8, justifyContent: "center" },
+  otpBox: { width: Math.floor((width - 48 - 40) / 6), height: 56, borderRadius: 14, borderWidth: 1.5, borderColor: "#e5e7eb", fontSize: 22, color: "#111827", backgroundColor: "#f9fafb", textAlign: "center" },
   otpBoxFilled: { borderColor: "#7c3aed", backgroundColor: "#faf5ff" },
 
   switchRow: { flexDirection: "row", justifyContent: "center", alignItems: "center" },
