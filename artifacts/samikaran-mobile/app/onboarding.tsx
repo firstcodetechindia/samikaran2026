@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import {
   View,
   Text,
@@ -12,6 +12,7 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
 } from "react-native";
+
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import Animated, {
@@ -28,6 +29,13 @@ import Svg, { Ellipse, RadialGradient, Stop, Defs } from "react-native-svg";
 
 const { width, height } = Dimensions.get("window");
 
+// Pre-resolve all images at module load — Metro bundles & decodes them
+// immediately so there's no stall when characters first render
+const IMG1 = require("../assets/images/onboard1.png");
+const IMG2 = require("../assets/images/onboard2.png");
+const IMG3 = require("../assets/images/onboard3.png");
+const IMG4 = require("../assets/images/onboard4.png");
+
 const SLIDES = [
   {
     id: "0",
@@ -37,7 +45,7 @@ const SLIDES = [
     accent: "#8A2BE2",
     bgGrad: ["#2D1065", "#4C1D95", "#6D28D9"] as const,
     blobColor: "#7c3aed",
-    image: require("../assets/images/onboard1.png"),
+    image: IMG1,
   },
   {
     id: "1",
@@ -47,7 +55,7 @@ const SLIDES = [
     accent: "#c026d3",
     bgGrad: ["#4a044e", "#7e22ce", "#c026d3"] as const,
     blobColor: "#a21caf",
-    image: require("../assets/images/onboard2.png"),
+    image: IMG2,
   },
   {
     id: "2",
@@ -57,7 +65,7 @@ const SLIDES = [
     accent: "#0284c7",
     bgGrad: ["#0c1445", "#1e3a8a", "#1d4ed8"] as const,
     blobColor: "#2563eb",
-    image: require("../assets/images/onboard3.png"),
+    image: IMG3,
   },
   {
     id: "3",
@@ -67,7 +75,7 @@ const SLIDES = [
     accent: "#7c3aed",
     bgGrad: ["#1a0533", "#4c1d95", "#8A2BE2"] as const,
     blobColor: "#6d28d9",
-    image: require("../assets/images/onboard4.png"),
+    image: IMG4,
   },
 ];
 
@@ -301,9 +309,9 @@ export default function OnboardingScreen() {
             ))}
           </View>
 
-          {/* CTA Button */}
+          {/* CTA Button — centered on all slides */}
           {current < SLIDES.length - 1 ? (
-            /* Slides 1-3 — small floating arrow-only circle button */
+            /* Slides 1–3 — centered arrow circle */
             <View style={styles.arrowBtnRow}>
               <TouchableOpacity
                 onPress={handleNext}
@@ -321,7 +329,7 @@ export default function OnboardingScreen() {
               </TouchableOpacity>
             </View>
           ) : (
-            /* Last slide — right-aligned gradient pill, reduced width */
+            /* Last slide — centered gradient pill */
             <View style={styles.lastCtaRow}>
               <TouchableOpacity
                 onPress={handleNext}
@@ -334,30 +342,19 @@ export default function OnboardingScreen() {
                   end={{ x: 1, y: 0 }}
                   style={styles.lastCta}
                 >
+                  <View style={styles.lastIconCircle}>
+                    <Text style={styles.lastIconTxt}>🔐</Text>
+                  </View>
                   <Text style={[styles.lastCtaTxt, { fontFamily: "Roboto_700Bold" }]}>
                     Get Started
                   </Text>
-                  <View style={styles.lastIconCircle}>
-                    <Text style={styles.lastIconTxt}>✦</Text>
-                  </View>
                 </LinearGradient>
               </TouchableOpacity>
             </View>
           )}
 
-          {/* Sign-in link */}
-          {current === SLIDES.length - 1 ? (
-            <TouchableOpacity onPress={handleDone} style={{ alignItems: "center" }}>
-              <Text style={[styles.signinTxt, { fontFamily: "Roboto_400Regular" }]}>
-                Already registered?{" "}
-                <Text style={{ color: slide.accent, fontFamily: "Roboto_700Bold" }}>
-                  Sign In
-                </Text>
-              </Text>
-            </TouchableOpacity>
-          ) : (
-            <View style={{ height: 2 }} />
-          )}
+          {/* Small spacer on non-last slides */}
+          {current < SLIDES.length - 1 && <View style={{ height: 2 }} />}
 
           <View style={{ height: insets.bottom + (Platform.OS === "web" ? 16 : 6) }} />
         </View>
@@ -531,63 +528,62 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
 
-  // Slides 1-3 arrow-only button
+  // Slides 1-3 arrow-only button — centered
   arrowBtnRow: {
-    alignItems: "flex-end",
-    paddingRight: 4,
+    alignItems: "center",
   },
   arrowBtnWrap: {
-    borderRadius: 32,
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.5,
-    shadowRadius: 12,
-    elevation: 10,
+    borderRadius: 28,
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.45,
+    shadowRadius: 10,
+    elevation: 9,
   },
   arrowBtn: {
-    width: 62,
-    height: 62,
-    borderRadius: 31,
+    width: 54,
+    height: 54,
+    borderRadius: 27,
     alignItems: "center",
     justifyContent: "center",
   },
-  arrowBtnTxt: { color: "#fff", fontSize: 24, fontWeight: "800" },
+  arrowBtnTxt: { color: "#fff", fontSize: 22, fontWeight: "800" },
 
-  // Last slide — right-aligned gradient pill
+  // Last slide — centered gradient pill, compact height
   lastCtaRow: {
-    alignItems: "flex-end",
+    alignItems: "center",
   },
   lastCtaWrap: {
-    borderRadius: 18,
+    borderRadius: 16,
     overflow: "hidden",
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.45,
-    shadowRadius: 14,
-    elevation: 12,
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.42,
+    shadowRadius: 12,
+    elevation: 11,
+    width: width * 0.78,
   },
   lastCta: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 16,
-    paddingHorizontal: 24,
+    paddingVertical: 13,
+    paddingHorizontal: 20,
     gap: 10,
-    borderRadius: 18,
-    minWidth: width * 0.58,
+    borderRadius: 16,
   },
   lastCtaTxt: {
     color: "#fff",
-    fontSize: 17,
-    letterSpacing: 0.3,
+    fontSize: 16,
+    letterSpacing: 0.4,
   },
   lastIconCircle: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: "rgba(255,255,255,0.25)",
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: "rgba(255,255,255,0.22)",
     alignItems: "center",
     justifyContent: "center",
   },
-  lastIconTxt: { color: "#fff", fontSize: 14 },
+  lastIconTxt: { fontSize: 15 },
 
   signinTxt: { color: "#9ca3af", fontSize: 13, textAlign: "center" },
 });
