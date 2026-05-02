@@ -19,13 +19,52 @@ import { LinearGradient } from "expo-linear-gradient";
 import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
+import { useRouter, type Href } from "expo-router";
 import * as Haptics from "expo-haptics";
 import { useAuth } from "@/context/AuthContext";
 
 const { width, height } = Dimensions.get("window");
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? "";
 const CARD_HEIGHT = height * 0.68;
+
+interface ApiUser {
+  id: number;
+  username?: string;
+  studentId?: string;
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  fullName?: string;
+  xp?: number;
+  level?: number;
+  streak?: number;
+  gradeLevel?: number;
+  grade?: number;
+}
+
+interface LoginApiResponse {
+  user?: ApiUser;
+  id?: number;
+  username?: string;
+  studentId?: string;
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  fullName?: string;
+  xp?: number;
+  level?: number;
+  streak?: number;
+  gradeLevel?: number;
+  grade?: number;
+  activeSessionDetected?: boolean;
+  lastLoginDevice?: string;
+  lastLoginAt?: string;
+  message?: string;
+  token?: string;
+  verificationToken?: string;
+  resetToken?: string;
+  waitTime?: number;
+}
 
 type Screen =
   | "login-creds" | "login-otp"
@@ -165,23 +204,36 @@ export default function LoginScreen() {
     go(map[screen] ?? "login-creds");
   };
 
-  const doLogin = async (data: any) => {
-    const u = data.user ?? data;
-    const fn = u.firstName || "";
-    const ln = u.lastName || "";
-    const fullName = data.fullName || (fn + " " + ln).trim() || u.email || "";
+  const doLogin = async (data: LoginApiResponse) => {
+    const u: ApiUser = data.user ?? {
+      id: data.id ?? 0,
+      username: data.username,
+      studentId: data.studentId,
+      email: data.email,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      fullName: data.fullName,
+      xp: data.xp,
+      level: data.level,
+      streak: data.streak,
+      gradeLevel: data.gradeLevel,
+      grade: data.grade,
+    };
+    const fn = u.firstName ?? "";
+    const ln = u.lastName ?? "";
+    const fullName = u.fullName ?? ((fn + " " + ln).trim() || (u.email ?? ""));
     await login({
       id: u.id,
-      username: u.username || u.studentId || u.email,
+      username: u.username ?? u.studentId ?? u.email ?? "",
       fullName,
       role: "student",
       email: u.email,
-      xp: u.xp || 0,
-      level: u.level || 1,
-      streak: u.streak || 0,
-      grade: u.gradeLevel || u.grade,
+      xp: u.xp ?? 0,
+      level: u.level ?? 1,
+      streak: u.streak ?? 0,
+      grade: u.gradeLevel ?? u.grade,
     });
-    router.replace("/(student)/home" as any);
+    router.replace("/(student)/home" as Href);
   };
 
   const handleLoginPassword = async (forceLogout = false) => {
@@ -199,19 +251,20 @@ export default function LoginScreen() {
         credentials: "include",
         body: JSON.stringify({ email: identifier.trim(), password, userType: "student", forceLogout }),
       });
-      const data = await res.json();
+      const data = (await res.json()) as LoginApiResponse;
       if (res.status === 409 && data.activeSessionDetected) {
-        setSessionInfo({ device: data.lastLoginDevice || "another device", time: data.lastLoginAt || "" });
+        setSessionInfo({ device: data.lastLoginDevice ?? "another device", time: data.lastLoginAt ?? "" });
         setForceMode("password");
         setSessionModal(true);
         return;
       }
-      if (!res.ok) throw new Error(data.message || "Login failed. Check your credentials.");
+      if (!res.ok) throw new Error(data.message ?? "Login failed. Check your credentials.");
       toast("Welcome back! 🎉", "success");
       await doLogin(data);
-    } catch (err: any) {
-      setErr("login", err.message);
-      toast(err.message, "error");
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Login failed.";
+      setErr("login", msg);
+      toast(msg, "error");
     } finally { setLoading(false); }
   };
 
@@ -224,13 +277,16 @@ export default function LoginScreen() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ identifier: identifier.trim(), userType: "student" }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Failed to send OTP.");
+      const data = (await res.json()) as LoginApiResponse;
+      if (!res.ok) throw new Error(data.message ?? "Failed to send OTP.");
       setOtp(["", "", "", "", "", ""]);
-      startTimer(data.waitTime || 90);
+      startTimer(data.waitTime ?? 90);
       go("login-otp");
       toast("OTP sent to your registered contact!", "success");
-    } catch (err: any) { setErr("id", err.message); toast(err.message, "error"); }
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Failed to send OTP.";
+      setErr("id", msg); toast(msg, "error");
+    }
     finally { setLoading(false); }
   };
 
@@ -244,17 +300,20 @@ export default function LoginScreen() {
         credentials: "include",
         body: JSON.stringify({ identifier: identifier.trim(), code: otpStr, forceLogout }),
       });
-      const data = await res.json();
+      const data = (await res.json()) as LoginApiResponse;
       if (res.status === 409 && data.activeSessionDetected) {
-        setSessionInfo({ device: data.lastLoginDevice || "another device", time: data.lastLoginAt || "" });
+        setSessionInfo({ device: data.lastLoginDevice ?? "another device", time: data.lastLoginAt ?? "" });
         setForceMode("otp");
         setSessionModal(true);
         return;
       }
-      if (!res.ok) throw new Error(data.message || "Invalid or expired OTP.");
+      if (!res.ok) throw new Error(data.message ?? "Invalid or expired OTP.");
       toast("Logged in successfully! 🎉", "success");
       await doLogin(data);
-    } catch (err: any) { setErr("otp", err.message); toast(err.message, "error"); }
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Invalid OTP.";
+      setErr("otp", msg); toast(msg, "error");
+    }
     finally { setLoading(false); }
   };
 
@@ -268,13 +327,16 @@ export default function LoginScreen() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ contact: regContact.trim(), type: isPhone ? "phone" : "email" }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "This contact may already be registered.");
+      const data = (await res.json()) as LoginApiResponse;
+      if (!res.ok) throw new Error(data.message ?? "This contact may already be registered.");
       setOtp(["", "", "", "", "", ""]);
-      startTimer(data.waitTime || 90);
+      startTimer(data.waitTime ?? 90);
       go("reg-otp");
       toast("Verification code sent!", "success");
-    } catch (err: any) { setErr("rc", err.message); toast(err.message, "error"); }
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Failed to send code.";
+      setErr("rc", msg); toast(msg, "error");
+    }
     finally { setLoading(false); }
   };
 
@@ -287,12 +349,15 @@ export default function LoginScreen() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ contact: regContact.trim(), code: otpStr }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Invalid or expired OTP.");
-      setRegVerifyToken(data.token || data.verificationToken || "");
+      const data = (await res.json()) as LoginApiResponse;
+      if (!res.ok) throw new Error(data.message ?? "Invalid or expired OTP.");
+      setRegVerifyToken(data.token ?? data.verificationToken ?? "");
       go("reg-details");
       toast("Contact verified!", "success");
-    } catch (err: any) { setErr("otp", err.message); toast(err.message, "error"); }
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Invalid OTP.";
+      setErr("otp", msg); toast(msg, "error");
+    }
     finally { setLoading(false); }
   };
 
@@ -309,11 +374,14 @@ export default function LoginScreen() {
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${regVerifyToken}` },
         body: JSON.stringify({ contact: regContact.trim(), fullName: regName.trim(), password: regPassword, role: "student" }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Registration failed.");
+      const data = (await res.json()) as LoginApiResponse;
+      if (!res.ok) throw new Error(data.message ?? "Registration failed.");
       toast("Account created! Sign in now. 🎉", "success");
       setTimeout(() => { go("login-creds"); setIdentifier(regContact); setPassword(""); }, 1200);
-    } catch (err: any) { setErr("rn", err.message); toast(err.message, "error"); }
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Registration failed.";
+      setErr("rn", msg); toast(msg, "error");
+    }
     finally { setLoading(false); }
   };
 
@@ -327,13 +395,16 @@ export default function LoginScreen() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: forgotEmail.trim() }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Email not found.");
-      startTimer(data.waitTime || 90);
+      const data = (await res.json()) as LoginApiResponse;
+      if (!res.ok) throw new Error(data.message ?? "Email not found.");
+      startTimer(data.waitTime ?? 90);
       setOtp(["", "", "", "", "", ""]);
       go("forgot-otp");
       toast("Reset code sent to your email!", "success");
-    } catch (err: any) { setErr("fe", err.message); toast(err.message, "error"); }
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Email not found.";
+      setErr("fe", msg); toast(msg, "error");
+    }
     finally { setLoading(false); }
   };
 
@@ -346,11 +417,14 @@ export default function LoginScreen() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: forgotEmail.trim(), code: otpStr }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Invalid or expired code.");
-      setForgotResetToken(data.resetToken || "");
+      const data = (await res.json()) as LoginApiResponse;
+      if (!res.ok) throw new Error(data.message ?? "Invalid or expired code.");
+      setForgotResetToken(data.resetToken ?? "");
       go("forgot-reset");
-    } catch (err: any) { setErr("otp", err.message); toast(err.message, "error"); }
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Invalid code.";
+      setErr("otp", msg); toast(msg, "error");
+    }
     finally { setLoading(false); }
   };
 
@@ -365,11 +439,14 @@ export default function LoginScreen() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: forgotEmail.trim(), resetToken: forgotResetToken, newPassword }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Failed to reset password.");
+      const data = (await res.json()) as LoginApiResponse;
+      if (!res.ok) throw new Error(data.message ?? "Failed to reset password.");
       go("forgot-done");
       toast("Password updated successfully!", "success");
-    } catch (err: any) { setErr("np", err.message); toast(err.message, "error"); }
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Failed to reset password.";
+      setErr("np", msg); toast(msg, "error");
+    }
     finally { setLoading(false); }
   };
 
