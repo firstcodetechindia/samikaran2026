@@ -16,6 +16,7 @@ import {
   StatusBar,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -24,13 +25,14 @@ import { useAuth } from "@/context/AuthContext";
 
 const { width, height } = Dimensions.get("window");
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? "";
+const CARD_HEIGHT = height * 0.68;
 
 type Screen =
   | "login-creds" | "login-otp"
   | "reg-contact" | "reg-otp" | "reg-details"
   | "forgot-email" | "forgot-otp" | "forgot-reset" | "forgot-done";
 
-// ── TOAST ────────────────────────────────────────────────
+// ── TOAST ─────────────────────────────────────────────────
 function useToast() {
   const [msg, setMsg] = useState("");
   const [type, setType] = useState<"success" | "error" | "info">("info");
@@ -62,13 +64,21 @@ function useToast() {
         type === "error" && { backgroundColor: "#7f1d1d" },
         {
           opacity: anim,
-          transform: [{ translateY: anim.interpolate({ inputRange: [0, 1], outputRange: [-16, 0] }) }],
+          transform: [
+            { translateY: anim.interpolate({ inputRange: [0, 1], outputRange: [-16, 0] }) },
+          ],
         },
       ]}
       pointerEvents="none"
     >
       <Ionicons
-        name={type === "success" ? "checkmark-circle" : type === "error" ? "alert-circle" : "information-circle"}
+        name={
+          type === "success"
+            ? "checkmark-circle"
+            : type === "error"
+            ? "alert-circle"
+            : "information-circle"
+        }
         size={17}
         color="#fff"
       />
@@ -79,6 +89,7 @@ function useToast() {
   return { show, El };
 }
 
+// ── MAIN ──────────────────────────────────────────────────
 export default function LoginScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
@@ -116,7 +127,12 @@ export default function LoginScreen() {
 
   const otpStr = otp.join("");
   const setErr = (k: string, v: string) => setErrors((e) => ({ ...e, [k]: v }));
-  const clrErr = (k: string) => setErrors((e) => { const n = { ...e }; delete n[k]; return n; });
+  const clrErr = (k: string) =>
+    setErrors((e) => {
+      const n = { ...e };
+      delete n[k];
+      return n;
+    });
 
   const startTimer = useCallback((secs = 90) => {
     setResendTimer(secs);
@@ -137,23 +153,23 @@ export default function LoginScreen() {
 
   const handleBack = () => {
     const map: Partial<Record<Screen, Screen>> = {
-      "login-otp": "login-creds",
-      "reg-contact": "login-creds",
-      "reg-otp": "reg-contact",
-      "reg-details": "reg-otp",
+      "login-otp":    "login-creds",
+      "reg-contact":  "login-creds",
+      "reg-otp":      "reg-contact",
+      "reg-details":  "reg-otp",
       "forgot-email": "login-creds",
-      "forgot-otp": "forgot-email",
+      "forgot-otp":   "forgot-email",
       "forgot-reset": "forgot-otp",
-      "forgot-done": "login-creds",
+      "forgot-done":  "login-creds",
     };
     go(map[screen] ?? "login-creds");
   };
 
   const doLogin = async (data: any) => {
     const u = data.user ?? data;
-    const firstName = u.firstName || "";
-    const lastName = u.lastName || "";
-    const fullName = data.fullName || (firstName + " " + lastName).trim() || u.email || "";
+    const fn = u.firstName || "";
+    const ln = u.lastName || "";
+    const fullName = data.fullName || (fn + " " + ln).trim() || u.email || "";
     await login({
       id: u.id,
       username: u.username || u.studentId || u.email,
@@ -168,7 +184,6 @@ export default function LoginScreen() {
     router.replace("/(student)/home" as any);
   };
 
-  // ── LOGIN PASSWORD ────────────────────────────────────
   const handleLoginPassword = async (forceLogout = false) => {
     if (!forceLogout) {
       let ok = true;
@@ -200,7 +215,6 @@ export default function LoginScreen() {
     } finally { setLoading(false); }
   };
 
-  // ── SEND LOGIN OTP ────────────────────────────────────
   const handleSendLoginOtp = async () => {
     if (!identifier.trim()) { setErr("id", "Enter your Student ID, email or phone."); return; }
     setLoading(true);
@@ -220,7 +234,6 @@ export default function LoginScreen() {
     finally { setLoading(false); }
   };
 
-  // ── VERIFY LOGIN OTP ─────────────────────────────────
   const handleVerifyLoginOtp = async (forceLogout = false) => {
     if (otpStr.length < 6) { setErr("otp", "Enter the complete 6-digit code."); return; }
     setLoading(true);
@@ -245,7 +258,6 @@ export default function LoginScreen() {
     finally { setLoading(false); }
   };
 
-  // ── REG: SEND OTP ─────────────────────────────────────
   const handleCheckContact = async () => {
     if (!regContact.trim()) { setErr("rc", "Enter your email or phone number."); return; }
     setLoading(true);
@@ -266,7 +278,6 @@ export default function LoginScreen() {
     finally { setLoading(false); }
   };
 
-  // ── REG: VERIFY OTP ───────────────────────────────────
   const handleVerifyRegOtp = async () => {
     if (otpStr.length < 6) { setErr("otp", "Enter the complete 6-digit code."); return; }
     setLoading(true);
@@ -285,7 +296,6 @@ export default function LoginScreen() {
     finally { setLoading(false); }
   };
 
-  // ── REGISTER ──────────────────────────────────────────
   const handleRegister = async () => {
     let ok = true;
     if (!regName.trim()) { setErr("rn", "Full name is required."); ok = false; }
@@ -307,7 +317,6 @@ export default function LoginScreen() {
     finally { setLoading(false); }
   };
 
-  // ── FORGOT: SEND ──────────────────────────────────────
   const handleForgotSend = async () => {
     if (!forgotEmail.trim()) { setErr("fe", "Enter your email address."); return; }
     if (!forgotEmail.includes("@")) { setErr("fe", "Enter a valid email address."); return; }
@@ -328,7 +337,6 @@ export default function LoginScreen() {
     finally { setLoading(false); }
   };
 
-  // ── FORGOT: VERIFY OTP ────────────────────────────────
   const handleForgotOtp = async () => {
     if (otpStr.length < 6) { setErr("otp", "Enter the complete 6-digit code."); return; }
     setLoading(true);
@@ -346,7 +354,6 @@ export default function LoginScreen() {
     finally { setLoading(false); }
   };
 
-  // ── FORGOT: RESET ────────────────────────────────────
   const handleResetPassword = async () => {
     if (!newPassword.trim()) { setErr("np", "Enter a new password."); return; }
     if (newPassword.length < 8) { setErr("np", "Min 8 characters required."); return; }
@@ -374,21 +381,20 @@ export default function LoginScreen() {
     if (!d && idx > 0) otpRefs.current[idx - 1]?.focus();
   };
 
+  const isOtpScreen = screen === "login-otp" || screen === "reg-otp" || screen === "forgot-otp";
   const canGoBack = screen !== "login-creds";
 
   const meta: Record<Screen, { title: string; sub: string }> = {
-    "login-creds":  { title: "Welcome Back", sub: "Sign in to your student account" },
-    "login-otp":    { title: "Enter OTP",    sub: `Code sent to ${identifier}` },
-    "reg-contact":  { title: "Create Account", sub: "Enter your email or phone to start" },
-    "reg-otp":      { title: "Verify Contact", sub: `Code sent to ${regContact}` },
-    "reg-details":  { title: "Almost Done!",  sub: "Set up your account details" },
-    "forgot-email": { title: "Forgot Password", sub: "Enter your registered email" },
-    "forgot-otp":   { title: "Check Email",  sub: `Code sent to ${forgotEmail}` },
-    "forgot-reset": { title: "New Password", sub: "Choose a strong new password" },
-    "forgot-done":  { title: "All Done!",    sub: "Your password has been updated" },
+    "login-creds":  { title: "Welcome Back",    sub: "Sign in to your student account" },
+    "login-otp":    { title: "Enter OTP",        sub: `Code sent to ${identifier}` },
+    "reg-contact":  { title: "Create Account",   sub: "Enter your email or phone to start" },
+    "reg-otp":      { title: "Verify Contact",   sub: `Code sent to ${regContact}` },
+    "reg-details":  { title: "Almost Done!",     sub: "Set up your account details" },
+    "forgot-email": { title: "Forgot Password",  sub: "Enter your registered email" },
+    "forgot-otp":   { title: "Check Email",      sub: `Code sent to ${forgotEmail}` },
+    "forgot-reset": { title: "New Password",     sub: "Choose a strong new password" },
+    "forgot-done":  { title: "All Done!",        sub: "Your password has been updated" },
   };
-
-  const isOtpScreen = screen === "login-otp" || screen === "reg-otp" || screen === "forgot-otp";
 
   return (
     <View style={styles.root}>
@@ -396,11 +402,11 @@ export default function LoginScreen() {
 
       {/* Full-screen purple gradient */}
       <LinearGradient
-        colors={["#150533", "#2d1065", "#4c1d95", "#2d1065", "#150533"]}
-        locations={[0, 0.25, 0.5, 0.75, 1]}
+        colors={["#150533", "#2d1065", "#5b21b6", "#2d1065", "#150533"]}
+        locations={[0, 0.2, 0.5, 0.8, 1]}
         style={StyleSheet.absoluteFill}
-        start={{ x: 0.2, y: 0 }}
-        end={{ x: 0.8, y: 1 }}
+        start={{ x: 0.3, y: 0 }}
+        end={{ x: 0.7, y: 1 }}
       />
 
       {/* Decorative blobs */}
@@ -413,43 +419,42 @@ export default function LoginScreen() {
         {ToastEl}
       </View>
 
-      {/* Logo area — top of screen */}
-      <View style={[styles.topBrand, { paddingTop: insets.top + 20 }]}>
-        <View style={styles.logoCircle}>
+      {/* ── TOP: Logo (always visible, fixed area) ── */}
+      <View style={[styles.topArea, { paddingTop: insets.top + 16 }]}>
+        <View style={styles.logoRing}>
           <Image
             source={require("../assets/images/icon_nobg.png")}
             style={styles.logoImg}
             resizeMode="contain"
           />
         </View>
-        <Text style={[styles.brandName, { fontFamily: "Roboto_700Bold" }]}>
-          SAMIKARAN<Text style={{ color: "#FF2FBF" }}>.</Text>
+        <Text style={[styles.brandName, { fontFamily: "Roboto_900Black" }]}>
+          SAMIKARAN<Text style={{ color: "#f472b6" }}>.</Text>
         </Text>
-        <Text style={[styles.brandSub, { fontFamily: "Roboto_400Regular" }]}>OLYMPIAD PLATFORM</Text>
-
-        {isOtpScreen && (
-          <View style={styles.otpBadge}>
-            <LinearGradient colors={["#7c3aed", "#ec4899"]} style={styles.otpBadgeGrad}>
-              <Ionicons name="mail-open-outline" size={22} color="#fff" />
-            </LinearGradient>
-          </View>
-        )}
-        {screen === "forgot-done" && (
-          <View style={styles.otpBadge}>
-            <LinearGradient colors={["#059669", "#10b981"]} style={styles.otpBadgeGrad}>
-              <Ionicons name="checkmark-circle" size={22} color="#fff" />
-            </LinearGradient>
-          </View>
-        )}
+        <Text style={[styles.brandTagline, { fontFamily: "Roboto_400Regular" }]}>
+          OLYMPIAD PLATFORM
+        </Text>
       </View>
 
-      {/* White glassmorphism card */}
+      {/* ── BOTTOM: Frosted glass card ── */}
       <KeyboardAvoidingView
-        style={styles.kavFlex}
+        style={styles.kavWrap}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={0}
       >
-        <View style={[styles.card, { paddingBottom: insets.bottom + 20 }]}>
+        {/* BlurView gives the frosted glass background */}
+        <BlurView intensity={60} tint="light" style={styles.blurCard}>
+          {/* White overlay on top of blur for glass feel */}
+          <View style={styles.glassOverlay} />
+
+          {/* Purple glow line at top of card */}
+          <LinearGradient
+            colors={["#7c3aed", "#ec4899", "transparent"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.topGlow}
+          />
+
           {/* Drag pill */}
           <View style={styles.pill} />
 
@@ -467,15 +472,19 @@ export default function LoginScreen() {
               <View style={styles.backPlaceholder} />
             )}
             <View style={{ flex: 1 }}>
-              <Text style={[styles.cardTitle, { fontFamily: "Roboto_700Bold" }]}>{meta[screen].title}</Text>
-              <Text style={[styles.cardSub, { fontFamily: "Roboto_400Regular" }]}>{meta[screen].sub}</Text>
+              <Text style={[styles.cardTitle, { fontFamily: "Roboto_700Bold" }]}>
+                {meta[screen].title}
+              </Text>
+              <Text style={[styles.cardSub, { fontFamily: "Roboto_400Regular" }]}>
+                {meta[screen].sub}
+              </Text>
             </View>
           </View>
 
           <ScrollView
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled"
-            contentContainerStyle={styles.scrollContent}
+            contentContainerStyle={[styles.scrollContent, { paddingBottom: insets.bottom + 16 }]}
           >
             {/* ── LOGIN CREDS ── */}
             {screen === "login-creds" && (
@@ -500,16 +509,19 @@ export default function LoginScreen() {
                   error={errors.pw}
                 />
                 <TouchableOpacity onPress={() => go("forgot-email")} style={styles.forgotRow}>
-                  <Text style={[styles.forgotTxt, { fontFamily: "Roboto_500Medium" }]}>Forgot Password?</Text>
+                  <Text style={[styles.forgotTxt, { fontFamily: "Roboto_500Medium" }]}>
+                    Forgot Password?
+                  </Text>
                 </TouchableOpacity>
                 <PrimaryBtn label="Sign In" loading={loading} onPress={() => handleLoginPassword(false)} />
                 <OrDivider />
-                <SecondaryBtn icon="phone-portrait-outline" label="Login with OTP" onPress={handleSendLoginOtp} loading={loading} />
-                <SwitchLink
-                  question="Don't have an account?"
-                  link="Create one"
-                  onPress={() => go("reg-contact")}
+                <SecondaryBtn
+                  icon="phone-portrait-outline"
+                  label="Login with OTP"
+                  onPress={handleSendLoginOtp}
+                  loading={loading}
                 />
+                <SwitchLink question="Don't have an account?" link="Create one" onPress={() => go("reg-contact")} />
               </>
             )}
 
@@ -555,11 +567,7 @@ export default function LoginScreen() {
                   error={errors.rc}
                 />
                 <PrimaryBtn label="Send Verification Code" loading={loading} onPress={handleCheckContact} />
-                <SwitchLink
-                  question="Already have an account?"
-                  link="Sign In"
-                  onPress={() => go("login-creds")}
-                />
+                <SwitchLink question="Already have an account?" link="Sign In" onPress={() => go("login-creds")} />
               </>
             )}
 
@@ -641,70 +649,43 @@ export default function LoginScreen() {
                     <Ionicons name="checkmark-circle" size={40} color="#fff" />
                   </LinearGradient>
                   <Text style={[styles.doneTxt, { fontFamily: "Roboto_400Regular" }]}>
-                    Your password has been successfully updated. You can now sign in with your new credentials.
+                    Your password has been successfully updated. You can now sign in.
                   </Text>
                 </View>
                 <PrimaryBtn
                   label="Back to Sign In"
                   loading={false}
-                  onPress={() => {
-                    go("login-creds");
-                    setForgotEmail("");
-                    setNewPassword("");
-                    setConfirmPassword("");
-                  }}
+                  onPress={() => { go("login-creds"); setForgotEmail(""); setNewPassword(""); setConfirmPassword(""); }}
                 />
               </>
             )}
           </ScrollView>
-        </View>
+        </BlurView>
       </KeyboardAvoidingView>
 
-      {/* ── SESSION CONFLICT MODAL ── */}
-      <Modal
-        visible={sessionModal}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setSessionModal(false)}
-      >
+      {/* ── SESSION MODAL ── */}
+      <Modal visible={sessionModal} transparent animationType="fade" onRequestClose={() => setSessionModal(false)}>
         <View style={styles.modalBg}>
           <View style={styles.modalBox}>
             <View style={styles.modalWarnIcon}>
               <Ionicons name="warning" size={28} color="#f59e0b" />
             </View>
-            <Text style={[styles.modalTitle, { fontFamily: "Roboto_700Bold" }]}>
-              Active Session Detected
-            </Text>
+            <Text style={[styles.modalTitle, { fontFamily: "Roboto_700Bold" }]}>Active Session Detected</Text>
             <Text style={[styles.modalBody, { fontFamily: "Roboto_400Regular" }]}>
               You are already signed in on{" "}
-              <Text style={{ fontFamily: "Roboto_700Bold", color: "#7c3aed" }}>
-                {sessionInfo?.device}
-              </Text>
-              {sessionInfo?.time ? `. Signed in ${sessionInfo.time}` : ""}.
-              {"\n\n"}
+              <Text style={{ fontFamily: "Roboto_700Bold", color: "#7c3aed" }}>{sessionInfo?.device}</Text>
+              {sessionInfo?.time ? `. Signed in ${sessionInfo.time}` : ""}.{"\n\n"}
               Do you want to sign out of that device and sign in here?
             </Text>
             <View style={styles.modalRow}>
-              <TouchableOpacity
-                style={styles.modalKeepBtn}
-                onPress={() => setSessionModal(false)}
-              >
+              <TouchableOpacity style={styles.modalKeepBtn} onPress={() => setSessionModal(false)}>
                 <Text style={[styles.modalKeepTxt, { fontFamily: "Roboto_700Bold" }]}>Keep Existing</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.modalSignInBtn}
-                onPress={() => {
-                  setSessionModal(false);
-                  if (forceMode === "otp") handleVerifyLoginOtp(true);
-                  else handleLoginPassword(true);
-                }}
+                onPress={() => { setSessionModal(false); if (forceMode === "otp") handleVerifyLoginOtp(true); else handleLoginPassword(true); }}
               >
-                <LinearGradient
-                  colors={["#7c3aed", "#ec4899"]}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
-                  style={styles.modalSignInGrad}
-                >
+                <LinearGradient colors={["#7c3aed", "#ec4899"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.modalSignInGrad}>
                   <Text style={[styles.modalSignInTxt, { fontFamily: "Roboto_700Bold" }]}>Sign In Here</Text>
                 </LinearGradient>
               </TouchableOpacity>
@@ -734,22 +715,18 @@ function Field({
 }) {
   const [focused, setFocused] = useState(false);
   const hasError = !!error;
-
   return (
     <View style={{ marginBottom: 4 }}>
-      <Text style={[styles.fieldLabel, { fontFamily: "Roboto_500Medium", color: hasError ? "#dc2626" : focused ? "#7c3aed" : "#6b7280" }]}>
+      <Text style={[
+        styles.fieldLabel,
+        { fontFamily: "Roboto_500Medium", color: hasError ? "#dc2626" : focused ? "#7c3aed" : "#6b7280" },
+      ]}>
         {label}
       </Text>
-      <View
-        style={[
-          styles.fieldWrap,
-          focused && styles.fieldFocused,
-          hasError && styles.fieldError,
-        ]}
-      >
+      <View style={[styles.fieldWrap, focused && styles.fieldFocused, hasError && styles.fieldError]}>
         <Ionicons
           name={icon}
-          size={17}
+          size={18}
           color={hasError ? "#dc2626" : focused ? "#7c3aed" : "#9ca3af"}
           style={{ marginRight: 10 }}
         />
@@ -767,11 +744,8 @@ function Field({
           placeholderTextColor="#d1d5db"
         />
         {eyeIcon && (
-          <TouchableOpacity
-            onPress={onEye}
-            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-          >
-            <Ionicons name={eyeIcon} size={17} color="#9ca3af" />
+          <TouchableOpacity onPress={onEye} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
+            <Ionicons name={eyeIcon} size={18} color="#9ca3af" />
           </TouchableOpacity>
         )}
       </View>
@@ -796,21 +770,9 @@ function ErrBanner({ msg }: { msg: string }) {
 
 function PrimaryBtn({ label, loading, onPress }: { label: string; loading: boolean; onPress: () => void }) {
   return (
-    <TouchableOpacity
-      style={[styles.primaryWrap, { opacity: loading ? 0.75 : 1 }]}
-      onPress={onPress}
-      disabled={loading}
-      activeOpacity={0.87}
-    >
-      <LinearGradient
-        colors={["#7c3aed", "#a855f7", "#ec4899"]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-        style={styles.primaryGrad}
-      >
-        {loading ? (
-          <ActivityIndicator color="#fff" size="small" />
-        ) : (
+    <TouchableOpacity style={[styles.primaryWrap, { opacity: loading ? 0.75 : 1 }]} onPress={onPress} disabled={loading} activeOpacity={0.87}>
+      <LinearGradient colors={["#7c3aed", "#a855f7", "#ec4899"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.primaryGrad}>
+        {loading ? <ActivityIndicator color="#fff" size="small" /> : (
           <Text style={[styles.primaryTxt, { fontFamily: "Roboto_700Bold" }]}>{label}</Text>
         )}
       </LinearGradient>
@@ -837,7 +799,11 @@ function OrDivider() {
   );
 }
 
-function OtpBoxes({ otp, refs, onChange }: { otp: string[]; refs: React.MutableRefObject<(TextInput | null)[]>; onChange: (v: string, i: number) => void }) {
+function OtpBoxes({ otp, refs, onChange }: {
+  otp: string[];
+  refs: React.MutableRefObject<(TextInput | null)[]>;
+  onChange: (v: string, i: number) => void;
+}) {
   return (
     <View style={styles.otpRow}>
       {otp.map((v, i) => (
@@ -875,10 +841,7 @@ function ResendTimer({ timer, onResend }: { timer: number; onResend: () => void 
     <View style={styles.resendRow}>
       {timer > 0 ? (
         <Text style={[styles.resendWait, { fontFamily: "Roboto_400Regular" }]}>
-          Resend in{" "}
-          <Text style={{ color: "#7c3aed", fontFamily: "Roboto_700Bold" }}>
-            {mm}:{ss}
-          </Text>
+          Resend in <Text style={{ color: "#7c3aed", fontFamily: "Roboto_700Bold" }}>{mm}:{ss}</Text>
         </Text>
       ) : (
         <TouchableOpacity onPress={onResend}>
@@ -891,58 +854,88 @@ function ResendTimer({ timer, onResend }: { timer: number; onResend: () => void 
 
 // ── STYLES ────────────────────────────────────────────────
 const styles = StyleSheet.create({
-  root: { flex: 1 },
-  kavFlex: { flex: 1 },
+  root: { flex: 1, backgroundColor: "#150533" },
 
-  // Decorative blobs behind gradient
-  blob1: { position: "absolute", width: 280, height: 280, borderRadius: 140, backgroundColor: "#7c3aed", opacity: 0.25, top: -60, left: -60 },
-  blob2: { position: "absolute", width: 220, height: 220, borderRadius: 110, backgroundColor: "#ec4899", opacity: 0.13, top: 30, right: -60 },
-  blob3: { position: "absolute", width: 180, height: 180, borderRadius: 90,  backgroundColor: "#7c3aed", opacity: 0.15, bottom: height * 0.35, left: -30 },
+  blob1: { position: "absolute", width: 300, height: 300, borderRadius: 150, backgroundColor: "#7c3aed", opacity: 0.3, top: -80, left: -80 },
+  blob2: { position: "absolute", width: 240, height: 240, borderRadius: 120, backgroundColor: "#ec4899", opacity: 0.15, top: 40, right: -70 },
+  blob3: { position: "absolute", width: 200, height: 200, borderRadius: 100, backgroundColor: "#6d28d9", opacity: 0.2, top: height * 0.15, left: width * 0.2 },
 
-  // Toast
   toastZone: { position: "absolute", left: 16, right: 16, zIndex: 999 },
-  toast: { flexDirection: "row", alignItems: "center", gap: 8, backgroundColor: "#1e293b", borderRadius: 14, paddingVertical: 12, paddingHorizontal: 16, shadowColor: "#000", shadowOpacity: 0.25, shadowRadius: 10, shadowOffset: { width: 0, height: 4 }, elevation: 10 },
+  toast: { flexDirection: "row", alignItems: "center", gap: 8, borderRadius: 14, paddingVertical: 12, paddingHorizontal: 16, shadowColor: "#000", shadowOpacity: 0.25, shadowRadius: 10, shadowOffset: { width: 0, height: 4 }, elevation: 10 },
   toastTxt: { flex: 1, fontSize: 13, color: "#fff" },
 
-  // Top branding
-  topBrand: { alignItems: "center", gap: 6, paddingBottom: 24, paddingHorizontal: 20 },
-  logoCircle: { width: 60, height: 60, borderRadius: 18, backgroundColor: "rgba(255,255,255,0.12)", borderWidth: 1.5, borderColor: "rgba(255,255,255,0.2)", alignItems: "center", justifyContent: "center", marginBottom: 4 },
-  logoImg: { width: 42, height: 42 },
-  brandName: { fontSize: 20, color: "#fff", letterSpacing: 2.5 },
-  brandSub: { fontSize: 9.5, color: "rgba(255,255,255,0.4)", letterSpacing: 4 },
-  otpBadge: { marginTop: 8 },
-  otpBadgeGrad: { width: 52, height: 52, borderRadius: 26, alignItems: "center", justifyContent: "center" },
-
-  // ─── WHITE GLASSMORPHISM CARD ───────────────────────────
-  card: {
-    flex: 1,
-    // White with frosted glass feel
-    backgroundColor: "rgba(255,255,255,0.96)",
-    borderTopLeftRadius: 32,
-    borderTopRightRadius: 32,
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.6)",
-    // Soft glow shadow at top
-    shadowColor: "#7c3aed",
-    shadowOpacity: 0.15,
-    shadowRadius: 24,
-    shadowOffset: { width: 0, height: -8 },
-    elevation: 16,
-    paddingHorizontal: 24,
-    paddingTop: 12,
+  // ── TOP LOGO AREA ── fixed height, always shows purple BG
+  topArea: {
+    height: height * 0.30,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 6,
+    zIndex: 1,
   },
-  pill: { width: 36, height: 4, borderRadius: 2, backgroundColor: "#e5e7eb", alignSelf: "center", marginBottom: 20 },
+  logoRing: {
+    width: 70,
+    height: 70,
+    borderRadius: 22,
+    backgroundColor: "rgba(255,255,255,0.12)",
+    borderWidth: 1.5,
+    borderColor: "rgba(255,255,255,0.25)",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 6,
+    shadowColor: "#a855f7",
+    shadowOpacity: 0.6,
+    shadowRadius: 16,
+    shadowOffset: { width: 0, height: 0 },
+  },
+  logoImg: { width: 46, height: 46 },
+  brandName: { fontSize: 22, color: "#fff", letterSpacing: 3 },
+  brandTagline: { fontSize: 9, color: "rgba(255,255,255,0.4)", letterSpacing: 4.5 },
 
-  // Card header
-  cardHeader: { flexDirection: "row", alignItems: "flex-start", marginBottom: 22, gap: 10 },
+  // ── FROSTED GLASS CARD ──
+  kavWrap: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: CARD_HEIGHT,
+  },
+  blurCard: {
+    flex: 1,
+    borderTopLeftRadius: 36,
+    borderTopRightRadius: 36,
+    overflow: "hidden",
+    paddingHorizontal: 24,
+    paddingTop: 10,
+  },
+  // Semi-white overlay on blur = classic glassmorphism
+  glassOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(255,255,255,0.82)",
+    borderTopLeftRadius: 36,
+    borderTopRightRadius: 36,
+  },
+  // Thin gradient top border
+  topGlow: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 2,
+    borderTopLeftRadius: 36,
+    borderTopRightRadius: 36,
+  },
+
+  pill: { width: 40, height: 4, borderRadius: 2, backgroundColor: "#e5e7eb", alignSelf: "center", marginBottom: 18, zIndex: 1 },
+
+  cardHeader: { flexDirection: "row", alignItems: "flex-start", marginBottom: 20, gap: 10, zIndex: 1 },
   backBtn: { width: 36, height: 36, borderRadius: 18, backgroundColor: "#f5f3ff", borderWidth: 1, borderColor: "#ede9fe", alignItems: "center", justifyContent: "center" },
   backPlaceholder: { width: 36 },
   cardTitle: { fontSize: 24, color: "#111827", lineHeight: 30 },
   cardSub: { fontSize: 13, color: "#9ca3af", marginTop: 2 },
 
-  scrollContent: { gap: 14, paddingBottom: 8 },
+  scrollContent: { gap: 14, zIndex: 1 },
 
-  // ─── FIELD ──────────────────────────────────────────────
+  // ── FIELD ──
   fieldLabel: { fontSize: 12, marginBottom: 6, marginLeft: 2 },
   fieldWrap: {
     flexDirection: "row",
@@ -956,58 +949,45 @@ const styles = StyleSheet.create({
   },
   fieldFocused: { borderColor: "#7c3aed", backgroundColor: "#faf5ff" },
   fieldError: { borderColor: "#dc2626", backgroundColor: "#fff5f5" },
-  fieldInput: { flex: 1, fontSize: 15, color: "#111827", minHeight: 24, paddingVertical: 0 },
+  fieldInput: { flex: 1, fontSize: 15, color: "#111827", minHeight: 22, paddingVertical: 0 },
   fieldErrRow: { flexDirection: "row", alignItems: "center", gap: 4, marginTop: 4, marginLeft: 2 },
   fieldErrTxt: { fontSize: 12, color: "#dc2626" },
 
-  errBanner: {
-    flexDirection: "row", alignItems: "center", gap: 8,
-    backgroundColor: "#fef2f2", borderWidth: 1, borderColor: "#fecaca",
-    borderRadius: 12, padding: 12,
-  },
+  errBanner: { flexDirection: "row", alignItems: "center", gap: 8, backgroundColor: "#fef2f2", borderWidth: 1, borderColor: "#fecaca", borderRadius: 12, padding: 12 },
   errBannerTxt: { flex: 1, fontSize: 13, color: "#dc2626" },
 
-  // Forgot
   forgotRow: { alignSelf: "flex-end", marginTop: -6 },
   forgotTxt: { fontSize: 13, color: "#7c3aed" },
 
-  // Primary btn
   primaryWrap: { borderRadius: 16, overflow: "hidden" },
   primaryGrad: { paddingVertical: 16, alignItems: "center" },
   primaryTxt: { color: "#fff", fontSize: 16, letterSpacing: 0.3 },
 
-  // Secondary btn
   secBtn: { flexDirection: "row", alignItems: "center", justifyContent: "center", borderWidth: 1.5, borderColor: "#ede9fe", borderRadius: 16, paddingVertical: 14, backgroundColor: "#faf5ff" },
   secBtnTxt: { fontSize: 14, color: "#7c3aed" },
 
-  // Divider
   orRow: { flexDirection: "row", alignItems: "center", gap: 10 },
-  orLine: { flex: 1, height: 1, backgroundColor: "#f3f4f6" },
+  orLine: { flex: 1, height: 1, backgroundColor: "#e5e7eb" },
   orTxt: { fontSize: 12, color: "#d1d5db" },
 
-  // OTP
   otpRow: { flexDirection: "row", gap: 8 },
-  otpBox: { flex: 1, height: 58, borderRadius: 14, borderWidth: 1.5, borderColor: "#e5e7eb", fontSize: 24, color: "#111827", backgroundColor: "#f9fafb", textAlign: "center", fontFamily: "Roboto_700Bold" },
+  otpBox: { flex: 1, height: 58, borderRadius: 14, borderWidth: 1.5, borderColor: "#e5e7eb", fontSize: 24, color: "#111827", backgroundColor: "#f9fafb", textAlign: "center" },
   otpBoxFilled: { borderColor: "#7c3aed", backgroundColor: "#faf5ff" },
 
-  // Switch
   switchRow: { flexDirection: "row", justifyContent: "center", alignItems: "center" },
   switchQ: { fontSize: 13, color: "#6b7280" },
   switchLink: { fontSize: 13, color: "#7c3aed" },
 
-  // Resend
   resendRow: { alignItems: "center" },
   resendWait: { fontSize: 13, color: "#9ca3af" },
   resendLink: { fontSize: 13, color: "#7c3aed" },
 
   passHint: { fontSize: 11, color: "#9ca3af", marginTop: -6 },
 
-  // Done
   doneBlock: { alignItems: "center", gap: 16, paddingVertical: 12 },
   doneCircle: { width: 72, height: 72, borderRadius: 36, alignItems: "center", justifyContent: "center" },
   doneTxt: { fontSize: 14, color: "#6b7280", lineHeight: 22, textAlign: "center" },
 
-  // Modal
   modalBg: { flex: 1, backgroundColor: "rgba(0,0,0,0.6)", alignItems: "center", justifyContent: "center", padding: 24 },
   modalBox: { backgroundColor: "#fff", borderRadius: 24, padding: 24, width: "100%", gap: 12 },
   modalWarnIcon: { width: 56, height: 56, borderRadius: 28, backgroundColor: "#fef3c7", alignItems: "center", justifyContent: "center", alignSelf: "center" },
