@@ -266,7 +266,10 @@ export default function OnboardingScreen() {
             <Animated.View style={i === current ? charStyle : undefined}>
               <Image
                 source={s.image}
-                style={{ width: CHAR_W, height: CHAR_H }}
+                style={{
+                  width: i === 2 ? CHAR_W * 0.82 : CHAR_W,
+                  height: i === 2 ? CHAR_H * 0.82 : CHAR_H,
+                }}
                 resizeMode="contain"
               />
             </Animated.View>
