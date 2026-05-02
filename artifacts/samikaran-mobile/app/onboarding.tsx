@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import {
   View,
   Text,
@@ -10,413 +10,326 @@ import {
   StatusBar,
 } from "react-native";
 import { useRouter } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
   withSpring,
+  Easing,
   interpolate,
-  Extrapolation,
-  runOnJS,
-  FadeIn,
-  FadeInDown,
-  FadeInUp,
-  SlideInRight,
 } from "react-native-reanimated";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Haptics from "expo-haptics";
+import { OlympiadIllustration } from "@/components/illustrations/OlympiadIllustration";
+import { RolesIllustration } from "@/components/illustrations/RolesIllustration";
+import { ProctorIllustration } from "@/components/illustrations/ProctorIllustration";
+import { AchievementIllustration } from "@/components/illustrations/AchievementIllustration";
 
 const { width, height } = Dimensions.get("window");
 
 const SLIDES = [
   {
     id: 0,
-    image: require("../assets/images/onboard1.png"),
     tag: "COMPETE",
     title: "Bharat ka #1\nOlympiad Platform",
-    subtitle: "50,000+ students · 500+ schools · 15 subjects",
-    gradientColors: ["#0D0A1E", "#1a0a3e", "#2d0a5e"] as const,
-    accentColor: "#a855f7",
-    tagBg: "rgba(168,85,247,0.2)",
+    sub: "50,000+ students · 500+ schools · 15 subjects",
+    accent: "#a855f7",
+    tagBg: "rgba(168,85,247,0.15)",
+    bgFrom: "#0D0A1E",
+    bgTo: "#180d33",
+    Illustration: OlympiadIllustration,
   },
   {
     id: 1,
-    image: require("../assets/images/onboard2.png"),
     tag: "FOR EVERYONE",
-    title: "Ek App,\nSabke Liye",
-    subtitle: "Students · Schools · Parents · Partners",
-    gradientColors: ["#0D0A1E", "#1a0533", "#2d0520"] as const,
-    accentColor: "#FF2FBF",
-    tagBg: "rgba(255,47,191,0.2)",
+    title: "Student. School.\nParent. Partner.",
+    sub: "One app, every role — tailored experience for all.",
+    accent: "#FF2FBF",
+    tagBg: "rgba(255,47,191,0.15)",
+    bgFrom: "#0D0A1E",
+    bgTo: "#1a051a",
+    Illustration: RolesIllustration,
   },
   {
     id: 2,
-    image: require("../assets/images/onboard3.png"),
-    tag: "AI-POWERED",
-    title: "Smart Proctoring,\n100% Fair Exams",
-    subtitle: "Face detection · Tab-switch alerts · Auto-submit",
-    gradientColors: ["#0D0A1E", "#0a1a3e", "#0a2a5e"] as const,
-    accentColor: "#38bdf8",
-    tagBg: "rgba(56,189,248,0.2)",
+    tag: "AI POWERED",
+    title: "100% Fair.\nProctored in Real-Time.",
+    sub: "Face detection · Voice alerts · Auto-submit on violation",
+    accent: "#38bdf8",
+    tagBg: "rgba(56,189,248,0.15)",
+    bgFrom: "#0D0A1E",
+    bgTo: "#051a24",
+    Illustration: ProctorIllustration,
   },
   {
     id: 3,
-    image: require("../assets/images/onboard4.png"),
     tag: "WIN BIG",
-    title: "Compete.\nRank.\nInspire.",
-    subtitle: "All India Rank · Scholarships · Certificates",
-    gradientColors: ["#0D0A1E", "#1a1a0a", "#2a250a"] as const,
-    accentColor: "#F5C518",
-    tagBg: "rgba(245,197,24,0.2)",
+    title: "Rank. Earn.\nMake India Proud.",
+    sub: "All India Rank · Scholarships · Digital Certificates",
+    accent: "#F5C518",
+    tagBg: "rgba(245,197,24,0.15)",
+    bgFrom: "#0D0A1E",
+    bgTo: "#1a1505",
+    Illustration: AchievementIllustration,
   },
 ];
+
+const ILLUS_SIZE = Math.min(width * 0.82, 300);
+const CARD_H = height * 0.42;
 
 export default function OnboardingScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const [current, setCurrent] = useState(0);
-  const slideAnim = useSharedValue(0);
-  const imageScale = useSharedValue(1);
-  const cardTranslate = useSharedValue(0);
+
+  const illustScale = useSharedValue(1);
+  const illustOpacity = useSharedValue(1);
+  const cardY = useSharedValue(0);
 
   const topPad = insets.top + (Platform.OS === "web" ? 67 : 0);
+  const slide = SLIDES[current];
 
-  const goToSlide = useCallback((index: number) => {
+  const transition = useCallback((nextIdx: number) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    imageScale.value = withTiming(0.93, { duration: 150 }, () => {
-      imageScale.value = withSpring(1, { damping: 12 });
+    illustOpacity.value = withTiming(0, { duration: 180, easing: Easing.out(Easing.quad) });
+    illustScale.value = withTiming(0.85, { duration: 180 });
+    cardY.value = withTiming(20, { duration: 150 }, () => {
+      cardY.value = withSpring(0, { damping: 16, stiffness: 200 });
     });
-    cardTranslate.value = withTiming(30, { duration: 120 }, () => {
-      cardTranslate.value = withSpring(0, { damping: 14 });
-    });
-    setCurrent(index);
+    setTimeout(() => {
+      setCurrent(nextIdx);
+      illustScale.value = withSpring(1, { damping: 14, stiffness: 160 });
+      illustOpacity.value = withTiming(1, { duration: 260 });
+    }, 190);
   }, []);
 
   const handleNext = () => {
-    if (current < SLIDES.length - 1) {
-      goToSlide(current + 1);
-    } else {
-      handleGetStarted();
-    }
+    if (current < SLIDES.length - 1) transition(current + 1);
+    else handleDone();
   };
 
-  const handleGetStarted = async () => {
+  const handleDone = async () => {
     await AsyncStorage.setItem("samikaran_onboarding_done", "true");
     router.replace("/login");
   };
 
-  const handleSkip = async () => {
-    await AsyncStorage.setItem("samikaran_onboarding_done", "true");
-    router.replace("/login");
-  };
-
-  const slide = SLIDES[current];
-
-  const imageAnimStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: imageScale.value }],
+  const illustStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: illustScale.value }],
+    opacity: illustOpacity.value,
+  }));
+  const cardStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: cardY.value }],
   }));
 
-  const cardAnimStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: cardTranslate.value }],
-  }));
+  const Illus = slide.Illustration;
 
   return (
-    <View style={styles.container}>
+    <View style={styles.root}>
       <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
 
-      {/* Full-screen gradient background */}
+      {/* Background */}
       <LinearGradient
-        colors={slide.gradientColors}
+        colors={[slide.bgFrom, slide.bgTo, "#0D0A1E"]}
         style={StyleSheet.absoluteFill}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
+        start={{ x: 0.2, y: 0 }}
+        end={{ x: 0.8, y: 1 }}
       />
 
-      {/* Decorative glow orb top */}
-      <View
-        style={[
-          styles.glowOrb,
-          { backgroundColor: slide.accentColor, top: height * 0.08, left: -60 },
-        ]}
-      />
-      <View
-        style={[
-          styles.glowOrb2,
-          { backgroundColor: "#FF2FBF", top: height * 0.2, right: -40 },
-        ]}
-      />
+      {/* Subtle glow behind illustration */}
+      <View style={[styles.glow, { backgroundColor: slide.accent }]} />
 
-      {/* Skip button */}
-      <TouchableOpacity
-        style={[styles.skipBtn, { top: topPad + 8 }]}
-        onPress={handleSkip}
-      >
-        <Text style={[styles.skipText, { fontFamily: "Inter_500Medium" }]}>Skip</Text>
-      </TouchableOpacity>
-
-      {/* Logo top-left */}
-      <View style={[styles.logoRow, { top: topPad + 6 }]}>
-        <Image
-          source={require("../assets/images/icon.png")}
-          style={styles.logoMini}
-          resizeMode="contain"
-        />
-        <Text style={[styles.logoText, { fontFamily: "Inter_700Bold" }]}>
-          SAMIKARAN<Text style={{ color: slide.accentColor }}>.</Text>
-        </Text>
+      {/* Top bar */}
+      <View style={[styles.topBar, { paddingTop: topPad + 10 }]}>
+        <View style={styles.logoRow}>
+          <Image
+            source={require("../assets/images/icon.png")}
+            style={styles.logoIcon}
+            resizeMode="contain"
+          />
+          <Text style={[styles.logoTxt, { fontFamily: "Inter_700Bold" }]}>
+            SAMIKARAN<Text style={{ color: slide.accent }}>.</Text>
+          </Text>
+        </View>
+        <TouchableOpacity onPress={handleDone} style={styles.skipPill}>
+          <Text style={[styles.skipTxt, { fontFamily: "Inter_500Medium" }]}>Skip</Text>
+        </TouchableOpacity>
       </View>
 
       {/* Illustration */}
-      <Animated.View style={[styles.illustrationWrap, imageAnimStyle]}>
-        <Image
-          source={slide.image}
-          style={styles.illustration}
-          resizeMode="contain"
-        />
+      <Animated.View style={[styles.illustWrap, illustStyle]}>
+        <Illus size={ILLUS_SIZE} />
       </Animated.View>
 
-      {/* Glass card at bottom */}
-      <Animated.View style={[styles.glassCard, cardAnimStyle]}>
-        {/* Glass blur layer */}
-        <View style={styles.glassInner}>
-          {/* Tag pill */}
-          <View style={[styles.tagPill, { backgroundColor: slide.tagBg, borderColor: slide.accentColor + "60" }]}>
-            <View style={[styles.tagDot, { backgroundColor: slide.accentColor }]} />
-            <Text style={[styles.tagText, { color: slide.accentColor, fontFamily: "Inter_600SemiBold" }]}>
-              {slide.tag}
-            </Text>
-          </View>
+      {/* Glass card */}
+      <Animated.View style={[styles.card, cardStyle]}>
+        {/* Top notch line */}
+        <View style={[styles.notchLine, { backgroundColor: slide.accent }]} />
 
-          {/* Title */}
-          <Text style={[styles.title, { fontFamily: "Inter_700Bold" }]}>
-            {slide.title}
+        {/* Tag */}
+        <View style={[styles.tag, { backgroundColor: slide.tagBg, borderColor: slide.accent + "50" }]}>
+          <View style={[styles.tagDot, { backgroundColor: slide.accent }]} />
+          <Text style={[styles.tagTxt, { color: slide.accent, fontFamily: "Inter_600SemiBold" }]}>
+            {slide.tag}
           </Text>
-
-          {/* Subtitle */}
-          <Text style={[styles.subtitle, { fontFamily: "Inter_400Regular" }]}>
-            {slide.subtitle}
-          </Text>
-
-          {/* Progress dots */}
-          <View style={styles.dotsRow}>
-            {SLIDES.map((_, i) => (
-              <TouchableOpacity key={i} onPress={() => goToSlide(i)}>
-                <View
-                  style={[
-                    styles.dot,
-                    {
-                      width: i === current ? 28 : 8,
-                      backgroundColor: i === current ? slide.accentColor : "rgba(255,255,255,0.25)",
-                    },
-                  ]}
-                />
-              </TouchableOpacity>
-            ))}
-          </View>
-
-          {/* CTA button */}
-          <TouchableOpacity
-            style={styles.ctaBtn}
-            onPress={handleNext}
-            activeOpacity={0.85}
-          >
-            <LinearGradient
-              colors={["#8A2BE2", "#FF2FBF"]}
-              style={styles.ctaGradient}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-            >
-              <Text style={[styles.ctaText, { fontFamily: "Inter_700Bold" }]}>
-                {current < SLIDES.length - 1 ? "Continue" : "Get Started"}
-              </Text>
-              <View style={styles.ctaArrow}>
-                <Ionicons name="arrow-forward" size={18} color="#fff" />
-              </View>
-            </LinearGradient>
-          </TouchableOpacity>
-
-          {/* Secondary link */}
-          {current === SLIDES.length - 1 && (
-            <TouchableOpacity onPress={handleSkip} style={{ alignItems: "center", marginTop: 4 }}>
-              <Text style={[styles.alreadyText, { fontFamily: "Inter_400Regular" }]}>
-                Already have an account?{" "}
-                <Text style={{ color: slide.accentColor, fontFamily: "Inter_600SemiBold" }}>
-                  Sign In
-                </Text>
-              </Text>
-            </TouchableOpacity>
-          )}
         </View>
+
+        {/* Title */}
+        <Text style={[styles.title, { fontFamily: "Inter_700Bold" }]}>
+          {slide.title}
+        </Text>
+
+        {/* Subtitle */}
+        <Text style={[styles.sub, { fontFamily: "Inter_400Regular" }]}>
+          {slide.sub}
+        </Text>
+
+        {/* Dots */}
+        <View style={styles.dotsRow}>
+          {SLIDES.map((_, i) => (
+            <TouchableOpacity key={i} onPress={() => i !== current && transition(i)}>
+              <View
+                style={[
+                  styles.dot,
+                  {
+                    width: i === current ? 26 : 7,
+                    backgroundColor: i === current ? slide.accent : "rgba(255,255,255,0.2)",
+                  },
+                ]}
+              />
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        {/* CTA */}
+        <TouchableOpacity onPress={handleNext} activeOpacity={0.88} style={styles.ctaWrap}>
+          <LinearGradient
+            colors={["#8A2BE2", "#c026d3", "#FF2FBF"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.cta}
+          >
+            <Text style={[styles.ctaTxt, { fontFamily: "Inter_700Bold" }]}>
+              {current < SLIDES.length - 1 ? "Continue" : "Get Started"}
+            </Text>
+          </LinearGradient>
+        </TouchableOpacity>
+
+        {/* Sign in link on last slide */}
+        {current === SLIDES.length - 1 && (
+          <TouchableOpacity onPress={handleDone} style={{ alignItems: "center", marginTop: 8 }}>
+            <Text style={[styles.signinTxt, { fontFamily: "Inter_400Regular" }]}>
+              Already registered?{" "}
+              <Text style={{ color: slide.accent, fontFamily: "Inter_600SemiBold" }}>Sign In</Text>
+            </Text>
+          </TouchableOpacity>
+        )}
+
+        {/* Safe area spacing */}
+        <View style={{ height: insets.bottom + (Platform.OS === "web" ? 24 : 8) }} />
       </Animated.View>
     </View>
   );
 }
 
-const CARD_HEIGHT = height * 0.44;
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#0D0A1E",
-  },
-  glowOrb: {
+  root: { flex: 1, backgroundColor: "#0D0A1E" },
+  glow: {
     position: "absolute",
-    width: 280,
-    height: 280,
-    borderRadius: 140,
-    opacity: 0.18,
+    width: 320,
+    height: 320,
+    borderRadius: 160,
+    top: height * 0.05,
+    alignSelf: "center",
+    opacity: 0.07,
   },
-  glowOrb2: {
-    position: "absolute",
-    width: 200,
-    height: 200,
-    borderRadius: 100,
-    opacity: 0.12,
-  },
-  skipBtn: {
-    position: "absolute",
-    right: 20,
-    zIndex: 10,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-    backgroundColor: "rgba(255,255,255,0.08)",
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.12)",
-  },
-  skipText: {
-    color: "rgba(255,255,255,0.7)",
-    fontSize: 13,
-  },
-  logoRow: {
-    position: "absolute",
-    left: 20,
-    zIndex: 10,
+  topBar: {
     flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
-    gap: 8,
+    paddingHorizontal: 22,
+    paddingBottom: 8,
+    zIndex: 10,
   },
-  logoMini: {
-    width: 30,
-    height: 30,
-    borderRadius: 8,
+  logoRow: { flexDirection: "row", alignItems: "center", gap: 8 },
+  logoIcon: { width: 28, height: 28, borderRadius: 7 },
+  logoTxt: { color: "#fff", fontSize: 13, letterSpacing: 1.8 },
+  skipPill: {
+    paddingHorizontal: 16,
+    paddingVertical: 7,
+    borderRadius: 20,
+    backgroundColor: "rgba(255,255,255,0.07)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.1)",
   },
-  logoText: {
-    color: "#fff",
-    fontSize: 13,
-    letterSpacing: 1.5,
-  },
-  illustrationWrap: {
-    position: "absolute",
-    top: height * 0.1,
-    left: 0,
-    right: 0,
-    height: height * 0.52,
+  skipTxt: { color: "rgba(255,255,255,0.65)", fontSize: 13 },
+  illustWrap: {
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    marginTop: -10,
   },
-  illustration: {
-    width: width * 0.85,
-    height: height * 0.48,
-  },
-  glassCard: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: CARD_HEIGHT,
-    borderTopLeftRadius: 32,
-    borderTopRightRadius: 32,
-    overflow: "hidden",
-  },
-  glassInner: {
-    flex: 1,
-    backgroundColor: "rgba(13,10,30,0.82)",
-    borderTopLeftRadius: 32,
-    borderTopRightRadius: 32,
+  card: {
+    backgroundColor: "rgba(18,11,42,0.95)",
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
     borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.10)",
-    paddingHorizontal: 28,
-    paddingTop: 28,
-    paddingBottom: Platform.OS === "web" ? 34 : 24,
-    gap: 12,
-    // Glass shimmer border top
+    borderColor: "rgba(255,255,255,0.08)",
+    paddingHorizontal: 26,
+    paddingTop: 20,
+    paddingBottom: 0,
+    gap: 10,
+    // top glow
     shadowColor: "#8A2BE2",
-    shadowOffset: { width: 0, height: -4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 16,
+    shadowOffset: { width: 0, height: -6 },
+    shadowOpacity: 0.25,
+    shadowRadius: 20,
+    elevation: 12,
   },
-  tagPill: {
+  notchLine: {
+    width: 40,
+    height: 3,
+    borderRadius: 2,
+    alignSelf: "center",
+    marginBottom: 4,
+    opacity: 0.8,
+  },
+  tag: {
     flexDirection: "row",
     alignItems: "center",
     gap: 6,
     alignSelf: "flex-start",
-    paddingHorizontal: 12,
+    paddingHorizontal: 11,
     paddingVertical: 5,
     borderRadius: 20,
     borderWidth: 1,
   },
-  tagDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-  },
-  tagText: {
-    fontSize: 10,
-    letterSpacing: 1.5,
-  },
+  tagDot: { width: 5, height: 5, borderRadius: 2.5 },
+  tagTxt: { fontSize: 10, letterSpacing: 1.5 },
   title: {
-    fontSize: 30,
-    color: "#ffffff",
-    lineHeight: 38,
-    letterSpacing: -0.5,
+    fontSize: 27,
+    color: "#fff",
+    lineHeight: 35,
+    letterSpacing: -0.3,
   },
-  subtitle: {
+  sub: {
     fontSize: 13,
-    color: "rgba(255,255,255,0.55)",
-    lineHeight: 20,
+    color: "rgba(255,255,255,0.5)",
+    lineHeight: 19,
   },
   dotsRow: {
     flexDirection: "row",
-    gap: 6,
+    gap: 5,
     alignItems: "center",
-    marginVertical: 2,
   },
-  dot: {
-    height: 6,
-    borderRadius: 3,
-  },
-  ctaBtn: {
-    borderRadius: 16,
-    overflow: "hidden",
-    marginTop: 4,
-  },
-  ctaGradient: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 16,
-    gap: 10,
-  },
-  ctaText: {
-    color: "#fff",
-    fontSize: 16,
-    letterSpacing: 0.3,
-  },
-  ctaArrow: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    backgroundColor: "rgba(255,255,255,0.2)",
+  dot: { height: 6, borderRadius: 3 },
+  ctaWrap: { borderRadius: 16, overflow: "hidden" },
+  cta: {
+    paddingVertical: 17,
     alignItems: "center",
     justifyContent: "center",
   },
-  alreadyText: {
-    color: "rgba(255,255,255,0.5)",
-    fontSize: 13,
-    textAlign: "center",
-  },
+  ctaTxt: { color: "#fff", fontSize: 16, letterSpacing: 0.4 },
+  signinTxt: { color: "rgba(255,255,255,0.45)", fontSize: 13 },
 });
