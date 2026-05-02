@@ -71,9 +71,10 @@ const SLIDES = [
   },
 ];
 
-const CARD_H = height * 0.36;
-const CHAR_H = height * 0.72;
-const CHAR_W = CHAR_H * 0.75;
+const CARD_H = height * 0.38;
+// Character fits top 58% of screen, capped for large devices
+const CHAR_H = Math.min(height * 0.58, 480);
+const CHAR_W = CHAR_H * 0.78;
 
 export default function OnboardingScreen() {
   const router = useRouter();
