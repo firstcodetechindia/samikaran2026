@@ -221,17 +221,17 @@ export default function OnboardingScreen() {
       {/* Top bar */}
       <View style={[styles.topBar, { paddingTop: topPad + 8 }]}>
         <View style={styles.logoRow}>
-          <View style={styles.logoIconWrap}>
-            <Image
-              source={require("../assets/images/icon.png")}
-              style={styles.logoIcon}
-              resizeMode="contain"
-            />
+          <Image
+            source={require("../assets/images/icon_nobg.png")}
+            style={styles.logoIcon}
+            resizeMode="contain"
+          />
+          <View style={{ flexDirection: "column", justifyContent: "center" }}>
+            <Text style={[styles.logoTxt, { fontFamily: "Roboto_700Bold" }]}>
+              SAMIKARAN<Text style={{ color: "#FF2FBF" }}>.</Text>
+            </Text>
+            <Text style={[styles.logoSub, { fontFamily: "Roboto_500Medium" }]}>OLYMPIAD</Text>
           </View>
-          <Text style={[styles.logoTxt, { fontFamily: "Roboto_700Bold" }]}>
-            SAMIKARAN{" "}
-            <Text style={{ color: "#FF2FBF", fontFamily: "Roboto_700Bold" }}>OLYMPIAD</Text>
-          </Text>
         </View>
         <TouchableOpacity onPress={handleDone} style={styles.skipPill}>
           <Text style={[styles.skipTxt, { fontFamily: "Roboto_500Medium" }]}>Skip</Text>
@@ -443,15 +443,10 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
     zIndex: 30,
   },
-  logoRow: { flexDirection: "row", alignItems: "center", gap: 8 },
-  logoIconWrap: {
-    width: 38, height: 38, borderRadius: 10,
-    backgroundColor: "#7C3AED",
-    alignItems: "center", justifyContent: "center",
-    overflow: "hidden",
-  },
-  logoIcon: { width: 34, height: 34, borderRadius: 8 },
-  logoTxt: { color: "#fff", fontSize: 12, letterSpacing: 1.2 },
+  logoRow: { flexDirection: "row", alignItems: "center", gap: 10 },
+  logoIcon: { width: 40, height: 40 },
+  logoTxt: { color: "#fff", fontSize: 14, letterSpacing: 1.5, lineHeight: 17 },
+  logoSub: { color: "rgba(255,255,255,0.65)", fontSize: 9, letterSpacing: 2.5, lineHeight: 12 },
   skipPill: {
     paddingHorizontal: 18,
     paddingVertical: 8,
