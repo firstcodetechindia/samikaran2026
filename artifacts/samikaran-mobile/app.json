@@ -22,7 +22,7 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#0D0A1E"
-      }
+      },
     },
     "web": {
       "favicon": "./assets/images/icon.png"
@@ -36,6 +36,15 @@
       ],
       "expo-font",
       "expo-web-browser",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/icon.png",
+          "color": "#5b21b6",
+          "androidMode": "default",
+          "androidCollapsedTitle": "Samikaran Olympiad"
+        }
+      ],
       [
         "expo-camera",
         {

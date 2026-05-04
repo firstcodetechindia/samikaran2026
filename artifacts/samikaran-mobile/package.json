@@ -61,6 +61,7 @@
     "expo-av": "^16.0.8",
     "expo-camera": "^55.0.16",
     "expo-face-detector": "^13.0.2",
+    "expo-notifications": "0.32.17",
     "expo-secure-store": "^55.0.13"
   }
 }

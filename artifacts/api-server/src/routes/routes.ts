@@ -284,6 +284,132 @@ export async function registerRoutes(
     res.json({ status: "ok", timestamp: Date.now() });
   });
 
+  // --- Push Notification Endpoints ---
+  // Ensure push_tokens table exists (idempotent)
+  pool.query(`
+    CREATE TABLE IF NOT EXISTS push_tokens (
+      id SERIAL PRIMARY KEY,
+      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      token TEXT NOT NULL,
+      platform TEXT NOT NULL DEFAULT 'unknown',
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      UNIQUE(user_id, token)
+    )
+  `).catch(() => {});
+
+  // POST /api/notifications/register-token — store Expo push token for the logged-in user
+  app.post("/api/notifications/register-token", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) return res.status(401).json({ error: "Not authenticated" });
+
+      const { token, platform } = req.body as { token?: string; platform?: string };
+      if (!token || typeof token !== "string") {
+        return res.status(400).json({ error: "token is required" });
+      }
+      if (!token.startsWith("ExponentPushToken[")) {
+        return res.status(400).json({ error: "Invalid Expo push token format" });
+      }
+
+      await pool.query(
+        `INSERT INTO push_tokens (user_id, token, platform, updated_at)
+         VALUES ($1, $2, $3, NOW())
+         ON CONFLICT (user_id, token) DO UPDATE SET updated_at = NOW(), platform = EXCLUDED.platform`,
+        [userId, token, platform ?? "unknown"]
+      );
+
+      res.json({ ok: true });
+    } catch (err: any) {
+      res.status(500).json({ error: "Failed to register push token" });
+    }
+  });
+
+  // POST /api/notifications/send — send push notification to a user or broadcast
+  // Body: { userId?: number, title: string, body: string, data?: object, type?: string }
+  app.post("/api/notifications/send", isAuthenticated, async (req: any, res) => {
+    try {
+      const callerRole = req.user?.role;
+      if (!["admin", "super_admin"].includes(callerRole)) {
+        return res.status(403).json({ error: "Admin access required" });
+      }
+
+      const { userId, title, body: msgBody, data, type } = req.body as {
+        userId?: number;
+        title?: string;
+        body?: string;
+        data?: Record<string, unknown>;
+        type?: string;
+      };
+
+      if (!title || !msgBody) {
+        return res.status(400).json({ error: "title and body are required" });
+      }
+
+      let tokens: string[] = [];
+      if (userId) {
+        const result = await pool.query<{ token: string }>(
+          "SELECT token FROM push_tokens WHERE user_id = $1",
+          [userId]
+        );
+        tokens = result.rows.map((r) => r.token);
+      } else {
+        const result = await pool.query<{ token: string }>(
+          "SELECT DISTINCT token FROM push_tokens"
+        );
+        tokens = result.rows.map((r) => r.token);
+      }
+
+      if (tokens.length === 0) {
+        return res.json({ ok: true, sent: 0, message: "No registered tokens" });
+      }
+
+      // Send via Expo Push API (no server key required for Expo tokens)
+      const messages = tokens.map((to) => ({
+        to,
+        title,
+        body: msgBody,
+        data: { ...(data ?? {}), type: type ?? "general" },
+        sound: "default",
+      }));
+
+      // Batch in chunks of 100 (Expo limit)
+      const CHUNK = 100;
+      let sent = 0;
+      for (let i = 0; i < messages.length; i += CHUNK) {
+        const chunk = messages.slice(i, i + CHUNK);
+        const response = await fetch("https://exp.host/--/api/v2/push/send", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify(chunk),
+        });
+        if (response.ok) sent += chunk.length;
+      }
+
+      res.json({ ok: true, sent, total: tokens.length });
+    } catch (err: any) {
+      res.status(500).json({ error: "Failed to send push notification" });
+    }
+  });
+
+  // GET /api/notifications/tokens — list registered tokens for a user (admin)
+  app.get("/api/notifications/tokens/:userId", isAuthenticated, async (req: any, res) => {
+    try {
+      const callerRole = req.user?.role;
+      if (!["admin", "super_admin"].includes(callerRole)) {
+        return res.status(403).json({ error: "Admin access required" });
+      }
+      const userId = parseInt(req.params.userId);
+      const result = await pool.query(
+        "SELECT token, platform, created_at, updated_at FROM push_tokens WHERE user_id = $1 ORDER BY updated_at DESC",
+        [userId]
+      );
+      res.json({ tokens: result.rows });
+    } catch (err: any) {
+      res.status(500).json({ error: "Failed to fetch tokens" });
+    }
+  });
+
   // --- Investor Stats API (Live Data — Super Admin Only) ---
   app.get("/api/investor-stats", requireSuperAdminSession, async (req, res) => {
     try {
