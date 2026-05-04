@@ -142,8 +142,12 @@ export default function ExamTakeScreen() {
   const [warningType, setWarningType] = useState<"tab" | "face" | "multiface">("tab");
 
   const [isRecording, setIsRecording] = useState(false);
+  // voiceAnswers holds ONLY permanent server URLs — never local device URIs
   const [voiceAnswers, setVoiceAnswers] = useState<Record<number, string>>({});
+  // voiceLocalUris holds temp device URIs while uploading (also kept for retry on failure)
+  const [voiceLocalUris, setVoiceLocalUris] = useState<Record<number, string>>({});
   const [uploadingVoice, setUploadingVoice] = useState<Set<number>>(new Set());
+  const [voiceUploadErrors, setVoiceUploadErrors] = useState<Set<number>>(new Set());
   const [recordingSeconds, setRecordingSeconds] = useState(0);
   const [playingQuestionId, setPlayingQuestionId] = useState<number | null>(null);
   const [playbackSeconds, setPlaybackSeconds] = useState<Record<number, number>>({});
@@ -436,19 +440,22 @@ export default function ExamTakeScreen() {
         recordingRef.current = null;
         if (!localUri) return;
 
-        // Mark as uploading — store local URI first so UI reflects recorded state
-        setVoiceAnswers((prev) => ({ ...prev, [qId]: localUri }));
-        setQuestionStatuses((prev) => ({ ...prev, [qId]: "answered" }));
+        // Store local URI for playback during upload / retry (never goes into voiceAnswers)
+        setVoiceLocalUris((prev) => ({ ...prev, [qId]: localUri }));
         setUploadingVoice((prev) => new Set(prev).add(qId));
+        setVoiceUploadErrors((prev) => { const n = new Set(prev); n.delete(qId); return n; });
+        setQuestionStatuses((prev) => ({ ...prev, [qId]: "answered" }));
 
         try {
           const objectPath = await uploadVoiceRecording(localUri, qId);
-          // Replace local URI with permanent server URL
+          // Success — store permanent server URL; clear temp local URI
           const playbackUrl = objectPath.startsWith("http") ? objectPath : `${BASE_URL}${objectPath}`;
           setVoiceAnswers((prev) => ({ ...prev, [qId]: playbackUrl }));
+          setVoiceLocalUris((prev) => { const n = { ...prev }; delete n[qId]; return n; });
         } catch {
-          // Upload failed — keep local URI so recording is not lost for this session
-          // Will be retried or re-recorded
+          // Upload failed — revert to unanswered; keep localUri for retry
+          setVoiceUploadErrors((prev) => new Set(prev).add(qId));
+          setQuestionStatuses((prev) => ({ ...prev, [qId]: "unanswered" }));
         } finally {
           setUploadingVoice((prev) => {
             const next = new Set(prev);
@@ -458,6 +465,25 @@ export default function ExamTakeScreen() {
         }
       }
     } catch {}
+  };
+
+  const retryVoiceUpload = async (qId: number) => {
+    const localUri = voiceLocalUris[qId];
+    if (!localUri) return;
+    setVoiceUploadErrors((prev) => { const n = new Set(prev); n.delete(qId); return n; });
+    setUploadingVoice((prev) => new Set(prev).add(qId));
+    setQuestionStatuses((prev) => ({ ...prev, [qId]: "answered" }));
+    try {
+      const objectPath = await uploadVoiceRecording(localUri, qId);
+      const playbackUrl = objectPath.startsWith("http") ? objectPath : `${BASE_URL}${objectPath}`;
+      setVoiceAnswers((prev) => ({ ...prev, [qId]: playbackUrl }));
+      setVoiceLocalUris((prev) => { const n = { ...prev }; delete n[qId]; return n; });
+    } catch {
+      setVoiceUploadErrors((prev) => new Set(prev).add(qId));
+      setQuestionStatuses((prev) => ({ ...prev, [qId]: "unanswered" }));
+    } finally {
+      setUploadingVoice((prev) => { const n = new Set(prev); n.delete(qId); return n; });
+    }
   };
 
   const stopVoicePlayback = useCallback(async () => {
@@ -654,55 +680,84 @@ export default function ExamTakeScreen() {
 
             {currentQuestion.type === "voice" && (
               <View style={styles.voiceSection}>
-                {voiceAnswers[currentQuestion.id] ? (
-                  <View style={[styles.voiceRecorded, {
-                    backgroundColor: uploadingVoice.has(currentQuestion.id) ? "#fffbeb" : colors.success + "15",
-                    borderColor: uploadingVoice.has(currentQuestion.id) ? "#fbbf24" : colors.success,
-                  }]}>
-                    {uploadingVoice.has(currentQuestion.id) ? (
-                      <Ionicons name="cloud-upload-outline" size={22} color="#f59e0b" />
-                    ) : (
-                      <Ionicons name="checkmark-circle" size={22} color={colors.success} />
-                    )}
+                {uploadingVoice.has(currentQuestion.id) ? (
+                  // Uploading state — amber, no submit yet
+                  <View style={[styles.voiceRecorded, { backgroundColor: "#fffbeb", borderColor: "#fbbf24" }]}>
+                    <Ionicons name="cloud-upload-outline" size={22} color="#f59e0b" />
                     <View style={{ flex: 1 }}>
-                      <Text style={[styles.voiceRecordedTitle, {
-                        color: uploadingVoice.has(currentQuestion.id) ? "#d97706" : colors.success,
-                        fontFamily: "Roboto_700Bold",
-                      }]}>
-                        {uploadingVoice.has(currentQuestion.id) ? "Uploading…" : "Answer Recorded"}
+                      <Text style={[styles.voiceRecordedTitle, { color: "#d97706", fontFamily: "Roboto_700Bold" }]}>
+                        Uploading…
                       </Text>
                       <Text style={[styles.voiceRecordedSub, { color: colors.mutedForeground }]}>
-                        {uploadingVoice.has(currentQuestion.id)
-                          ? "Saving your recording to server"
-                          : playingQuestionId === currentQuestion.id
+                        Saving your recording to server
+                      </Text>
+                    </View>
+                  </View>
+                ) : voiceUploadErrors.has(currentQuestion.id) ? (
+                  // Error state — red, retry button
+                  <View style={[styles.voiceRecorded, { backgroundColor: "#fef2f2", borderColor: "#fca5a5" }]}>
+                    <Ionicons name="cloud-offline-outline" size={22} color={colors.destructive} />
+                    <View style={{ flex: 1 }}>
+                      <Text style={[styles.voiceRecordedTitle, { color: colors.destructive, fontFamily: "Roboto_700Bold" }]}>
+                        Upload Failed
+                      </Text>
+                      <Text style={[styles.voiceRecordedSub, { color: colors.mutedForeground }]}>
+                        Tap Retry to resend your recording
+                      </Text>
+                    </View>
+                    <TouchableOpacity
+                      style={[styles.reRecordBtn, { backgroundColor: colors.destructive + "20" }]}
+                      onPress={() => retryVoiceUpload(currentQuestion.id)}
+                    >
+                      <Ionicons name="reload" size={16} color={colors.destructive} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[styles.reRecordBtn, { backgroundColor: colors.muted, marginLeft: 6 }]}
+                      onPress={() => {
+                        stopVoicePlayback();
+                        setVoiceUploadErrors((p) => { const n = new Set(p); n.delete(currentQuestion.id); return n; });
+                        setVoiceLocalUris((p) => { const n = { ...p }; delete n[currentQuestion.id]; return n; });
+                        setQuestionStatuses((p) => { const n = { ...p }; delete n[currentQuestion.id]; return n; });
+                      }}
+                    >
+                      <Ionicons name="refresh" size={16} color={colors.mutedForeground} />
+                    </TouchableOpacity>
+                  </View>
+                ) : voiceAnswers[currentQuestion.id] ? (
+                  // Success state — server URL confirmed
+                  <View style={[styles.voiceRecorded, { backgroundColor: colors.success + "15", borderColor: colors.success }]}>
+                    <Ionicons name="checkmark-circle" size={22} color={colors.success} />
+                    <View style={{ flex: 1 }}>
+                      <Text style={[styles.voiceRecordedTitle, { color: colors.success, fontFamily: "Roboto_700Bold" }]}>
+                        Answer Recorded
+                      </Text>
+                      <Text style={[styles.voiceRecordedSub, { color: colors.mutedForeground }]}>
+                        {playingQuestionId === currentQuestion.id
                           ? `Playing — ${formatTime(playbackSeconds[currentQuestion.id] ?? 0)}`
                           : "Tap play to review • Tap refresh to re-record"}
                       </Text>
                     </View>
-                    {!uploadingVoice.has(currentQuestion.id) && (
-                      <>
-                        <TouchableOpacity
-                          style={[styles.reRecordBtn, { backgroundColor: colors.primary + "25" }]}
-                          onPress={() => toggleVoicePlayback(currentQuestion.id, voiceAnswers[currentQuestion.id])}
-                        >
-                          <Ionicons
-                            name={playingQuestionId === currentQuestion.id ? "pause" : "play"}
-                            size={16}
-                            color={colors.primary}
-                          />
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          style={[styles.reRecordBtn, { backgroundColor: colors.success + "20", marginLeft: 6 }]}
-                          onPress={() => {
-                            stopVoicePlayback();
-                            setVoiceAnswers((p) => { const n = { ...p }; delete n[currentQuestion.id]; return n; });
-                            setQuestionStatuses((p) => { const n = { ...p }; delete n[currentQuestion.id]; return n; });
-                          }}
-                        >
-                          <Ionicons name="refresh" size={16} color={colors.success} />
-                        </TouchableOpacity>
-                      </>
-                    )}
+                    <TouchableOpacity
+                      style={[styles.reRecordBtn, { backgroundColor: colors.primary + "25" }]}
+                      onPress={() => toggleVoicePlayback(currentQuestion.id, voiceAnswers[currentQuestion.id])}
+                    >
+                      <Ionicons
+                        name={playingQuestionId === currentQuestion.id ? "pause" : "play"}
+                        size={16}
+                        color={colors.primary}
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[styles.reRecordBtn, { backgroundColor: colors.success + "20", marginLeft: 6 }]}
+                      onPress={() => {
+                        stopVoicePlayback();
+                        setVoiceAnswers((p) => { const n = { ...p }; delete n[currentQuestion.id]; return n; });
+                        setVoiceLocalUris((p) => { const n = { ...p }; delete n[currentQuestion.id]; return n; });
+                        setQuestionStatuses((p) => { const n = { ...p }; delete n[currentQuestion.id]; return n; });
+                      }}
+                    >
+                      <Ionicons name="refresh" size={16} color={colors.success} />
+                    </TouchableOpacity>
                   </View>
                 ) : (
                   <View style={[styles.voiceRecorder, { backgroundColor: colors.muted, borderColor: colors.border }]}>
