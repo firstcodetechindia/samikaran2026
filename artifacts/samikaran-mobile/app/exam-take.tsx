@@ -169,6 +169,12 @@ export default function ExamTakeScreen() {
   const violationsRef = useRef(0);
   const submittedRef = useRef(false);
   const appStateRef = useRef(AppState.currentState);
+  // Ref mirrors — kept in sync via useEffect so submitExam reads fresh values
+  const uploadingVoiceRef = useRef<Set<number>>(new Set());
+  const voiceAnswersRef = useRef<Record<number, string>>({});
+
+  useEffect(() => { uploadingVoiceRef.current = uploadingVoice; }, [uploadingVoice]);
+  useEffect(() => { voiceAnswersRef.current = voiceAnswers; }, [voiceAnswers]);
 
   const currentQuestion = MOCK_QUESTIONS[currentIndex];
 
@@ -216,14 +222,29 @@ export default function ExamTakeScreen() {
   }, []);
 
   const submitExam = useCallback(
-    (reason: "manual" | "time" | "violations") => {
+    async (reason: "manual" | "time" | "violations") => {
       if (submittedRef.current) return;
       submittedRef.current = true;
       setExamSubmitted(true);
       stopSiren();
 
+      // For forced auto-submits wait up to 10 s for any in-flight voice uploads
+      // so server URLs replace local URIs before the payload is finalised
+      if (uploadingVoiceRef.current.size > 0) {
+        await new Promise<void>((resolve) => {
+          const maxWait = setTimeout(resolve, 10_000);
+          const poll = setInterval(() => {
+            if (uploadingVoiceRef.current.size === 0) {
+              clearInterval(poll);
+              clearTimeout(maxWait);
+              resolve();
+            }
+          }, 300);
+        });
+      }
+
       const totalQuestions = MOCK_QUESTIONS.length;
-      const answered = Object.keys(answers).length + Object.keys(voiceAnswers).length;
+      const answered = Object.keys(answers).length + Object.keys(voiceAnswersRef.current).length;
       const skipped = totalQuestions - answered;
 
       const reasonText =
@@ -240,7 +261,7 @@ export default function ExamTakeScreen() {
         { cancelable: false }
       );
     },
-    [answers, voiceAnswers, router, stopSiren]
+    [answers, router, stopSiren]
   );
 
   const triggerViolation = useCallback(

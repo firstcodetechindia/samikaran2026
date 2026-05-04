@@ -150,6 +150,9 @@ export async function registerRoutes(
     fs.mkdirSync(uploadsDir, { recursive: true });
   }
   app.use("/uploads", express.static(uploadsDir));
+  // Also serve local uploads under the /objects/uploads/* convention
+  // so objectPaths returned by this server are always /objects/... prefixed
+  app.use("/objects/uploads", express.static(uploadsDir));
 
   const uploadMemory = multer({
     storage: multer.memoryStorage(),
@@ -209,7 +212,7 @@ export async function registerRoutes(
         const filename = `${randomUUID()}${ext}`;
         const filePath = path.join(uploadsDir, filename);
         fs.writeFileSync(filePath, req.file.buffer);
-        const objectPath = `/uploads/${filename}`;
+        const objectPath = `/objects/uploads/${filename}`;
         res.json({
           uploadURL: objectPath,
           objectPath,

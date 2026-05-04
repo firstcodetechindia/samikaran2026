@@ -40,9 +40,11 @@ export function registerObjectStorageRoutes(app: Express): void {
     "application/pdf", "application/msword",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    "text/csv"
+    "text/csv",
+    "audio/m4a", "audio/mp4", "audio/mpeg", "audio/webm", "audio/ogg",
+    "audio/wav", "audio/aac", "audio/x-m4a", "audio/3gpp", "audio/amr",
   ];
-  const MAX_FILE_SIZE = 5 * 1024 * 1024;
+  const MAX_FILE_SIZE = 50 * 1024 * 1024;
 
   app.post("/api/uploads/request-url", async (req, res) => {
     try {
