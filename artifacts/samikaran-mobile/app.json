@@ -22,7 +22,7 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#0D0A1E"
-      },
+      }
     },
     "web": {
       "favicon": "./assets/images/icon.png"

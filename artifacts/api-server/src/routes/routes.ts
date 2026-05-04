@@ -428,10 +428,35 @@ export async function registerRoutes(
     }
   });
 
+  // ── Internal trigger auth guard ─────────────────────────────────────────────
+  // Accepts either:
+  //   a) X-Internal-Key header matching INTERNAL_NOTIFICATION_KEY env var, OR
+  //   b) An active admin/super_admin Replit OIDC session
+  function requireTriggerAuth(req: any, res: any, next: () => void) {
+    const internalKey = process.env.INTERNAL_NOTIFICATION_KEY;
+    const providedKey = req.headers["x-internal-key"] as string | undefined;
+
+    // Key-based auth (for cron jobs / server-to-server calls)
+    if (internalKey && providedKey && providedKey === internalKey) {
+      return next();
+    }
+
+    // Replit OIDC admin auth (for admin panel / manual trigger)
+    const user = req.user as any;
+    if (req.isAuthenticated?.() && user?.expires_at) {
+      const isAdmin =
+        user?.claims?.isAdmin === true ||
+        ["admin", "super_admin"].includes(user?.role ?? "");
+      if (isAdmin) return next();
+    }
+
+    return res.status(403).json({ error: "Forbidden: admin auth or internal key required" });
+  }
+
   // POST /api/notifications/trigger/exam-reminder
   // Called internally (or by admin cron) to notify registered students 24h before exam
-  // Body: { examId: number, adminKey?: string }
-  app.post("/api/notifications/trigger/exam-reminder", async (req: any, res) => {
+  // Body: { examId: number }
+  app.post("/api/notifications/trigger/exam-reminder", requireTriggerAuth, async (req: any, res) => {
     try {
       const { examId } = req.body as { examId?: number };
       if (!examId) return res.status(400).json({ error: "examId is required" });
@@ -481,7 +506,7 @@ export async function registerRoutes(
   // POST /api/notifications/trigger/result-published
   // Called when results are published for an exam
   // Body: { examId: number }
-  app.post("/api/notifications/trigger/result-published", async (req: any, res) => {
+  app.post("/api/notifications/trigger/result-published", requireTriggerAuth, async (req: any, res) => {
     try {
       const { examId } = req.body as { examId?: number };
       if (!examId) return res.status(400).json({ error: "examId is required" });
@@ -526,7 +551,7 @@ export async function registerRoutes(
   // POST /api/notifications/trigger/certificate-ready
   // Called when certificates are ready for an exam
   // Body: { examId: number }
-  app.post("/api/notifications/trigger/certificate-ready", async (req: any, res) => {
+  app.post("/api/notifications/trigger/certificate-ready", requireTriggerAuth, async (req: any, res) => {
     try {
       const { examId } = req.body as { examId?: number };
       if (!examId) return res.status(400).json({ error: "examId is required" });
@@ -571,7 +596,7 @@ export async function registerRoutes(
   // POST /api/notifications/trigger/streak-reminder
   // Nudge students whose streak is at risk (no activity today)
   // Body: {} — no parameters, operates on all at-risk students
-  app.post("/api/notifications/trigger/streak-reminder", async (req: any, res) => {
+  app.post("/api/notifications/trigger/streak-reminder", requireTriggerAuth, async (req: any, res) => {
     try {
       // Find students who have a streak > 0 but no activity recorded today (UTC)
       const atRiskResult = await pool.query<{ id: number; streak: number }>(

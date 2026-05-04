@@ -90,28 +90,41 @@ export async function registerPushToken(
 }
 
 /**
- * Map notification data to an in-app Expo Router href.
+ * Map notification payload to an Expo Router Href.
  *
- * Destination contract:
- *   exam_reminder  → /(student)/exams   (upcoming exams list)
- *   result_published → /(student)/results
- *   certificate_ready → /(student)/results
- *   streak_broken  → /(student)/home
- *   fallback       → explicit screen field if provided, else null
+ * Destination contract (matches existing student screen routes):
+ *   exam_reminder    → /(student)/exams   + examId param (list, filtered to upcoming)
+ *   result_published → /(student)/results + examId param (list, filtered to that exam)
+ *   certificate_ready → /(student)/results + examId param
+ *   streak_broken    → /(student)/home
+ *   explicit screen  → screen field value (fallback)
+ *
+ * examId/attemptId are forwarded as search params so screens can
+ * scroll to / highlight the relevant item when they receive them.
  */
-export function resolveNotificationHref(
-  data: NotificationData
-): Href | null {
+export function resolveNotificationHref(data: NotificationData): Href | null {
   const type = data.type as NotificationType | undefined;
+  const examId = data.examId != null ? String(data.examId) : undefined;
+  const attemptId = data.attemptId != null ? String(data.attemptId) : undefined;
 
   switch (type) {
     case "exam_reminder":
-      return "/(student)/exams" as Href;
+      return examId
+        ? ({ pathname: "/(student)/exams", params: { examId } } as Href)
+        : ("/(student)/exams" as Href);
+
     case "result_published":
     case "certificate_ready":
-      return "/(student)/results" as Href;
+      return examId
+        ? ({
+            pathname: "/(student)/results",
+            params: { examId, ...(attemptId ? { attemptId } : {}) },
+          } as Href)
+        : ("/(student)/results" as Href);
+
     case "streak_broken":
       return "/(student)/home" as Href;
+
     default:
       if (data.screen) return data.screen as Href;
       return null;
