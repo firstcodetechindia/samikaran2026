@@ -234,15 +234,16 @@ export default function ExamTakeScreen() {
       setExamSubmitted(true);
       stopSiren();
 
-      // For forced auto-submits wait up to 10 s for any in-flight voice uploads
-      // so server URLs replace local URIs before the payload is finalised
+      // For forced auto-submits wait up to 30 s for any in-flight voice uploads
+      // so server URLs replace local URIs before the payload is finalised.
+      // 30 s gives a reasonable window even on poor networks.
       if (uploadingVoiceRef.current.size > 0) {
         await new Promise<void>((resolve) => {
           let poll: ReturnType<typeof setInterval>;
           const maxWait = setTimeout(() => {
             clearInterval(poll);
             resolve();
-          }, 10_000);
+          }, 30_000);
           poll = setInterval(() => {
             if (uploadingVoiceRef.current.size === 0) {
               clearInterval(poll);
@@ -430,6 +431,10 @@ export default function ExamTakeScreen() {
       "3gp": "audio/3gpp", "3gpp": "audio/3gpp", amr: "audio/amr",
     };
     const mimeType = AUDIO_MIME[ext] ?? "audio/mpeg";
+
+    if (!BASE_URL) {
+      throw new Error("EXPO_PUBLIC_API_URL is not configured — cannot upload voice recording.");
+    }
 
     const formData = new FormData();
     formData.append("file", { uri: localUri, name: filename, type: mimeType } as unknown as Blob);
