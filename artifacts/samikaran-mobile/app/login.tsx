@@ -61,6 +61,7 @@ interface LoginApiResponse {
   lastLoginAt?: string;
   message?: string;
   token?: string;
+  sessionToken?: string;
   verificationToken?: string;
   resetToken?: string;
   waitTime?: number;
@@ -240,6 +241,8 @@ export default function LoginScreen() {
       fullName,
       role: "student",
       email: u.email,
+      // Store the session token so notification registration can authenticate
+      token: data.sessionToken ?? data.token,
       xp: u.xp ?? 0,
       level: u.level ?? 1,
       streak: u.streak ?? 0,

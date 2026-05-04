@@ -7,6 +7,7 @@ import {
 } from "@expo-google-fonts/roboto";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack, useRouter } from "expo-router";
+import type { Href } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import React, { useEffect, useRef } from "react";
 import { Platform } from "react-native";
@@ -19,8 +20,10 @@ import { AuthProvider, useAuth } from "@/context/AuthContext";
 import {
   getExpoPushToken,
   registerPushToken,
-  resolveDeepLinkPath,
+  requestNotificationPermission,
+  resolveNotificationHref,
 } from "@/utils/notifications";
+import type { NotificationData } from "@/utils/notifications";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -52,12 +55,29 @@ function RootLayoutNav() {
   );
 }
 
+/**
+ * NotificationBootstrap handles all push notification lifecycle:
+ *  1. Request permission on first render (before login — no auth needed)
+ *  2. Register push token with backend once user is authenticated
+ *  3. Set up foreground/tap listeners for in-app deep linking
+ *  4. Handle cold-start tap (app opened from notification)
+ */
 function NotificationBootstrap({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
   const router = useRouter();
   const tokenRegistered = useRef(false);
   const listenerSub = useRef<{ remove: () => void } | null>(null);
+  const permissionRequested = useRef(false);
 
+  // ── Step 1: Request permission on first launch (no login required) ───────
+  useEffect(() => {
+    if (Platform.OS === "web") return;
+    if (permissionRequested.current) return;
+    permissionRequested.current = true;
+    requestNotificationPermission();
+  }, []);
+
+  // ── Step 2 & 3: Register token + set up listeners once user is known ─────
   useEffect(() => {
     if (Platform.OS === "web") return;
 
@@ -70,59 +90,31 @@ function NotificationBootstrap({ children }: { children: React.ReactNode }) {
         return;
       }
 
-      // Register token with backend once per session when user is logged in
-      if (user && !tokenRegistered.current) {
+      // Register push token with backend once per session when user is logged in
+      if (user && !tokenRegistered.current && user.token) {
         tokenRegistered.current = true;
-        const token = await getExpoPushToken();
-        if (token) {
-          await registerPushToken(token, user.token);
+        const pushToken = await getExpoPushToken();
+        if (pushToken) {
+          await registerPushToken(pushToken, user.id, user.token);
         }
       }
 
-      // Foreground notification received — just display it (handler already set)
+      // Foreground notification received — global handler already shows alert
       const receivedSub = Notifications.addNotificationReceivedListener(
         (_notification) => {
-          // No-op: the global handler shows alert + plays sound
+          // No additional action — the setNotificationHandler in notifications.ts handles display
         }
       );
 
-      // Tap on notification — navigate to the relevant screen
-      const responseSub = Notifications.addNotificationResponseReceivedListener(
-        (response) => {
-          const data = response.notification.request.content.data as Record<
-            string,
-            unknown
-          >;
-          const path = resolveDeepLinkPath({
-            type: data.type as any,
-            screen: data.screen as string | undefined,
-            examId: data.examId as string | undefined,
-            attemptId: data.attemptId as string | undefined,
-          });
-          if (path) {
-            router.push(path as any);
+      // Tap on a notification while app is foregrounded or backgrounded
+      const responseSub =
+        Notifications.addNotificationResponseReceivedListener((response) => {
+          const raw = response.notification.request.content.data as NotificationData;
+          const href: Href | null = resolveNotificationHref(raw);
+          if (href) {
+            router.push(href);
           }
-        }
-      );
-
-      // Handle the notification that launched the app (cold start tap)
-      const last =
-        await Notifications.getLastNotificationResponseAsync();
-      if (last) {
-        const data = last.notification.request.content.data as Record<
-          string,
-          unknown
-        >;
-        const path = resolveDeepLinkPath({
-          type: data.type as any,
-          screen: data.screen as string | undefined,
-          examId: data.examId as string | undefined,
-          attemptId: data.attemptId as string | undefined,
         });
-        if (path) {
-          setTimeout(() => router.push(path as any), 800);
-        }
-      }
 
       listenerSub.current = {
         remove: () => {
@@ -130,13 +122,26 @@ function NotificationBootstrap({ children }: { children: React.ReactNode }) {
           responseSub.remove();
         },
       };
+
+      // ── Step 4: Cold-start — app was opened by tapping a notification ──
+      const last = await Notifications.getLastNotificationResponseAsync();
+      if (last) {
+        const raw = last.notification.request.content.data as NotificationData;
+        const href: Href | null = resolveNotificationHref(raw);
+        if (href) {
+          // Slight delay lets the navigator finish mounting before push
+          setTimeout(() => router.push(href), 800);
+        }
+      }
     };
 
     setup();
 
     return () => {
       listenerSub.current?.remove();
+      listenerSub.current = null;
     };
+    // Depend on user.id so we re-run on login/logout
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
 
