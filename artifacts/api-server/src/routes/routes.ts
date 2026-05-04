@@ -140,19 +140,22 @@ export async function registerRoutes(
   // registerAuthRoutes and setupAuth are now handled in server/index.ts
   registerChatRoutes(app);
   registerImageRoutes(app);
-  registerObjectStorageRoutes(app);
-  registerSupportRoutes(app);
-  registerGurujiRoutes(app);
-  registerSchoolBridgeRoutes(app);
 
+  // Define and serve the local uploads directory BEFORE registerObjectStorageRoutes
+  // so that /objects/uploads/* is handled by static middleware first, preventing
+  // the GCS-backed /objects/{*objectPath} route from intercepting local files.
   const uploadsDir = path.join(process.cwd(), "uploads");
   if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir, { recursive: true });
   }
   app.use("/uploads", express.static(uploadsDir));
-  // Also serve local uploads under the /objects/uploads/* convention
-  // so objectPaths returned by this server are always /objects/... prefixed
+  // Serve under /objects/uploads/* so returned objectPaths use the /objects/ convention
   app.use("/objects/uploads", express.static(uploadsDir));
+
+  registerObjectStorageRoutes(app);
+  registerSupportRoutes(app);
+  registerGurujiRoutes(app);
+  registerSchoolBridgeRoutes(app);
 
   const uploadMemory = multer({
     storage: multer.memoryStorage(),
