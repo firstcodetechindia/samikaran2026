@@ -42,6 +42,7 @@ const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 const VIOLATION_THRESHOLD = 3;
 const FACE_CHECK_INTERVAL_MS = 2000;
 const SIREN_URL = "https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3";
+const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? "";
 
 type QuestionType = "mcq" | "truefalse" | "image" | "voice";
 type QuestionStatus = "unanswered" | "answered" | "skipped";
@@ -142,6 +143,7 @@ export default function ExamTakeScreen() {
 
   const [isRecording, setIsRecording] = useState(false);
   const [voiceAnswers, setVoiceAnswers] = useState<Record<number, string>>({});
+  const [uploadingVoice, setUploadingVoice] = useState<Set<number>>(new Set());
   const [recordingSeconds, setRecordingSeconds] = useState(0);
   const [playingQuestionId, setPlayingQuestionId] = useState<number | null>(null);
   const [playbackSeconds, setPlaybackSeconds] = useState<Record<number, number>>({});
@@ -384,6 +386,25 @@ export default function ExamTakeScreen() {
     }).start(() => setShowPalette(false));
   };
 
+  const uploadVoiceRecording = async (localUri: string, questionId: number): Promise<string> => {
+    const ext = localUri.split(".").pop() ?? "m4a";
+    const filename = `voice_q${questionId}_${Date.now()}.${ext}`;
+    const mimeType = ext === "m4a" ? "audio/m4a" : ext === "mp4" ? "audio/mp4" : ext === "webm" ? "audio/webm" : "audio/mpeg";
+
+    const formData = new FormData();
+    formData.append("file", { uri: localUri, name: filename, type: mimeType } as unknown as Blob);
+    formData.append("folder", "uploads");
+
+    const res = await fetch(`${BASE_URL}/api/uploads/direct`, {
+      method: "POST",
+      body: formData,
+      credentials: "include",
+    });
+    if (!res.ok) throw new Error(`Upload failed: ${res.status}`);
+    const data = (await res.json()) as { objectPath: string };
+    return data.objectPath;
+  };
+
   const startVoiceRecording = async () => {
     try {
       await Audio.setAudioModeAsync({
@@ -407,15 +428,34 @@ export default function ExamTakeScreen() {
   const stopVoiceRecording = async () => {
     if (recordingTimerRef.current) clearInterval(recordingTimerRef.current);
     setIsRecording(false);
+    const qId = currentQuestion.id;
     try {
       if (recordingRef.current) {
         await recordingRef.current.stopAndUnloadAsync();
-        const uri = recordingRef.current.getURI();
-        if (uri) {
-          setVoiceAnswers((prev) => ({ ...prev, [currentQuestion.id]: uri }));
-          setQuestionStatuses((prev) => ({ ...prev, [currentQuestion.id]: "answered" }));
-        }
+        const localUri = recordingRef.current.getURI();
         recordingRef.current = null;
+        if (!localUri) return;
+
+        // Mark as uploading — store local URI first so UI reflects recorded state
+        setVoiceAnswers((prev) => ({ ...prev, [qId]: localUri }));
+        setQuestionStatuses((prev) => ({ ...prev, [qId]: "answered" }));
+        setUploadingVoice((prev) => new Set(prev).add(qId));
+
+        try {
+          const objectPath = await uploadVoiceRecording(localUri, qId);
+          // Replace local URI with permanent server URL
+          const playbackUrl = objectPath.startsWith("http") ? objectPath : `${BASE_URL}${objectPath}`;
+          setVoiceAnswers((prev) => ({ ...prev, [qId]: playbackUrl }));
+        } catch {
+          // Upload failed — keep local URI so recording is not lost for this session
+          // Will be retried or re-recorded
+        } finally {
+          setUploadingVoice((prev) => {
+            const next = new Set(prev);
+            next.delete(qId);
+            return next;
+          });
+        }
       }
     } catch {}
   };
@@ -615,37 +655,54 @@ export default function ExamTakeScreen() {
             {currentQuestion.type === "voice" && (
               <View style={styles.voiceSection}>
                 {voiceAnswers[currentQuestion.id] ? (
-                  <View style={[styles.voiceRecorded, { backgroundColor: colors.success + "15", borderColor: colors.success }]}>
-                    <Ionicons name="checkmark-circle" size={22} color={colors.success} />
+                  <View style={[styles.voiceRecorded, {
+                    backgroundColor: uploadingVoice.has(currentQuestion.id) ? "#fffbeb" : colors.success + "15",
+                    borderColor: uploadingVoice.has(currentQuestion.id) ? "#fbbf24" : colors.success,
+                  }]}>
+                    {uploadingVoice.has(currentQuestion.id) ? (
+                      <Ionicons name="cloud-upload-outline" size={22} color="#f59e0b" />
+                    ) : (
+                      <Ionicons name="checkmark-circle" size={22} color={colors.success} />
+                    )}
                     <View style={{ flex: 1 }}>
-                      <Text style={[styles.voiceRecordedTitle, { color: colors.success, fontFamily: "Roboto_700Bold" }]}>
-                        Answer Recorded
+                      <Text style={[styles.voiceRecordedTitle, {
+                        color: uploadingVoice.has(currentQuestion.id) ? "#d97706" : colors.success,
+                        fontFamily: "Roboto_700Bold",
+                      }]}>
+                        {uploadingVoice.has(currentQuestion.id) ? "Uploading…" : "Answer Recorded"}
                       </Text>
                       <Text style={[styles.voiceRecordedSub, { color: colors.mutedForeground }]}>
-                        {playingQuestionId === currentQuestion.id
+                        {uploadingVoice.has(currentQuestion.id)
+                          ? "Saving your recording to server"
+                          : playingQuestionId === currentQuestion.id
                           ? `Playing — ${formatTime(playbackSeconds[currentQuestion.id] ?? 0)}`
                           : "Tap play to review • Tap refresh to re-record"}
                       </Text>
                     </View>
-                    <TouchableOpacity
-                      style={[styles.reRecordBtn, { backgroundColor: colors.primary + "25" }]}
-                      onPress={() => toggleVoicePlayback(currentQuestion.id, voiceAnswers[currentQuestion.id])}
-                    >
-                      <Ionicons
-                        name={playingQuestionId === currentQuestion.id ? "pause" : "play"}
-                        size={16}
-                        color={colors.primary}
-                      />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={[styles.reRecordBtn, { backgroundColor: colors.success + "20", marginLeft: 6 }]}
-                      onPress={() => {
-                        stopVoicePlayback();
-                        setVoiceAnswers((p) => { const n = { ...p }; delete n[currentQuestion.id]; return n; });
-                      }}
-                    >
-                      <Ionicons name="refresh" size={16} color={colors.success} />
-                    </TouchableOpacity>
+                    {!uploadingVoice.has(currentQuestion.id) && (
+                      <>
+                        <TouchableOpacity
+                          style={[styles.reRecordBtn, { backgroundColor: colors.primary + "25" }]}
+                          onPress={() => toggleVoicePlayback(currentQuestion.id, voiceAnswers[currentQuestion.id])}
+                        >
+                          <Ionicons
+                            name={playingQuestionId === currentQuestion.id ? "pause" : "play"}
+                            size={16}
+                            color={colors.primary}
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          style={[styles.reRecordBtn, { backgroundColor: colors.success + "20", marginLeft: 6 }]}
+                          onPress={() => {
+                            stopVoicePlayback();
+                            setVoiceAnswers((p) => { const n = { ...p }; delete n[currentQuestion.id]; return n; });
+                            setQuestionStatuses((p) => { const n = { ...p }; delete n[currentQuestion.id]; return n; });
+                          }}
+                        >
+                          <Ionicons name="refresh" size={16} color={colors.success} />
+                        </TouchableOpacity>
+                      </>
+                    )}
                   </View>
                 ) : (
                   <View style={[styles.voiceRecorder, { backgroundColor: colors.muted, borderColor: colors.border }]}>
@@ -735,12 +792,16 @@ export default function ExamTakeScreen() {
           <TouchableOpacity
             style={[styles.navBtn, { borderColor: colors.success, backgroundColor: colors.success + "15" }]}
             onPress={() => {
+              const pendingUploads = uploadingVoice.size;
+              const uploadNote = pendingUploads > 0
+                ? `\n\n⚠️ ${pendingUploads} voice answer${pendingUploads > 1 ? "s are" : " is"} still uploading. Please wait a moment.`
+                : "";
               Alert.alert(
                 "Submit Exam",
-                `You have answered ${answeredCount} of ${MOCK_QUESTIONS.length} questions.\n\nAre you sure you want to submit?`,
+                `You have answered ${answeredCount} of ${MOCK_QUESTIONS.length} questions.\n\nAre you sure you want to submit?${uploadNote}`,
                 [
                   { text: "Cancel", style: "cancel" },
-                  { text: "Submit", style: "destructive", onPress: () => submitExam("manual") },
+                  ...(pendingUploads === 0 ? [{ text: "Submit", style: "destructive" as const, onPress: () => submitExam("manual") }] : []),
                 ]
               );
             }}
