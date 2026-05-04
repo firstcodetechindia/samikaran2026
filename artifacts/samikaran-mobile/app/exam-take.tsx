@@ -232,8 +232,12 @@ export default function ExamTakeScreen() {
       // so server URLs replace local URIs before the payload is finalised
       if (uploadingVoiceRef.current.size > 0) {
         await new Promise<void>((resolve) => {
-          const maxWait = setTimeout(resolve, 10_000);
-          const poll = setInterval(() => {
+          let poll: ReturnType<typeof setInterval>;
+          const maxWait = setTimeout(() => {
+            clearInterval(poll);
+            resolve();
+          }, 10_000);
+          poll = setInterval(() => {
             if (uploadingVoiceRef.current.size === 0) {
               clearInterval(poll);
               clearTimeout(maxWait);
