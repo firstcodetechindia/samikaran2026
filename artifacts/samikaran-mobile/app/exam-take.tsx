@@ -418,7 +418,12 @@ export default function ExamTakeScreen() {
   const uploadVoiceRecording = async (localUri: string, questionId: number): Promise<string> => {
     const ext = localUri.split(".").pop() ?? "m4a";
     const filename = `voice_q${questionId}_${Date.now()}.${ext}`;
-    const mimeType = ext === "m4a" ? "audio/m4a" : ext === "mp4" ? "audio/mp4" : ext === "webm" ? "audio/webm" : "audio/mpeg";
+    const AUDIO_MIME: Record<string, string> = {
+      m4a: "audio/m4a", mp4: "audio/mp4", webm: "audio/webm",
+      ogg: "audio/ogg", wav: "audio/wav", aac: "audio/aac",
+      "3gp": "audio/3gpp", "3gpp": "audio/3gpp", amr: "audio/amr",
+    };
+    const mimeType = AUDIO_MIME[ext] ?? "audio/mpeg";
 
     const formData = new FormData();
     formData.append("file", { uri: localUri, name: filename, type: mimeType } as unknown as Blob);
