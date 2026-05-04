@@ -36,13 +36,17 @@ export default function ExamsScreen() {
 
   const topPad = insets.top + (Platform.OS === "web" ? 67 : 0);
 
-  // When opened via a notification deep link, switch to the tab that contains the exam
+  // When opened via a notification deep link, switch to the tab containing the exam
+  // and highlight it so the student immediately sees the relevant card.
+  const [highlightedExamId, setHighlightedExamId] = useState<number | null>(null);
+
   useEffect(() => {
     if (!examId) return;
     const id = Number(examId);
     const exam = MOCK_EXAMS.find((e) => e.id === id);
     if (!exam) return;
 
+    setHighlightedExamId(id);
     if (exam.status === "live") {
       setActiveTab("Live");
     } else if (exam.status === "upcoming" || exam.status === "registered") {
@@ -50,6 +54,9 @@ export default function ExamsScreen() {
     } else if (exam.status === "completed") {
       setActiveTab("Completed");
     }
+    // Clear highlight after 4 seconds
+    const t = setTimeout(() => setHighlightedExamId(null), 4000);
+    return () => clearTimeout(t);
   }, [examId]);
 
   const filtered = MOCK_EXAMS.filter((e) => {
@@ -154,11 +161,19 @@ export default function ExamsScreen() {
           </View>
         ) : (
           filtered.map((exam) => (
-            <ExamCard
+            <View
               key={exam.id}
-              {...exam}
-              onPress={() => handleExamPress(exam)}
-            />
+              style={
+                highlightedExamId === exam.id
+                  ? [styles.highlight, { borderColor: colors.primary }]
+                  : undefined
+              }
+            >
+              <ExamCard
+                {...exam}
+                onPress={() => handleExamPress(exam)}
+              />
+            </View>
           ))
         )}
       </ScrollView>
@@ -192,4 +207,5 @@ const styles = StyleSheet.create({
   liveBannerText: { color: "#fff", fontSize: 14 },
   empty: { alignItems: "center", justifyContent: "center", paddingTop: 80, gap: 12 },
   emptyText: { fontSize: 16 },
+  highlight: { borderRadius: 16, borderWidth: 2 },
 });

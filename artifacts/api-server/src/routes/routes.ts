@@ -286,17 +286,21 @@ export async function registerRoutes(
 
   // --- Push Notification Endpoints ---
   // Ensure push_tokens table exists (idempotent)
-  pool.query(`
-    CREATE TABLE IF NOT EXISTS push_tokens (
-      id SERIAL PRIMARY KEY,
-      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-      token TEXT NOT NULL,
-      platform TEXT NOT NULL DEFAULT 'unknown',
-      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-      UNIQUE(user_id, token)
-    )
-  `).catch(() => {});
+  pool
+    .query(`
+      CREATE TABLE IF NOT EXISTS push_tokens (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        token TEXT NOT NULL,
+        platform TEXT NOT NULL DEFAULT 'unknown',
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        UNIQUE(user_id, token)
+      )
+    `)
+    .catch((err: Error) => {
+      logger.error({ err }, "push_tokens table initialization failed");
+    });
 
   // ── Shared helper: send messages via Expo Push API in batches of 100 ─────────
   async function sendExpoPush(
@@ -347,7 +351,8 @@ export async function registerRoutes(
       if (!userId || !sessionToken || !pushToken) {
         return res.status(400).json({ error: "userId, sessionToken, and pushToken are required" });
       }
-      if (!pushToken.startsWith("ExponentPushToken[")) {
+      // Accept both known Expo push token prefixes (SDK may vary)
+      if (!pushToken.startsWith("ExponentPushToken[") && !pushToken.startsWith("ExpoPushToken[")) {
         return res.status(400).json({ error: "Invalid Expo push token format" });
       }
 
