@@ -461,13 +461,29 @@ export async function registerRoutes(
       const { examId } = req.body as { examId?: number };
       if (!examId) return res.status(400).json({ error: "examId is required" });
 
-      // Fetch exam info
+      // Fetch exam info — enforce server-side 24h window.
+      // Only send if exam starts within the next 26 hours (allow 2h early trigger margin).
       const examResult = await pool.query<{ id: number; title: string; start_time: string | null }>(
-        "SELECT id, title, start_time FROM exams WHERE id = $1",
+        `SELECT id, title, start_time FROM exams WHERE id = $1`,
         [examId]
       );
       const exam = examResult.rows[0];
       if (!exam) return res.status(404).json({ error: "Exam not found" });
+
+      // Enforce 24h window: exam must start between now and 26 hours from now
+      if (exam.start_time) {
+        const startMs = new Date(exam.start_time).getTime();
+        const nowMs = Date.now();
+        const hoursUntilStart = (startMs - nowMs) / (1000 * 60 * 60);
+        if (hoursUntilStart < 0) {
+          return res.status(400).json({ error: "Exam has already started or ended" });
+        }
+        if (hoursUntilStart > 26) {
+          return res.status(400).json({
+            error: `Exam starts in ${Math.round(hoursUntilStart)}h — reminder window is 24h before start`,
+          });
+        }
+      }
 
       // Fetch all registered student IDs for this exam
       const regResult = await pool.query<{ student_id: number }>(

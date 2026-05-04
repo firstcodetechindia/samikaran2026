@@ -19,7 +19,8 @@ export type NotificationType =
   | "exam_reminder"
   | "result_published"
   | "certificate_ready"
-  | "streak_broken";
+  | "streak_broken"
+  | "profile_update";
 
 export interface NotificationData {
   type?: string;
@@ -124,6 +125,9 @@ export function resolveNotificationHref(data: NotificationData): Href | null {
 
     case "streak_broken":
       return "/(student)/home" as Href;
+
+    case "profile_update":
+      return "/(student)/profile" as Href;
 
     default:
       if (data.screen) return data.screen as Href;

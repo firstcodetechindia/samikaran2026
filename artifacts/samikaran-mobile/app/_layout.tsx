@@ -65,7 +65,10 @@ function RootLayoutNav() {
 function NotificationBootstrap({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
   const router = useRouter();
-  const tokenRegistered = useRef(false);
+  // Track which userId has been registered — null means not yet registered.
+  // Using userId (not a boolean) means a different user on the same device
+  // correctly re-registers their own push token.
+  const tokenRegisteredForUserId = useRef<number | null>(null);
   const listenerSub = useRef<{ remove: () => void } | null>(null);
   const permissionRequested = useRef(false);
 
@@ -90,9 +93,9 @@ function NotificationBootstrap({ children }: { children: React.ReactNode }) {
         return;
       }
 
-      // Register push token with backend once per session when user is logged in
-      if (user && !tokenRegistered.current && user.token) {
-        tokenRegistered.current = true;
+      // Register push token with backend for THIS user (re-registers on account switch)
+      if (user && tokenRegisteredForUserId.current !== user.id && user.token) {
+        tokenRegisteredForUserId.current = user.id;
         const pushToken = await getExpoPushToken();
         if (pushToken) {
           await registerPushToken(pushToken, user.id, user.token);
