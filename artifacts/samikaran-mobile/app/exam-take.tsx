@@ -916,12 +916,16 @@ export default function ExamTakeScreen() {
                     onPress={() => {
                       closePalette();
                       setTimeout(() => {
+                        const pendingUploads = uploadingVoice.size;
+                        const uploadNote = pendingUploads > 0
+                          ? `\n\n⚠️ ${pendingUploads} voice answer${pendingUploads > 1 ? "s are" : " is"} still uploading. Please wait a moment.`
+                          : "";
                         Alert.alert(
                           "Submit Exam",
-                          `You have answered ${answeredCount} of ${MOCK_QUESTIONS.length} questions.\n\nAre you sure you want to submit?`,
+                          `You have answered ${answeredCount} of ${MOCK_QUESTIONS.length} questions.\n\nAre you sure you want to submit?${uploadNote}`,
                           [
                             { text: "Cancel", style: "cancel" },
-                            { text: "Submit", style: "destructive", onPress: () => submitExam("manual") },
+                            ...(pendingUploads === 0 ? [{ text: "Submit", style: "destructive" as const, onPress: () => submitExam("manual") }] : []),
                           ]
                         );
                       }, 400);

@@ -155,7 +155,11 @@ export async function registerRoutes(
     storage: multer.memoryStorage(),
     limits: { fileSize: 10 * 1024 * 1024 },
     fileFilter: (_req, file, cb) => {
-      const allowed = ["image/jpeg", "image/png", "image/gif", "image/webp", "application/pdf"];
+      const allowed = [
+        "image/jpeg", "image/png", "image/gif", "image/webp", "application/pdf",
+        "audio/m4a", "audio/mp4", "audio/mpeg", "audio/webm", "audio/ogg",
+        "audio/wav", "audio/aac", "audio/x-m4a", "audio/3gpp", "audio/amr",
+      ];
       cb(null, allowed.includes(file.mimetype));
     },
   });
