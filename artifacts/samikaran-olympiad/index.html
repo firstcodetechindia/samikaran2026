@@ -162,14 +162,21 @@
     <!-- RSS Feed Autodiscovery -->
     <link rel="alternate" type="application/rss+xml" title="Samikaran Olympiad Blog" href="https://www.samikaranolympiad.com/blog/rss.xml" />
 
-    <!-- Preconnect for Performance -->
+    <!-- Roboto: self-hosted — eliminates Google Fonts DNS + download round-trip for LCP font -->
+    <link rel="preload" as="font" href="/fonts/roboto-latin.woff2" type="font/woff2" crossorigin />
+    <style>
+      @font-face {
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 100 900;
+        font-display: swap;
+        src: url('/fonts/roboto-latin.woff2') format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+    </style>
+    <!-- Preconnect still needed for Cormorant SC (certificate font, non-blocking) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-    
-    <!-- Fonts: non-render-blocking via preload trick -->
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" /></noscript>
     <!-- Certificate display font -->
     <link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&display=swap" />
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&display=swap" /></noscript>

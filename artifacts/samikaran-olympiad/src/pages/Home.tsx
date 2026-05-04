@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import type { Exam, BlogPost, OlympiadCategory } from "@shared/schema";
 import { Trophy, BookOpen, ArrowRight, Star, Shield, Award, Users, Globe, CheckCircle2, Download, GraduationCap, Brain, Target, BarChart3, Quote, Calculator, Atom, BookText, IndianRupee, FileText, Share2, Calendar, Clock, Sparkles, Code, Puzzle, Monitor, FlaskConical, Languages, Landmark, TrendingUp, Briefcase, Heart, Rocket, Cpu, Dna, Map, Wrench, Car, ShoppingCart, ChevronRight, Lightbulb, ClipboardCheck, Laptop, Zap, School, UserPlus, CreditCard, Building2, HelpCircle, ChevronDown } from "lucide-react";
 import { useState, useEffect, useRef, useMemo, memo } from "react";
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { PublicLayout } from "@/components/PublicLayout";
 import { LazySection } from "@/components/LazySection";
 
@@ -70,15 +70,19 @@ const HeroParticles = memo(function HeroParticles() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
       {particles.map(p => (
-        <motion.span
+        <span
           key={p.id}
-          className="absolute font-bold select-none"
-          style={{ left: `${p.x}%`, top: `${p.y}%`, fontSize: p.size, color: 'white', opacity: 0 }}
-          animate={{ x: [0, p.dx, 0], y: [0, p.dy, 0], opacity: [0, 0.16, 0.16, 0.16, 0] }}
-          transition={{ duration: p.duration, repeat: Infinity, delay: p.delay, ease: 'easeInOut' }}
+          className="absolute font-bold select-none sk-particle"
+          style={{
+            left: `${p.x}%`, top: `${p.y}%`, fontSize: p.size, color: 'white',
+            animationDuration: `${p.duration}s`,
+            animationDelay: `${p.delay}s`,
+            '--sk-dx': `${p.dx}px`,
+            '--sk-dy': `${p.dy}px`,
+          } as React.CSSProperties}
         >
           {p.symbol}
-        </motion.span>
+        </span>
       ))}
     </div>
   );
@@ -155,22 +159,22 @@ function OlympiadIllustration({ isMobile }: { isMobile: boolean }) {
           })}
         </div>
       ) : (
-        <motion.div className="absolute" style={innerOrbitStyle} animate={{ rotate: -360 }} transition={{ duration: 16, repeat: Infinity, ease: 'linear' }}>
+        <div className="absolute sk-orbit-ccw-16" style={innerOrbitStyle}>
           {innerSubjects.map((s, i) => {
             const angleDeg = i * (360 / innerSubjects.length) - 45;
             const angleRad = angleDeg * (Math.PI / 180);
             const cx = R2 + R2 * Math.cos(angleRad) - is2 / 2;
             const cy = R2 + R2 * Math.sin(angleRad) - is2 / 2;
             return (
-              <motion.div key={s.name} className="absolute flex flex-col items-center gap-[2px]" style={{ left: cx, top: cy, width: is2 }} animate={{ rotate: 360 }} transition={{ duration: 16, repeat: Infinity, ease: 'linear' }}>
+              <div key={s.name} className="absolute sk-orbit-cw-16 flex flex-col items-center gap-[2px]" style={{ left: cx, top: cy, width: is2 }}>
                 <div className="flex items-center justify-center rounded-full" style={{ width: is2, height: is2, background: s.bg, border: `2px solid ${s.border}`, boxShadow: `0 0 10px ${s.border}66` }}>
                   <span style={{ color: s.color, fontSize: is2 * 0.42, fontWeight: 800, lineHeight: 1 }}>{s.icon}</span>
                 </div>
                 <span style={{ color: s.color, fontSize: 9, fontWeight: 700, letterSpacing: 0.2, whiteSpace: 'nowrap' }}>{s.name}</span>
-              </motion.div>
+              </div>
             );
           })}
-        </motion.div>
+        </div>
       )}
 
       {/* Outer orbit — animated on desktop, static on mobile */}
@@ -193,31 +197,29 @@ function OlympiadIllustration({ isMobile }: { isMobile: boolean }) {
           })}
         </div>
       ) : (
-        <motion.div className="absolute" style={outerOrbitStyle} animate={{ rotate: 360 }} transition={{ duration: dur, repeat: Infinity, ease: 'linear' }}>
+        <div className="absolute sk-orbit-cw-dur" style={{ ...outerOrbitStyle, '--sk-dur': `${dur}s` } as React.CSSProperties}>
           {subjects.map((s, i) => {
             const angleDeg = i * (360 / subjects.length) - 90;
             const angleRad = angleDeg * (Math.PI / 180);
             const cx = R + R * Math.cos(angleRad) - iconSize / 2;
             const cy = R + R * Math.sin(angleRad) - iconSize / 2;
             return (
-              <motion.div key={s.name} className="absolute flex flex-col items-center gap-[3px]" style={{ left: cx, top: cy, width: iconSize }} animate={{ rotate: -360 }} transition={{ duration: dur, repeat: Infinity, ease: 'linear' }}>
+              <div key={s.name} className="absolute sk-orbit-ccw-dur flex flex-col items-center gap-[3px]" style={{ left: cx, top: cy, width: iconSize, '--sk-dur': `${dur}s` } as React.CSSProperties}>
                 <div className="flex flex-col items-center justify-center rounded-full shadow-lg" style={{ width: iconSize, height: iconSize, background: s.bg, border: `2px solid ${s.border}`, boxShadow: `0 0 16px ${s.border}55` }}>
                   <span style={{ color: s.color, fontSize: s.icon === '⚛' || s.icon === '♟' ? 24 : s.icon === '</>' ? 13 : 17, fontWeight: 800, lineHeight: 1 }}>{s.icon}</span>
                   {s.sub && <span style={{ color: s.color, fontSize: 10, lineHeight: 1, marginTop: 2 }}>{s.sub}</span>}
                 </div>
                 <span style={{ color: s.color, fontSize: 11, fontWeight: 700, letterSpacing: 0.3, whiteSpace: 'nowrap' }}>{s.name}</span>
-              </motion.div>
+              </div>
             );
           })}
-        </motion.div>
+        </div>
       )}
 
       {/* Central Trophy SVG — pulse only on desktop */}
-      <motion.div
-        className="absolute z-10 flex items-center justify-center"
+      <div
+        className={`absolute z-10 flex items-center justify-center${!isMobile ? ' sk-trophy-pulse' : ''}`}
         style={{ marginTop: -20 }}
-        animate={isMobile ? {} : { scale: [1, 1.025, 1] }}
-        transition={isMobile ? {} : { duration: 4, repeat: Infinity, ease: 'easeInOut' }}
       >
         <svg viewBox="0 0 180 220" width="clamp(110px, 13vw, 160px)" height="clamp(135px, 16vw, 190px)" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -301,7 +303,7 @@ function OlympiadIllustration({ isMobile }: { isMobile: boolean }) {
           {/* Subtle mid-body engraving line */}
           <line x1="54" y1="104" x2="126" y2="104" stroke="#92400e" strokeWidth="0.7" strokeOpacity="0.28" />
         </svg>
-      </motion.div>
+      </div>
 
     </div>
   );
@@ -315,10 +317,6 @@ export default function Home() {
   // Compute once at mount — no need for reactive state (screen size doesn't meaningfully change during session)
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
-  // Parallax scroll — only on desktop (scroll listeners + transforms are expensive on mobile)
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [0, 50]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 1], isMobile ? [1, 1] : [1, 0.3]);
 
   const { data: olympiads } = useQuery<Exam[]>({ queryKey: ["/api/public/olympiads"] });
   const { data: categories } = useQuery<OlympiadCategory[]>({ queryKey: ["/api/public/olympiad-categories"] });
@@ -413,26 +411,26 @@ export default function Home() {
         {/* HeroParticles — desktop only (18 infinite canvas animations) */}
         {!isMobile && <HeroParticles />}
 
-        <motion.div style={{ y: heroY, opacity: heroOpacity }} className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-12 pb-16 lg:pt-20 lg:pb-24">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-12 pb-16 lg:pt-20 lg:pb-24">
           <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
             <div className="w-full lg:w-[55%] text-center lg:text-left">
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.5 }} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 mb-8">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 mb-8">
                 <div className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
                 <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-300">2026 Registrations Opening Soon</span>
-              </motion.div>
+              </div>
 
-              <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.7, ease: "easeOut" }} className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] xl:text-6xl font-black tracking-tight mb-6 leading-[1.12]" style={{ letterSpacing: '-0.01em' }} data-testid="text-hero-heading">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] xl:text-6xl font-black tracking-tight mb-6 leading-[1.12]" style={{ letterSpacing: '-0.01em' }} data-testid="text-hero-heading">
                 <span className="text-white">Where Potential</span><br />
                 <span className="brand-text">Becomes Legacy.</span><br />
                 <span className="text-white">Compete. Shine. Inspire</span>
                 <span className="text-pink-500">.</span>
-              </motion.h1>
+              </h1>
 
-              <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.6 }} className="text-base sm:text-lg text-gray-400 mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+              <p className="text-base sm:text-lg text-gray-400 mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
                 India's most prestigious national Olympiad — empowering students from <strong className="text-white font-semibold">Class 1–12</strong> to compete, earn scholarships, and claim national recognition.
-              </motion.p>
+              </p>
 
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65, duration: 0.5 }} className="flex flex-col sm:flex-row gap-4 items-center justify-center lg:justify-start">
+              <div className="flex flex-col sm:flex-row gap-4 items-center justify-center lg:justify-start">
                 <Link href="/olympiads">
                   <Button size="lg" className="brand-button rounded-full px-7 h-14 text-sm font-bold shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 transition-shadow group" data-testid="button-explore-olympiads">
                     <GraduationCap className="mr-2 w-5 h-5" />
@@ -446,9 +444,9 @@ export default function Home() {
                     Register Free
                   </Button>
                 </Link>
-              </motion.div>
+              </div>
 
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.85, duration: 0.6 }} className="flex flex-wrap items-center gap-x-6 gap-y-3 mt-10 justify-center lg:justify-start text-sm text-gray-500">
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-3 mt-10 justify-center lg:justify-start text-sm text-gray-500">
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-green-400" />
                   <span className="text-gray-400">AI-Proctored Exams</span>
@@ -461,24 +459,24 @@ export default function Home() {
                   <CheckCircle2 className="w-4 h-4 text-green-400" />
                   <span className="text-gray-400">Results & Certificates</span>
                 </div>
-              </motion.div>
+              </div>
             </div>
 
             <div className="w-full lg:w-[45%] relative flex flex-col items-center">
-              <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }} className="relative w-full">
+              <div className="relative w-full">
                 <OlympiadIllustration isMobile={isMobile} />
-              </motion.div>
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.6 }} className="flex items-center gap-3 mt-3">
+              </div>
+              <div className="flex items-center gap-3 mt-3">
                 <div className="px-4 py-1.5 rounded-full backdrop-blur-sm" style={{ background: 'rgba(124,58,237,0.85)' }}>
                   <span className="text-white text-sm font-black tracking-widest">2026</span>
                 </div>
                 <div className="px-4 py-1.5 rounded-full backdrop-blur-sm" style={{ background: 'rgba(236,72,153,0.85)' }}>
                   <span className="text-white text-xs font-bold">₹5L Scholarship</span>
                 </div>
-              </motion.div>
+              </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </section>
 
       {/* ═══ Everything below fold — lazy-rendered ═══ */}

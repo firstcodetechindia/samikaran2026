@@ -12,7 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Plus, Trash2, Save, Eye, ImagePlus, X } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
-import { RichTextEditor } from "@/components/ui/rich-text-editor";
+import { RichTextEditor } from "@/components/ui/lazy-rich-text-editor";
 
 interface ManualQuestionCreatorProps {
   exams: any[];

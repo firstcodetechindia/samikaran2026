@@ -1437,3 +1437,20 @@ body.tara-open [data-testid="button-toggle-chat"] {
   will-change: opacity, transform;
 }
 
+
+/* ── CSS animation replacements for framer-motion (Home.tsx Fix 3) ──────────── */
+@keyframes sk-particle {
+  0%,  100% { opacity: 0; transform: translate(0, 0); }
+  20%, 80%  { opacity: 0.16; }
+  50%       { opacity: 0.16; transform: translate(var(--sk-dx, 0px), var(--sk-dy, 0px)); }
+}
+@keyframes sk-spin-cw  { from { transform: rotate(0deg); }   to { transform: rotate(360deg); }  }
+@keyframes sk-spin-ccw { from { transform: rotate(360deg); } to { transform: rotate(0deg); }    }
+@keyframes sk-pulse-scale { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.025); } }
+
+.sk-particle    { animation: sk-particle ease-in-out infinite; opacity: 0; }
+.sk-orbit-cw-16  { animation: sk-spin-cw  16s linear infinite; }
+.sk-orbit-ccw-16 { animation: sk-spin-ccw 16s linear infinite; }
+.sk-orbit-cw-dur  { animation: sk-spin-cw  var(--sk-dur, 22s) linear infinite; }
+.sk-orbit-ccw-dur { animation: sk-spin-ccw var(--sk-dur, 22s) linear infinite; }
+.sk-trophy-pulse  { animation: sk-pulse-scale 4s ease-in-out infinite; }
