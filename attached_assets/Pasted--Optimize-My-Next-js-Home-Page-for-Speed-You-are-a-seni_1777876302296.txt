@@ -1,0 +1,149 @@
+# Optimize My Next.js Home Page for Speed
+
+You are a senior performance engineer. I need you to make my home page measurably faster — not "feel" faster, but score better on Core Web Vitals and load less over the wire. Approach this like a profiler, not a checklist-runner.
+
+## Performance budgets (non-negotiable targets)
+
+**Core Web Vitals (mobile, slow 4G, mid-tier device):**
+- LCP < 2.0s (target), 2.5s (max)
+- INP < 200ms
+- CLS < 0.1
+- TTFB < 600ms
+- FCP < 1.5s
+
+**Resource budgets:**
+- HTML: < 50KB gzipped
+- JS (initial route): < 150KB gzipped, < 200KB parsed
+- CSS: < 30KB gzipped
+- Images above the fold: < 200KB total
+- Total page weight: < 1MB on first load
+- Font files: ≤ 2 woff2, < 50KB combined
+
+**Lighthouse mobile score: ≥ 95 performance.**
+
+If a change can't be measured against one of the above, justify it or skip it.
+
+## Work in this order
+
+### 1. Measure first — don't guess
+
+Before changing anything, produce a baseline:
+- Run `next build` and report the route-level bundle sizes from the output table
+- Identify what's in the First Load JS for `/` — name the heaviest dependencies
+- Flag any client component that should be a server component
+- List every image rendered above the fold with dimensions and format
+- List every font loaded and how (next/font, link tag, CSS @import)
+- List every third-party script (analytics, chat widgets, A/B tools, embeds)
+
+Output this as a **baseline report** before proposing fixes. I want to see the problem before I see the solution.
+
+### 2. Server vs client boundaries
+
+This is usually where the biggest wins hide in a Next.js app.
+
+- Default to Server Components. A component is only `"use client"` if it uses hooks, browser APIs, or event handlers — and even then, push the boundary as deep into the tree as possible.
+- Identify components that are needlessly client-side and convert them.
+- For interactive islands (carousels, modals, forms), check whether they need to render on first paint or can be lazy-loaded with `next/dynamic({ ssr: false })` after hydration.
+- Move data fetching to the server. No `useEffect(() => fetch(...))` for data that could be fetched at request or build time.
+
+### 3. Rendering strategy
+
+Pick the right one for the home page and justify it:
+- **Static (default `export`)** — best for marketing pages. Use this unless there's a reason not to.
+- **ISR (`revalidate`)** — for content that updates but doesn't need per-request freshness.
+- **Dynamic (`force-dynamic` or `cookies()`/`headers()`)** — only if personalization or auth requires it. If used, identify what *must* be dynamic and consider Partial Prerendering (PPR) to keep the shell static.
+
+If the home page is currently dynamic and doesn't need to be, that's the headline fix.
+
+### 4. JavaScript diet
+
+For every dependency in the initial bundle, ask: do we ship this on first load, or can it wait?
+
+- Replace heavy libraries with lighter alternatives where reasonable (moment → date-fns or `Intl.DateTimeFormat`, lodash → native methods or `lodash-es` with tree-shaking, axios → native `fetch`, large icon packs → individual imports).
+- Code-split below-the-fold interactive components with `next/dynamic`.
+- Remove polyfills targeting browsers you don't support — check `browserslist`.
+- Eliminate barrel files (`index.ts` re-exports) that defeat tree-shaking. Import from the specific file.
+- Audit `package.json` for dependencies that could be devDependencies or removed entirely.
+
+### 5. Images
+
+The single biggest LCP lever on most home pages.
+
+- Every `<img>` becomes `next/image` with explicit `width`, `height`, and `sizes`.
+- Hero / above-the-fold image: `priority`, `fetchPriority="high"`, preload, AVIF with WebP fallback.
+- Below-the-fold images: lazy-loaded by default, no `priority`.
+- Reserve space for every image to prevent CLS — never let layout shift on image load.
+- If using a CMS, generate responsive `srcset` based on actual breakpoints in the design, not a default 8-step ladder.
+- Background images via CSS only when truly decorative; otherwise use `next/image` with `fill`.
+
+### 6. Fonts
+
+- Use `next/font/local` or `next/font/google` (self-hosted, automatic).
+- Subset to the characters actually used (Latin only if no other scripts).
+- One display font + one body font max. If using two, justify it.
+- `font-display: swap` and preload the LCP font.
+- Variable fonts when available — one file, multiple weights.
+
+### 7. CSS
+
+- Audit unused Tailwind classes — content paths in `tailwind.config` should be tight.
+- Inline critical CSS for above-the-fold (Next does this by default; verify it's working).
+- Remove unused global CSS.
+- Avoid CSS-in-JS that requires runtime style injection on the home page (emotion, styled-components in client mode). Prefer Tailwind, CSS modules, or vanilla CSS.
+
+### 8. Third-party scripts
+
+These are productivity poison for performance.
+
+- Use `next/script` with `strategy="lazyOnload"` or `"afterInteractive"` for everything non-essential.
+- Defer analytics until after LCP. Vercel Analytics, GA4, PostHog — none of these need to block first paint.
+- Chat widgets (Intercom, Drift, Crisp) — load on user intent (scroll depth, time delay, or click) rather than on page load.
+- Self-host where possible to remove third-party DNS lookups and connections.
+- Add `<link rel="preconnect">` for unavoidable third-party origins.
+
+### 9. Caching and delivery
+
+- Verify static assets are served with long `Cache-Control: public, max-age=31536000, immutable` (Next does this for hashed assets — confirm).
+- Verify HTML responses use appropriate `s-maxage` and `stale-while-revalidate` headers.
+- Use `unstable_cache` or React `cache()` for repeated data fetches within a request.
+- If hosted on Vercel: confirm the home page is being served from the edge cache (check `x-vercel-cache: HIT`).
+
+### 10. Layout stability (CLS)
+
+- Every image, video, embed, and ad slot has explicit dimensions.
+- Web fonts don't cause layout shift — use `size-adjust` font metrics or `next/font` (handles this automatically).
+- No content that loads in and pushes other content down — reserve space.
+- Skeleton loaders match the dimensions of what they replace.
+
+### 11. Interaction (INP)
+
+- Long tasks > 50ms on the main thread are flagged.
+- Heavy work (parsing, computation) moved to `requestIdleCallback`, web workers, or the server.
+- Event handlers debounced/throttled where appropriate.
+- React: avoid expensive renders by memoizing only where measured to help, not reflexively.
+
+## Output format
+
+For each change:
+
+1. **File path** and component name
+2. **What's wrong** — cite the measurement (bundle size, image weight, render-blocking, etc.)
+3. **The fix** — full updated code, not snippets
+4. **Expected impact** — "saves ~40KB JS", "removes 800ms TBT", "fixes 0.15 CLS"
+5. **How to verify** — what to look at in Lighthouse, Web Vitals, or `next build` output
+
+After all fixes, give me:
+- A **before/after table** of bundle sizes and projected Vitals
+- A **manual verification checklist** I can run with Lighthouse and WebPageTest
+- A note on what's *not* worth fixing and why (diminishing returns matter)
+
+## Codebase
+
+[Paste the home page route, layout, any wrapping providers, your `next.config.js`, `package.json`, and `tailwind.config` if applicable. Also include the output of `next build` if you have it — the route summary at the end is gold for this exercise.]
+
+## Constraints
+
+- Don't break existing functionality. If a change has UX tradeoffs, flag them.
+- Don't introduce new dependencies unless they replace something heavier.
+- Don't optimize prematurely — if a change saves 2KB and adds complexity, skip it.
+- Preserve accessibility. Lazy-loading and code-splitting must not break keyboard nav, screen readers, or focus management.
