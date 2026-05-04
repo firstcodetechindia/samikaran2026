@@ -43,6 +43,12 @@ const VIOLATION_THRESHOLD = 3;
 const FACE_CHECK_INTERVAL_MS = 2000;
 const SIREN_URL = "https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3";
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? "";
+if (!BASE_URL) {
+  console.warn(
+    "[exam-take] EXPO_PUBLIC_API_URL is not set. Voice uploads and playback " +
+    "will fail on native builds. Set this variable to your API server URL."
+  );
+}
 
 type QuestionType = "mcq" | "truefalse" | "image" | "voice";
 type QuestionStatus = "unanswered" | "answered" | "skipped";
