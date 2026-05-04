@@ -55,24 +55,16 @@ function RootLayoutNav() {
   );
 }
 
-/**
- * NotificationBootstrap handles all push notification lifecycle:
- *  1. Request permission on first render (before login — no auth needed)
- *  2. Register push token with backend once user is authenticated
- *  3. Set up foreground/tap listeners for in-app deep linking
- *  4. Handle cold-start tap (app opened from notification)
- */
 function NotificationBootstrap({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
   const router = useRouter();
-  // Track which userId has been registered — null means not yet registered.
-  // Using userId (not a boolean) means a different user on the same device
-  // correctly re-registers their own push token.
+  // Track which user has registered to avoid duplicate registrations and support
+  // account switching: a different userId triggers a fresh registration.
   const tokenRegisteredForUserId = useRef<number | null>(null);
   const listenerSub = useRef<{ remove: () => void } | null>(null);
   const permissionRequested = useRef(false);
 
-  // ── Step 1: Request permission on first launch (no login required) ───────
+  // Request permission on first render — no login required.
   useEffect(() => {
     if (Platform.OS === "web") return;
     if (permissionRequested.current) return;
@@ -80,7 +72,7 @@ function NotificationBootstrap({ children }: { children: React.ReactNode }) {
     requestNotificationPermission();
   }, []);
 
-  // ── Step 2 & 3: Register token + set up listeners once user is known ─────
+  // Register push token and set up notification listeners once user is known.
   useEffect(() => {
     if (Platform.OS === "web") return;
 
@@ -93,7 +85,7 @@ function NotificationBootstrap({ children }: { children: React.ReactNode }) {
         return;
       }
 
-      // Register push token with backend for THIS user (re-registers on account switch)
+      // Register this user's push token — re-runs on account switch.
       if (user && tokenRegisteredForUserId.current !== user.id && user.token) {
         tokenRegisteredForUserId.current = user.id;
         const pushToken = await getExpoPushToken();
@@ -102,22 +94,19 @@ function NotificationBootstrap({ children }: { children: React.ReactNode }) {
         }
       }
 
-      // Foreground notification received — global handler already shows alert
       const receivedSub = Notifications.addNotificationReceivedListener(
         (_notification) => {
-          // No additional action — the setNotificationHandler in notifications.ts handles display
+          // Foreground display handled by setNotificationHandler in notifications.ts
         }
       );
 
-      // Tap on a notification while app is foregrounded or backgrounded
-      const responseSub =
-        Notifications.addNotificationResponseReceivedListener((response) => {
-          const raw = response.notification.request.content.data as NotificationData;
-          const href: Href | null = resolveNotificationHref(raw);
-          if (href) {
-            router.push(href);
-          }
-        });
+      const responseSub = Notifications.addNotificationResponseReceivedListener(
+        (response) => {
+          const data = response.notification.request.content.data as NotificationData;
+          const href: Href | null = resolveNotificationHref(data);
+          if (href) router.push(href);
+        }
+      );
 
       listenerSub.current = {
         remove: () => {
@@ -126,13 +115,12 @@ function NotificationBootstrap({ children }: { children: React.ReactNode }) {
         },
       };
 
-      // ── Step 4: Cold-start — app was opened by tapping a notification ──
+      // Handle notification that cold-started the app.
       const last = await Notifications.getLastNotificationResponseAsync();
       if (last) {
-        const raw = last.notification.request.content.data as NotificationData;
-        const href: Href | null = resolveNotificationHref(raw);
+        const data = last.notification.request.content.data as NotificationData;
+        const href: Href | null = resolveNotificationHref(data);
         if (href) {
-          // Slight delay lets the navigator finish mounting before push
           setTimeout(() => router.push(href), 800);
         }
       }
@@ -144,7 +132,6 @@ function NotificationBootstrap({ children }: { children: React.ReactNode }) {
       listenerSub.current?.remove();
       listenerSub.current = null;
     };
-    // Depend on user.id so we re-run on login/logout
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
 

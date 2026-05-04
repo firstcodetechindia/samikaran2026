@@ -4,7 +4,7 @@ import { Platform } from "react-native";
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? "";
 
-// Configure foreground notification display — call once at module load
+// Show alerts and play sound when a notification arrives while the app is foregrounded.
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -29,11 +29,7 @@ export interface NotificationData {
   attemptId?: string | number;
 }
 
-/**
- * Request push notification permission.
- * Returns true if granted; false on web or if denied.
- * Safe to call before login — no auth required.
- */
+// Request permission to show notifications. Safe to call before login.
 export async function requestNotificationPermission(): Promise<boolean> {
   if (Platform.OS === "web") return false;
   try {
@@ -46,10 +42,7 @@ export async function requestNotificationPermission(): Promise<boolean> {
   }
 }
 
-/**
- * Get this device's Expo push token.
- * Returns null on web or if permission denied.
- */
+// Get this device's Expo push token. Returns null on web or if permission denied.
 export async function getExpoPushToken(): Promise<string | null> {
   if (Platform.OS === "web") return null;
   try {
@@ -62,11 +55,8 @@ export async function getExpoPushToken(): Promise<string | null> {
   }
 }
 
-/**
- * Register this device's Expo push token with the backend.
- * Uses the student custom session (userId + sessionToken), NOT Replit OIDC.
- * Non-critical — failures are silently ignored.
- */
+// Register this device's push token with the backend using the student session.
+// Non-critical — failures are silently ignored.
 export async function registerPushToken(
   pushToken: string,
   userId: number,
@@ -78,31 +68,21 @@ export async function registerPushToken(
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
-      body: JSON.stringify({
-        pushToken,
-        userId,
-        sessionToken,
-        platform: Platform.OS,
-      }),
+      body: JSON.stringify({ pushToken, userId, sessionToken, platform: Platform.OS }),
     });
   } catch {
-    // Non-critical, ignore silently
+    // ignore
   }
 }
 
-/**
- * Map notification payload to an Expo Router Href.
- *
- * Destination contract (matches existing student screen routes):
- *   exam_reminder    → /(student)/exams   + examId param (list, filtered to upcoming)
- *   result_published → /(student)/results + examId param (list, filtered to that exam)
- *   certificate_ready → /(student)/results + examId param
- *   streak_broken    → /(student)/home
- *   explicit screen  → screen field value (fallback)
- *
- * examId/attemptId are forwarded as search params so screens can
- * scroll to / highlight the relevant item when they receive them.
- */
+// Map a notification payload to the Expo Router Href for in-app deep linking.
+//
+// Destination mapping:
+//   exam_reminder    → /(student)/exams   + examId param (screen switches to correct tab)
+//   result_published → /(student)/results + examId/attemptId (auto-opens detail card)
+//   certificate_ready → /(student)/results + examId (auto-opens result with cert button)
+//   streak_broken    → /(student)/home
+//   profile_update   → /(student)/profile
 export function resolveNotificationHref(data: NotificationData): Href | null {
   const type = data.type as NotificationType | undefined;
   const examId = data.examId != null ? String(data.examId) : undefined;

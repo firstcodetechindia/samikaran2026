@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import { useColors } from "@/hooks/useColors";
 import { ExamCard } from "@/components/ExamCard";
@@ -31,8 +31,26 @@ export default function ExamsScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<Tab>("All");
+  // examId from push notification deep link
+  const { examId } = useLocalSearchParams<{ examId?: string }>();
 
   const topPad = insets.top + (Platform.OS === "web" ? 67 : 0);
+
+  // When opened via a notification deep link, switch to the tab that contains the exam
+  useEffect(() => {
+    if (!examId) return;
+    const id = Number(examId);
+    const exam = MOCK_EXAMS.find((e) => e.id === id);
+    if (!exam) return;
+
+    if (exam.status === "live") {
+      setActiveTab("Live");
+    } else if (exam.status === "upcoming" || exam.status === "registered") {
+      setActiveTab("Upcoming");
+    } else if (exam.status === "completed") {
+      setActiveTab("Completed");
+    }
+  }, [examId]);
 
   const filtered = MOCK_EXAMS.filter((e) => {
     if (activeTab === "All") return true;

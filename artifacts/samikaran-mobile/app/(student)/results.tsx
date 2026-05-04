@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useLocalSearchParams } from "expo-router";
 import { useColors } from "@/hooks/useColors";
 import { ExamCard } from "@/components/ExamCard";
 
@@ -22,9 +23,19 @@ export default function ResultsScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const [selected, setSelected] = useState<(typeof RESULTS)[0] | null>(null);
+  // examId / attemptId from push notification deep link
+  const { examId, attemptId } = useLocalSearchParams<{ examId?: string; attemptId?: string }>();
 
   const topPad = insets.top + (Platform.OS === "web" ? 67 : 0);
   const avgScore = Math.round(RESULTS.reduce((s, r) => s + r.score, 0) / RESULTS.length);
+
+  // Auto-open the detail card for the notified result
+  useEffect(() => {
+    if (!examId && !attemptId) return;
+    const id = examId ? Number(examId) : Number(attemptId);
+    const match = RESULTS.find((r) => r.id === id);
+    if (match) setSelected(match);
+  }, [examId, attemptId]);
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
