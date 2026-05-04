@@ -12,5 +12,6 @@ export const modules: ModuleMap = {
   "./components/mockups/cert-fonts/LibreCaslon.tsx": () => import("../components/mockups/cert-fonts/LibreCaslon.tsx"),
   "./components/mockups/cert-fonts/MarcellusSC.tsx": () => import("../components/mockups/cert-fonts/MarcellusSC.tsx"),
   "./components/mockups/cert-fonts/Rufina.tsx": () => import("../components/mockups/cert-fonts/Rufina.tsx"),
-  "./components/mockups/cert-fonts/YesevaOne.tsx": () => import("../components/mockups/cert-fonts/YesevaOne.tsx")
+  "./components/mockups/cert-fonts/YesevaOne.tsx": () => import("../components/mockups/cert-fonts/YesevaOne.tsx"),
+  "./components/mockups/samikaran-home/IndianHome.tsx": () => import("../components/mockups/samikaran-home/IndianHome.tsx")
 };

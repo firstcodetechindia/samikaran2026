@@ -1,5 +1,6 @@
 import type { Express } from "express";
 import express from "express";
+import { logger } from "../lib/logger";
 import { createServer, type Server } from "http";
 import { randomBytes, randomUUID } from "crypto";
 import { storage } from "../storage";
